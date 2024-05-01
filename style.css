@@ -1,0 +1,50 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2rem;
+}
+
+img {
+  max-width: 100%;
+  width: 90%:
+  height: auto;
+  border-radius: 0.375rem;
+}
+  
+
+
+h1, h2, h3 {
+  margin: 1rem 0;
+}
+
+.games-list {
+  list-style: none;
+  padding: 0;
+}
+
+.games-list li {
+  margin-bottom: 0.5rem;
+}
+
+/* Add a green color to the winning team */
+.games-list li strong {
+  color: green;
+}
+
+hr {
+  border: 1px solid #ddd;
+  margin: 1rem 0;
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+
+a:hover {
+  color: #007bff;
+}
