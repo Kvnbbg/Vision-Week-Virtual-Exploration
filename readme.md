@@ -1,5 +1,6 @@
 ## Exploration Video Website
 
+- Click : Watch the preview [here](https://kvnbbg.github.io/Vision-Week-Virtual-Exploration/)
 This project is a web application designed to showcase a curated collection of exploration videos, offering viewers a chance to virtually embark on exciting adventures.
 
 ### Features
