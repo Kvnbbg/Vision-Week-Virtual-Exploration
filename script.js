@@ -37,3 +37,36 @@ searchButton.addEventListener('click', () => {
     image.remove(); // Remove the image from the DOM to avoid memory leaks
   }, 3000);
 });
+
+const nbaBall = document.querySelector('.nba-ball'); // Select the element with class "nba-ball"
+
+let animationIndex = 0; // Keeps track of the current animation
+
+function animateBall() {
+  // Clear any existing animation classes
+  nbaBall.classList.remove('animation-1', 'animation-2', 'animation-3');
+
+  // Choose a random animation based on the animationIndex
+  switch (animationIndex) {
+    case 0:
+      nbaBall.classList.add('animation-1'); // Add the first animation class
+      break;
+    case 1:
+      nbaBall.classList.add('animation-2'); // Add the second animation class
+      break;
+    case 2:
+      nbaBall.classList.add('animation-3'); // Add the third animation class
+      break;
+    default:
+      animationIndex = 0; // Reset animationIndex if it reaches the end
+  }
+
+  // Increment animationIndex for the next cycle
+  animationIndex = (animationIndex + 1) % 3; // Ensures it stays between 0 and 2
+
+  // Schedule the next animation after 3 seconds
+  setTimeout(animateBall, 3000);
+}
+
+// Start the animation loop
+animateBall();

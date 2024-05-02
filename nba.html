@@ -3,71 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NBA Scores & Matchups</title>
+  <title>Vision Discovery - NBA Scores & Matchups</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <img src="app.jpg" style="width=100%; border-radius:0.375rem; height=auto;" alt="App Image" />
+    <h1>Vision Discovery</h1>
+    <h2>NBA Scores & Matchups</h2>
   </header>
-  <main>
-    <h1>NBA Scores & Matchups</h1>
-    <h2>Current Day (Wednesday, May 1st, 2024)</h2>
-    <h3>Completed Games</h3>
-    <ul class="games-list">
-      <li><b>Milwaukee Bucks</b> (115) defeats Indiana Pacers (92)</li>
-      <li>Cleveland Cavaliers (104) defeats Orlando Magic (103)</li>
-      <li>Philadelphia 76ers (112) defeats New York Knicks (106)</li>
-      <li>Denver Nuggets (108) defeats Los Angeles Lakers (106)</li>
+
+  <section class="hero">
+    <img src="app.jpg" alt="Thrilling NBA Action">
+    <div class="hero-content">
+      <h3>Catch all the Latest NBA Action Here!</h3>
+      <p>Stay on top of the NBA season with up-to-date scores, highlights, and upcoming matchups. Explore news, player stats, and in-depth analysis to fuel your basketball passion.</p>
+      <a href="nba-ball.html" class="button">Get An Activity</a>
+    </div>
+  </section>
+
+  <section class="scores">
+    <h2>Today's NBA Scores</h2>
+    <table id="scores-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Matchup</th>
+          <th>Score</th>
+          <th>Highlights</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="matchups">
+    <h2>Upcoming Matchups</h2>
+    <ul id="matchups-list">
     </ul>
-    <h3>Upcoming Games</h3>
-    <ul class="games-list">
-      <li>Boston Celtics vs Miami Heat (Wednesday, May 1st, 10:30 PM ET)</li>
-      <li>LA Clippers vs Dallas Mavericks (Thursday, May 2nd, 3:00 AM ET)</li>
-    </ul>
-    <p>Click on each matchup for a detailed box score and game stats (coming soon!)</p>
-    <hr>
-    <h3>Additional Information</h3>
-    <p>For news articles and highlights, you can visit the NBA official website: <a href="https://nba.com/">NBA.com</a></p>
-    <p>Watch game replays or live games on NBA League Pass: <a href="https://www.nba.com/leaguepass/">NBA League Pass</a></p>
-    <h2>Stay Tuned!</h2>
-    <p>This website is still under development. In the future, we will be adding features such as:</p>
-    <ul>
-      <li>Scores from previous days</li>
-      <li>Playoff bracket view</li>
-      <li>Team and player statistics</li>
-    </ul>
-  </main>
-  <footer>&copy; 2024 NBA Scores & Matchups by <a href="https://kvnbbg.fr">Kvnbbg</a>
-  </footer>
-  <script src="script.js"></script>
-<script>
-   // This is a basic example for search functionality. 
-   // In a real application, you would connect to a video data source (API or database) 
-   // and filter videos based on the search term. 
+  </section>
 
-   const searchInput = document.getElementById('search-input');
-   const searchButton = document.getElementById('search-button');
-   const videosSection = document.querySelector('.videos');
+  <section class="standings">
+    <h2>NBA Standings</h2>
+    <div class="standings-container">
+      <h3>Eastern Conference</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Team</th>
+            <th>W</th>
+            <th>L</th>
+          </tr>
+        </thead>
+        <tbody>
+          </tbody>
+      </table>
+      <h3>Western Conference</h3>
+      </div>
+  </section>
 
-   searchButton.addEventListener('click', () => {
-     const searchTerm = searchInput.value.toLowerCase();
-     // Simulate filtering videos based on search term (replace with actual data fetching)
-     let filteredVideos = []; // Replace with your video data filtering logic
+  <p>Coming Soon: Live game streaming integration, advanced player stats, and fantasy basketball tools.</p>
+  <footer>&copy; 2024 Vision Discovery. All Rights Reserved.</footer>
+  <script>
+  // Sample Team Names (Replace with actual team names)
+  const teams = ["Milwaukee Bucks", "Golden State Warriors", "Boston Celtics", "Los Angeles Clippers", "Phoenix Suns"];
 
-     // Clear previous video entries
-     videosSection.innerHTML = '';
+  function generateRandomScore() {
+    return Math.floor(Math.random() * 120) + 80; // Range: 80-199
+  }
 
-     // Display filtered videos (replace with actual video data)
-     filteredVideos.forEach(video => {
-       const videoEntry = document.createElement('div');
-       videoEntry.classList.add('video');
-       videoEntry.innerHTML = `<h3>${video.title}</h3><p>${video.description}</p>`;
-       videosSection.appendChild(videoEntry);
-     });
-   });
+  function generateTodaysScores() {
+    const tableBody = document.getElementById('scores-table').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = ''; // Clear existing data
 
-</script>
+    for (let i = 0; i < 3; i++) { // Generate scores for 3 games
+      const time = '10:00 PM ET'; // Replace with actual time data
+      const team1 = teams[Math.floor(Math.random() * teams.length)];
+      const team2 = teams.find(team => team !== team1); // Avoid same team playing itself
+      const score1 = generateRandomScore();
+      const score2 = generateRandomScore();
+      const winner = score1 > score2 ? team1 : team2;
 
-</body>
-</html>
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td><span class="math-inline">\{time\}</td\>
+<td\><img src\="TEAM\_LOGO\_1\.png" alt\="</span>{team1} Logo"> vs. <img src="TEAM_LOGO_2.png" alt="<span class="math-inline">\{team2\} Logo"\></td\>
+<td\></span>{score1} - <span class="math-inline">\{score2\} \(</span>{winner} W)</td>
+        <td><a href="#">Watch Highlights</a></td>
+      `;
+      tableBody.appendChild(row);
+    }
+  }
+
+  function generateUpcomingMatchups() {
+    const matchupsList = document.getElementById('matchups-list');
+    matchupsList.innerHTML = ''; // Clear existing data
+
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const dates = days.map(day => new Date().addDays(days.indexOf(day) + 1).toLocaleDateString()); // Add 1-5 days to current date
+
+    for (let i = 0; i < 5;
+         }

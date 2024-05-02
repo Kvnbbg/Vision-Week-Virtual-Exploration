@@ -3,27 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vision Discovery</title>
+  <title>Vision Discovery - Explore the World!</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Vision Discovery</h1>
-  <h2>Exploration Videos</h2>
-  <p>Explore the world from your couch! We curate a collection of exciting exploration videos across various categories.</p>
-         <div class="search-bar">
-           <input type="text" id="search-input" placeholder="Search for videos (e.g., deep sea, space)">
-           <button id="search-button">Search</button>
-         </div>
+  <header>
+    <h1>Vision Discovery</h1>
+    <h2>Explore Amazing Videos</h2>
+    <p>Uncover the wonders of the world from different perspectives. We curate a collection of high-quality exploration videos across various categories, bringing the adventure straight to you.</p>
+  </header>
+
+  <section class="search-bar">
+    <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, cars, deep sea, space)">
+    <button id="search-button">Search</button>
+  </section>
+
+  <section class="categories">
+    <h3>Explore by Category</h3>
+    <ul>
+      <li><a href="#">Deep Sea</a></li>
+      <li><a href="#">Space Exploration</a></li>
+      <li><a href="#">Nature & Wildlife</a></li>
+      <li><a href="#">Urban Exploration</a></li>
+      <li><a href="#">Historical Sites</a></li>
+    </ul>
+  </section>
 
   <section class="videos">
+    <h2>Featured Videos</h2>
+    <article class="video-wrapper">
+      <a href="https://www.youtube.com/watch?v=VIDEO_ID_1">
+        <img class="video-thumbnail" src="THUMBNAIL_IMAGE_1.jpg" alt="Deep Sea Exploration: Mini Clip">
+      </a>
+      <div class="video-info">
+        <h3 class="video-title">Deep Sea Exploration: Mini Clip</h3>
+        <span class="channel-info">By National Geographic | 2.5M views</span>
+      </div>
+    </article>
     </section>
+
   <p>
-     Tips: Try searching for "nba" to see the latest NBA scores and matchups.
+    Tips: Discover more by exploring categories or searching for specific topics. We're constantly adding new videos to keep your exploration journey exciting!
   </p>
-<img src="app.jpg" style="width=100%; border-radius:0.375rem; height=auto;" alt="App Image" />
+
+  <section class="social-sharing">
+    <h3>Share the Adventure</h3>
+    <a href="#"><i class="fab fa-facebook-f"></i> Share on Facebook</a>
+    <a href="https://twitter.com/techandstream"><i class="fab fa-twitter"></i> Tweet about it</a>
+  </section>
+
   <p>Coming Soon: Integration with wider video platforms for an even bigger library!</p>
-  <footer>&copy; 2024 NBA Scores & Matchups by <a href="https://kvnbbg.fr">Kvnbbg</a>
-  </footer>
+
+  <footer>&copy; 2024 Vision Discovery. All Rights Reserved.</footer>
   <script src="script.js"></script>
 </body>
 </html>
