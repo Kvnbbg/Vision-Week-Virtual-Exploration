@@ -1,3 +1,37 @@
+// Ask money
+  const amountInput = document.getElementById('amount');
+  const sendButton = document.getElementById('send-button');
+  const message = document.getElementById('message');
+
+  sendButton.addEventListener('click', function() {
+    const amount = parseFloat(amountInput.value);
+
+    if (isNaN(amount) || amount <= 0) {
+      message.textContent = "Please enter a valid amount.";
+      return;
+    }
+
+    message.textContent = "Sending...";
+
+    // Animation logic (replace with your desired animation)
+    let currentAmount = 0;
+    const animationDuration = 4000; // milliseconds
+    const intervalId = setInterval(() => {
+      currentAmount += amount / (animationDuration / 10);
+      amountInput.value = currentAmount.toFixed(2);
+
+      if (currentAmount >= amount) {
+        clearInterval(intervalId);
+        message.textContent = " $" + amount.toFixed(2) + " received successfully!";
+        message2.textContent = `${Math.random().toFixed(2)} transaction fee`;
+
+      }
+    }, 10);
+  });
+
+
+
+
 // This file is currently empty. 
 // In the future, you can add Javascript functionality here, 
 // such as making the upcoming games clickable or updating scores dynamically.

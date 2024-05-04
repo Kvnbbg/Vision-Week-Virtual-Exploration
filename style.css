@@ -1,13 +1,166 @@
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  background-color: #000000;
+  color: #99c1f1;
+  margin: 2%;
+  padding: 2%;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+.categories {
+  background-color: #8ff0a4;
+  color: #3d3846;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.categories h3 {
+  margin-top: 0;
+}
+
+.categories ul {
+  list-style: none;
+  padding: 0;
+}
+
+.categories li {
+  margin-bottom: 10px;
+}
+
+.categories li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.videos {
+  margin-top: 20px;
+}
+
+.videos h2 {
+  color: #007bff;
+  margin-top: 0;
+}
+
+.video-wrapper {
+  background-color: #fff;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.video-thumbnail {
+  width: 100%;
+  display: block;
+}
+
+.video-info {
+  padding: 10px;
+}
+
+.video-title {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.channel-info {
+  color: #777;
+}
+
+.health-tips {
+  margin-top: 20px;
+}
+
+.health-tips h2 {
+  color: #007bff;
+  margin-top: 0;
+}
+
+.tip {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.tip-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #99c1f1;
+}
+
+.articles {
+  margin-top: 20px;
+}
+
+.articles h2 {
+  color: #007bff;
+  margin-top: 0;
+}
+
+.article {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.article-thumbnail {
+  width: 100%;
+  display: block;
+}
+
+.article-info {
+  padding: 15px;
+}
+
+.article-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+.article-summary {
+  color: #555;
+}
+
+.read-more {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+  #amount {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #send-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #message {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+
 * {
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background-color: #222; /* Dark grey background for dark mode */
-  color: #c9daea; /* Light grey text for dark mode */
 }
 
 h1, h2, h3, a {
@@ -45,7 +198,7 @@ h1, h2, h3 {
 }
 
 .games-list li strong {
-  color: #28a745; /* Use a brighter green for winning team */
+  color: #26a269; /* Use a brighter green for winning team */
 }
 
 hr {

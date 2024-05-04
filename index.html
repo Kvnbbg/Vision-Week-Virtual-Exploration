@@ -6,55 +6,123 @@
   <title>Vision Discovery - Explore the World!</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <header>
-    <h1>Vision Discovery</h1>
-    <h2>Explore Amazing Videos</h2>
-    <p>Uncover the wonders of the world from different perspectives. We curate a collection of high-quality exploration videos across various categories, bringing the adventure straight to you.</p>
-  </header>
-
-  <section class="search-bar">
-    <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, cars, deep sea, space)">
-    <button id="search-button">Search</button>
-  </section>
-
-  <section class="categories">
-    <h3>Explore by Category</h3>
-    <ul>
-      <li><a href="#">Deep Sea</a></li>
-      <li><a href="#">Space Exploration</a></li>
-      <li><a href="#">Nature & Wildlife</a></li>
-      <li><a href="#">Urban Exploration</a></li>
-      <li><a href="#">Historical Sites</a></li>
-    </ul>
-  </section>
-
-  <section class="videos">
-    <h2>Featured Videos</h2>
-    <article class="video-wrapper">
-      <a href="https://www.youtube.com/watch?v=VIDEO_ID_1">
-        <img class="video-thumbnail" src="THUMBNAIL_IMAGE_1.jpg" alt="Deep Sea Exploration: Mini Clip">
-      </a>
-      <div class="video-info">
-        <h3 class="video-title">Deep Sea Exploration: Mini Clip</h3>
-        <span class="channel-info">By National Geographic | 2.5M views</span>
-      </div>
-    </article>
+<body> 
+  <aside>
+    <section class="search-bar" style="display: inline-flex; position: left">
+      <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, friend, cars, sport, space)">
+      <button id="search-button">Search Videos</button>  <h4> Explore Amazing Videos</h4>
+        <p>Uncover the wonders of the world from different perspectives. We curate a collection of high-quality exploration videos across various categories, bringing the adventure straight to you.</p>
+      <div id="vision-discovery-content" style="display: none;"> <p>Welcome to the world of Vision Discovery! Here you'll find incredible exploration videos that will transport you to new and exciting places.</p>
+        <div class="loading-animation"> </div>
     </section>
+    <section id="transaction-animation" style="text-align: center; padding: 20px; position: right;">
+      <h2>Ask</h2>
+      <input type="number" id="amount" placeholder="Enter Amount (e.g., 100, 200, 300)">
+      <button id="send-button">Send</button>
+      <p id="message"></p>
+      <p id="message2"></p>
+    </section>
+  </aside>
+  <nav 
+  <main>
+    <div class="container" style="display: inline-flex;">
+      <section class="categories">
+        <h3>Explore by Category</h3>
+        <ul>
+          <li><a href=".">Deep Sea</a></li>
+          <li><a href="#">Space Exploration</a></li>
+          <li><a href="#">Nature & Wildlife</a></li>
+          <li><a href="#">Urban Exploration</a></li>
+          <li><a href="#">Historical Sites</a></li>
+          <li><a href="#">Good Health</a></li> <!-- New category added -->
+        </ul>
+      </section>
 
-  <p>
-    Tips: Discover more by exploring categories or searching for specific topics. We're constantly adding new videos to keep your exploration journey exciting!
-  </p>
+      <section class="videos">
+        <h2>Featured Videos</h2>
+        <article class="video-wrapper">
+          <a href="https://www.youtube.com/watch?v=VIDEO_ID_1">
+            <img class="video-thumbnail" src="placeholder.jpg" alt="Deep Sea Exploration: Mini Clip">
+          </a>
+          <div class="video-info">
+            <h3 class="video-title">Deep Sea Exploration: Mini Clip</h3>
+            <span class="channel-info">By National Geographic | 2.5M views</span>
+          </div>
+        </article>
+        <article class="video-wrapper">
+          <a href="https://www.youtube.com/watch?v=VIDEO_ID_2">
+            <img class="video-thumbnail" src="placeholder2.jpg" alt="Socialization of Human: Documentary">
+          </a>
+          <div class="video-info">
+            <h3 class="video-title">Socialization of Human: Documentary</h3>
+            <span class="channel-info">By Sports | 5.2M views</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="health-tips">
+        <h2>Health Tips</h2>
+        <div class="tip">
+          <h3 class="tip-title">Stay Hydrated</h3>
+          <p class="tip-description">Drink plenty of water throughout the day to stay hydrated and maintain optimal bodily functions.</p>
+        </div>
+        <div class="tip">
+          <h3 class="tip-title">Eat Balanced Meals</h3>
+          <p class="tip-description">Consume a variety of fruits, vegetables, lean proteins, and whole grains for a balanced diet.</p>
+        </div>
+        <div class="tip">
+          <h3 class="tip-title">Exercise Regularly</h3>
+          <p class="tip-description">Engage in physical activity such as walking, jogging, or yoga to improve cardiovascular health and overall well-being.</p>
+        </div>
+      </section>
+
+      <section class="articles">
+        <h2>Featured Articles</h2>
+        <article class="article">
+          <a href="#">
+            <img class="article-thumbnail" src="placeholder3.jpg" alt="Article Image">
+          </a>
+          <div class="article-info">
+            <h3 class="article-title">The Importance of Mental Health</h3>
+            <p class="article-summary">Learn why mental health is crucial for overall well-being and how to maintain it.</p>
+            <a href="#" class="read-more">Read More</a>
+          </div>
+        </article>
+        <article class="article">
+          <a href="#">
+            <img class="article-thumbnail" src="placeholder4.jpg" alt="Article Image">
+          </a>
+          <div class="article-info">
+            <h3 class="article-title">Exploring the Benefits of Meditation</h3>
+            <p class="article-summary">Discover how meditation can reduce stress, improve focus, and enhance emotional well-being.</p>
+            <a href="#" class="read-more">Read More</a>
+          </div>
+        </article>
+      </section>
+
+    </div>
+  </main>
+  <footer>
 
   <section class="social-sharing">
     <h3>Share the Adventure</h3>
     <a href="#"><i class="fab fa-facebook-f"></i> Share on Facebook</a>
     <a href="https://twitter.com/techandstream"><i class="fab fa-twitter"></i> Tweet about it</a>
   </section>
+  </div>
 
+  <script>
+    // Add Javascript code to handle click event
+    document.getElementById("vision-discovery").addEventListener("click", function() {
+      const content = document.getElementById("vision-discovery-content");
+      content.style.display = content.style.display === "none" ? "block" : "none";
+      // Optionally add logic to show/hide loading animation during content toggle
+    });
+  </script>
   <p>Coming Soon: Integration with wider video platforms for an even bigger library!</p>
 
-  <footer>&copy; 2024 Vision Discovery. All Rights Reserved.</footer>
+  <p>&copy; 2024 Vision Discovery. All Rights Reserved.</p>
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>
