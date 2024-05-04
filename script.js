@@ -47,7 +47,7 @@ searchButton.addEventListener('click', () => {
     window.location.href = 'nba.html'; // Consider using a navigation framework for better UX
   } else {
     // Redirect to Google search (more appropriate for external search)
-    window.location.href = 'https://www.google.com/search?q=' + searchTerm;
+    window.location.href = 'https://www.youtube.com/watch?v=RgB5Ub1GNUU' + searchTerm;
   }
 
   // Simulate opening app.jpg for 3 seconds (not possible due to security restrictions)

@@ -6,37 +6,17 @@ body {
   padding: 2%;
 }
 
-.container {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 0 20px;
-}
-
 .categories {
   background-color: #8ff0a4;
   color: #3d3846;
   padding: 20px;
   border-radius: 10px;
+  box-shadow: 0 2px 4px rgb(119, 118, 123, 0.1)
+  text-align: center;
+  width: 100%;
+  height: 100%;
 }
 
-.categories h3 {
-  margin-top: 0;
-}
-
-.categories ul {
-  list-style: none;
-  padding: 0;
-}
-
-.categories li {
-  margin-bottom: 10px;
-}
-
-.categories li a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
 
 .videos {
   margin-top: 20px;
@@ -167,7 +147,7 @@ h1, h2, h3, a {
   color: #98c379; /* Lime green for important elements */
 }
 
-a:hover {
+p:hover {
   color: #568028; /* Darker green on hover for important elements */
 }
 
@@ -201,7 +181,7 @@ h1, h2, h3 {
   color: #26a269; /* Use a brighter green for winning team */
 }
 
-hr {
+header {
   border: none;
   border-top: 1px solid #ccc; /* Lighter border */
   margin: 1rem 0;
@@ -213,9 +193,12 @@ a {
   text-decoration: none; /* Remove underline by default */
   display: inline-block; /* Make anchors behave like buttons */
   padding: 0.5rem 1rem; /* Add some padding for visual impact */
+}
+  a:hover {
   border: 1px solid #007bff; /* Subtle border with hover effect */
   transition: background-color 0.3s ease-in-out; /* Smooth transition */
   cursor: pointer; /* Indicate clickable element */
+  }
 
   ul {
     list-style: none; /* Remove bullet points */
@@ -228,26 +211,22 @@ a {
     padding: 0.5rem 1rem; /* Consistent padding for list items */
     cursor: pointer; /* Indicate clickable elements */
     background-color: #fff; /* White background for contrast */
-
-    :hover {
-      background-color: #f2f2f2; /* Slightly lighter background on hover */
-    }
   }
-  :hover {
+    
+  li:hover {
     background-color: #0069d9; /* Darker blue on hover */
   }
-
-  li:hover {
-    background-color: #0056b3; /* Even darker blue on hover for list items */
-  }
+nav {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
-
-.nav a:hover {
+nav a:hover {
   background-color: #fff; /* White background for main navigation on hover */
   color: #007bff; /* Dark blue text for main navigation on hover */
 }
 
-.nav a.active {
+nav a.active {
   background-color: #007bff; /* Dark blue for active main navigation items */
   color: #fff; /* White text for active main navigation items */
 }
