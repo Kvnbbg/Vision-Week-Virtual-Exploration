@@ -3,101 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vision Discovery - Explore the World!</title>
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="favicon.ico"
+  />
+  <title>Vision Week - Explore the World!</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body> 
-  <aside>
-    <section id="transaction-animation" style="text-align: center; padding: 20px; position: right;">
-      <h2>Ask</h2>
-      <input type="number" id="amount" placeholder="Enter Amount (e.g., 100, 200, 300)">
-      <button id="send-button">Send</button>
-      <p id="message"></p>
-      <p id="message2"></p>
-    </section>
-  </aside>
-  <main>
+  
     <nav style="display: inline;">
       <section class="categories">
       <section class="search-bar" style="display: inline-flex; position: left">
         <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, friend, cars, sport, space)">
-        <button id="search-button">Search Videos</button>  <p><strong>Explore Amazing : </strong>Search for videos (e.g., nba, friend, cars, sport, space)</p>
-        <!-- <div id="vision-discovery-content" style="display: none;"> <p>Welcome to the world of Vision Discovery! Here you'll find incredible exploration videos that will transport you to new and exciting places.</p>
-          <div class="loading-animation"> </div>-->
-      </section>
-        <ul>
-          <li><a href="#">Deep Sea</a></li>
-          <li><a href="#">Space Exploration</a></li>
-          <li><a href="#">Nature & Wildlife</a></li>
+        <button id="search-button">Search Videos</button>  <p><strong>Explore Amazing : </strong>Search for videos (e.g., nba, buy a car, friend, sport, space)</p>  <ul>
+          <li><a href="nba.html">nba</a></li>
+          <li><a href="cars.html">cars</a></li>
+          <li><a href="gym.html">gym</a></li>
+          <li><a href="#">Wildlife</a></li>
           <li><a href="#">Urban Exploration</a></li>
           <li><a href="#">Historical Sites</a></li>
           <li><a href="#">Good Health</a></li> <!-- New category added -->
         </ul>
+        <!-- <div id="vision-discovery-content" style="display: none;"> <p>Welcome to the world of Vision Discovery! Here you'll find incredible exploration videos that will transport you to new and exciting places.</p>
+          <div class="loading-animation"> </div>-->
+      </section>
       </section>
       </nav>
+  <main>
+    <div id="app">
+      <img src="placeholder1.jpg" alt="Placeholder Image 1">
+      <h2>What can i do for you ?</h2>
+      <p>Status: <span id="status">Online</span></p>
+      <input type="text" id="financialGoal" placeholder="Waiting your financial goal (e.g., travel, food, call)">
+      <button id="addButton">Add Items</button>
 
-      <section class="videos">
-        <h2>Featured Videos</h2>
-        <article class="video-wrapper">
-          <a href="https://www.youtube.com/watch?v=VIDEO_ID_1">
-            <img class="video-thumbnail" src="placeholder.jpg" alt="Deep Sea Exploration: Mini Clip">
-          </a>
-          <div class="video-info">
-            <h3 class="video-title">Deep Sea Exploration: Mini Clip</h3>
-            <span class="channel-info">By National Geographic | 2.5M views</span>
-          </div>
-        </article>
-        <article class="video-wrapper">
-          <a href="https://www.youtube.com/watch?v=VIDEO_ID_2">
-            <img class="video-thumbnail" src="placeholder2.jpg" alt="Socialization of Human: Documentary">
-          </a>
-          <div class="video-info">
-            <h3 class="video-title">Socialization of Human: Documentary</h3>
-            <span class="channel-info">By Sports | 5.2M views</span>
-          </div>
-        </article>
-      </section>
-
-      <section class="health-tips">
-        <h2>Health Tips</h2>
-        <div class="tip">
-          <h3 class="tip-title">Stay Hydrated</h3>
-          <p class="tip-description">Drink plenty of water throughout the day to stay hydrated and maintain optimal bodily functions.</p>
-        </div>
-        <div class="tip">
-          <h3 class="tip-title">Eat Balanced Meals</h3>
-          <p class="tip-description">Consume a variety of fruits, vegetables, lean proteins, and whole grains for a balanced diet.</p>
-        </div>
-        <div class="tip">
-          <h3 class="tip-title">Exercise Regularly</h3>
-          <p class="tip-description">Engage in physical activity such as walking, jogging, or yoga to improve cardiovascular health and overall well-being.</p>
-        </div>
-      </section>
-
-      <section class="articles">
-        <h2>Featured Articles</h2>
-        <article class="article">
-          <a href="#">
-            <img class="article-thumbnail" src="placeholder3.jpg" alt="Article Image">
-          </a>
-          <div class="article-info">
-            <h3 class="article-title">The Importance of Mental Health</h3>
-            <p class="article-summary">Learn why mental health is crucial for overall well-being and how to maintain it.</p>
-            <a href="#" class="read-more">Read More</a>
-          </div>
-        </article>
-        <article class="article">
-          <a href="#">
-            <img class="article-thumbnail" src="placeholder4.jpg" alt="Article Image">
-          </a>
-          <div class="article-info">
-            <h3 class="article-title">Exploring the Benefits of Meditation</h3>
-            <p class="article-summary">Discover how meditation can reduce stress, improve focus, and enhance emotional well-being.</p>
-            <a href="#" class="read-more">Read More</a>
-          </div>
-        </article>
-      </section>
-
+      <ul id="adviceList"></ul>
     </div>
   </main>
   <footer>

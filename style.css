@@ -64,8 +64,28 @@ a:hover {
 
   li:hover {
     background-color: #0069d9; /* Darker blue on hover */
-  }
+  animation: fadeIn 0.5s ease; /* Fade in animation */
+}
 
+section {
+  padding: auto;
+  margin: 10px;
+}
+
+div {
+  padding: 10px;
+  margin: 10px;
+  width: 50%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .container {
   max-width: 100%;

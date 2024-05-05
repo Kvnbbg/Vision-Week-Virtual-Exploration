@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vision Discovery - NBA Scores & Matchups</title>
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="favicon.ico"
+  />
+  <title>Vision Week - Explore the World!</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,9 +20,9 @@
   <section class="hero">
     <img src="app.jpg" alt="Thrilling NBA Action">
     <div class="hero-content">
-      <h3>Catch all the Latest NBA Action Here!</h3>
-      <p>Stay on top of the NBA season with up-to-date scores, highlights, and upcoming matchups. Explore news, player stats, and in-depth analysis to fuel your basketball passion.</p>
-      <a href="nba-ball.html" class="button">Get An Activity</a>
+      <h3>Let's Fuel Up and Hit the Gym!</h3>
+      <p>Get your daily dose of fun and fitness with your homies! We've got the perfect place for you to burn off that energy and have a blast with your crew.</p>
+      <a href="gym.html" class="button">Get An Activity</a>
     </div>
   </section>
 
@@ -59,48 +64,44 @@
           </tbody>
       </table>
       <h3>Western Conference</h3>
+      <section class="videos">
+        <h2>Featured Videos</h2>
+        <article class="video-wrapper">
+          <a href="https://www.youtube.com/watch?v=cRqEjm_OF1E">
+            <img class="video-thumbnail" src="placeholder_nba2.jpg" alt="Nba Match: Mini Clip">
+          </a>
+          <div class="video-info">
+            <h3 class="video-title">Nba Match: Mini Clip</h3>
+            <span class="channel-info">By NBA | 2.5M views</span>
+          </div>
+        </article>
+        <article class="video-wrapper">
+          <a href="https://www.youtube.com/watch?v=h5pTl8fOM2U">
+            <img class="video-thumbnail" src="placeholder_nba1.jpg" alt="Lebron James: Documentary">
+          </a>
+          <div class="video-info">
+            <h3 class="video-title">Lebron James: Documentary</h3>
+            <span class="channel-info">By NBA | 5.2M views</span>
+          </div>
+        </article>
+      </section>
       </div>
   </section>
 
   <p>Coming Soon: Live game streaming integration, advanced player stats, and fantasy basketball tools.</p>
-  <footer>&copy; 2024 Vision Discovery. All Rights Reserved.</footer>
-  <script>
-  // Sample Team Names (Replace with actual team names)
-  const teams = ["Milwaukee Bucks", "Golden State Warriors", "Boston Celtics", "Los Angeles Clippers", "Phoenix Suns"];
+  <footer>
 
-  function generateRandomScore() {
-    return Math.floor(Math.random() * 120) + 80; // Range: 80-199
-  }
+  <section class="social-sharing">
+    <h3>Share the Adventure</h3>
+    <a href="https://www.facebook.com/profile.php?id=61557626589574" target="_blank" class="social-icon facebook""><i class="fab fa-facebook-f"></i> Share on Facebook</a>
+    <a href="https://twitter.com/techandstream"><i class="fab fa-twitter"></i> Tweet about it</a>
+  </section>
+  </div>
 
-  function generateTodaysScores() {
-    const tableBody = document.getElementById('scores-table').getElementsByTagName('tbody')[0];
-    tableBody.innerHTML = ''; // Clear existing data
+  <p>Coming Soon: Integration with wider video platforms for an even bigger library !</p>
 
-    for (let i = 0; i < 3; i++) { // Generate scores for 3 games
-      const time = '10:00 PM ET'; // Replace with actual time data
-      const team1 = teams[Math.floor(Math.random() * teams.length)];
-      const team2 = teams.find(team => team !== team1); // Avoid same team playing itself
-      const score1 = generateRandomScore();
-      const score2 = generateRandomScore();
-      const winner = score1 > score2 ? team1 : team2;
-
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td><span class="math-inline">\{time\}</td\>
-<td\><img src\="TEAM\_LOGO\_1\.png" alt\="</span>{team1} Logo"> vs. <img src="TEAM_LOGO_2.png" alt="<span class="math-inline">\{team2\} Logo"\></td\>
-<td\></span>{score1} - <span class="math-inline">\{score2\} \(</span>{winner} W)</td>
-        <td><a href="#">Watch Highlights</a></td>
-      `;
-      tableBody.appendChild(row);
-    }
-  }
-
-  function generateUpcomingMatchups() {
-    const matchupsList = document.getElementById('matchups-list');
-    matchupsList.innerHTML = ''; // Clear existing data
-
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-    const dates = days.map(day => new Date().addDays(days.indexOf(day) + 1).toLocaleDateString()); // Add 1-5 days to current date
-
-    for (let i = 0; i < 5;
-         }
+  <p>&copy; 2024 Vision Week by Kvnbbg. All Rights Reserved.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
