@@ -32,7 +32,30 @@
 
 //////////////////////////////////////////////////////////////////////
 
+// This file is currently empty. 
+// In the future, you can add Javascript functionality here, 
+// such as making the upcoming games clickable or updating scores dynamically.
+const searchInput = document.getElementById('search-input');
+const searchButton = document.getElementById('search-button');
 
+searchButton.addEventListener('click', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+
+  // Handle different search terms
+  if (searchTerm === 'nba') {
+    // Open nba.html in the same window (not recommended for production)
+    window.location.href = 'nba.html'; // Consider using a navigation framework for better UX
+  } else {
+    // Redirect to Google search (more appropriate for external search)
+    window.location.href = 'https://www.youtube.com/' + searchTerm;
+  }
+
+  // Add Javascript code to handle click event
+  document.getElementById("vision-discovery").addEventListener("click", function() {
+    const content = document.getElementById("vision-discovery-content");
+    content.style.display = content.style.display === "none" ? "block" : "none";
+    // Optionally add logic to show/hide loading animation during content toggle
+  });
 //////////////////////////////////////////////////////////////////////
   
   // Simulate opening app.jpg for 3 seconds (not possible due to security restrictions)

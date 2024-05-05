@@ -49,6 +49,12 @@ a:hover {
   transition: background-color 0.3s ease-in-out;
 }
 
+  ul {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* No default padding */
+    margin: 0; /* No default margin */
+    display: none; /* Hide initially */
+  }
 
   li {
     padding: 0.5rem 1rem; /* Consistent padding for list items */
