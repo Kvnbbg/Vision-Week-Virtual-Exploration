@@ -8,12 +8,6 @@
 </head>
 <body> 
   <aside>
-    <section class="search-bar" style="display: inline-flex; position: left">
-      <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, friend, cars, sport, space)">
-      <button id="search-button">Search Videos</button>  <p><strong>Explore Amazing : </strong>Search for videos (e.g., nba, friend, cars, sport, space)</p>
-      <!-- <div id="vision-discovery-content" style="display: none;"> <p>Welcome to the world of Vision Discovery! Here you'll find incredible exploration videos that will transport you to new and exciting places.</p>
-        <div class="loading-animation"> </div>-->
-    </section>
     <section id="transaction-animation" style="text-align: center; padding: 20px; position: right;">
       <h2>Ask</h2>
       <input type="number" id="amount" placeholder="Enter Amount (e.g., 100, 200, 300)">
@@ -25,6 +19,12 @@
   <main>
     <nav style="display: inline;">
       <section class="categories">
+      <section class="search-bar" style="display: inline-flex; position: left">
+        <input type="text" id="search-input" placeholder="Search for videos (e.g., nba, friend, cars, sport, space)">
+        <button id="search-button">Search Videos</button>  <p><strong>Explore Amazing : </strong>Search for videos (e.g., nba, friend, cars, sport, space)</p>
+        <!-- <div id="vision-discovery-content" style="display: none;"> <p>Welcome to the world of Vision Discovery! Here you'll find incredible exploration videos that will transport you to new and exciting places.</p>
+          <div class="loading-animation"> </div>-->
+      </section>
         <ul>
           <li><a href="#">Deep Sea</a></li>
           <li><a href="#">Space Exploration</a></li>
@@ -104,22 +104,14 @@
 
   <section class="social-sharing">
     <h3>Share the Adventure</h3>
-    <a href="#"><i class="fab fa-facebook-f"></i> Share on Facebook</a>
+    <a href="https://www.facebook.com/profile.php?id=61557626589574" target="_blank" class="social-icon facebook""><i class="fab fa-facebook-f"></i> Share on Facebook</a>
     <a href="https://twitter.com/techandstream"><i class="fab fa-twitter"></i> Tweet about it</a>
   </section>
   </div>
 
-  <script>
-    // Add Javascript code to handle click event
-    document.getElementById("vision-discovery").addEventListener("click", function() {
-      const content = document.getElementById("vision-discovery-content");
-      content.style.display = content.style.display === "none" ? "block" : "none";
-      // Optionally add logic to show/hide loading animation during content toggle
-    });
-  </script>
-  <p>Coming Soon: Integration with wider video platforms for an even bigger library!</p>
+  <p>Coming Soon: Integration with wider video platforms for an even bigger library !</p>
 
-  <p>&copy; 2024 Vision Discovery. All Rights Reserved.</p>
+  <p>&copy; 2024 Vision Week by Kvnbbg. All Rights Reserved.</p>
   </footer>
   <script src="script.js"></script>
 </body>
