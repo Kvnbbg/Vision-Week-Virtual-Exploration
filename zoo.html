@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert New Animal</title>
+</head>
+<body>
+    <h2>Insert New Animal into Animals Table</h2>
+    <form action="insert_animal.php" method="POST">
+	<label for="name">Name:</label>
+	<input type="text" id="name" name="name" required><br><br>
+	<label for="type">Type:</label>
+	<input type="text" id="type" name="type" required><br><br>
+	<label for="country_id">Country ID:</label>
+	<input type="number" id="country_id" name="country_id" required><br><br>
+	<input type="submit" value="Insert">
+    </form>
+</body>
+</html>
