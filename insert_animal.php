@@ -1,15 +1,13 @@
 <?php
-// Connect to your database
-$servername = "localhost";
-$username = "username";
-$password = "password";
-$dbname = "your_database";
+// Connect to your SQLite database
+$database_path = __DIR__ . "/sql/zoo.sqlite"; // Adjust the filename and extension as needed
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection
+$conn = new SQLite3($database_path);
 
 // Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Connection failed: " . SQLite3::lastErrorMsg());
 }
 
 // Retrieve values from form submission
@@ -20,11 +18,12 @@ $country_id = $_POST['country_id'];
 // SQL query to insert new animal into Animals table
 $sql = "INSERT INTO Animals (name, type, country_id) VALUES ('$name', '$type', $country_id)";
 
-if ($conn->query($sql) === TRUE) {
-  echo "New record created successfully";
+if ($conn->query($sql)) {
+    echo "New record created successfully";
 } else {
-  echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $conn->lastErrorMsg();
 }
 
+// Close connection
 $conn->close();
 ?>
