@@ -1,0 +1,33 @@
+-- Create the Animals table
+CREATE TABLE Animals (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255),
+    type VARCHAR(255),
+    country_id INTEGER
+);
+
+-- Populate the Animals table with sample data
+INSERT INTO Animals (name, type, country_id) VALUES
+('Slim', 'Giraffe', 1),
+('Dumbo', 'Elephant', 2),
+('Leo', 'Lion', 1),
+('Stripes', 'Tiger', 3),
+('Waddles', 'Penguin', 4);
+
+-- Create a table to store the list of animals in the zoo
+CREATE TABLE Zoo (
+    name VARCHAR(255),
+    type VARCHAR(255),
+    country VARCHAR(255)
+);
+
+-- Insert data into the Zoo table using a SELECT statement
+INSERT INTO Zoo (name, type, country)
+SELECT Animals.name, Animals.type, Countries.country
+FROM Animals
+INNER JOIN Countries ON Animals.country_id = Countries.id
+ORDER BY Countries.country;
+
+-- Display records from the Zoo table
+SELECT * FROM Zoo;
+ 
