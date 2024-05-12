@@ -59,6 +59,7 @@ try {
   <?php if (file_exists('navigation.php')) include_once 'navigation.php'; ?>
 
   <main>
+  <button onclick="openDesignThinkingQuiz()">Take the Design Thinking Quiz</button>
     <?php if (isset($errorMessage)) : ?>
       <p class="error"><?php echo $errorMessage; ?></p>
     <?php endif; ?>
@@ -88,6 +89,7 @@ try {
 
   <?php if (file_exists('footer.php')) include_once 'footer.php'; ?>
 
-  <script src="script.js"></script>
+  <script src="/assets/script.js"></script>
+  <script src"/conception/receuil-des-besoins/design_thinking.js"></script>
 </body>
 </html>
