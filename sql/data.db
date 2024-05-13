@@ -1,0 +1,28 @@
+-- Create the Data table
+CREATE TABLE Data (
+    dataID INTEGER PRIMARY KEY AUTOINCREMENT,
+    dataContent TEXT,
+    dataType VARCHAR(255),
+    creationDate DATETIME NOT NULL
+);
+
+-- Create the DataAccessLog table
+CREATE TABLE DataAccessLog (
+    logID INTEGER PRIMARY KEY AUTOINCREMENT,
+    userID INTEGER,
+    dataID INTEGER,
+    accessTime DATETIME NOT NULL,
+    action VARCHAR(255),
+    FOREIGN KEY (userID) REFERENCES Users(user_id),
+    FOREIGN KEY (dataID) REFERENCES Data(dataID)
+);
+
+-- Insert sample data into Data table
+INSERT INTO Data (dataContent, dataType, creationDate) VALUES
+('Sample content 1', 'text', '2024-01-01 10:00:00'),
+('Sample content 2', 'image', '2024-01-02 12:00:00');
+
+-- Insert sample data into DataAccessLog table
+INSERT INTO DataAccessLog (userID, dataID, accessTime, action) VALUES
+(1, 1, '2024-01-01 11:00:00', 'view'),
+(2, 2, '2024-01-02 13:00:00', 'download');

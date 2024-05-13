@@ -1,22 +1,14 @@
 <?php
-// Database configuration parameters
-// Config (consider using environment variables or a dedicated config file)
-define('DB_HOST', 'localhost');
-define('DB_USERNAME', 'kvnbbg');
-define('DB_PASSWORD', 'password');
-define('DB_NAME', 'zoo.db');
+define('ENVIRONMENT', 'development'); // Change to 'production' for live deployment
 
-// Create connection
-try {
-  $conn = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USERNAME, DB_PASSWORD);
-  $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-  echo "Connection failed: " . $e->getMessage();
-  die(); // Terminate script execution on failure
+if (ENVIRONMENT === 'development') {
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+} else {
+    error_reporting(0);
+    ini_set('display_errors', 0);
 }
 
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Database configuration
+define('DB_FILE', __DIR__ . '/sql//data.db'); // Ensure the path is correct
 ?>
