@@ -14,6 +14,16 @@ function getDatabaseConnection($dbFile) {
     }
 }
 
+function fetchFromDatabase($db, $query) {
+    try {
+        $stmt = $db->query($query);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        return [];
+    }
+}
+
 $db = getDatabaseConnection(DB_FILE);
 $usersDb = getDatabaseConnection('sql/users.db');
 $zooDb = getDatabaseConnection('sql/zoo.db');
@@ -24,53 +34,25 @@ $users = [];
 $zoo = [];
 $logs = [];
 $errorMessage = '';
-$welcomeMessage = '';
 
 if ($db) {
-    try {
-        $sql = "SELECT title, content, published_at FROM news ORDER BY published_at DESC LIMIT 3";
-        $statement = $db->prepare($sql);
-        $statement->execute();
-        $articles = $statement->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        $errorMessage = "Unable to fetch articles. Please try again later.";
-    }
+    $articles = fetchFromDatabase($db, "SELECT title, content, published_at FROM news ORDER BY published_at DESC LIMIT 3");
 } else {
     $errorMessage = "Database connection failed. Please try again later.";
 }
 
-if (isset($_SESSION['user'])) {
-    $welcomeMessage = "Welcome back, " . htmlspecialchars($_SESSION['user']['username']) . "!";
-} else {
-    $welcomeMessage = "Welcome to our website!";
-}
+$welcomeMessage = isset($_SESSION['user']) ? "Welcome back, " . htmlspecialchars($_SESSION['user']['username']) . "!" : "Welcome to our website!";
 
 if ($usersDb) {
-    try {
-        $stmt = $usersDb->query("SELECT * FROM Users");
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-    }
+    $users = fetchFromDatabase($usersDb, "SELECT * FROM Users");
 }
 
 if ($zooDb) {
-    try {
-        $stmt = $zooDb->query("SELECT * FROM Zoo");
-        $zoo = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-    }
+    $zoo = fetchFromDatabase($zooDb, "SELECT * FROM Zoo");
 }
 
 if ($dataDb) {
-    try {
-        $stmt = $dataDb->query("SELECT * FROM DataAccessLog");
-        $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-    }
+    $logs = fetchFromDatabase($dataDb, "SELECT * FROM DataAccessLog");
 }
 ?>
 
@@ -117,9 +99,7 @@ if ($dataDb) {
             <?php if (!empty($users)): ?>
                 <ul>
                     <?php foreach ($users as $user): ?>
-                        <li>
-                            <?php echo htmlspecialchars($user['username']); ?> - <?php echo htmlspecialchars($user['email']); ?>
-                        </li>
+                        <li><?php echo htmlspecialchars($user['username']); ?> - <?php echo htmlspecialchars($user['email']); ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
@@ -132,9 +112,7 @@ if ($dataDb) {
             <?php if (!empty($zoo)): ?>
                 <ul>
                     <?php foreach ($zoo as $animal): ?>
-                        <li>
-                            <?php echo htmlspecialchars($animal['animal_name']); ?> (<?php echo htmlspecialchars($animal['animal_type']); ?>) - <?php echo htmlspecialchars($animal['country_name']); ?>
-                        </li>
+                        <li><?php echo htmlspecialchars($animal['animal_name']); ?> (<?php echo htmlspecialchars($animal['animal_type']); ?>) - <?php echo htmlspecialchars($animal['country_name']); ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
@@ -147,9 +125,7 @@ if ($dataDb) {
             <?php if (!empty($logs)): ?>
                 <ul>
                     <?php foreach ($logs as $log): ?>
-                        <li>
-                            User ID: <?php echo htmlspecialchars($log['user_id']); ?> accessed Data ID: <?php echo htmlspecialchars($log['data_id']); ?> at <?php echo htmlspecialchars($log['access_time']); ?> for action: <?php echo htmlspecialchars($log['action']); ?>
-                        </li>
+                        <li>User ID: <?php echo htmlspecialchars($log['user_id']); ?> accessed Data ID: <?php echo htmlspecialchars($log['data_id']); ?> at <?php echo htmlspecialchars($log['access_time']); ?> for action: <?php echo htmlspecialchars($log['action']); ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
