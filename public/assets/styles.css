@@ -1,8 +1,17 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #f0f0f0;
   margin: 0;
-  padding:
+  padding: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+header, footer {
+  background-color: #007bff;
+  color: #fff;
+  padding: 1rem 0;
+  text-align: center;
 }
 
 footer {
@@ -15,7 +24,6 @@ p:hover {
   color: #568028; /* Darker green on hover for important elements */
 }
 
-
 img {
   max-width: 100%;
   height: auto;
@@ -24,16 +32,12 @@ img {
   margin: 0 auto 1rem; /* Add some bottom margin */
 }
 
-header {
-  border: none;
-  border-top: 1px solid #ccc; /* Lighter border */
-  margin: 1rem 0;
-}
-
 nav {
   max-width: 800px;
   margin: 20px auto;
   padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
 a {
@@ -41,41 +45,51 @@ a {
   text-decoration: none; /* Remove underline by default */
   display: inline-block; /* Make anchors behave like buttons */
   padding: 0.5rem 1rem; /* Add some padding for visual impact */
+  transition: background-color 0.3s ease-in-out;
 }
 a:hover {
   background-color: #fff; /* White background on hover */
   color: #007bff; /* Dark blue text on hover */
   border: 1px solid #99c1f1; /* Subtle border with hover effect */
-  transition: background-color 0.3s ease-in-out;
 }
 
-  ul {
-    list-style: none; /* Remove bullet points */
-    padding: 0; /* No default padding */
-    margin: 0; /* No default margin */
-    display: none; /* Hide initially */
-  }
+ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* No default padding */
+  margin: 0; /* No default margin */
+}
 
-  li {
-    padding: 0.5rem 1rem; /* Consistent padding for list items */
-    cursor: pointer; /* Indicate clickable elements */
-    background-color: #fff; /* White background for contrast */
-  }
-
-  li:hover {
-    background-color: #0069d9; /* Darker blue on hover */
+li {
+  padding: 0.5rem 1rem; /* Consistent padding for list items */
+  cursor: pointer; /* Indicate clickable elements */
+  background-color: #fff; /* White background for contrast */
+}
+li:hover {
+  background-color: #0069d9; /* Darker blue on hover */
   animation: fadeIn 0.5s ease; /* Fade in animation */
 }
 
 section {
-  padding: auto;
+  padding: 2rem;
   margin: 10px;
+  background-color: #fff;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 div {
   padding: 10px;
   margin: 10px;
-  width: 50%;
+  flex: 1;
+  min-width: 300px;
 }
 
 @keyframes fadeIn {
@@ -87,22 +101,13 @@ div {
   }
 }
 
-.container {
-  max-width: 100%;
-  height: auto;
-  margin: 0 auto;
-  padding: 2rem;
-  display: flex;
-}
-
 .categories {
   background-color: #8ff0a4;
   color: #3d3846;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgb(119, 118, 123, 0.1)
+  box-shadow: 0 2px 4px rgba(119, 118, 123, 0.1);
 }
-
 
 .videos {
   margin-top: 20px;
@@ -203,28 +208,28 @@ div {
   margin-top: 10px;
 }
 
-  #amount {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+#amount {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
 
-  #send-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+#send-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  #message {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  #message.success {
-    color: green;
-  }
+#message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+#message.success {
+  color: green;
+}
 
 .games-list {
   padding: 0;
@@ -244,10 +249,10 @@ div {
     display: block; /* Make anchors fill the width on smaller screens */
     width: 100%; /* Full width on smaller screens */
     margin: 0; /* No margin on smaller screens */
+  }
 
-    ul {
-      display: block; /* Show the list on smaller screens */
-    }
+  ul {
+    display: block; /* Show the list on smaller screens */
   }
 }
 
@@ -264,11 +269,7 @@ div {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background: radial-gradient(circle at center,
-                             orange 0%,
-                             orange 70%,
-                             white 70%,
-                             white 100%);
+  background: radial-gradient(circle at center, orange 0%, orange 70%, white 70%, white 100%);
   box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -287,7 +288,7 @@ div {
   transform: rotate(-45deg); /* Rotate for second black stripe */
 }
 
-/* Animations (replace placeholders with your desired animation styles) */
+/* Animations */
 .nba-ball.animation-1 {
   animation: spin 3s linear infinite;
 }
@@ -322,6 +323,7 @@ div {
     transform: scale(1.1);
   }
 }
+
 .social-sharing {
   display: flex;
   justify-content: space-between;
@@ -344,6 +346,7 @@ div {
 .social-sharing i {
   font-size: 1.2rem;
 }
+
 .video-progress {
   position: absolute;
   bottom: 0;
@@ -363,6 +366,7 @@ div {
 .video-wrapper:hover .video-thumbnail {
   opacity: 0.7; /* Reduce thumbnail opacity on hover */
 }
+
 /* Media queries for different screen sizes */
 @media only screen and (max-width: 768px) {
   /* Styles for smaller screens */
