@@ -62,8 +62,10 @@ if ($dataDb) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vision Week, a virtual exploration!</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/styles.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
+
 <body>
     <?php if (file_exists('header.php')) include 'header.php'; ?>
     <?php if (file_exists('navigation.php')) include 'navigation.php'; ?>
@@ -131,6 +133,11 @@ if ($dataDb) {
             <?php else: ?>
                 <p>No access logs found.</p>
             <?php endif; ?>
+        </section>
+
+        <section>
+            <h2>Game with ai randomizer position</h2>
+        <?php if (file_exists('game.php')) include 'game.php'; ?>
         </section>
     </main>
 
