@@ -1,30 +1,10 @@
 {
+  "name": "vision-week",
+  "description": "A web application for Vision Week",
   "require": {
-    "php": "^8.2.13",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "phpunit/phpunit": "^9.5",
-    "monolog/monolog": "^3.0",
-    "doctrine/orm": "^2.8",
-    "symfony/console": "^5.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "twig/twig": "^3.0",
-    "symfony/yaml": "^5.0",
-    "symfony/validator": "^5.0",
-    "symfony/http-foundation": "^5.0",
-    "twbs/bootstrap": "^5.2",
-	  
-    "phpstan/phpstan": "^1.7",
-    "infection/infection": "^0.16",
-    "friendsofphp/php-cs-fixer": "^3.1",
-    "squizlabs/phpcodesniffer": "^3.8.0",
-	  
-    "paragonie/sodium": "^2.3",
-    "firebase/php-jwt": "^6.2",
-    "intervention/image": "^2.5",
-    "spatie/laravel-flash": "^1.10"
+    "php": "^7.4 || ^8.0"
   },
   "scripts": {
-    "lint": "vendor/bin/phpcs --standard=custom_ruleset.xml ./src" 
+    "start": "php -S 0.0.0.0:8000 -t public"
   }
 }

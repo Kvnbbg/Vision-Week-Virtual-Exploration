@@ -348,15 +348,6 @@
         "documentation": {}
     },
     {
-        "label": "pandas",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "pandas",
-        "description": "pandas",
-        "detail": "pandas",
-        "documentation": {}
-    },
-    {
         "label": "Example3",
         "kind": 6,
         "importPath": ".trunk.plugins.trunk.linters.autopep8.test_data.basic.in",
@@ -1371,33 +1362,6 @@
         "description": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
         "peekOfCode": "def main():\n    try:\n        pass\n    except (Exception, TypeError):\n        pass\nimport sys\n# trunk-ignore(flake8/F401): this will trigger a warning to verify that the config is applied\nclass NoDocstring(object):\n    def __init__(self, arg1):\n        self._attr1 = arg1",
         "detail": ".trunk.plugins.trunk.linters.yapf.test_data.basic.in",
-        "documentation": {}
-    },
-    {
-        "label": "employees_df",
-        "kind": 5,
-        "importPath": "bigboy",
-        "description": "bigboy",
-        "peekOfCode": "employees_df = pd.read_sql_query(\"SELECT name, salary FROM Employees\", connection)\n# Access the name and salary columns\nnames = employees_df[\"name\"]\nsalaries = employees_df[\"salary\"]",
-        "detail": "bigboy",
-        "documentation": {}
-    },
-    {
-        "label": "names",
-        "kind": 5,
-        "importPath": "bigboy",
-        "description": "bigboy",
-        "peekOfCode": "names = employees_df[\"name\"]\nsalaries = employees_df[\"salary\"]",
-        "detail": "bigboy",
-        "documentation": {}
-    },
-    {
-        "label": "salaries",
-        "kind": 5,
-        "importPath": "bigboy",
-        "description": "bigboy",
-        "peekOfCode": "salaries = employees_df[\"salary\"]",
-        "detail": "bigboy",
         "documentation": {}
     }
 ]
