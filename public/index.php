@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once '../config.php';
 
 session_start();
 
@@ -25,9 +25,9 @@ function fetchFromDatabase($db, $query) {
 }
 
 $db = getDatabaseConnection(DB_FILE);
-$usersDb = getDatabaseConnection('sql/users.db');
-$zooDb = getDatabaseConnection('sql/zoo.db');
-$dataDb = getDatabaseConnection('sql/data.db');
+$usersDb = getDatabaseConnection('../sql/users.db');
+$zooDb = getDatabaseConnection('../sql/zoo.db');
+$dataDb = getDatabaseConnection('../sql/data.db');
 
 $articles = [];
 $users = [];
@@ -62,8 +62,8 @@ if ($dataDb) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vision Week, a virtual exploration!</title>
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <link rel="stylesheet" href="../assets/styles.css">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
 </head>
 
 <body>
@@ -143,7 +143,7 @@ if ($dataDb) {
 
     <?php if (file_exists('footer.php')) include 'footer.php'; ?>
 
-    <script src="/assets/script.js"></script>
-    <script src="/conception/receuil-des-besoins/design_thinking.js"></script>
+    <script src="../assets/script.js"></script>
+    <script src="../conception/receuil-des-besoins/design_thinking.js"></script>
 </body>
 </html>
