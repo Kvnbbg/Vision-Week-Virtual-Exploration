@@ -1,33 +1,12 @@
 <?php
-require_once '../config.php';
+require_once '../config.php'; // Ensure this path is correct based on your directory structure
 
 session_start();
 
-function getDatabaseConnection($dbFile) {
-    try {
-        $db = new PDO('sqlite:' . $dbFile);
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $db;
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        return null;
-    }
-}
-
-function fetchFromDatabase($db, $query) {
-    try {
-        $stmt = $db->query($query);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        return [];
-    }
-}
-
 $db = getDatabaseConnection(DB_FILE);
-$usersDb = getDatabaseConnection('../sql/users.db');
-$zooDb = getDatabaseConnection('../sql/zoo.db');
-$dataDb = getDatabaseConnection('../sql/data.db');
+$usersDb = getDatabaseConnection('sql/users.db');
+$zooDb = getDatabaseConnection('sql/zoo.db');
+$dataDb = getDatabaseConnection('sql/data.db');
 
 $articles = [];
 $users = [];
@@ -57,20 +36,18 @@ if ($dataDb) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vision Week, a virtual exploration!</title>
-    <link rel="stylesheet" href="../assets/styles.css">
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <link rel="stylesheet" href="assets/styles.css">
 </head>
-
 <body>
     <?php if (file_exists('header.php')) include 'header.php'; ?>
     <?php if (file_exists('navigation.php')) include 'navigation.php'; ?>
 
-    <main>
+    <main class="container">
         <button onclick="openDesignThinkingQuiz()">Take the Design Thinking Quiz</button>
 
         <?php if ($errorMessage): ?>
@@ -134,16 +111,11 @@ if ($dataDb) {
                 <p>No access logs found.</p>
             <?php endif; ?>
         </section>
-
-        <section>
-            <h2>Game with ai randomizer position</h2>
-        <?php if (file_exists('game.php')) include 'game.php'; ?>
-        </section>
     </main>
 
     <?php if (file_exists('footer.php')) include 'footer.php'; ?>
 
-    <script src="../assets/script.js"></script>
-    <script src="../conception/receuil-des-besoins/design_thinking.js"></script>
+    <script src="/assets/script.js"></script>
+    <script src="/conception/receuil-des-besoins/design_thinking.js"></script>
 </body>
 </html>
