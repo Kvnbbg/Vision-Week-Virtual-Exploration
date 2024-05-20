@@ -30,6 +30,8 @@ Vision Week is a web and mobile application that offers a unique virtual zoo exp
 
 Vision Week is an innovative project that began on March 1, 2024, and will run until July 1, 2024. It immerses users in virtual reality, inspired by Tim Cook's Apple Vision Pro and Mark Zuckerberg's Meta platforms. The project showcases the combination of virtual exploration and real-world interactions.
 
+[Onboarding](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
+
 ## Preview
 
 👁️ [Watch the preview of Vision Week](https://kvnbbg.github.io/Vision-Week-Virtual-Exploration/)  
@@ -221,16 +223,6 @@ This project was created by Kevin MARVILLE for STUDI. Special thanks to [STUDI](
 ## Learn More
 
 For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
-
-## Useful Links
-
-- [Learn more about
-
- PHP](https://www.php.net/)
-- [SQLite Documentation](https://www.sqlite.org/docs.html)
-- [JavaScript Info](https://javascript.info/)
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [Express.js Documentation](https://expressjs.com/)
 
 ## Side Project for Fun
 
