@@ -30,12 +30,16 @@ Vision Week is a web and mobile application that offers a unique virtual zoo exp
 
 Vision Week is an innovative project that began on March 1, 2024, and will run until July 1, 2024. It immerses users in virtual reality, inspired by Tim Cook's Apple Vision Pro and Mark Zuckerberg's Meta platforms. The project showcases the combination of virtual exploration and real-world interactions.
 
-[Onboarding](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
+[Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
+
+
+[Agile method with Scrum Slack, Confluence and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
+
 
 ## Preview
 
 👁️ [Watch the preview of Vision Week](https://kvnbbg.github.io/Vision-Week-Virtual-Exploration/)  
-If it doesn't work, try [this link](https://vision-week-ceb57a1e5fed.herokuapp.com/)
+If it doesn't work, try [this presentation]()
 
 ## Features
 
