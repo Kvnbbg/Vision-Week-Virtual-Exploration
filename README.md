@@ -38,8 +38,12 @@ Vision Week is an innovative project that began on March 1, 2024, and will run u
 
 ## Preview
 
-👁️ [Watch the preview of Vision Week](https://kvnbbg.github.io/Vision-Week-Virtual-Exploration/)  
-If it doesn't work, try [this presentation]()
+If it doesn't work, try the [video presentation]()
+
+### Wireframe
+
+[Watch the preview of Vision Week](https://www.figma.com/proto/o0QfKg0hU9gXxHe6FEoxVn/output-wireframe?node-id=1-342&t=8bEB6V7rSDwY7ISc-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A) 
+1
 
 ## Features
 
