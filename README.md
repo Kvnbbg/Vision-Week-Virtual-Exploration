@@ -10,9 +10,21 @@
 
 Vision Week is a web and mobile application that offers a unique virtual zoo experience using VR headsets. Users can explore various paths and access video content at each point of interest on the zoo map. The content is accessible via a monthly subscription purchased within the app.
 
+## Presentation & Wireframe
+
+[video presentation on Youtube]()
+
+[Wireframe on Figma](https://www.figma.com/proto/o0QfKg0hU9gXxHe6FEoxVn/output-wireframe?node-id=1-342&t=8bEB6V7rSDwY7ISc-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A) 
+
+## About
+
+Vision Week is an innovative project that began on March 1, 2024, and will run until July 1, 2024. It immerses users in virtual reality, inspired by Tim Cook's Apple Vision Pro and Mark Zuckerberg's Meta platforms. The project showcases the combination of virtual exploration and real-world interactions.
+
+[Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
+
+[Agile method with Scrum Slack, Confluence and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
+
 ## Table of Contents
-- [About](#about)
-- [Preview](#preview)
 - [Features](#features)
 - [Technologies](#technologies)
 - [Installation](#installation)
@@ -25,25 +37,6 @@ Vision Week is a web and mobile application that offers a unique virtual zoo exp
 - [Useful Links](#useful-links)
 - [Side Project for Fun](#side-project-for-fun)
 - [Contributors](#contributors)
-
-## About
-
-Vision Week is an innovative project that began on March 1, 2024, and will run until July 1, 2024. It immerses users in virtual reality, inspired by Tim Cook's Apple Vision Pro and Mark Zuckerberg's Meta platforms. The project showcases the combination of virtual exploration and real-world interactions.
-
-[Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
-
-
-[Agile method with Scrum Slack, Confluence and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
-
-
-## Preview
-
-If it doesn't work, try the [video presentation]()
-
-### Wireframe
-
-[Watch the preview](https://www.figma.com/proto/o0QfKg0hU9gXxHe6FEoxVn/output-wireframe?node-id=1-342&t=8bEB6V7rSDwY7ISc-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A) 
-1
 
 ## Features
 
@@ -232,12 +225,6 @@ This project was created by Kevin MARVILLE for STUDI. Special thanks to [STUDI](
 
 For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
 
-## Side Project for Fun
-
-Check out my side project, TurboZoo:
-- [GitHub](https://github.com/Kvnbbg/TurboZoo)
-- [Replit](https://replit.com/@kvnbbg/TurboZoo)
-- [First Version Video](https://www.youtube.com/watch?v=iS9uFwMw1SM)
 
 ## Contributors
 
@@ -247,9 +234,13 @@ We appreciate all the contributors who have helped make this project better.
 
 ## Links
 
+- [Discord Group](https://discord.com/invite/wppHraKvQF)
 - [Discussion](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/discussions)
-- [GitHub Repository](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration)
-- [Replit](https://replit.com/@kvnbbg/TurboZoo)
-- [Heroku Deployment](https://vision-week-ceb57a1e5fed.herokuapp.com/)
-- [Discord](https://discord.com/invite/wppHraKvQF)
 - [Insight](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/settings/access)
+
+  ## Side Project for Fun
+
+Check out my side project, TurboZoo:
+- [GitHub](https://github.com/Kvnbbg/TurboZoo)
+- [Replit](https://replit.com/@kvnbbg/TurboZoo)
+- [First Version Video](https://www.youtube.com/watch?v=iS9uFwMw1SM)
