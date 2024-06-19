@@ -38,6 +38,27 @@ Vision Week is an innovative project that began on March 1, 2024, and will run u
 - [Side Project for Fun](#side-project-for-fun)
 - [Contributors](#contributors)
 
+<<<<<<< HEAD
+=======
+## About
+
+Vision Week is an innovative project that began on March 1, 2024, and will run until July 1, 2024. It immerses users in virtual reality, inspired by Tim Cook's Apple Vision Pro and Mark Zuckerberg's Meta platforms. The project showcases the combination of virtual exploration and real-world interactions.
+
+[Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
+
+
+[Agile method with Scrum Slack, Confluence and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
+
+
+## Preview
+
+If it doesn't work, try the [video presentation]()
+
+### Wireframe
+
+[Watch the preview](https://www.figma.com/proto/o0QfKg0hU9gXxHe6FEoxVn/output-wireframe?node-id=1-342&t=8bEB6V7rSDwY7ISc-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A)
+
+>>>>>>> 1ebf87c (refactor: Update file paths and use relative paths for assets, scripts, and stylesheets)
 ## Features
 
 - **Explore by Category:** Discover videos organized by exploration type.
