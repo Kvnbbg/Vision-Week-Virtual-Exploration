@@ -40,6 +40,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     EcranCarte(),
     EcranVideo(),
     EcranVR(),
+    EcranParametres(),
   ];
 
   void _onItemTapped(int index) {
@@ -77,6 +78,10 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
           BottomNavigationBarItem(
             icon: Icon(Icons.vr_cardboard),
             label: 'VR',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Paramètres',
           ),
         ],
         currentIndex: _selectedIndex,
