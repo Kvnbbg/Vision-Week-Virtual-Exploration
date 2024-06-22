@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/vision_week_virtual_exploration.iml" filepath="$PROJECT_DIR$/vision_week_virtual_exploration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/vision_week_virtual_exploration_android.iml" filepath="$PROJECT_DIR$/android/vision_week_virtual_exploration_android.iml" />
+    </modules>
+  </component>
+</project>
