@@ -1,7 +1,0 @@
-{
-    "name": "Flutter Web Dev Container",
-    "image": "mcr.microsoft.com/vscode/devcontainers/base:0-focal",
-    "postCreateCommand": ".devcontainer/setup.sh",
-    "forwardPorts": [3000]
-  }
-  
