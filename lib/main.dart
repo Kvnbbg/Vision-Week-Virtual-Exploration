@@ -34,7 +34,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     EcranAccueil(),
     EcranProfil(),
     EcranCarte(),
@@ -92,7 +92,6 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
   }
 }
 
-// Placeholder widget classes (Replace with actual widget implementations)
 class EcranAccueil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
