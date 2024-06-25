@@ -1,10 +1,7 @@
-/// The above code defines a Flutter application that uses Firebase Analytics to track user interactions
-/// and displays different screens based on the selected bottom navigation bar item.
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-
+import 'package:firebase_analytics/observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +17,9 @@ class SemaineVisionApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
+      ],
       home: EcranPrincipal(),
     );
   }
@@ -32,7 +32,7 @@ class EcranPrincipal extends StatefulWidget {
 
 class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
-  FirebaseAnalytics analytics = FirebaseAnalytics();
+  final FirebaseAnalytics _analytics = FirebaseAnalytics();
 
   static const List<Widget> _widgetOptions = <Widget>[
     EcranAccueil(),
@@ -45,9 +45,9 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index);
+      _selectedIndex = index;
     });
-    analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
+    _analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
   }
 
   @override
@@ -76,7 +76,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
             label: 'Vidéos',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.vr_cardboard),
+            icon: Icon(Icons.vrpano),
             label: 'VR',
           ),
           BottomNavigationBarItem(
@@ -91,87 +91,46 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     );
   }
 }
-import 'package:flutter/material.dart';
-import 'welcome_screen.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
+// Placeholder widget classes (Replace with actual widget implementations)
+class EcranAccueil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vision Week',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: WelcomeScreen(),
-    );
-  }
-}
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vision Week',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Vision Week'),
-    );
+    return Center(child: Text('Accueil'));
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
+class EcranProfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
+    return Center(child: Text('Profil'));
+  }
+}
+
+class EcranCarte extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Carte'));
+  }
+}
+
+class EcranVideo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Vidéos'));
+  }
+}
+
+class EcranVR extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('VR'));
+  }
+}
+
+class EcranParametres extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Paramètres'));
   }
 }
