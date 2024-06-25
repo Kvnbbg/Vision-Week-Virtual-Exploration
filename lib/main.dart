@@ -18,7 +18,7 @@ class SemaineVisionApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
       ],
       home: EcranPrincipal(),
     );
@@ -32,7 +32,7 @@ class EcranPrincipal extends StatefulWidget {
 
 class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
-  final FirebaseAnalytics _analytics = FirebaseAnalytics();
+  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
   static const List<Widget> _widgetOptions = <Widget>[
     EcranAccueil(),
