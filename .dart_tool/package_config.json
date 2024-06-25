@@ -305,10 +305,10 @@
       "name": "vision_week_virtual_exploration",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-06-25T17:40:36.737957Z",
+  "generated": "2024-06-25T18:20:38.200717Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter",
