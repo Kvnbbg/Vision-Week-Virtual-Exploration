@@ -1,38 +1,205 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <base href="$FLUTTER_BASE_HREF">
-
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
-
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="vision_week_virtual_exploration">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
-
-  <title>vision_week_virtual_exploration</title>
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <favicon href="https://emojipedia.org/earth-globe-europe-africa/" /> 
+  <link rel="stylesheet" href="styles.css">
+  <title>Semaine Vision - Exploration Virtuelle</title>
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <nav class="bg-blue-600 p-4">
+    <ul class="flex justify-around text-white">
+      <li><a href="#" id="homeLink">Home</a></li>
+      <li><a href="#" id="tourLink">VR</a></li>
+      <li><a href="#" id="mapLink">Map</a></li>
+      <li><a href="#" id="videosLink">Videos</a></li>
+      <li><a href="#" id="profileLink">Me</a></li>
+    </ul>
+  </nav>
+  
+  <div class="container mx-auto p-4" id="content">
+    <!-- Home Screen -->
+    <div id="homeScreen" class="content-screen active home-screen">
+      <h1 class="text-2xl font-bold">Welcome to Vision Week!</h1>
+      <p>Explore fascinating posts and statistics about the animals.</p>
+      <div class="post mt-4">
+        <h2 class="text-xl font-semibold">Polar Bears in the Arctic</h2>
+        <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Polar Bears" class="w-full h-auto mt-2 rounded">
+        <p class="mt-2">Learn about the life of polar bears and their survival in the Arctic.</p>
+      </div>
+      <div class="statistics mt-4">
+        <h3 class="text-lg font-semibold">Animal Conservation Stats</h3>
+        <p>Nombre d'animaux sauvés: <span id="animalsSaved">45,678</span></p>
+        <p>+<span id="growthRate">20%</span> mois après mois</p>
+        <p>Popularité de Vision Week</p>
+        <p>Animaux populaires: <span id="popularAnimals">Polar Bears, Penguins, Arctic Foxes</span>.</p>
+      </div>
+    </div>
+  
+    <!-- Virtual Tour Screen -->
+    <div id="tourScreen" class="content-screen vr-screen">
+      <h1 class="text-2xl font-bold">VR Viewer</h1>
+      <p>Experience an immersive tour of the zoo.</p>
+      <div class="vr-content mt-4">
+        <h2 class="text-xl font-semibold">Comfort Headset</h2>
+        <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
+          <iframe width="387" height="688" src="https://www.youtube.com/embed/n4apFUAQSpM" title="VR Headset Concept Design: Comfortable 3D Prototype ☕️ (CodePen Test App Included)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="mt-2">Put on your VR headset and explore the Arctic habitat, home to polar bears, seals, and more.</p>
+        <h2 class="text-xl font-semibold mt-4">Modern Headset</h2>
+        <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
+          <iframe width="387" height="688" src="https://www.youtube.com/embed/oGc869x2KOI" title="Modern VR Headset Concept: Sleek Design Meets Next-Gen Usability  (CodePen Test App Included)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <p class="mt-2">A combination of metallic and transparent materials.</p>
+        <h2 class="text-xl font-semibold mt-4">Navigation Control</h2>
+        <p>Utilisez les contrôles de navigation pour vous déplacer librement et profiter pleinement de votre visite
+          virtuelle.</p>
+        <div id="control-area-in-the-virtual-world" class="flex justify-around mt-4">
+          <p aria-label="Directional controls">
+            <img src="https://emojipedia.org/up-arrow" alt="Up" aria-label="Up" class="w-8 h-8">
+            <img src="https://emojipedia.org/right-arrow" alt="Right" aria-label="Right" class="w-8 h-8">
+            <img src="https://emojipedia.org/down-arrow" alt="Down" aria-label="Down" class="w-8 h-8">
+            <img src="https://emojipedia.org/left-arrow" alt="Left" aria-label="Left" class="w-8 h-8">
+          </p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Map Screen -->
+    <div id="mapScreen" class="content-screen map-screen">
+      <h1 class="text-2xl font-bold">Interactive Map</h1>
+      <p>Find your way around the zoo with our interactive 3D map.</p>
+      <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
+        <iframe width="387" height="688" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explore the World Like Never Before 🌎🌏 Interactive 3D Map for a Virtual Zoo Adventure ️ #coding" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="map-content mt-4">
+        <h2 class="text-xl font-semibold">Favorite Place</h2>
+        <p>Explore different sections of the zoo and locate your favorite animals. Point d’intérêts</p>
+        <div class="favorite-place mt-4">
+          <h3 class="text-lg font-semibold">Tell us about your favorite place:</h3>
+          <label for="favoritePlaceInput" class="block mt-2">Enter your favorite place name:</label>
+          <input type="text" id="favoritePlaceInput" name="favoritePlace" placeholder="e.g., Arctic Exhibit, Rainforest Adventure" class="w-full border border-gray-300 p-2 mt-2 rounded">
+          <label for="favoritePlaceSuggestions" class="block mt-4">Or choose from a suggestion:</label>
+          <select id="favoritePlaceSuggestions" aria-label="Favorite Place Suggestions" hidden class="w-full border border-gray-300 p-2 mt-2 rounded">
+            <option value="">-- Select a Suggestion --</option>
+            <option value="arctic-exhibit">Arctic Exhibit</option>
+            <option value="rainforest-adventure">Rainforest Adventure</option>
+            <option value="underwater-exploration">Underwater Exploration</option>
+            <option value="reptile-house">Reptile House</option>
+            <option value="bird-sanctuary">Bird Sanctuary</option>
+            <option value="monkey-jungle">Monkey Jungle</option>
+            <option value="childrens-zoo">Children's Zoo</option>
+          </select>
+          <button type="button" id="showSuggestionsBtn" class="mt-4 bg-blue-600 text-white p-2 rounded">Show Suggestions</button>
+          <p id="selectedSuggestion" style="display: none;">You selected: <span id="selectedSuggestionName"></span></p>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Videos Screen -->
+    <div id="videosScreen" class="content-screen video-screen">
+      <h1 class="text-2xl font-bold">Videos</h1>
+      <div class="video-wrapper mt-4">
+        <div class="video-thumbnails">
+          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style="" alt="Arctic Exhibit - Penguins" class="w-full h-auto mt-2 rounded border-2 border-gray-300">
+        </div>
+        <h2 class="text-xl font-semibold mt-4">Video Playlist (Latest News!)</h2>
+        <div class="video-controls mt-4">
+          <select id="video-dropdown" aria-label="Select Video Description" class="w-full border border-gray-300 p-2 rounded">
+            <option value="arctic-exhibit">Arctic Exhibit: Polar Bear Cubs Born! ❄️</option>
+            <option value="rainforest-adventure">Rainforest Adventure: New Monkey Species Discovered!</option>
+            <option value="underwater-exploration">Underwater Exploration: Great Barrier Reef Shows Signs of
+              Recovery! 🪸</option>
+          </select>
+        </div>
+        <div class="video-description mt-4">
+          <p id="video-title" class="font-bold">Vision Week - Virtual Exploration</p>
+          <p id="video-description-text"></p>
+        </div>
+        <div id="video-container" class="mt-4">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Arctic Exhibit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Profile Screen -->
+    <div id="profileScreen" class="content-screen profile-screen">
+      <h1 class="text-2xl font-bold">User Profile</h1>
+      <p>Manage your profile and subscription details.</p>
+      <div class="profile-content mt-4">
+        <img src="https://images.pexels.com/photos/6853428/pexels-photo-6853428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile Picture" class="profile-image mt-2 rounded-full">
+        <a href="#" class="edit-profile-image text-blue-600">Edit profile image</a>
+        <div class="profile-details mt-4">
+          <div class="profile-item">
+            <span class="profile-label font-semibold">Name</span>
+            <span class="profile-value ml-2">Helène Hills</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold">Username</span>
+            <span class="profile-value ml-2">@username</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold">Email</span>
+            <span class="profile-value ml-2">name@domain.com</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold">Links</span>
+            <span class="profile-value ml-2">website.net</span>
+            <span class="profile-value ml-2">mylink.net</span>
+            <span class="profile-value ml-2">yourlink.net</span>
+            <a href="#" class="add-link text-blue-600">+ Add link</a>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold">Bio</span>
+            <span class="profile-value ml-2">A description of this user.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Enquête, UX Design Thinking -->
+  <div class="cloud-button">
+    <a href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" target="_blank">
+      <button class="cloud-btn">Démarrez avec la première étape du design thinking : l'empathie. Remplissez le sondage et accédez à l'application maintenant !</button>
+    </a>
+  </div>
+  <!-- Geometric Shapes -->
+  <div class="circle"></div>
+  <div class="cube"></div>
+  <div class="geometric"></div>
+  <footer>
+    <!-- Title for the Color Palette Section -->
+    <h4 class="mt-4 text-lg font-semibold">Color Palette</h4>
+    <!-- Color Palette Blocks -->
+    <div class="palette mt-2">
+      <!-- Color Block: Dark Slate Blue -->
+      <div class="color-block" style="background-color: #34495e;" data-color="#34495e"></div>
+      <!-- Color Block: Vibrant Green -->
+      <div class="color-block" style="background-color: #2ecc71;" data-color="#2ecc71"></div>
+      <!-- Color Block: Bright Red -->
+      <div class="color-block" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+      <!-- Color Block: Clean Bright Blue -->
+      <div class="color-block" style="background-color: #3498db;" data-color="#3498db"></div>
+      <!-- Color Block: Warm Yellow -->
+      <div class="color-block" style="background-color: #f1c40f;" data-color="#f1c40f"></div>
+    </div>
+    <!-- Hover Pop-up -->
+    <div class="hover-popup mt-2" id="hoverPopup">
+      <p id="hoverText"></p>
+    </div>
+  
+    <!-- Title for the Wireframe Section -->
+    <h4 class="mt-4 text-lg font-semibold">Wireframe</h4>
+    <div class="palette mt-2">
+      <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2Fo0QfKg0hU9gXxHe6FEoxVn%2Foutput-wireframe%3Fnode-id%3D0-1%26t%3DIjYiKe90qYtWzHCy-1" allowfullscreen></iframe>
+    </div>
+  
+    <!-- Footer Link -->
+    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="view my codepens">Made by Kvnbbg</a>
+  </footer>
+  </div>
+
+  <script src="scripts.js"></script>
 </body>
 </html>

@@ -1,11 +1,29 @@
+/// The above code sets up a Flutter application with Firebase integration, including Firebase Analytics
+/// and Cloud Firestore, to display different tabs for a Vision Week app.
 import 'package:flutter/material.dart';
+// Importing Firebase core package
 import 'package:firebase_core/firebase_core.dart';
+
+// Importing Firebase Analytics package
 import 'package:firebase_analytics/firebase_analytics.dart';
+
+// Importing Firebase Analytics observer package
 import 'package:firebase_analytics/observer.dart';
 
+// Importing Cloud Firestore package
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 void main() async {
+  // Ensuring Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+  // Initializing Firebase
   await Firebase.initializeApp();
+  // Configuring Firestore settings
+  FirebaseFirestore.instance.settings = Settings(
+    persistenceEnabled: true,
+    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+  );
+  // Running the main application
   runApp(SemaineVisionApp());
 }
 
@@ -17,6 +35,7 @@ class SemaineVisionApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      // Adding Firebase Analytics observer
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
       ],
@@ -34,6 +53,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
+  // List of widget options for different tabs
   static List<Widget> _widgetOptions = <Widget>[
     EcranAccueil(),
     EcranProfil(),
@@ -43,10 +63,12 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     EcranParametres(),
   ];
 
+  // Handling tab selection
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    // Logging tab change event to Firebase Analytics
     _analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
   }
 
@@ -56,7 +78,11 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
       appBar: AppBar(
         title: Text('Semaine Vision'),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300),
+        // Displaying the selected widget
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -86,6 +112,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.blue,
+        // Handling item tap
         onTap: _onItemTapped,
       ),
     );
