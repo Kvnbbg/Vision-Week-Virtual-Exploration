@@ -135,3 +135,24 @@ function submitAnswers() {
   popup.close();
   alert("Thank you for taking the quiz! Your answers have been stored.");
 }
+
+// Index page functionality
+fetch('./database/animals_saved.php')
+    .then(response => response.json())
+/**
+ * Updates the text content of the HTML element with the ID 'animalsSaved'
+ * to display the number of animals saved.
+ *
+ * @param {Object} data - The data object containing the number of animals saved.
+ * @param {number} data.animals_saved - The number of animals saved.
+ */
+/**
+ * Updates the text content of the HTML element with the ID 'animalsSaved'
+ * to display the number of animals saved.
+ *
+ * @param {Object} data - The data object containing the number of animals saved.
+ * @param {number} data.animals_saved - The number of animals saved.
+ */
+.then(data => {
+  document.getElementById('animalsSaved').textContent = data.animals_saved;
+});

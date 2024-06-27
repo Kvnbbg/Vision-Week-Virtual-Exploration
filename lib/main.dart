@@ -8,7 +8,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 
 // Importing Firebase Analytics observer package
-import 'package:firebase_analytics/observer.dart';
 
 // Importing Cloud Firestore package
 import 'package:cloud_firestore/cloud_firestore.dart';

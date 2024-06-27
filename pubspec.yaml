@@ -16,9 +16,12 @@ dependencies:
   google_sign_in: ^6.2.1
   firebase_analytics: ^11.0.1
 
+  http: any
+  xml: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
+   flutter: any
 flutter:
   uses-material-design: true
