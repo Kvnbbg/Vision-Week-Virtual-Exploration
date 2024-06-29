@@ -4,7 +4,6 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   background-color: var(--background-color);
-  color: var(--text-color);
   margin: 0;
   padding: 0;
   transition: background-color 0.3s, color 0.3s;
@@ -319,7 +318,10 @@ body::after {
   font-weight: bold;
 }
 
-.sign-in-screen {
+.sign-in-screen,
+.login-screen,
+.sign-up-screen,
+.forgot-password-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -329,7 +331,13 @@ body::after {
 }
 
 .sign-in-screen input,
-.sign-in-screen button {
+.sign-in-screen button,
+.login-screen input,
+.login-screen button,
+.sign-up-screen input,
+.sign-up-screen button,
+.forgot-password-screen input,
+.forgot-password-screen button {
   width: 80%;
   max-width: 400px;
   margin: 0.5rem 0;
@@ -338,7 +346,9 @@ body::after {
   border-radius: 5px;
 }
 
-.sign-in-screen button {
+.sign-in-screen button,
+.login-screen button,
+.sign-up-screen button {
   background-color: var(--primary-color);
   color: #fff;
   border: none;
@@ -346,8 +356,14 @@ body::after {
   transition: background-color 0.3s;
 }
 
-.sign-in-screen button:hover {
+.sign-in-screen button:hover,
+.login-screen button:hover,
+.sign-up-screen button:hover {
   background-color: var(--secondary-color);
+}
+
+.login-screen {
+  transform: scale(1.1);
 }
 
 .welcome-screen {
@@ -394,68 +410,17 @@ body::after {
   background: #3da76f;
 }
 
-.home-screen {
-  padding: 2rem;
-}
-
-.home-screen .post {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.home-screen .post img {
-  width: 100%;
-  border-radius: 10px;
-}
-
-.vr-screen {
-  padding: 2rem;
-}
-
-.vr-screen .vr-content {
-  background: #fff;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.vr-screen .controls {
-  margin-top: 1rem;
-}
-
-.map-screen {
-  padding: 2rem;
-}
-
-.map-screen .map-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.video-screen {
-  padding: 2rem;
-}
-
-.video-screen .video-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: #fff;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
+.home-screen,
+.vr-screen,
+.map-screen,
+.video-screen,
 .profile-screen {
   padding: 2rem;
 }
 
+.home-screen .post,
+.vr-screen .vr-content,
+.video-screen .video-wrapper,
 .profile-screen .profile-content {
   display: flex;
   flex-direction: column;
@@ -464,6 +429,12 @@ body::after {
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-screen .post img,
+.profile-screen .profile-content img {
+  width: 100%;
+  border-radius: 10px;
 }
 
 .cloud-button {
