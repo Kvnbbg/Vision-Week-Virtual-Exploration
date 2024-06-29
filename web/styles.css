@@ -2,16 +2,34 @@
 
 /* General styles */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+:root {
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --accent-color: #00ffcc;
+  --footer-bg-color: #061727;
+}
+
+[data-theme="dark"] {
+  --background-color: #333;
+  --text-color: #f5f5f5;
+  --primary-color: #2980b9;
+  --secondary-color: #3498db;
+  --accent-color: #4fc08d;
+  --footer-bg-color: #000;
 }
 
 nav {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   padding: 1rem;
   position: fixed;
   width: 100%;
@@ -48,14 +66,14 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  color: #3498db;
+  color: var(--primary-color);
   background-color: #fff;
   border-radius: 20px;
 }
 
 nav ul li a:active {
   color: white;
-  background-color: #2980b9;
+  background-color: var(--secondary-color);
 }
 
 .container {
@@ -75,7 +93,7 @@ nav ul li a:active {
 }
 
 footer {
-  background-color: #061727;
+  background-color: var(--footer-bg-color);
   color: white;
   padding: 1rem;
   text-align: center;
@@ -93,12 +111,7 @@ footer .social-icon {
 }
 
 footer .social-icon:hover {
-  color: #00ffcc;
-}
-
-footer .social-icon svg {
-  width: 24px;
-  height: 24px;
+  color: var(--accent-color);
 }
 
 .home-stats {
@@ -108,7 +121,7 @@ footer .social-icon svg {
 }
 
 .home-stats .stat {
-  background-color: #00ffcc;
+  background-color: var(--accent-color);
   padding: 1rem;
   border-radius: 8px;
   text-align: center;
@@ -118,7 +131,7 @@ footer .social-icon svg {
 
 .home-stats .stat:hover {
   transform: scale(1.05);
-  background-color: #061727;
+  background-color: var(--footer-bg-color);
   color: white;
 }
 
@@ -145,7 +158,7 @@ footer .social-icon svg {
 }
 
 .vr-content .controls button {
-  background-color: #00ffcc;
+  background-color: var(--accent-color);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -154,7 +167,7 @@ footer .social-icon svg {
 }
 
 .vr-content .controls button:hover {
-  background-color: #061727;
+  background-color: var(--footer-bg-color);
   color: white;
   transform: scale(1.1);
 }
@@ -167,7 +180,7 @@ footer .social-icon svg {
 }
 
 .profile-content button {
-  background-color: #00ffcc;
+  background-color: var(--accent-color);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -176,7 +189,7 @@ footer .social-icon svg {
 }
 
 .profile-content button:hover {
-  background-color: #061727;
+  background-color: var(--footer-bg-color);
   color: white;
   transform: scale(1.1);
 }
@@ -185,7 +198,6 @@ img {
   border-radius: 10px;
 }
 
-/* Welcome pop-up styles */
 .welcome-popup {
   position: fixed;
   top: 0;
@@ -223,16 +235,15 @@ img {
 
 .welcome-content h2 {
   font-size: 24px;
-  color: #061727;
+  color: var(--footer-bg-color);
   margin-bottom: 10px;
 }
 
 .welcome-content p {
   font-size: 18px;
-  color: #333;
+  color: var(--text-color);
 }
 
-/* Animations */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -246,7 +257,6 @@ img {
   animation: fadeIn 1s;
 }
 
-/* Geometric shapes */
 body::before {
   content: "";
   position: fixed;
@@ -282,7 +292,6 @@ body::after {
   }
 }
 
-/* Color Palette */
 .palette .color-block {
   width: 50px;
   height: 50px;
@@ -296,7 +305,6 @@ body::after {
   transform: scale(1.1);
 }
 
-/* Profile Details */
 .profile-details {
   display: flex;
   flex-direction: column;
@@ -311,7 +319,6 @@ body::after {
   font-weight: bold;
 }
 
-/* Specific styles based on wireframe */
 .sign-in-screen {
   display: flex;
   flex-direction: column;
@@ -332,7 +339,7 @@ body::after {
 }
 
 .sign-in-screen button {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   cursor: pointer;
@@ -340,7 +347,7 @@ body::after {
 }
 
 .sign-in-screen button:hover {
-  background-color: #2980b9;
+  background-color: var(--secondary-color);
 }
 
 .welcome-screen {
@@ -374,7 +381,7 @@ body::after {
   height: auto;
   border-radius: 10px;
   margin-bottom: 1rem;
-  background: #4fc08d;
+  background: var(--accent-color);
   color: #fff;
   border: none;
   padding: 10px 20px;
