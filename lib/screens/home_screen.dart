@@ -1,7 +1,6 @@
 /// The `HomeScreen` class in Dart represents the home screen of an app for exploring a virtual zoo
 /// during Vision Week.
 import 'package:flutter/material.dart';
-import 'map_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -35,4 +34,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
