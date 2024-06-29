@@ -128,8 +128,8 @@ footer .social-icon:hover {
 }
 
 /* Popup styles */
-.login-popup,
-.welcome-popup {
+.welcome-popup,
+.login-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -142,39 +142,30 @@ footer .social-icon:hover {
   z-index: 1000;
   transition: opacity 0.5s;
 }
-.login-popup .popup-content,
-.login-popup .welcome-content,
+.welcome-popup img,
+.login-popup img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+.welcome-popup img:hover,
+.login-popup img:hover {
+  transform: scale(1.05);
+}
+.welcome-popup .welcome-content,
 .welcome-popup .popup-content,
-.welcome-popup .welcome-content {
-  background: #fff;
+.login-popup .welcome-content,
+.login-popup .popup-content {
+  max-width: 500px;
+  width: 90%;
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+  background: #fff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 90%;
-}
-.login-popup .popup-content h2,
-.login-popup .welcome-content h2,
-.welcome-popup .popup-content h2,
-.welcome-popup .welcome-content h2 {
-  font-size: 24px;
-  color: var(--footer-bg-color);
-  margin-bottom: 10px;
-}
-.login-popup .popup-content p,
-.login-popup .welcome-content p,
-.welcome-popup .popup-content p,
-.welcome-popup .welcome-content p {
-  font-size: 18px;
-  color: var(--text-color);
-}
-.login-popup .popup-content:hover,
-.login-popup .welcome-content:hover,
-.welcome-popup .popup-content:hover,
-.welcome-popup .welcome-content:hover {
-  background: #b2ebf2;
-  transform: translateY(-5px);
 }
 
 /* Animations */
