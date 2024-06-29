@@ -72,7 +72,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profil',
+            label: 'Profilo',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
@@ -138,5 +138,42 @@ class EcranParametres extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: Text('Paramètres'));
+  }
+}
+
+class WelcomeScreen extends StatefulWidget {
+  @override
+  _WelcomeScreenState createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Semaine Vision'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Bienvenue à la Semaine Vision !',
+              style: TextStyle(fontSize: 24),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => EcranPrincipal()),
+                );
+              },
+              child: Text('Commencer'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
