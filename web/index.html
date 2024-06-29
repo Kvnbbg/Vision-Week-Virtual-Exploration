@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <favicon href="https://emojipedia.org/earth-globe-europe-africa/" /> 
+  <link rel="icon" href="https://emojipedia.org/earth-globe-europe-africa/">
   <link rel="stylesheet" href="styles.css">
   <title>Vision Week - Exploration Virtuelle</title>
 </head>
@@ -22,7 +22,7 @@
   <section class="container mx-auto p-4" id="content">
     <!-- Home Screen -->
     <section id="homeScreen" class="content-screen active home-screen">
-      <h1 class="text-2xl font-bold">Welcome to Vision Week !</h1>
+      <h1 class="text-2xl font-bold">Welcome to Vision Week!</h1>
       <p>Explore the world about the animals.</p>
       <article class="post mt-4">
         <h2 class="text-xl font-semibold">Polar Bears in the Arctic</h2>
@@ -44,18 +44,17 @@
       <p>Experience an immersive tour of the zoo.</p>
       <div class="vr-content mt-4">
         <h2 class="text-xl font-semibold">Comfort Headset</h2>
-        <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
-          <iframe width="387" height="688" src="https://www.youtube.com/embed/n4apFUAQSpM" title="VR Headset Concept Design: Comfortable 3D Prototype ☕️ (CodePen Test App Included)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="mt-4 rounded">
+          <iframe width="387" height="688" src="https://www.youtube.com/embed/n4apFUAQSpM" title="VR Headset Concept Design" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <p class="mt-2">Put on your VR headset and explore the Arctic habitat, home to polar bears, seals, and more.</p>
         <h2 class="text-xl font-semibold mt-4">Modern Headset</h2>
-        <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
-          <iframe width="387" height="688" src="https://www.youtube.com/embed/oGc869x2KOI" title="Modern VR Headset Concept: Sleek Design Meets Next-Gen Usability  (CodePen Test App Included)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <div class="mt-4 rounded">
+          <iframe width="387" height="688" src="https://www.youtube.com/embed/oGc869x2KOI" title="Modern VR Headset Concept" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
         <p class="mt-2">A combination of metallic and transparent materials.</p>
         <h2 class="text-xl font-semibold mt-4">Navigation Control</h2>
-        <p>Utilisez les contrôles de navigation pour vous déplacer librement et profiter pleinement de votre visite
-          virtuelle.</p>
+        <p>Utilisez les contrôles de navigation pour vous déplacer librement et profiter pleinement de votre visite virtuelle.</p>
         <div id="control-area-in-the-virtual-world" class="flex justify-around mt-4">
           <p aria-label="Directional controls">
             <img src="https://emojipedia.org/up-arrow" alt="Up" aria-label="Up" class="w-8 h-8">
@@ -71,18 +70,18 @@
     <div id="mapScreen" class="content-screen map-screen">
       <h1 class="text-2xl font-bold">Interactive Map</h1>
       <p>Find your way around the zoo with our interactive 3D map.</p>
-      <div style="width: 100%; height: auto; margin-top: 2em; border-radius: 5px;">
-        <iframe width="387" height="688" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explore the World Like Never Before 🌎🌏 Interactive 3D Map for a Virtual Zoo Adventure ️ #coding" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      <div class="mt-4 rounded">
+        <iframe width="387" height="688" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explore the World - Interactive 3D Map" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
       <div class="map-content mt-4">
         <h2 class="text-xl font-semibold">Favorite Place</h2>
-        <p>Explore different sections of the zoo and locate your favorite animals. Point d’intérêts</p>
+        <p>Explore different sections of the zoo and locate your favorite animals.</p>
         <div class="favorite-place mt-4">
           <h3 class="text-lg font-semibold">Tell us about your favorite place:</h3>
           <label for="favoritePlaceInput" class="block mt-2">Enter your favorite place name:</label>
-          <input type="text" id="favoritePlaceInput" name="favoritePlace" placeholder="e.g., Arctic Exhibit, Rainforest Adventure" class="w-full border border-gray-300 p-2 mt-2 rounded">
+          <input type="text" id="favoritePlaceInput" placeholder="e.g., Arctic Exhibit, Rainforest Adventure" class="w-full border border-gray-300 p-2 mt-2 rounded">
           <label for="favoritePlaceSuggestions" class="block mt-4">Or choose from a suggestion:</label>
-          <select id="favoritePlaceSuggestions" aria-label="Favorite Place Suggestions" hidden class="w-full border border-gray-300 p-2 mt-2 rounded">
+          <select id="favoritePlaceSuggestions" hidden class="w-full border border-gray-300 p-2 mt-2 rounded">
             <option value="">-- Select a Suggestion --</option>
             <option value="arctic-exhibit">Arctic Exhibit</option>
             <option value="rainforest-adventure">Rainforest Adventure</option>
@@ -103,15 +102,14 @@
       <h1 class="text-2xl font-bold">Videos</h1>
       <div class="video-wrapper mt-4">
         <div class="video-thumbnails">
-          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" style="" alt="Arctic Exhibit - Penguins" class="w-full h-auto mt-2 rounded border-2 border-gray-300">
+          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Arctic Exhibit - Penguins" class="w-full h-auto mt-2 rounded border-2 border-gray-300">
         </div>
         <h2 class="text-xl font-semibold mt-4">Video Playlist (Latest News!)</h2>
         <div class="video-controls mt-4">
-          <select id="video-dropdown" aria-label="Select Video Description" class="w-full border border-gray-300 p-2 rounded">
+          <select id="video-dropdown" class="w-full border border-gray-300 p-2 rounded">
             <option value="arctic-exhibit">Arctic Exhibit: Polar Bear Cubs Born! ❄️</option>
             <option value="rainforest-adventure">Rainforest Adventure: New Monkey Species Discovered!</option>
-            <option value="underwater-exploration">Underwater Exploration: Great Barrier Reef Shows Signs of
-              Recovery! 🪸</option>
+            <option value="underwater-exploration">Underwater Exploration: Great Barrier Reef Shows Signs of Recovery! 🪸</option>
           </select>
         </div>
         <div class="video-description mt-4">
@@ -119,7 +117,7 @@
           <p id="video-description-text"></p>
         </div>
         <div id="video-container" class="mt-4">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Arctic Exhibit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Arctic Exhibit" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -159,29 +157,25 @@
       </div>
     </div>
   </section>
-</main>
-<!-- Footer & features -->
-  <!-- Enquête, UX Design Thinking -->
+
+  <!-- Footer & features -->
   <div class="cloud-button">
     <a href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" target="_blank">
       <button class="cloud-btn">Démarrez avec la première étape du design thinking : l'empathie. Remplissez le sondage et accédez à l'application maintenant !</button>
     </a>
   </div>
+
   <!-- Geometric Shapes -->
   <div class="circle"></div>
   <div class="cube"></div>
   <div class="geometric"></div>
+
   <footer>
-    <!-- Hover Pop-up -->
     <div class="hover-popup mt-2" id="hoverPopup">
       <p id="hoverText"></p>
     </div>
-
-  
-    <!-- Footer Link -->
-    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="view my codepens">Made by Kvnbbg, tne animator</a>
+    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="view my codepens">Made by Kvnbbg, the animator</a>
   </footer>
-  </div>
 
   <script src="scripts.js"></script>
 </body>
