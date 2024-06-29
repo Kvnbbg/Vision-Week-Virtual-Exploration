@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
 
-    fetch("signin.php", {
+    fetch("./backend/signin.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.querySelector("#regEmail").value;
     const password = document.querySelector("#regPassword").value;
 
-    fetch("register.php", {
+    fetch("/backend/register.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -172,6 +172,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
   });
 
+  const toggleThemeButton = document.getElementById('toggleTheme');
+
+toggleThemeButton.addEventListener('click', () => {
+  document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+});
+
+  
   /**
    * Elements for favorite place suggestions.
    */
