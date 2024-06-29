@@ -230,6 +230,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "petitparser",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "plugin_platform_interface",
       "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
@@ -302,13 +308,19 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/xml-6.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "vision_week_virtual_exploration",
       "rootUri": "../",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-06-25T18:20:38.200717Z",
+  "generated": "2024-06-29T17:01:07.631597Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter",
