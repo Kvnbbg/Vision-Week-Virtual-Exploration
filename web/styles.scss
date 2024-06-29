@@ -1,4 +1,5 @@
 @import "https://unpkg.com/leaflet/dist/leaflet.css";
+
 /* Variables */
 :root {
   --background-color: #f5f5f5;
@@ -9,7 +10,7 @@
   --footer-bg-color: #061727;
 }
 
-[data-theme=dark] {
+[data-theme="dark"] {
   --background-color: #333;
   --text-color: #f5f5f5;
   --primary-color: #2980b9;
@@ -38,35 +39,40 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-nav ul {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  justify-content: space-around;
-  margin: 0;
-  width: 100%;
-}
-nav ul li {
-  margin: 0 1rem;
-  border-radius: 20px;
-}
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s, background-color 0.3s;
-  padding: 0.5rem 1rem;
-  display: block;
-  text-align: center;
-}
-nav ul li a:hover {
-  color: var(--primary-color);
-  background-color: #fff;
-}
-nav ul li a:active {
-  color: white;
-  background-color: var(--secondary-color);
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    width: 100%;
+
+    li {
+      margin: 0 1rem;
+      border-radius: 20px;
+
+      a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s, background-color 0.3s;
+        padding: 0.5rem 1rem;
+        display: block;
+        text-align: center;
+
+        &:hover {
+          color: var(--primary-color);
+          background-color: #fff;
+        }
+
+        &:active {
+          color: white;
+          background-color: var(--secondary-color);
+        }
+      }
+    }
+  }
 }
 
 /* Content styles */
@@ -84,29 +90,32 @@ a {
   color: var(--primary-color);
   text-decoration: none;
   transition: color 0.3s;
-}
-a:hover {
-  color: var(--secondary-color);
+
+  &:hover {
+    color: var(--secondary-color);
+  }
 }
 
 .button-container {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-}
-.button-container button {
-  margin: 0 0.5rem;
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-.button-container button:hover {
-  background-color: var(--secondary-color);
-  transform: scale(1.1);
+
+  button {
+    margin: 0 0.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+
+    &:hover {
+      background-color: var(--secondary-color);
+      transform: scale(1.1);
+    }
+  }
 }
 
 /* Footer */
@@ -118,13 +127,15 @@ footer {
   position: relative;
   width: 100%;
   bottom: 0;
-}
-footer .social-icon {
-  margin: 0 0.5rem;
-  transition: color 0.3s;
-}
-footer .social-icon:hover {
-  color: var(--accent-color);
+
+  .social-icon {
+    margin: 0 0.5rem;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
 }
 
 /* Popup styles */
@@ -141,40 +152,33 @@ footer .social-icon:hover {
   justify-content: center;
   z-index: 1000;
   transition: opacity 0.5s;
-}
-.login-popup .popup-content,
-.login-popup .welcome-content,
-.welcome-popup .popup-content,
-.welcome-popup .welcome-content {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  width: 90%;
-}
-.login-popup .popup-content h2,
-.login-popup .welcome-content h2,
-.welcome-popup .popup-content h2,
-.welcome-popup .welcome-content h2 {
-  font-size: 24px;
-  color: var(--footer-bg-color);
-  margin-bottom: 10px;
-}
-.login-popup .popup-content p,
-.login-popup .welcome-content p,
-.welcome-popup .popup-content p,
-.welcome-popup .welcome-content p {
-  font-size: 18px;
-  color: var(--text-color);
-}
-.login-popup .popup-content:hover,
-.login-popup .welcome-content:hover,
-.welcome-popup .popup-content:hover,
-.welcome-popup .welcome-content:hover {
-  background: #b2ebf2;
-  transform: translateY(-5px);
+
+  .popup-content,
+  .welcome-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+
+    h2 {
+      font-size: 24px;
+      color: var(--footer-bg-color);
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      color: var(--text-color);
+    }
+
+    &:hover {
+      background: #b2ebf2;
+      transform: translateY(-5px);
+    }
+  }
 }
 
 /* Animations */
@@ -186,6 +190,7 @@ footer .social-icon:hover {
     opacity: 1;
   }
 }
+
 .content-screen {
   animation: fadeIn 1s;
 }
@@ -201,6 +206,7 @@ footer .social-icon:hover {
     transform: translateY(0);
   }
 }
+
 @keyframes move {
   0% {
     transform: translate(0, 0);
@@ -209,6 +215,7 @@ footer .social-icon:hover {
     transform: translate(50px, 50px);
   }
 }
+
 /* Additional styles */
 .home-stats .stat,
 .map-screen .map-controls button,
@@ -216,14 +223,10 @@ footer .social-icon:hover {
 .vr-content .controls button {
   background-color: var(--accent-color);
   transition: background-color 0.3s, transform 0.3s;
-}
-.home-stats .stat:hover,
-.map-screen .map-controls button:hover,
-.profile-content button:hover,
-.vr-content .controls button:hover {
-  background-color: var(--footer-bg-color);
-  color: white;
-  transform: scale(1.1);
-}
 
-/*# sourceMappingURL=styles.css.map */
+  &:hover {
+    background-color: var(--footer-bg-color);
+    color: white;
+    transform: scale(1.1);
+  }
+}
