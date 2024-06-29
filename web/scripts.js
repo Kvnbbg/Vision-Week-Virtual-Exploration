@@ -1,7 +1,16 @@
+/**
+ * Initializes event listeners and dynamic content for the webpage once the DOM is fully loaded.
+ */
 document.addEventListener("DOMContentLoaded", function () {
+  /**
+   * Navigation links and content screens.
+   */
   const navLinks = document.querySelectorAll("nav ul li a");
   const contentScreens = document.querySelectorAll(".content-screen");
 
+  /**
+   * Adds click event listeners to navigation links to toggle active content screens.
+   */
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
       e.preventDefault();
@@ -13,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  /**
+   * Creates and appends the login popup to the document body.
+   */
   const loginPopup = document.createElement("div");
   loginPopup.className = "login-popup";
   loginPopup.innerHTML = `
@@ -33,6 +45,9 @@ document.addEventListener("DOMContentLoaded", function () {
   loginPopup.style.transition = "opacity 0.5s ease";
   loginPopup.style.opacity = "1";
 
+  /**
+   * Adds click event listener to the login button to handle user login.
+   */
   document.getElementById("loginButton").addEventListener("click", function () {
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
@@ -62,6 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  /**
+   * Creates and appends the registration popup to the document body.
+   */
   const registerPopup = document.createElement("div");
   registerPopup.className = "register-popup";
   registerPopup.innerHTML = `
@@ -77,6 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
   registerPopup.style.display = "none";
   document.body.appendChild(registerPopup);
 
+  /**
+   * Adds click event listener to the register button to handle user registration.
+   */
   document.getElementById("registerButton").addEventListener("click", function () {
     const name = document.querySelector("#regName").value;
     const email = document.querySelector("#regEmail").value;
@@ -105,18 +126,27 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   });
 
+  /**
+   * Adds click event listener to show the registration popup.
+   */
   document.getElementById("showRegister").addEventListener("click", function (e) {
     e.preventDefault();
     loginPopup.style.display = "none";
     registerPopup.style.display = "block";
   });
 
+  /**
+   * Adds click event listener to show the login popup.
+   */
   document.getElementById("showLogin").addEventListener("click", function (e) {
     e.preventDefault();
     registerPopup.style.display = "none";
     loginPopup.style.display = "block";
   });
 
+  /**
+   * Creates and appends the welcome popup to the document body.
+   */
   const welcomePopup = document.createElement("div");
   welcomePopup.className = "welcome-popup";
   welcomePopup.innerHTML = `
@@ -131,6 +161,9 @@ document.addEventListener("DOMContentLoaded", function () {
   `;
   document.body.appendChild(welcomePopup);
 
+  /**
+   * Adds click event listener to hide the welcome popup.
+   */
   welcomePopup.addEventListener("click", function () {
     welcomePopup.style.transition = "opacity 0.5s ease";
     welcomePopup.style.opacity = "0";
@@ -139,11 +172,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
   });
 
+  /**
+   * Elements for favorite place suggestions.
+   */
   const showSuggestionsBtn = document.getElementById("showSuggestionsBtn");
   const favoritePlaceSuggestions = document.getElementById("favoritePlaceSuggestions");
   const selectedSuggestion = document.getElementById("selectedSuggestion");
   const selectedSuggestionName = document.getElementById("selectedSuggestionName");
 
+  /**
+   * Adds click event listener to toggle the visibility of favorite place suggestions.
+   */
   showSuggestionsBtn?.addEventListener("click", () => {
     favoritePlaceSuggestions.hidden = !favoritePlaceSuggestions.hidden;
     if (favoritePlaceSuggestions.hidden) {
@@ -152,6 +191,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  /**
+   * Adds change event listener to update the selected suggestion display.
+   */
   favoritePlaceSuggestions?.addEventListener("change", () => {
     const selectedOption = favoritePlaceSuggestions.value;
     if (selectedOption) {
