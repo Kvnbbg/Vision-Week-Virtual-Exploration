@@ -62,7 +62,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
       ),
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _widgetOptions[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -72,7 +72,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profilo',
+            label: 'Profil',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
