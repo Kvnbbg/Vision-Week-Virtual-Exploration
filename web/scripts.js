@@ -173,7 +173,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   const toggleThemeButton = document.getElementById('toggleTheme');
-
+/**
+ * Adds an event listener to the toggleThemeButton to switch between light and dark themes.
+ * When the button is clicked, the theme is toggled by changing the 'data-theme' attribute
+ * on the document body.
+ */
 toggleThemeButton.addEventListener('click', () => {
   document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
 });
