@@ -75,6 +75,731 @@ nav ul li a:active {
   background-color: var(--secondary-color);
 }
 
+div {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+p {
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.login-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.login-popup .popup-content {
+  background: #e0f7fa;
+  border: 1px solid #b2ebf2;
+  color: #00796b;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s;
+  animation: float 5s ease-in-out infinite;
+}
+
+.login-popup .popup-content:hover {
+  background: #b2ebf2;
+  transform: translateY(-5px);
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.button-container button {
+  margin: 0 0.5rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.map-screen {
+  height: 500px;
+}
+
+.map-screen #map {
+  height: 100%;
+}
+
+.map-screen .map-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.map-screen .map-controls button {
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.map-screen .map-controls button:hover {
+  background-color: var(--footer-bg-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.map-screen .map-controls .search-bar {
+  width: 300px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.map-screen .map-container {
+  margin-top: 80px;
+}
+
+.content-screen {
+  display: none;
+  padding: 2rem;
+  opacity: 0.4;
+  transition: opacity 0.8s;
+}
+
+.content-screen.active {
+  display: block;
+  opacity: 1;
+}
+
+footer {
+  background-color: var(--footer-bg-color);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: auto;
+  bottom: 0;
+}
+
+footer .social-icon {
+  margin: 0 0.5rem;
+  color: white;
+  display: inline-block;
+  transition: color 0.3s;
+}
+
+footer .social-icon:hover {
+  color: var(--accent-color);
+}
+
+.home-stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+}
+
+.home-stats .stat {
+  background-color: var(--accent-color);
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  width: 45%;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.home-stats .stat:hover {
+  transform: scale(1.05);
+  background-color: var(--footer-bg-color);
+  color: white;
+}
+
+.vr-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+
+.vr-content img:hover {
+  transform: scale(1.05);
+}
+
+.vr-content .controls {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 1rem;
+  padding: 1rem;
+}
+
+.vr-content .controls button {
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.vr-content .controls button:hover {
+  background-color: var(--footer-bg-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.profile-content img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.profile-content button {
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.profile-content button:hover {
+  background-color: var(--footer-bg-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+img {
+  border-radius: 10px;
+}
+
+.welcome-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.welcome-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+}
+
+.welcome-content img {
+  max-width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.welcome-content .welcome-text {
+  margin-top: 10px;
+}
+
+.welcome-content h2 {
+  font-size: 24px;
+  color: var(--footer-bg-color);
+  margin-bottom: 10px;
+}
+
+.welcome-content p {
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.content-screen {
+  animation: fadeIn 1s;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  background: rgba(0, 255, 204, 0.2);
+  border-radius: 50%;
+  top: 20%;
+  left: 10%;
+  z-index: -1;
+  animation: move 10s infinite alternate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 204, 0, 0.2);
+  border-radius: 50%;
+  bottom: 20%;
+  right: 10%;
+  z-index: -1;
+  animation: move 15s infinite alternate-reverse;
+}
+
+@keyframes move {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.palette .color-block {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  margin: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.palette .color-block:hover {
+  transform: scale(1.1);
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.profile-item {
+  margin-bottom: 0.5rem;
+}
+
+.profile-label {
+  font-weight: bold;
+}
+
+.sign-in-screen,
+.login-screen,
+.sign-up-screen,
+.forgot-password-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #fff;
+}
+
+.sign-in-screen input,
+.sign-in-screen button,
+.login-screen input,
+.login-screen button,
+.sign-up-screen input,
+.sign-up-screen button,
+.forgot-password-screen input,
+.forgot-password-screen button {
+  width: 80%;
+  max-width: 400px;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.sign-in-screen button,
+.login-screen button,
+.sign-up-screen button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sign-in-screen button:hover,
+.login-screen button:hover,
+.sign-up-screen button:hover {
+  background-color: var(--secondary-color);
+}
+
+.login-screen {
+  transform: scale(1.1);
+}
+
+.welcome-screen {
+  padding: 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.welcome-screen h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.welcome-screen p {
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.welcome-screen img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.welcome-screen .welcome-btn {
+  background: var(--accent-color);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.3s;
+}
+
+.welcome-screen .welcome-btn:hover {
+  background: #3da76f;
+}
+
+.home-screen,
+.vr-screen,
+.map-screen,
+.video-screen,
+.profile-screen {
+  padding: 2rem;
+}
+
+.home-screen .post,
+.vr-screen .vr-content,
+.video-screen .video-wrapper,
+.profile-screen .profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.home-screen .post img,
+.profile-screen .profile-content img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.cloud-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  animation: float 5s ease-in-out infinite;
+}
+
+.cloud-btn {
+  background: #e0f7fa;
+  border: 1px solid #b2ebf2;
+  color: #00796b;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.cloud-btn:hover {
+  background: #b2ebf2;
+  transform: translateY(-5px);
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@import "https://unpkg.com/leaflet/dist/leaflet.css";
+
+/* General styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+:root {
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --accent-color: #00ffcc;
+  --footer-bg-color: #061727;
+}
+
+[data-theme="dark"] {
+  --background-color: #333;
+  --text-color: #f5f5f5;
+  --primary-color: #2980b9;
+  --secondary-color: #3498db;
+  --accent-color: #4fc08d;
+  --footer-bg-color: #000;
+}
+
+nav {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  width: 100%;
+}
+
+nav ul li {
+  margin: 0 1rem;
+  border-radius: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s, background-color 0.3s;
+  padding: 0.5rem 1rem;
+  display: block;
+  text-align: center;
+}
+
+nav ul li a:hover {
+  color: var(--primary-color);
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+nav ul li a:active {
+  color: white;
+  background-color: var(--secondary-color);
+}
+
+div {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+p {
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: var(--secondary-color);
+}
+
+.login-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  animation: float 5s ease-in-out infinite;
+  background: #e0f7fa;
+  border: 1px solid #b2ebf2;
+  color: #00796b;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.login-popup:hover {
+  background: #b2ebf2;
+  transform: translateY(-5px);
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.button-container button {
+  margin: 0 0.5rem;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(1.1);
+}
+
+.map-screen {
+  height: 500px;
+}
+
+.map-screen #map {
+  height: 100%;
+}
+
+.map-screen .map-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.map-screen .map-controls button {
+  background-color: var(--accent-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.map-screen .map-controls button:hover {
+  background-color: var(--footer-bg-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+.map-screen .map-controls .search-bar {
+  width: 300px;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.map-screen .map
 .container {
   margin-top: 80px;
 }
