@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const navLinks = document.querySelectorAll("nav ul li a");
   const contentScreens = document.querySelectorAll(".content-screen");
 
-  // Navigation functionality with smooth transitions
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
       e.preventDefault();
@@ -14,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Login pop-up with fade-in animation
   const loginPopup = document.createElement("div");
   loginPopup.className = "login-popup";
   loginPopup.innerHTML = `
@@ -59,12 +57,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Network Error:", error);
         alert("An error occurred. Please try again.");
       });
   });
 
-  // Registration pop-up
   const registerPopup = document.createElement("div");
   registerPopup.className = "register-popup";
   registerPopup.innerHTML = `
@@ -103,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Network Error:", error);
         alert("An error occurred. Please try again.");
       });
   });
@@ -120,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
     loginPopup.style.display = "block";
   });
 
-  // Welcome pop-up with fade-out animation
   const welcomePopup = document.createElement("div");
   welcomePopup.className = "welcome-popup";
   welcomePopup.innerHTML = `
@@ -143,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 500);
   });
 
-  // Show suggestions for favorite place
   const showSuggestionsBtn = document.getElementById("showSuggestionsBtn");
   const favoritePlaceSuggestions = document.getElementById("favoritePlaceSuggestions");
   const selectedSuggestion = document.getElementById("selectedSuggestion");
