@@ -43,7 +43,11 @@ document.addEventListener("DOMContentLoaded", () => {
         "Liens": "Links",
         "+ Ajouter un lien": "+ Add link",
         "Bio": "Bio",
-        "Démarrez avec la première étape du design thinking : l'empathie. Remplissez le sondage et accédez à l'application maintenant !": "Start with the first step of design thinking: empathy. Fill out the survey and access the app now!",
+        "Se connecter": "Login",
+        "Mot de passe oublié ?": "Forgot password?",
+        "Créer un compte": "Create account",
+        "Se connecter avec Google": "Login with Google",
+        "Se connecter avec Facebook": "Login with Facebook",
         "Réalisé par Kvnbbg, l'animateur": "Made by Kvnbbg, the animator"
       },
       fr: {} // Add French translations if needed

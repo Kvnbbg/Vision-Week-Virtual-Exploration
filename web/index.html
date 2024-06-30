@@ -15,29 +15,21 @@
   <!-- Navigation Bar -->
   <header class="bg-blue-600 p-4 shadow-lg">
     <nav class="container mx-auto flex justify-between items-center" aria-label="Main Navigation">
-      <div class="flex items-center space-x-4">
-        <a href="#" id="homeLink" class="text-white hover:underline">Home</a>
-        <a href="#" id="tourLink" class="text-white hover:underline">VR</a>
-        <a href="#" id="mapLink" class="text-white hover:underline">Map</a>
-        <a href="#" id="videosLink" class="text-white hover:underline">Videos</a>
-        <a href="#" id="profileLink" class="text-white hover:underline">Me</a>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme">🕯️</button>
-        <button data-toggle-lang="en" class="text-white hover:underline">🇺🇸 English</button>
-        <button data-toggle-lang="fr" class="text-white hover:underline">🇫🇷 Français</button>
-        <div class="relative">
-          <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Login</button>
-          <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
-            <form id="loginForm">
-              <h2 id="loginFormTitle" class="font-semibold">Login</h2>
-              <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
-              <input type="password" placeholder="Password" required class="border p-2 mt-2 w-full rounded">
-              <button type="submit" class="bg-blue-600 text-white p-2 mt-2 rounded">Login</button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <ul class="flex items-center space-x-4">
+        <li><a href="#" id="homeLink" class="text-white hover:underline">Home</a></li>
+        <li><a href="#" id="tourLink" class="text-white hover:underline">VR</a></li>
+        <li><a href="#" id="mapLink" class="text-white hover:underline">Map</a></li>
+        <li><a href="#" id="videosLink" class="text-white hover:underline">Videos</a></li>
+        <li><a href="#" id="profileLink" class="text-white hover:underline">Me</a></li>
+      </ul>
+      <ul class="flex items-center space-x-4">
+        <li><a href="#" id="aboutLink" class="text-white hover:underline">About</a></li>
+        <li><a href="#" id="contactLink" class="text-white hover:underline">Contact</a></li>
+        <li><a href="#" id="donateLink" class="text-white hover:underline">Abonnement</a></li>
+        <li><a id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme"> 🕯️</a></li>
+        <li><a data-toggle-lang="en" class="text-white hover:underline">🇺🇸 English</a></li>
+        <li><a data-toggle-lang="fr" class="text-white hover:underline">🇫🇷 Français</a></li>
+      </ul>
     </nav>
   </header>
 
@@ -179,18 +171,38 @@
     </section>
   </main>
 
-  <!-- Footer & features -->
   <div class="cloud-button">
-    <a href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" target="_blank">
-      <button class="cloud-btn" data-lang="fr">Démarrez avec la première étape du design thinking : l'empathie. Remplissez le sondage et accédez à l'application maintenant !</button>
+    <a href="#" target="_blank">
+      <div class="relative">
+        <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Login</button>
+        <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
+          <form id="loginForm">
+            <h2 id="loginFormTitle" class="font-semibold">Login</h2>
+            <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
+            <input type="password" placeholder="Password" required class="border p-2 mt-2 w-full rounded">
+            <button class="cloud-btn" data-lang="fr" type="submit">Login</button>
+            <p class="mt-2 text-blue-600" data-lang="fr">Forgot password?</p>
+            <p class="mt-2 text-blue-600" data-lang="fr">Create an account</p>
+            <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Google</p>
+            <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Facebook</p>
+          </form>
+        </div>
+      </div>
     </a>
   </div>
+  
 
   <footer>
     <div class="hover-popup mt-2" id="hoverPopup">
       <p id="hoverText" data-lang="fr"></p>
     </div>
-    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="View my CodePens" data-lang="fr">Made by Kvnbbg, the animator</a>
+    <a class="social-icon codepen" href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" title="View my CodePens" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/codepen.svg" alt="CodePen" width="32" height="32"></a>
+    <a class="social-icon github" href="https://github.com/Kvnbbg" title="View my Github" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="Github" width="32" height="32"></a>
+    <a class="social-icon twitter" href="https://x.com/techandstream" title="Follow me on Twitter" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/twitter.svg" alt="Twitter" width="32" height="32"></a>
+    <a class="social-icon linkedin" href="https://www.linkedin.com/in/kevin-marville" title="Connect with me on LinkedIn" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/linkedin.svg" alt="LinkedIn" width="32" height="32"></a>
+    <a class="social-icon instagram" href="https://www.instagram.com/techandstream" title="Follow me on Instagram" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/instagram.svg" alt="Instagram" width="32" height="32"></a>
+    <a class="social-icon youtube" href="https://www.youtube.com/channel/techandstream" title="Subscribe to my YouTube channel" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/youtube.svg" alt="YouTube" width="32" height="32"></a>
+    <p class="copyright" data-lang="fr">© 2024 Vision Week - Made by Kevin Marville</p>
   </footer>
 
   <script src="scripts.js" defer></script>
