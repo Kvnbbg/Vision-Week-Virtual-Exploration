@@ -1,15 +1,35 @@
 @import "https://unpkg.com/leaflet/dist/leaflet.css";
+/* Variables */
+:root {
+  --background-color: #f5f5f5;
+  --text-color: #333;
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --accent-color: #00ffcc;
+  --footer-bg-color: #061727;
+}
+
+[data-theme=dark] {
+  --background-color: #333;
+  --text-color: #f5f5f5;
+  --primary-color: #2980b9;
+  --secondary-color: #3498db;
+  --accent-color: #4fc08d;
+  --footer-bg-color: #000;
+}
+
 /* General styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: #f5f5f5;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 nav {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   padding: 1rem;
   position: fixed;
   width: 100%;
@@ -40,169 +60,117 @@ nav ul li a {
   padding: 0.5rem 1rem;
   display: block;
   text-align: center;
-  border-radius: 20px;
 }
 nav ul li a:hover {
-  color: #3498db;
+  color: var(--primary-color);
   background-color: #fff;
 }
 nav ul li a:active {
   color: white;
-  background-color: #2980b9;
+  background-color: var(--secondary-color);
 }
 
-.container {
-  margin-top: 80px;
+/* Content styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
 }
 
-.content-screen {
-  display: none;
-  padding: 2rem;
-  opacity: 0.4;
-  transition: opacity 0.8s;
-}
-.content-screen.active {
-  display: block;
-  opacity: 1;
+p {
+  line-height: 1.5;
 }
 
-footer {
-  background-color: #061727;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  position: relative;
-  width: 100%;
-}
-footer .social-icon {
-  margin: 0 0.5rem;
-  color: white;
-  display: inline-block;
+a {
+  color: var(--primary-color);
+  text-decoration: none;
   transition: color 0.3s;
 }
-footer .social-icon:hover {
-  color: #00ffcc;
+a:hover {
+  color: var(--secondary-color);
 }
 
-.home-stats {
+.button-container {
   display: flex;
-  justify-content: space-around;
-  margin-top: 2rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
-.home-stats .stat {
-  background-color: #00ffcc;
-  padding: 1rem;
-  border-radius: 8px;
-  text-align: center;
-  width: 45%;
-  transition: transform 0.3s, background-color 0.3s;
-}
-.home-stats .stat:hover {
-  transform: scale(1.05);
-  background-color: #061727;
+.button-container button {
+  margin: 0 0.5rem;
+  background-color: var(--primary-color);
   color: white;
-}
-
-.vr-content img,
-.profile-content img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  transition: transform 0.3s;
-}
-.vr-content img:hover,
-.profile-content img:hover {
-  transform: scale(1.05);
-}
-
-.profile-content button,
-.vr-content .controls button {
-  background-color: #00ffcc;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
-.profile-content button:hover,
-.vr-content .controls button:hover {
-  background-color: #061727;
-  color: white;
+.button-container button:hover {
+  background-color: var(--secondary-color);
   transform: scale(1.1);
 }
 
-img {
-  border-radius: 10px;
+/* Footer */
+footer {
+  background-color: var(--footer-bg-color);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+footer .social-icon {
+  margin: 0 0.5rem;
+  transition: color 0.3s;
+}
+footer .social-icon:hover {
+  color: var(--accent-color);
 }
 
 /* Popup styles */
 .popup {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: var(--accent-color);
-  padding: 10px;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.5s;
 }
-.popup.expanded {
-  width: 300px;
-  height: auto;
+.popup .popup-content {
+  background: #fff;
   padding: 20px;
   border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
 }
-.popup .login-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.popup .popup-content h2 {
+  font-size: 24px;
+  color: var(--footer-bg-color);
+  margin-bottom: 10px;
 }
-.popup .login-content input {
-  margin: 5px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 100%;
-}
-.popup .login-content button {
-  background: var(--primary-color);
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-.popup .login-content button:hover {
-  background: var(--secondary-color);
-}
-
-/* Cloud button */
-.cloud-button {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  animation: float 5s ease-in-out infinite;
-}
-.cloud-button .cloud-btn {
-  background: #e0f7fa;
-  border: 1px solid #b2ebf2;
-  color: #00796b;
-  font-size: 16px;
-  padding: 10px 20px;
-  border-radius: 50px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s, transform 0.3s;
-}
-.cloud-button .cloud-btn:hover {
-  background: #b2ebf2;
-  transform: translateY(-5px);
+.popup .popup-content p {
+  font-size: 18px;
 }
 
 /* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.content-screen {
+  animation: fadeIn 1s;
+}
+
 @keyframes float {
   0% {
     transform: translateY(0);
@@ -214,49 +182,79 @@ img {
     transform: translateY(0);
   }
 }
-/* Geometric shapes */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  width: 200px;
-  height: 200px;
-  background: rgba(0, 255, 204, 0.2);
-  border-radius: 50%;
-  top: 20%;
-  left: 10%;
-  z-index: -1;
-  animation: move 10s infinite alternate;
+/* Additional styles */
+.home-stats .stat,
+.map-screen .map-controls button,
+.profile-content button,
+.vr-content .controls button {
+  background-color: var(--accent-color);
+  transition: background-color 0.3s, transform 0.3s;
 }
-body::before:after,
-body::after:after {
-  width: 150px;
-  height: 150px;
-  background: rgba(255, 204, 0, 0.2);
-  bottom: 20%;
-  right: 10%;
-  animation: move 15s infinite alternate-reverse;
+.home-stats .stat:hover,
+.map-screen .map-controls button:hover,
+.profile-content button:hover,
+.vr-content .controls button:hover {
+  background-color: var(--footer-bg-color);
+  color: white;
+  transform: scale(1.1);
 }
 
-@keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(50px, 50px);
-  }
+img {
+  border-radius: 10px;
 }
-/* Profile Details */
-.profile-details {
+
+.login-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent-color);
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.login-popup.expanded {
+  width: 300px;
+  height: auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+.login-popup .login-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 }
-.profile-details .profile-item {
-  margin-bottom: 0.5rem;
+.login-popup .login-content #loginToggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
 }
-.profile-details .profile-item .profile-label {
-  font-weight: bold;
+.login-popup .login-content #loginForm {
+  display: none;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.login-popup .login-content #loginForm.visible {
+  display: flex;
+}
+.login-popup .login-content #loginForm input {
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.login-popup .login-content #loginForm button {
+  background: var(--primary-color);
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.login-popup .login-content #loginForm button:hover {
+  background: var(--secondary-color);
 }
 
 /*# sourceMappingURL=styles.css.map */
