@@ -1,6 +1,6 @@
 {
     "require": {
-      "php": "^7.4",
+      "php": "^8.3",
       "ext-mbstring": "*",
       "ext-json": "*",
       "slim/slim": "^4.7",
