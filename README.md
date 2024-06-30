@@ -66,6 +66,9 @@ Vision Week is an innovative project that began on March 1, 2024, and will run u
    ```
 
 2. **Run the Application:**
+
+Use the `flutter run` command to run your application. By default, Flutter will look for `lib/main.dart` as the entry point.
+
    - For web: 
      ```bash
      flutter run -d chrome
@@ -75,6 +78,26 @@ Vision Week is an innovative project that began on March 1, 2024, and will run u
      flutter build apk
      flutter build ios
      ```
+          flutter build windows
+     flutter build macos
+     flutter build linux
+     ```
+
+## Running the Backend
+
+1. **Install PHP:**
+   - If you don't have PHP installed, download and install it from [https://www.php.net/](https://www.php.net/).
+
+2. **Configure Database:**
+   - Create a new database and user in your MySQL server.
+   - Update the database credentials in `backend/db_config.php`.
+
+3. **Start the Server:**
+   - Navigate to the `backend` directory.
+   - Run the following command to start the server:
+     ```bash
+     php -S localhost:8000
+     
 
 ## Contributing
 
