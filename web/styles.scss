@@ -1,6 +1,13 @@
-@import "https://unpkg.com/leaflet/dist/leaflet.css";
+// General styles
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-/* Variables */
+// Root variables
 :root {
   --background-color: #f5f5f5;
   --text-color: #333;
@@ -10,6 +17,7 @@
   --footer-bg-color: #061727;
 }
 
+// Dark theme styles
 [data-theme="dark"] {
   --background-color: #333;
   --text-color: #f5f5f5;
@@ -19,15 +27,7 @@
   --footer-bg-color: #000;
 }
 
-/* General styles */
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: var(--background-color);
-  margin: 0;
-  padding: 0;
-  transition: background-color 0.3s, color 0.3s;
-}
-
+// Navigation styles
 nav {
   background-color: var(--primary-color);
   padding: 1rem;
@@ -47,35 +47,40 @@ nav {
     justify-content: space-around;
     margin: 0;
     width: 100%;
+  }
 
-    li {
-      margin: 0 1rem;
-      border-radius: 20px;
+  li {
+    margin: 0 1rem;
+    border-radius: 20px;
 
-      a {
+    a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s, background-color 0.3s;
+      padding: 0.5rem 1rem;
+      display: block;
+      text-align: center;
+
+      &:hover {
+        color: var(--primary-color);
+        background-color: #fff;
+        border-radius: 20px;
+      }
+
+      &:active {
         color: white;
-        text-decoration: none;
-        font-weight: bold;
-        transition: color 0.3s, background-color 0.3s;
-        padding: 0.5rem 1rem;
-        display: block;
-        text-align: center;
-
-        &:hover {
-          color: var(--primary-color);
-          background-color: #fff;
-        }
-
-        &:active {
-          color: white;
-          background-color: var(--secondary-color);
-        }
+        background-color: var(--secondary-color);
       }
     }
   }
 }
 
-/* Content styles */
+// General element styles
+div {
+  margin-bottom: 1rem;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   color: var(--text-color);
@@ -96,51 +101,8 @@ a {
   }
 }
 
-.button-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-
-  button {
-    margin: 0 0.5rem;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-
-    &:hover {
-      background-color: var(--secondary-color);
-      transform: scale(1.1);
-    }
-  }
-}
-
-/* Footer */
-footer {
-  background-color: var(--footer-bg-color);
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  position: relative;
-  width: 100%;
-  bottom: 0;
-
-  .social-icon {
-    margin: 0 0.5rem;
-    transition: color 0.3s;
-
-    &:hover {
-      color: var(--accent-color);
-    }
-  }
-}
-
-/* Popup styles */
-.login-popup,
-.welcome-popup {
+// Login popup styles
+.login-popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -151,28 +113,20 @@ footer {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  opacity: 1;
   transition: opacity 0.5s;
 
-  .popup-content,
-  .welcome-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 90%;
-
-    h2 {
-      font-size: 24px;
-      color: var(--footer-bg-color);
-      margin-bottom: 10px;
-    }
-
-    p {
-      font-size: 18px;
-      color: var(--text-color);
-    }
+  .popup-content {
+    background: #e0f7fa;
+    border: 1px solid #b2ebf2;
+    color: #00796b;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.3s;
+    animation: float 5s ease-in-out infinite;
 
     &:hover {
       background: #b2ebf2;
@@ -181,52 +135,81 @@ footer {
   }
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.content-screen {
-  animation: fadeIn 1s;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes move {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(50px, 50px);
-  }
-}
-
-/* Additional styles */
-.home-stats .stat,
-.map-screen .map-controls button,
-.profile-content button,
-.vr-content .controls button {
-  background-color: var(--accent-color);
+// Button styles
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 
   &:hover {
-    background-color: var(--footer-bg-color);
-    color: white;
+    background-color: var(--secondary-color);
     transform: scale(1.1);
   }
+}
+
+// Footer styles
+footer {
+  background-color: var(--footer-bg-color);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  width: 100%;
+  bottom: 0;
+
+  .social-icon {
+    margin: 0 0.5rem;
+    color: white;
+    transition: color 0.3s;
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+}
+
+// Keyframes for animations
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 200px;
+  height: 200px;
+  background: rgba(0, 255, 204, 0.2);
+  border-radius: 50%;
+  top: 20%;
+  left: 10%;
+  z-index: -1;
+  animation: move 10s infinite alternate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 204, 0, 0.2);
+  border-radius: 50%;
+  bottom: 20%;
+  right: 10%;
+  z-index: -1;
+  animation: move 15s infinite alternate-reverse;
 }
