@@ -2,7 +2,7 @@
 # Vision Week [Code](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration)
 # Vision Week [Virtual Exploration Editor View](https://codepen.io/Kvnbbg-the-animator/pen/VwOypXB)
 
-![Logo](logo.png)
+![Logo ](img/logo.png)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/graphs/contributors)
 [![GitHub issues](https://img.shields.io/github/issues/Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/issues)
@@ -58,6 +58,8 @@ Vision Week is an innovative project that began on March 1, 2024, and will run u
 - **Database:** Relational database
 
 ## Installation
+
+![Installation Process](img/install.png)
 
 1. **Clone the repository:**
    ```bash
