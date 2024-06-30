@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="path/to/favicon.ico">
+  <meta name="description" content="Vision Week - Explore the virtual world of animals with our interactive and immersive experiences.">
+  <meta name="keywords" content="Vision Week, VR, virtual tour, animals, zoo, interactive map, conservation">
+  <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <title>Vision Week - Exploration Virtuelle</title>
 </head>
@@ -12,7 +14,7 @@
 <body>
   <!-- Navigation Bar -->
   <header class="bg-blue-600 p-4 shadow-lg">
-    <nav class="container mx-auto flex justify-between items-center">
+    <nav class="container mx-auto flex justify-between items-center" aria-label="Main Navigation">
       <div class="flex items-center space-x-4">
         <a href="#" id="homeLink" class="text-white hover:underline">Home</a>
         <a href="#" id="tourLink" class="text-white hover:underline">VR</a>
@@ -25,10 +27,10 @@
         <button data-toggle-lang="en" class="text-white hover:underline">🇺🇸 English</button>
         <button data-toggle-lang="fr" class="text-white hover:underline">🇫🇷 Français</button>
         <div class="relative">
-          <button id="loginToggle" class="text-white hover:underline">🔐 Login</button>
-          <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md">
+          <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Login</button>
+          <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
             <form id="loginForm">
-              <h2 class="font-semibold">Login</h2>
+              <h2 id="loginFormTitle" class="font-semibold">Login</h2>
               <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
               <input type="password" placeholder="Password" required class="border p-2 mt-2 w-full rounded">
               <button type="submit" class="bg-blue-600 text-white p-2 mt-2 rounded">Login</button>
@@ -42,16 +44,16 @@
   <!-- Main Content -->
   <main class="container mx-auto p-4" id="content">
     <!-- Home Screen -->
-    <section id="homeScreen" class="content-screen active home-screen">
-      <h1 class="text-2xl font-bold" data-lang="fr">Welcome to Vision Week!</h1>
+    <section id="homeScreen" class="content-screen active home-screen" aria-labelledby="homeTitle">
+      <h1 id="homeTitle" class="text-2xl font-bold" data-lang="fr">Welcome to Vision Week!</h1>
       <p data-lang="fr">Explore the world of animals.</p>
       <article class="post mt-4">
         <h2 class="text-xl font-semibold" data-lang="fr">Polar Bears in the Arctic</h2>
-        <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Polar Bears" class="w-full h-auto mt-2 rounded">
+        <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Polar Bears" class="w-full h-auto mt-2 rounded" loading="lazy">
         <p class="mt-2" data-lang="fr">Learn about the life of polar bears and their survival in the Arctic.</p>
       </article>
-      <aside class="statistics mt-4">
-        <h3 class="text-lg font-semibold" data-lang="fr">Animal Conservation Stats</h3>
+      <aside class="statistics mt-4" aria-labelledby="conservationStats">
+        <h3 id="conservationStats" class="text-lg font-semibold" data-lang="fr">Animal Conservation Stats</h3>
         <p data-lang="fr">Nombre d'animaux sauvés: <span id="animalsSaved">45,678</span></p>
         <p data-lang="fr">+<span id="growthRate">20%</span> mois après mois</p>
         <p data-lang="fr">Popularité de Vision Week</p>
@@ -60,18 +62,18 @@
     </section>
 
     <!-- Virtual Tour Screen -->
-    <section id="tourScreen" class="content-screen vr-screen">
-      <h1 class="text-2xl font-bold" data-lang="fr">VR Viewer</h1>
+    <section id="tourScreen" class="content-screen vr-screen" aria-labelledby="vrTitle">
+      <h1 id="vrTitle" class="text-2xl font-bold" data-lang="fr">VR Viewer</h1>
       <p data-lang="fr">Experience an immersive tour of the zoo.</p>
       <div class="vr-content mt-4">
         <h2 class="text-xl font-semibold" data-lang="fr">Comfort Headset</h2>
         <div class="mt-4 rounded">
-          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/n4apFUAQSpM" title="VR Headset Concept Design" frameborder="0" allowfullscreen></iframe>
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/n4apFUAQSpM" title="VR Headset Concept Design" frameborder="0" allowfullscreen loading="lazy"></iframe>
         </div>
         <p class="mt-2" data-lang="fr">Put on your VR headset and explore the Arctic habitat, home to polar bears, seals, and more.</p>
         <h2 class="text-xl font-semibold mt-4" data-lang="fr">Modern Headset</h2>
         <div class="mt-4 rounded">
-          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/oGc869x2KOI" title="Modern VR Headset Concept" frameborder="0" allowfullscreen></iframe>
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/oGc869x2KOI" title="Modern VR Headset Concept" frameborder="0" allowfullscreen loading="lazy"></iframe>
         </div>
         <p class="mt-2" data-lang="fr">A combination of metallic and transparent materials.</p>
         <h2 class="text-xl font-semibold mt-4" data-lang="fr">Navigation Control</h2>
@@ -86,11 +88,11 @@
     </section>
 
     <!-- Map Screen -->
-    <section id="mapScreen" class="content-screen map-screen">
-      <h1 class="text-2xl font-bold" data-lang="fr">Interactive Map</h1>
+    <section id="mapScreen" class="content-screen map-screen" aria-labelledby="mapTitle">
+      <h1 id="mapTitle" class="text-2xl font-bold" data-lang="fr">Interactive Map</h1>
       <p data-lang="fr">Find your way around the zoo with our interactive 3D map.</p>
       <div class="mt-4 rounded">
-        <iframe width="100%" height="auto" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explore the World - Interactive 3D Map" frameborder="0" allowfullscreen></iframe>
+        <iframe width="100%" height="auto" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explore the World - Interactive 3D Map" frameborder="0" allowfullscreen loading="lazy"></iframe>
       </div>
       <div class="map-content mt-4">
         <h2 class="text-xl font-semibold" data-lang="fr">Favorite Place</h2>
@@ -117,11 +119,11 @@
     </section>
 
     <!-- Videos Screen -->
-    <section id="videosScreen" class="content-screen video-screen">
-      <h1 class="text-2xl font-bold" data-lang="fr">Videos</h1>
+    <section id="videosScreen" class="content-screen video-screen" aria-labelledby="videosTitle">
+      <h1 id="videosTitle" class="text-2xl font-bold" data-lang="fr">Videos</h1>
       <div class="video-wrapper mt-4">
         <div class="video-thumbnails">
-          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Arctic Exhibit - Penguins" class="w-full h-auto mt-2 rounded border-2 border-gray-300">
+          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Arctic Exhibit - Penguins" class="w-full h-auto mt-2 rounded border-2 border-gray-300" loading="lazy">
         </div>
         <h2 class="text-xl font-semibold mt-4" data-lang="fr">Video Playlist (Latest News!)</h2>
         <div class="video-controls mt-4">
@@ -136,17 +138,17 @@
           <p id="video-description-text" data-lang="fr"></p>
         </div>
         <div id="video-container" class="mt-4">
-          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Arctic Exhibit" frameborder="0" allowfullscreen></iframe>
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Arctic Exhibit" frameborder="0" allowfullscreen loading="lazy"></iframe>
         </div>
       </div>
     </section>
 
     <!-- Profile Screen -->
-    <section id="profileScreen" class="content-screen profile-screen">
-      <h1 class="text-2xl font-bold" data-lang="fr">User Profile</h1>
+    <section id="profileScreen" class="content-screen profile-screen" aria-labelledby="profileTitle">
+      <h1 id="profileTitle" class="text-2xl font-bold" data-lang="fr">User Profile</h1>
       <p data-lang="fr">Manage your profile and subscription details.</p>
       <div class="profile-content mt-4">
-        <img src="https://images.pexels.com/photos/6853428/pexels-photo-6853428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile Picture" class="profile-image mt-2 rounded-full">
+        <img src="https://images.pexels.com/photos/6853428/pexels-photo-6853428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Profile Picture" class="profile-image mt-2 rounded-full" loading="lazy">
         <a href="#" class="edit-profile-image text-blue-600" data-lang="fr">Edit profile image</a>
         <div class="profile-details mt-4">
           <div class="profile-item">
