@@ -4,11 +4,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Vision Week - Explore the virtual world of animals with our interactive and immersive experiences.">
-  <meta name="keywords" content="Vision Week, VR, virtual tour, animals, zoo, interactive map, conservation">
+  <meta name="description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta name="keywords" content="Vision Week, VR, visite virtuelle, animaux, zoo, carte interactive, conservation">
   <link rel="icon" href="favicon.png" type="image/png">
   <link rel="stylesheet" href="styles.css">
   <title>Vision Week - Exploration Virtuelle</title>
+  <meta property="og:title" content="Vision Week - Exploration Virtuelle">
+  <meta property="og:description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta property="og:image" content="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+  <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vision Week - Exploration Virtuelle">
+  <meta name="twitter:description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta name="twitter:image" content="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+</head>
+
+<body>
+  <header class="bg-blue-600 p-4 shadow-lg">
+    <nav class="container mx-auto flex justify-between items-center" aria-label="Main Navigation">
+      <ul class="flex items-center space-x-4">
+        <li><a href="#homeScreen" id="homeLink" class="text-white hover:underline" aria-label="Home">Home</a></li>
+        <li><a href="#tourScreen" id="tourLink" class="text-white hover:underline" aria-label="VR Tour">VR</a></li>
+        <li><a href="#mapScreen" id="mapLink" class="text-white hover:underline" aria-label="Map">Map</a></li>
+        <li><a href="#videosScreen" id="videosLink" class="text-white hover:underline" aria-label="Videos">Videos</a></li>
+        <li><a href="#profileScreen" id="profileLink" class="text-white hover:underline" aria-label="Profile">Me</a></li>
+      </ul>
+      <ul class="flex items-center space-x-4">
+        <li><a href="#aboutScreen" id="aboutLink" class="text-white hover:underline" aria-label="About">About</a></li>
+        <li><a href="#contactScreen" id="contactLink" class="text-white hover:underline" aria-label="Contact">Contact</a></li>
+        <li><a href="#donateScreen" id="donateLink" class="text-white hover:underline" aria-label="Subscription">Abonnement</a></li>
+        <li><a id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme">💡</a></li>
+        <li><a data-toggle-lang="en" class="text-white hover:underline" aria-label="Switch to English">🇺🇸 English</a></li>
+        <li><a data-toggle-lang="fr" class="text-white hover:underline" aria-label="Switch to French">🇫🇷 Français</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container mx-auto p-4" id="content">
+    <section id="homeScreen" class="content-screen active home-screen" aria-labelledby="homeTitle">
+      <h1 id="homeTitle" class="text-2xl font-bold">Bienvenue sur Vision Week !</h1>
+      <p>Explorez le monde des animaux.</p>
+      <article class="post mt-4">
+        <h2 class="text-xl font-semibold">Les ours polaires dans l'Arctique</h2>
+        <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Ours polaires" class="w-full h-auto mt-2 rounded" loading="lazy">
+        <p class="mt-2">Découvrez la vie des ours polaires et leur survie dans l'Arctique.</p>
+      </article>
+      <aside class="statistics mt-4" aria-labelledby="conservationStats">
+        <h3 id="conservationStats" class="text-lg font-semibold">Statistiques de conservation des animaux</h3>
+        <p>Nombre d'animaux sauvés: <span id="animalsSaved">45,678</span></p>
+        <p>+<span id="growthRate">20%</span> mois après mois</p>
+        <p>Popularité de Vision Week</p>
+        <p>Animaux populaires: <span id="popularAnimals">Ours polaires, Pingouins, Renards arctiques</span>.</p>
+      </aside>
+    </section>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta name="keywords" content="Vision Week, VR, visite virtuelle, animaux, zoo, carte interactive, conservation">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+  <title>Vision Week - Exploration Virtuelle</title>
+  <meta property="og:title" content="Vision Week - Exploration Virtuelle">
+  <meta property="og:description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta property="og:image" content="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+  <meta property="og:url" content="https://yourwebsite.com">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vision Week - Exploration Virtuelle">
+  <meta name="twitter:description" content="Vision Week - Plongez dans le monde virtuel des animaux avec nos expériences interactives et immersives.">
+  <meta name="twitter:image" content="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
 </head>
 
 <body>
@@ -16,17 +83,17 @@
   <header class="bg-blue-600 p-4 shadow-lg">
     <nav class="container mx-auto flex justify-between items-center" aria-label="Main Navigation">
       <ul class="flex items-center space-x-4">
-        <li><a href="#" id="homeLink" class="text-white hover:underline">Home</a></li>
-        <li><a href="#" id="tourLink" class="text-white hover:underline">VR</a></li>
-        <li><a href="#" id="mapLink" class="text-white hover:underline">Map</a></li>
-        <li><a href="#" id="videosLink" class="text-white hover:underline">Videos</a></li>
-        <li><a href="#" id="profileLink" class="text-white hover:underline">Me</a></li>
+        <li><a href="#homeScreen" id="homeLink" class="text-white hover:underline">Home</a></li>
+        <li><a href="#tourScreen" id="tourLink" class="text-white hover:underline">VR</a></li>
+        <li><a href="#mapScreen" id="mapLink" class="text-white hover:underline">Map</a></li>
+        <li><a href="#videosScreen" id="videosLink" class="text-white hover:underline">Videos</a></li>
+        <li><a href="#profileScreen" id="profileLink" class="text-white hover:underline">Me</a></li>
       </ul>
       <ul class="flex items-center space-x-4">
-        <li><a href="#" id="aboutLink" class="text-white hover:underline">About</a></li>
-        <li><a href="#" id="contactLink" class="text-white hover:underline">Contact</a></li>
-        <li><a href="#" id="donateLink" class="text-white hover:underline">Abonnement</a></li>
-        <li><a id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme"> 🕯️</a></li>
+        <li><a href="#aboutScreen" id="aboutLink" class="text-white hover:underline">About</a></li>
+        <li><a href="#contactScreen" id="contactLink" class="text-white hover:underline">Contact</a></li>
+        <li><a href="#donateScreen" id="donateLink" class="text-white hover:underline">Abonnement</a></li>
+        <li><a id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme">💡</a></li>
         <li><a data-toggle-lang="en" class="text-white hover:underline">🇺🇸 English</a></li>
         <li><a data-toggle-lang="fr" class="text-white hover:underline">🇫🇷 Français</a></li>
       </ul>
@@ -35,6 +102,176 @@
 
   <!-- Main Content -->
   <main class="container mx-auto p-4" id="content">
+    <!-- Home Screen -->
+    <section id="homeScreen" class="content-screen active home-screen" aria-labelledby="homeTitle">
+      <h1 id="homeTitle" class="text-2xl font-bold" data-lang="fr">Bienvenue sur Vision Week !</h1>
+      <p data-lang="fr">Explorez le monde des animaux.</p>
+      <article class="post mt-4">
+        <h2 class="text-xl font-semibold" data-lang="fr">Les ours polaires dans l'Arctique</h2>
+        <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Ours polaires" class="w-full h-auto mt-2 rounded" loading="lazy">
+        <p class="mt-2" data-lang="fr">Découvrez la vie des ours polaires et leur survie dans l'Arctique.</p>
+      </article>
+      <aside class="statistics mt-4" aria-labelledby="conservationStats">
+        <h3 id="conservationStats" class="text-lg font-semibold" data-lang="fr">Statistiques de conservation des animaux</h3>
+        <p data-lang="fr">Nombre d'animaux sauvés: <span id="animalsSaved">45,678</span></p>
+        <p data-lang="fr">+<span id="growthRate">20%</span> mois après mois</p>
+        <p data-lang="fr">Popularité de Vision Week</p>
+        <p data-lang="fr">Animaux populaires: <span id="popularAnimals">Ours polaires, Pingouins, Renards arctiques</span>.</p>
+      </aside>
+    </section>
+
+    <!-- Virtual Tour Screen -->
+    <section id="tourScreen" class="content-screen vr-screen" aria-labelledby="vrTitle">
+      <h1 id="vrTitle" class="text-2xl font-bold" data-lang="fr">Visionneuse VR</h1>
+      <p data-lang="fr">Découvrez une visite immersive du zoo.</p>
+      <div class="vr-content mt-4">
+        <h2 class="text-xl font-semibold" data-lang="fr">Casque confortable</h2>
+        <div class="mt-4 rounded">
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/n4apFUAQSpM" title="Conception de casque VR confortable" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p class="mt-2" data-lang="fr">Enfilez votre casque VR et explorez l'habitat arctique, qui abrite des ours polaires, des phoques et bien plus encore.</p>
+        <h2 class="text-xl font-semibold mt-4" data-lang="fr">Casque moderne</h2>
+        <div class="mt-4 rounded">
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/oGc869x2KOI" title="Concept de casque VR moderne" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <p class="mt-2" data-lang="fr">Une combinaison de matériaux métalliques et transparents.</p>
+        <h2 class="text-xl font-semibold mt-4" data-lang="fr">Contrôle de navigation</h2>
+        <p data-lang="fr">Utilisez les contrôles de navigation pour vous déplacer librement et profiter pleinement de votre visite virtuelle.</p>
+        <div id="control-area-in-the-virtual-world" class="flex justify-around mt-4">
+          <img src="https://emojipedia.org/up-arrow" alt="Haut" class="w-8 h-8">
+          <img src="https://emojipedia.org/right-arrow" alt="Droite" class="w-8 h-8">
+          <img src="https://emojipedia.org/down-arrow" alt="Bas" class="w-8 h-8">
+          <img src="https://emojipedia.org/left-arrow" alt="Gauche" class="w-8 h-8">
+        </div>
+      </div>
+    </section>
+
+    <!-- Map Screen -->
+    <section id="mapScreen" class="content-screen map-screen" aria-labelledby="mapTitle">
+      <h1 id="mapTitle" class="text-2xl font-bold" data-lang="fr">Carte interactive</h1>
+      <p data-lang="fr">Trouvez votre chemin dans le zoo avec notre carte 3D interactive.</p>
+      <div class="mt-4 rounded">
+        <iframe width="100%" height="auto" src="https://www.youtube.com/embed/pVjCFgLjr8U" title="Explorer le monde - Carte 3D interactive" frameborder="0" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="map-content mt-4">
+        <h2 class="text-xl font-semibold" data-lang="fr">Lieu préféré</h2>
+        <p data-lang="fr">Explorez différentes sections du zoo et localisez vos animaux préférés.</p>
+        <div class="favorite-place mt-4">
+          <h3 class="text-lg font-semibold" data-lang="fr">Parlez-nous de votre lieu préféré:</h3>
+          <label for="favoritePlaceInput" class="block mt-2" data-lang="fr">Entrez le nom de votre lieu préféré:</label>
+          <input type="text" id="favoritePlaceInput" placeholder="Par exemple, Exposition arctique, Aventure en forêt tropicale" class="w-full border border-gray-300 p-2 mt-2 rounded">
+          <label for="favoritePlaceSuggestions" class="block mt-4" data-lang="fr">Ou choisissez parmi une suggestion:</label>
+          <select id="favoritePlaceSuggestions" class="w-full border border-gray-300 p-2 mt-2 rounded">
+            <option value="">-- Sélectionnez une suggestion --</option>
+            <option value="arctic-exhibit">Exposition arctique</option>
+            <option value="rainforest-adventure">Aventure en forêt tropicale</option>
+            <option value="underwater-exploration">Exploration sous-marine</option>
+            <option value="reptile-house">Maison des reptiles</option>
+            <option value="bird-sanctuary">Sanctuaire des oiseaux</option>
+            <option value="monkey-jungle">Jungle des singes</option>
+            <option value="childrens-zoo">Zoo pour enfants</option>
+          </select>
+          <button type="button" id="showSuggestionsBtn" class="mt-4 bg-blue-600 text-white p-2 rounded">Afficher les suggestions</button>
+          <p id="selectedSuggestion" style="display: none;" data-lang="fr">Vous avez sélectionné: <span id="selectedSuggestionName"></span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Videos Screen -->
+    <section id="videosScreen" class="content-screen video-screen" aria-labelledby="videosTitle">
+      <h1 id="videosTitle" class="text-2xl font-bold" data-lang="fr">Vidéos</h1>
+      <div class="video-wrapper mt-4">
+        <div class="video-thumbnails">
+          <img src="https://images.pexels.com/photos/20027083/pexels-photo-20027083/free-photo-of-personne-individu-zoo-oiseaux.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Exposition arctique - Pingouins" class="w-full h-auto mt-2 rounded border-2 border-gray-300" loading="lazy">
+        </div>
+        <h2 class="text-xl font-semibold mt-4" data-lang="fr">Liste de lecture vidéo (Dernières nouvelles !)</h2>
+        <div class="video-controls mt-4">
+          <select id="video-dropdown" class="w-full border border-gray-300 p-2 rounded">
+            <option value="arctic-exhibit">Exposition arctique: Naissance de bébés ours polaires ! ❄️</option>
+            <option value="rainforest-adventure">Aventure en forêt tropicale: Découverte d'une nouvelle espèce de singe !</option>
+            <option value="underwater-exploration">Exploration sous-marine: La Grande Barrière de Corail montre des signes de rétablissement ! 🪸</option>
+          </select>
+        </div>
+        <div class="video-description mt-4">
+          <p id="video-title" class="font-bold" data-lang="fr">Vision Week - Exploration virtuelle</p>
+          <p id="video-description-text" data-lang="fr"></p>
+        </div>
+        <div id="video-container" class="mt-4">
+          <iframe width="100%" height="auto" src="https://www.youtube.com/embed/XPhmpfiWEEw?si=d7oNWkjmcLrkUdrQ" title="Vision Week - Exposition arctique" frameborder="0" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile Screen -->
+    <section id="profileScreen" class="content-screen profile-screen" aria-labelledby="profileTitle">
+      <h1 id="profileTitle" class="text-2xl font-bold" data-lang="fr">Profil utilisateur</h1>
+      <p data-lang="fr">Gérez votre profil et vos informations d'abonnement.</p>
+      <div class="profile-content mt-4">
+        <img src="https://images.pexels.com/photos/6853428/pexels-photo-6853428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Photo de profil" class="profile-image mt-2 rounded-full" loading="lazy">
+        <a href="#" class="edit-profile-image text-blue-600" data-lang="fr">Modifier la photo de profil</a>
+        <div class="profile-details mt-4">
+          <div class="profile-item">
+            <span class="profile-label font-semibold" data-lang="fr">Nom</span>
+            <span class="profile-value ml-2" data-lang="fr">Helène Hills</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold" data-lang="fr">Nom d'utilisateur</span>
+            <span class="profile-value ml-2" data-lang="fr">@username</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold" data-lang="fr">Email</span>
+            <span class="profile-value ml-2" data-lang="fr">name@domain.com</span>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold" data-lang="fr">Liens</span>
+            <span class="profile-value ml-2" data-lang="fr">website.net</span>
+            <span class="profile-value ml-2" data-lang="fr">mylink.net</span>
+            <span class="profile-value ml-2" data-lang="fr">yourlink.net</span>
+            <a href="#" class="add-link text-blue-600" data-lang="fr">+ Ajouter un lien</a>
+          </div>
+          <div class="profile-item mt-2">
+            <span class="profile-label font-semibold" data-lang="fr">Biographie</span>
+            <span class="profile-value ml-2" data-lang="fr">Une description de cet utilisateur.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="cloud-button">
+    <a href="#" target="_blank">
+      <div class="relative">
+        <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Connexion</button>
+        <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
+          <form id="loginForm">
+            <h2 id="loginFormTitle" class="font-semibold">Connexion</h2>
+            <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
+            <input type="password" placeholder="Mot de passe" required class="border p-2 mt-2 w-full rounded">
+            <button class="
+
+
+  <!-- Main Content -->
+  <main class="container mx-auto p-4" id="content">
+    <div class="cloud-button">
+      <a href="#" target="_blank">
+        <div class="relative">
+          <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Login</button>
+          <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
+            <form id="loginForm">
+              <h2 id="loginFormTitle" class="font-semibold">Login</h2>
+              <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
+              <input type="password" placeholder="Password" required class="border p-2 mt-2 w-full rounded">
+              <button class="cloud-btn" data-lang="fr" type="submit">Login</button>
+              <p class="mt-2 text-blue-600" data-lang="fr">Forgot password?</p>
+              <p class="mt-2 text-blue-600" data-lang="fr">Create an account</p>
+              <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Google</p>
+              <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Facebook</p>
+            </form>
+          </div>
+        </div>
+      </a>
+    </div>
+
     <!-- Home Screen -->
     <section id="homeScreen" class="content-screen active home-screen" aria-labelledby="homeTitle">
       <h1 id="homeTitle" class="text-2xl font-bold" data-lang="fr">Welcome to Vision Week!</h1>
@@ -171,42 +408,27 @@
     </section>
   </main>
 
-  <div class="cloud-button">
-    <a href="#" target="_blank">
-      <div class="relative">
-        <button id="loginToggle" class="text-white hover:underline" aria-haspopup="true" aria-expanded="false">🔐 Login</button>
-        <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md" role="dialog" aria-labelledby="loginFormTitle">
-          <form id="loginForm">
-            <h2 id="loginFormTitle" class="font-semibold">Login</h2>
-            <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
-            <input type="password" placeholder="Password" required class="border p-2 mt-2 w-full rounded">
-            <button class="cloud-btn" data-lang="fr" type="submit">Login</button>
-            <p class="mt-2 text-blue-600" data-lang="fr">Forgot password?</p>
-            <p class="mt-2 text-blue-600" data-lang="fr">Create an account</p>
-            <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Google</p>
-            <p class="mt-2 text-blue-600" data-lang="fr">Sign in with Facebook</p>
-          </form>
-        </div>
-      </div>
-    </a>
-  </div>
-  
 
+  
+ 
   <footer>
     <div class="hover-popup mt-2" id="hoverPopup">
-      <p id="hoverText" data-lang="fr"></p>
+      <p id="hoverText"></p>
     </div>
-    <a class="social-icon codepen" href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" title="View my CodePens" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/codepen.svg" alt="CodePen" width="32" height="32"></a>
-    <a class="social-icon github" href="https://github.com/Kvnbbg" title="View my Github" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="Github" width="32" height="32"></a>
-    <a class="social-icon twitter" href="https://x.com/techandstream" title="Follow me on Twitter" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/twitter.svg" alt="Twitter" width="32" height="32"></a>
-    <a class="social-icon linkedin" href="https://www.linkedin.com/in/kevin-marville" title="Connect with me on LinkedIn" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/linkedin.svg" alt="LinkedIn" width="32" height="32"></a>
-    <a class="social-icon instagram" href="https://www.instagram.com/techandstream" title="Follow me on Instagram" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/instagram.svg" alt="Instagram" width="32" height="32"></a>
-    <a class="social-icon youtube" href="https://www.youtube.com/channel/techandstream" title="Subscribe to my YouTube channel" data-lang="fr"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/youtube.svg" alt="YouTube" width="32" height="32"></a>
-    <p class="copyright" data-lang="fr">© 2024 Vision Week - Made by Kevin Marville</p>
+    <div class="social-icons">
+      <a href="https://codepen.io/Kvnbbg-the-animator/live/bGyvmdy" title="View my CodePens"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/codepen.svg" alt="CodePen" width="32" height="32" loading="lazy"></a>
+      <a href="https://github.com/Kvnbbg" title="View my Github"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/github.svg" alt="Github" width="32" height="32" loading="lazy"></a>
+      <a href="https://x.com/techandstream" title="Follow me on Twitter"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/twitter.svg" alt="Twitter" width="32" height="32" loading="lazy"></a>
+      <a href="https://www.linkedin.com/in/kevin-marville" title="Connect with me on LinkedIn"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/linkedin.svg" alt="LinkedIn" width="32" height="32" loading="lazy"></a>
+      <a href="https://www.instagram.com/techandstream" title="Follow me on Instagram"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/instagram.svg" alt="Instagram" width="32" height="32" loading="lazy"></a>
+      <a href="https://www.youtube.com/channel/techandstream" title="Subscribe to my YouTube channel"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v7/icons/youtube.svg" alt="YouTube" width="32" height="32" loading="lazy"></a>
+    </div>
+    <p class="copyright">© 2024 Vision Week - Made by Kevin Marville</p>
   </footer>
 
   <script src="scripts.js" defer></script>
   <script src="data-lang.js" defer></script>
+
 </body>
 
 </html>
