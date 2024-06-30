@@ -11,6 +11,19 @@
   <nav class="bg-blue-600 p-4">
     <ul class="flex justify-around text-white">
       <li><a href="#" id="homeLink">Home</a></li>
+      <div class="login-popup" id="loginPopup">
+        <div class="login-content">
+          <button id="loginToggle">🔐 Login</button>
+          <form id="loginForm" class="hidden">
+            <h2>Login</h2>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <button type="registered">registered</button>
+            <button type="submit">Login</button>
+          </form>
+        </div>
+      </div>
+      
       <li><a href="#" id="tourLink">VR</a></li>
       <li><a href="#" id="mapLink">Map</a></li>
       <li><a href="#" id="videosLink">Videos</a></li>
