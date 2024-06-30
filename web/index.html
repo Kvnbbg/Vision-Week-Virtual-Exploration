@@ -4,27 +4,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="https://emojipedia.org/earth-globe-europe-africa/">
+  <link rel="icon" href="path/to/favicon.ico">
   <link rel="stylesheet" href="styles.css">
   <title>Vision Week - Exploration Virtuelle</title>
 </head>
 
 <body>
   <!-- Navigation Bar -->
-  <nav class="bg-blue-600 p-4">
-    <ul class="flex justify-around text-white">
-      <li><a href="#" id="homeLink" class="hover:underline">Home</a></li>
-      <li><a href="#" id="tourLink" class="hover:underline">VR</a></li>
-      <li><a href="#" id="mapLink" class="hover:underline">Map</a></li>
-      <li><a href="#" id="videosLink" class="hover:underline">Videos</a></li>
-      <li><a href="#" id="profileLink" class="hover:underline">Me</a></li>
-      <li id="toggleTheme" class="cursor-pointer">🕯️</li>
-      <li><a class="hover:underline" href="#" id="language-switch">🇺🇸 English</a></li>
-      <li><a class="hover:underline" href="#">🇫🇷 Français</a></li>
-      <li>
+  <!-- Navigation Bar -->
+  <header class="bg-blue-600 p-4 shadow-lg">
+    <nav class="container mx-auto flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <a href="#" id="homeLink" class="text-white hover:underline">Home</a>
+        <a href="#" id="tourLink" class="text-white hover:underline">VR</a>
+        <a href="#" id="mapLink" class="text-white hover:underline">Map</a>
+        <a href="#" id="videosLink" class="text-white hover:underline">Videos</a>
+        <a href="#" id="profileLink" class="text-white hover:underline">Me</a>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button id="toggleTheme" class="text-white cursor-pointer" aria-label="Toggle Theme">🕯️</button>
+        <button data-toggle-lang="en" class="text-white hover:underline">🇺🇸 English</button>
+        <button data-toggle-lang="fr" class="text-white hover:underline">🇫🇷 Français</button>
         <div class="relative">
-          <button id="loginToggle" class="hover:underline">🔐 Login</button>
-          <div id="loginPopup" class="hidden absolute bg-white text-black p-4 mt-2 rounded shadow-md">
+          <button id="loginToggle" class="text-white hover:underline">🔐 Login</button>
+          <div id="loginPopup" class="hidden absolute right-0 bg-white text-black p-4 mt-2 rounded shadow-md">
             <form id="loginForm">
               <h2 class="font-semibold">Login</h2>
               <input type="email" placeholder="Email" required class="border p-2 mt-2 w-full rounded">
@@ -33,16 +36,17 @@
             </form>
           </div>
         </div>
-      </li>
-    </ul>
-  </nav>
+      </div>
+    </nav>
+  </header>
+      
 
   <!-- Main Content -->
   <main class="container mx-auto p-4" id="content">
     <!-- Home Screen -->
     <section id="homeScreen" class="content-screen active home-screen">
       <h1 class="text-2xl font-bold" data-lang="fr">Welcome to Vision Week!</h1>
-      <p data-lang="fr">Explore the world about the animals.</p>
+      <p data-lang="fr">Explore the world of animals.</p>
       <article class="post mt-4">
         <h2 class="text-xl font-semibold" data-lang="fr">Polar Bears in the Arctic</h2>
         <img src="https://images.pexels.com/photos/25956521/pexels-photo-25956521/free-photo-of-nature-brun-marron-tete.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="Polar Bears" class="w-full h-auto mt-2 rounded">
@@ -75,12 +79,10 @@
         <h2 class="text-xl font-semibold mt-4" data-lang="fr">Navigation Control</h2>
         <p data-lang="fr">Utilisez les contrôles de navigation pour vous déplacer librement et profiter pleinement de votre visite virtuelle.</p>
         <div id="control-area-in-the-virtual-world" class="flex justify-around mt-4">
-          <p aria-label="Directional controls">
-            <img src="https://emojipedia.org/up-arrow" alt="Up" aria-label="Up" class="w-8 h-8">
-            <img src="https://emojipedia.org/right-arrow" alt="Right" aria-label="Right" class="w-8 h-8">
-            <img src="https://emojipedia.org/down-arrow" alt="Down" aria-label="Down" class="w-8 h-8">
-            <img src="https://emojipedia.org/left-arrow" alt="Left" aria-label="Left" class="w-8 h-8">
-          </p>
+          <img src="https://emojipedia.org/up-arrow" alt="Up" class="w-8 h-8">
+          <img src="https://emojipedia.org/right-arrow" alt="Right" class="w-8 h-8">
+          <img src="https://emojipedia.org/down-arrow" alt="Down" class="w-8 h-8">
+          <img src="https://emojipedia.org/left-arrow" alt="Left" class="w-8 h-8">
         </div>
       </div>
     </section>
@@ -193,11 +195,11 @@
     <div class="hover-popup mt-2" id="hoverPopup">
       <p id="hoverText" data-lang="fr"></p>
     </div>
-    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="view my codepens" data-lang="fr">Made by Kvnbbg, the animator</a>
+    <a class="social-icon codepen" href="https://codepen.io/kvnbbg-the-animator" title="View my CodePens" data-lang="fr">Made by Kvnbbg, the animator</a>
   </footer>
 
-  <script src="scripts.js"></script>
-  <script src="data-lang.js" defer async></script>
+  <script src="scripts.js" defer></script>
+  <script src="data-lang.js" defer></script>
 </body>
 
 </html>
