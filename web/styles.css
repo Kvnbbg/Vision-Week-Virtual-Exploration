@@ -1,4 +1,5 @@
 @import "https://unpkg.com/leaflet/dist/leaflet.css";
+/* Variables */
 /* General styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -21,7 +22,7 @@ nav {
   align-items: center;
 }
 nav ul {
-  list-style-type: none;
+  list-style: none;
   padding: 0;
   display: flex;
   justify-content: space-around;
@@ -33,7 +34,7 @@ nav ul li {
   border-radius: 20px;
 }
 nav ul li a {
-  color: white;
+  color: #fff;
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s, background-color 0.3s;
@@ -47,12 +48,13 @@ nav ul li a:hover {
   background-color: #fff;
 }
 nav ul li a:active {
-  color: white;
+  color: #fff;
   background-color: #2980b9;
 }
 
 .container {
   margin-top: 80px;
+  padding: 1rem;
 }
 
 .content-screen {
@@ -68,7 +70,7 @@ nav ul li a:active {
 
 footer {
   background-color: #061727;
-  color: white;
+  color: #fff;
   padding: 1rem;
   text-align: center;
   position: relative;
@@ -76,7 +78,7 @@ footer {
 }
 footer .social-icon {
   margin: 0 0.5rem;
-  color: white;
+  color: #fff;
   display: inline-block;
   transition: color 0.3s;
 }
@@ -100,25 +102,19 @@ footer .social-icon:hover {
 .home-stats .stat:hover {
   transform: scale(1.05);
   background-color: #061727;
-  color: white;
+  color: #fff;
 }
 
-.vr-content img,
-.profile-content img {
-  width: 100%;
-  height: auto;
+img {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
   transition: transform 0.3s;
 }
-.vr-content img:hover,
-.profile-content img:hover {
+img:hover {
   transform: scale(1.05);
 }
 
-.profile-content button,
-.vr-content .controls button {
+button {
   background-color: #00ffcc;
   border: none;
   padding: 0.5rem 1rem;
@@ -126,15 +122,10 @@ footer .social-icon:hover {
   cursor: pointer;
   transition: background-color 0.3s, transform 0.3s;
 }
-.profile-content button:hover,
-.vr-content .controls button:hover {
+button:hover {
   background-color: #061727;
-  color: white;
+  color: #fff;
   transform: scale(1.1);
-}
-
-img {
-  border-radius: 10px;
 }
 
 /* Popup styles */
@@ -142,10 +133,10 @@ img {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: var(--accent-color);
+  background: #00ffcc;
   padding: 10px;
   border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 .popup.expanded {
@@ -167,8 +158,8 @@ img {
   width: 100%;
 }
 .popup .login-content button {
-  background: var(--primary-color);
-  color: white;
+  background: #3498db;
+  color: #fff;
   padding: 10px;
   border: none;
   border-radius: 5px;
@@ -176,7 +167,7 @@ img {
   transition: background 0.3s;
 }
 .popup .login-content button:hover {
-  background: var(--secondary-color);
+  background: #2980b9;
 }
 
 /* Cloud button */
@@ -194,7 +185,7 @@ img {
   padding: 10px 20px;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: background 0.3s, transform 0.3s;
 }
 .cloud-button .cloud-btn:hover {
