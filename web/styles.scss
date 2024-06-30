@@ -1,26 +1,16 @@
 @import "https://unpkg.com/leaflet/dist/leaflet.css";
 
-/* Variables */
-$primary-color: #3498db;
-$secondary-color: #2980b9;
-$background-color: #f5f5f5;
-$text-color: #333;
-$white: #fff;
-$accent-color: #00ffcc;
-$dark-bg: #061727;
-$box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
 /* General styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background-color: $background-color;
-  color: $text-color;
+  background-color: #f5f5f5;
+  color: #333;
   margin: 0;
   padding: 0;
 }
 
 nav {
-  background-color: $primary-color;
+  background-color: #3498db;
   padding: 1rem;
   position: fixed;
   width: 100%;
@@ -32,7 +22,7 @@ nav {
   align-items: center;
 
   ul {
-    list-style: none;
+    list-style-type: none;
     padding: 0;
     display: flex;
     justify-content: space-around;
@@ -44,7 +34,7 @@ nav {
       border-radius: 20px;
 
       a {
-        color: $white;
+        color: white;
         text-decoration: none;
         font-weight: bold;
         transition: color 0.3s, background-color 0.3s;
@@ -54,13 +44,13 @@ nav {
         border-radius: 20px;
 
         &:hover {
-          color: $primary-color;
-          background-color: $white;
+          color: #3498db;
+          background-color: #fff;
         }
 
         &:active {
-          color: $white;
-          background-color: $secondary-color;
+          color: white;
+          background-color: #2980b9;
         }
       }
     }
@@ -69,7 +59,6 @@ nav {
 
 .container {
   margin-top: 80px;
-  padding: 1rem;
 }
 
 .content-screen {
@@ -85,8 +74,8 @@ nav {
 }
 
 footer {
-  background-color: $dark-bg;
-  color: $white;
+  background-color: #061727;
+  color: white;
   padding: 1rem;
   text-align: center;
   position: relative;
@@ -94,12 +83,12 @@ footer {
 
   .social-icon {
     margin: 0 0.5rem;
-    color: $white;
+    color: white;
     display: inline-block;
     transition: color 0.3s;
 
     &:hover {
-      color: $accent-color;
+      color: #00ffcc;
     }
   }
 }
@@ -110,7 +99,7 @@ footer {
   margin-top: 2rem;
 
   .stat {
-    background-color: $accent-color;
+    background-color: #00ffcc;
     padding: 1rem;
     border-radius: 8px;
     text-align: center;
@@ -119,15 +108,19 @@ footer {
 
     &:hover {
       transform: scale(1.05);
-      background-color: $dark-bg;
-      color: $white;
+      background-color: #061727;
+      color: white;
     }
   }
 }
 
-img {
+.vr-content img,
+.profile-content img {
+  width: 100%;
+  height: auto;
   border-radius: 10px;
-  box-shadow: $box-shadow;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
   transition: transform 0.3s;
 
   &:hover {
@@ -135,8 +128,9 @@ img {
   }
 }
 
-button {
-  background-color: $accent-color;
+.profile-content button,
+.vr-content .controls button {
+  background-color: #00ffcc;
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 5px;
@@ -144,10 +138,14 @@ button {
   transition: background-color 0.3s, transform 0.3s;
 
   &:hover {
-    background-color: $dark-bg;
-    color: $white;
+    background-color: #061727;
+    color: white;
     transform: scale(1.1);
   }
+}
+
+img {
+  border-radius: 10px;
 }
 
 /* Popup styles */
@@ -155,10 +153,10 @@ button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: $accent-color;
+  background: var(--accent-color);
   padding: 10px;
   border-radius: 50%;
-  box-shadow: $box-shadow;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 
   &.expanded {
@@ -182,8 +180,8 @@ button {
     }
 
     button {
-      background: $primary-color;
-      color: $white;
+      background: var(--primary-color);
+      color: white;
       padding: 10px;
       border: none;
       border-radius: 5px;
@@ -191,7 +189,7 @@ button {
       transition: background 0.3s;
 
       &:hover {
-        background: $secondary-color;
+        background: var(--secondary-color);
       }
     }
   }
@@ -212,7 +210,7 @@ button {
     padding: 10px 20px;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: $box-shadow;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background 0.3s, transform 0.3s;
 
     &:hover {
