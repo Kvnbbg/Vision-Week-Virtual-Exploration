@@ -1,6 +1,4 @@
-# Vision Week [Live 🚀](https://codepen.io/Kvnbbg-the-animator/live/VwOypXB)
-# Vision Week [Code](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration)
-# Vision Week [Virtual Exploration Editor View](https://codepen.io/Kvnbbg-the-animator/pen/VwOypXB)
+# Vision Week [Play Live 🚀](https://vision-week-783f01d43fbd.herokuapp.com/)
 
 ![Logo](img/logo.png)
 
@@ -12,22 +10,24 @@
 
 **Vision Week** est une application web et mobile offrant une expérience de zoo virtuel unique avec des casques VR. Explorez des parcours variés avec du contenu vidéo à chaque point d'intérêt. Accessible via un abonnement mensuel.
 
-## Presentation & Wireframe
+## Presentation
 
 - [Video Presentation on YouTube]()
-- [Prototype on Figma](https://www.figma.com/proto/o0QfKg0hU9gXxHe6FEoxVn/output-wireframe?node-id=1-342&t=8bEB6V7rSDwY7ISc-1&scaling=scale-down&content-scaling=fixed&page-id=0%3A)
 
 ## About
+
 
 **Vision Week** est un projet innovant débuté le 1er mars 2024, fonctionnant jusqu'au 1er juillet 2024. Il combine exploration virtuelle et interactions réelles, inspiré par Apple Vision Pro et Meta.
 
 - [Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
 - [Agile Method with Scrum, Slack, Confluence, and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
+- [Discord Group](https://discord.com/invite/wppHraKvQF)
 
 ## Table of Contents
 
 - [Features](#features)
 - [Technologies](#technologies)
+- [Prototype](#prototype)
 - [Installation](#installation)
 - [Contributing](#contributing)
 - [Future Development](#future-development)
@@ -55,6 +55,10 @@
 - **Frontend**: Dart (Flutter)
 - **Backend**: PHP (API development)
 - **Database**: Base de données relationnelle
+
+## Prototype
+
+- [Prototype & Wireframe on Figma](https://codepen.io/Kvnbbg-the-animator/pen/VwOypXB)
 
 ## Installation
 
@@ -135,8 +139,6 @@ Pour plus d'informations, visitez [kvnbbg.fr](https://kvnbbg.fr).
 Nous apprécions tous les contributeurs qui ont aidé à améliorer ce projet.
 
 ## Useful Links
-
-- [Discord Group](https://discord.com/invite/wppHraKvQF)
 
 - [Discussion](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/discussions)
 
