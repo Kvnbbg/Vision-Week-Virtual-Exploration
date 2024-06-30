@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
   const navLinks = document.querySelectorAll("nav ul li a");
   const contentScreens = document.querySelectorAll(".content-screen");
-  const loginPopup = createPopup('login');
-  const registerPopup = createPopup('register');
-  const welcomePopup = createPopup('welcome');
+  const loginPopup = document.getElementById("loginPopup");
+  const loginForm = document.getElementById("loginForm");
+  const loginToggle = document.getElementById("loginToggle");
+  const showSuggestionsBtn = document.getElementById("showSuggestionsBtn");
+  const favoritePlaceSuggestions = document.getElementById("favoritePlaceSuggestions");
+  const selectedSuggestion = document.getElementById("selectedSuggestion");
+  const selectedSuggestionName = document.getElementById("selectedSuggestionName");
+  const themeToggle = document.getElementById("toggleTheme");
   let isAuthenticated = false;
 
   setupNavLinks(navLinks, contentScreens);
-  setupLoginPopup(loginPopup);
-  setupRegisterPopup(registerPopup);
-  setupWelcomePopup(welcomePopup);
+  setupLoginPopup();
   setupThemeToggle();
   setupFavoritePlaces();
 
@@ -17,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     links.forEach(link => {
       link.addEventListener("click", e => {
         e.preventDefault();
-        if (!isAuthenticated && !link.id.includes("homeLink")) return;
+        if (!isAuthenticated && link.id !== "homeLink") return;
         const targetId = link.id.replace("Link", "Screen");
         screens.forEach(screen => {
           screen.classList.toggle("active", screen.id === targetId);
@@ -26,94 +29,29 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  function createPopup(type) {
-    const popup = document.createElement("div");
-    popup.className = `${type}-popup`;
-    if (type === 'login') {
-      popup.innerHTML = getLoginContent();
-    } else if (type === 'register') {
-      popup.innerHTML = getRegisterContent();
-      popup.style.display = "none";
-    } else if (type === 'welcome') {
-      popup.innerHTML = getWelcomeContent();
-    }
-    document.body.appendChild(popup);
-    return popup;
-  }
+  function setupLoginPopup() {
+    loginToggle.addEventListener("click", () => {
+      loginPopup.classList.toggle("expanded");
+      loginForm.classList.toggle("hidden");
+    });
 
-  function getLoginContent() {
-    return `
-      <div class="login-content">
-        <h2>Login</h2>
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <button id="loginButton">Login</button>
-        <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
-      </div>`;
-  }
-
-  function getRegisterContent() {
-    return `
-      <div class="register-content">
-        <h2>Create an Account</h2>
-        <input type="text" placeholder="Name" required />
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <button id="registerButton">Register</button>
-        <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
-      </div>`;
-  }
-
-  function setupLoginPopup(popup) {
-    document.getElementById("loginButton").addEventListener("click", async () => {
-      // Add authentication logic here
-      // If successful, set isAuthenticated to true
+    loginForm.addEventListener("submit", e => {
+      e.preventDefault();
+      // Simulate login process
       isAuthenticated = true;
       alert("Login successful!");
-      hidePopup(popup);
-    });
-
-    document.getElementById("showRegister").addEventListener("click", e => {
-      e.preventDefault();
-      hidePopup(popup);
-      showPopup(registerPopup);
-    });
-  }
-
-  function setupRegisterPopup(popup) {
-    document.getElementById("registerButton").addEventListener("click", async () => {
-      // Add registration logic here
-      alert("Registration successful!");
-      hidePopup(popup);
-      showPopup(loginPopup);
-    });
-
-    document.getElementById("showLogin").addEventListener("click", e => {
-      e.preventDefault();
-      hidePopup(popup);
-      showPopup(loginPopup);
-    });
-  }
-
-  function setupWelcomePopup(popup) {
-    popup.addEventListener("click", () => {
-      hidePopup(popup);
+      loginPopup.style.display = "none";
     });
   }
 
   function setupThemeToggle() {
-    document.getElementById('toggleTheme').addEventListener('click', () => {
-      document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+    themeToggle.addEventListener("click", () => {
+      document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark";
     });
   }
 
   function setupFavoritePlaces() {
-    const showSuggestionsBtn = document.getElementById("showSuggestionsBtn");
-    const favoritePlaceSuggestions = document.getElementById("favoritePlaceSuggestions");
-    const selectedSuggestion = document.getElementById("selectedSuggestion");
-    const selectedSuggestionName = document.getElementById("selectedSuggestionName");
-
-    showSuggestionsBtn?.addEventListener("click", () => {
+    showSuggestionsBtn.addEventListener("click", () => {
       favoritePlaceSuggestions.hidden = !favoritePlaceSuggestions.hidden;
       if (favoritePlaceSuggestions.hidden) {
         selectedSuggestionName.textContent = "";
@@ -121,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    favoritePlaceSuggestions?.addEventListener("change", () => {
+    favoritePlaceSuggestions.addEventListener("change", () => {
       const selectedOption = favoritePlaceSuggestions.value;
       if (selectedOption) {
         selectedSuggestionName.textContent = favoritePlaceSuggestions.options[favoritePlaceSuggestions.selectedIndex].text;
@@ -131,19 +69,5 @@ document.addEventListener("DOMContentLoaded", () => {
         selectedSuggestion.style.display = "none";
       }
     });
-  }
-
-  function showPopup(popup) {
-    popup.style.display = "block";
-    setTimeout(() => {
-      popup.style.opacity = "1";
-    }, 10);
-  }
-
-  function hidePopup(popup) {
-    popup.style.opacity = "0";
-    setTimeout(() => {
-      popup.style.display = "none";
-    }, 500);
   }
 });
