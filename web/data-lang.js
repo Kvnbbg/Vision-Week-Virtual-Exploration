@@ -1,3 +1,5 @@
+/* This JavaScript code snippet is setting up a language translation feature for a webpage. Here's a
+breakdown of what it does: */
 document.addEventListener("DOMContentLoaded", () => {
     const elements = document.querySelectorAll("[data-lang]");
   
@@ -57,17 +59,13 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
   
-    // Language switch example
-    document.getElementById("language-switch").addEventListener("click", (e) => {
-      e.preventDefault();
-      const currentLang = e.target.dataset.lang;
-      setLanguage(currentLang);
-    });
-  
-    // Add functionality to switch back to French
-    document.getElementById("language-switch-fr").addEventListener("click", (e) => {
-      e.preventDefault();
-      setLanguage("fr");
+    // Language switch buttons
+    document.querySelectorAll("[data-toggle-lang]").forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const lang = e.target.dataset.toggleLang;
+        setLanguage(lang);
+      });
     });
   });
   
