@@ -11,18 +11,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const themeToggle = document.getElementById("toggleTheme");
   let isAuthenticated = false;
 
-  setupNavLinks(navLinks, contentScreens);
+  setupNavLinks();
   setupLoginPopup();
   setupThemeToggle();
   setupFavoritePlaces();
 
-  function setupNavLinks(links, screens) {
-    links.forEach(link => {
-      link.addEventListener("click", e => {
-        e.preventDefault();
+  function setupNavLinks() {
+    navLinks.forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
         if (!isAuthenticated && link.id !== "homeLink") return;
         const targetId = link.id.replace("Link", "Screen");
-        screens.forEach(screen => {
+        contentScreens.forEach(screen => {
           screen.classList.toggle("active", screen.id === targetId);
         });
       });
@@ -32,12 +32,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupLoginPopup() {
     loginToggle.addEventListener("click", () => {
       loginPopup.classList.toggle("expanded");
-      loginForm.classList.toggle("hidden");
+      loginPopup.classList.toggle("hidden");
     });
 
-    loginForm.addEventListener("submit", e => {
-      e.preventDefault();
-      // Simulate login process
+    loginForm.addEventListener("submit", event => {
+      event.preventDefault();
       isAuthenticated = true;
       alert("Login successful!");
       loginPopup.style.display = "none";
