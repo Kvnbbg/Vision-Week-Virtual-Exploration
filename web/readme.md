@@ -1,1 +1,0 @@
-If you don't want to use `web/index.html`, you can either remove the `web` directory or ignore it. However, if you plan to support web in the future, you might want to keep it.
