@@ -1,15 +1,10 @@
 {
     "require": {
-      "php": "^8.3",
-      "ext-mbstring": "*",
-      "ext-json": "*",
-      "slim/slim": "^4.7",
-      "slim/psr7": "^1.3",
-      "slim/http": "^1.0",
-      "monolog/monolog": "^2.2"
-    },
-    "scripts": {
-      "start": "php -S localhost:8000 -t public/"
+        "php": "^8.0",
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.0",
+        "slim/http": "^1.0",
+        "monolog/monolog": "^2.0",
+        ...
     }
-  }
-  
+}
