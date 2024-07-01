@@ -1,1 +1,1 @@
-web: vendor/bin/heroku-php-apache2 public/
+web: npx http-server build/web -p \$PORT
