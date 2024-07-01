@@ -1,5 +1,5 @@
 {
-    "name": "vision_week_virtual_exploration_backend",
+    "name": "vision-week-virtual-exploration-backend",
     "description": "PHP backend for Vision Week Virtual Exploration",
     "require": {
         "php": "^8.0",
