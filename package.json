@@ -1,0 +1,32 @@
+{
+  "name": "vision_week_virtual_exploration",
+  "version": "1.0.0",
+  "description": "A virtual exploration application for Vision Week.",
+  "scripts": {
+    "start": "http-server build/web -p $PORT"
+  },
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kvnbbg/vision_week_virtual_exploration.git"
+  },
+  "keywords": [
+    "virtual",
+    "exploration",
+    "vision week",
+    "web",
+    "flutter",
+    "php"
+  ],
+  "author": "Kevin Marville <kevinmarville@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kvnbbg/vision_week_virtual_exploration/issues"
+  },
+  "homepage": "https://github.com/kvnbbg/vision_week_virtual_exploration#readme"
+}

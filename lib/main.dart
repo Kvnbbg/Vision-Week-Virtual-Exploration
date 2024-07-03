@@ -1,136 +1,178 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(SemaineVisionApp());
+void main() {
+  runApp(MyApp());
 }
 
-class SemaineVisionApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vision Week',
+      title: 'Flutter Login/Register',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics()),
-      ],
-      home: EcranPrincipal(),
+      home: LoginRegisterScreen(),
     );
   }
 }
 
-class EcranPrincipal extends StatefulWidget {
+class LoginRegisterScreen extends StatefulWidget {
   @override
-  _EcranPrincipalState createState() => _EcranPrincipalState();
+  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
 }
 
-class _EcranPrincipalState extends State<EcranPrincipal> {
-  int _selectedIndex = 0;
-  final FirebaseAnalytics _analytics = FirebaseAnalytics();
+class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
+  bool showLogin = true;
+  final _loginFormKey = GlobalKey<FormState>();
+  final _registerFormKey = GlobalKey<FormState>();
+  String loginUsername = '';
+  String loginPassword = '';
+  String registerUsername = '';
+  String registerPassword = '';
+  String loginError = '';
+  String registerError = '';
 
-  static const List<Widget> _widgetOptions = <Widget>[
-    EcranAccueil(),
-    EcranProfil(),
-    EcranCarte(),
-    EcranVideo(),
-    EcranVR(),
-    EcranParametres(),
-  ];
-
-  void _onItemTapped(int index) {
+  void toggleForm() {
     setState(() {
-      _selectedIndex = index;
+      showLogin = !showLogin;
+      loginError = '';
+      registerError = '';
     });
-    _analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
+  }
+
+  void login() {
+    if (_loginFormKey.currentState!.validate()) {
+      if (loginUsername == 'admin' && loginPassword == 'admin') {
+        // Successful login
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login successful!')),
+        );
+      } else {
+        setState(() {
+          loginError = 'Invalid username or password';
+        });
+      }
+    }
+  }
+
+  void register() {
+    if (_registerFormKey.currentState!.validate()) {
+      // Registration logic
+      setState(() {
+        registerError = 'Registration not implemented';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Semaine Vision'),
+        title: Text('Welcome!'),
       ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (showLogin) ...[
+                Text('Login', style: TextStyle(fontSize: 24)),
+                Form(
+                  key: _loginFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Username'),
+                        onChanged: (value) {
+                          loginUsername = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                        onChanged: (value) {
+                          loginPassword = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      if (loginError.isNotEmpty)
+                        Text(loginError, style: TextStyle(color: Colors.red)),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: login,
+                        child: Text('Login'),
+                      ),
+                      TextButton(
+                        onPressed: toggleForm,
+                        child: Text('Don\'t have an account? Register'),
+                      ),
+                    ],
+                  ),
+                ),
+              ] else ...[
+                Text('Register', style: TextStyle(fontSize: 24)),
+                Form(
+                  key: _registerFormKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Username'),
+                        onChanged: (value) {
+                          registerUsername = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                        onChanged: (value) {
+                          registerPassword = value;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      ),
+                      if (registerError.isNotEmpty)
+                        Text(registerError, style: TextStyle(color: Colors.red)),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: register,
+                        child: Text('Register'),
+                      ),
+                      TextButton(
+                        onPressed: toggleForm,
+                        child: Text('Already have an account? Login'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Carte',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: 'Vidéos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.vrpano),
-            label: 'VR',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Paramètres',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
+        ),
       ),
     );
-  }
-}
-
-// Placeholder widget classes (Replace with actual widget implementations)
-class EcranAccueil extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Accueil'));
-  }
-}
-
-class EcranProfil extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Profil'));
-  }
-}
-
-class EcranCarte extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Carte'));
-  }
-}
-
-class EcranVideo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Vidéos'));
-  }
-}
-
-class EcranVR extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('VR'));
-  }
-}
-
-class EcranParametres extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Paramètres'));
   }
 }

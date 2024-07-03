@@ -1,7 +1,12 @@
 _flutterfire_internals
 3.2
+<<<<<<< HEAD
 file:///home/kevin/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.37/
 file:///home/kevin/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.37/lib/
+=======
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.38/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.38/lib/
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
 async
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/async-2.11.0/
@@ -20,6 +25,7 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/clock-1.1.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/clock-1.1.1/lib/
 cloud_firestore
 2.18
+<<<<<<< HEAD
 file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.1/lib/
 cloud_firestore_platform_interface
@@ -30,6 +36,18 @@ cloud_firestore_web
 3.2
 file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.1/lib/
+=======
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.2/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.2/lib/
+cloud_firestore_platform_interface
+2.18
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.8/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.8/lib/
+cloud_firestore_web
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.2/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.2/lib/
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
 collection
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/collection-1.18.0/
@@ -40,6 +58,7 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.8/
 file:///home/kevin/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.8/lib/
 fake_async
 2.12
+<<<<<<< HEAD
 file:///home/kevin/.pub-cache/hosted/pub.dev/fake_async-1.3.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/fake_async-1.3.1/lib/
 firebase_auth
@@ -58,6 +77,38 @@ firebase_core
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core-3.1.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core-3.1.0/lib/
+=======
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/fake_async-1.3.1/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/fake_async-1.3.1/lib/
+firebase_analytics
+2.18
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics-11.1.0/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics-11.1.0/lib/
+firebase_analytics_platform_interface
+2.18
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-4.1.0/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-4.1.0/lib/
+firebase_analytics_web
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/lib/
+firebase_auth
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/
+firebase_auth_platform_interface
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1/lib/
+firebase_auth_web
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.3/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.3/lib/
+firebase_core
+2.18
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core-3.1.1/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core-3.1.1/lib/
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
 firebase_core_platform_interface
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-5.1.0/
@@ -124,8 +175,17 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/meta-1.12.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/meta-1.12.0/lib/
 path
 3.0
+<<<<<<< HEAD
 file:///home/kevin/.pub-cache/hosted/pub.dev/path-1.9.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/path-1.9.0/lib/
+=======
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/path-1.9.0/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/path-1.9.0/lib/
+petitparser
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/petitparser-6.0.2/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/petitparser-6.0.2/lib/
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
 plugin_platform_interface
 3.0
 file:///home/kevin/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8/
@@ -168,12 +228,25 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/vm_service-14.2.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/vm_service-14.2.1/lib/
 web
 3.3
+<<<<<<< HEAD
 file:///home/kevin/.pub-cache/hosted/pub.dev/web-0.5.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/web-0.5.1/lib/
 vision_week_virtual_exploration
 2.12
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/lib/
+=======
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/web-0.5.1/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/web-0.5.1/lib/
+xml
+3.2
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/xml-6.5.0/
+file:///Users/katiarachon/.pub-cache/hosted/pub.dev/xml-6.5.0/lib/
+vision_week_virtual_exploration
+2.17
+file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/
+file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/lib/
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
 sky_engine
 3.2
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter/bin/cache/pkg/sky_engine/

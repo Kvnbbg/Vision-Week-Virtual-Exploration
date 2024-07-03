@@ -3,7 +3,11 @@
   "packages": [
     {
       "name": "_flutterfire_internals",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.37",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.38",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -33,19 +37,31 @@
     },
     {
       "name": "cloud_firestore",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.1",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.2",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_platform_interface",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.7",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.8",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_web",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.1",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.2",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -68,26 +84,60 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "firebase_analytics",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics-11.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_analytics_platform_interface",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "firebase_analytics_web",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "firebase_auth",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.0",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_auth_platform_interface",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.0",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_auth_web",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.2",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.3",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_core",
+<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core-3.1.0",
+=======
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core-3.1.1",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
@@ -212,6 +262,12 @@
       "languageVersion": "3.0"
     },
     {
+      "name": "petitparser",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "plugin_platform_interface",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
@@ -284,13 +340,23 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/xml-6.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "vision_week_virtual_exploration",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     }
   ],
+<<<<<<< HEAD
   "generated": "2024-06-25T15:54:32.422465Z",
+=======
+  "generated": "2024-06-30T18:53:04.274245Z",
+>>>>>>> 2d192596232da40a246718c40719ed0943dab315
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter",
