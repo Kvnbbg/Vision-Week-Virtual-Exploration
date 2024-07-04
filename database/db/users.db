@@ -1,0 +1,35 @@
+-- Create the Users table
+CREATE TABLE Users (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    user_type VARCHAR(255) NOT NULL,
+    date_account DATETIME NOT NULL,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
+    gender VARCHAR(255) NOT NULL,
+    birthday DATETIME NOT NULL,
+    job VARCHAR(255),
+    subscription_id INTEGER,
+    FOREIGN KEY (subscription_id) REFERENCES Subscription(subscription_id)
+);
+
+-- Create the Subscription table
+CREATE TABLE Subscription (
+    subscription_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subscription_name VARCHAR(255) NOT NULL,
+    subscription_price FLOAT NOT NULL,
+    subscription_duration INTEGER NOT NULL
+);
+
+-- Insert sample data into Subscription table
+INSERT INTO Subscription (subscription_name, subscription_price, subscription_duration) VALUES
+('Basic', 9.99, 30),
+('Premium', 19.99, 30),
+('Annual', 199.99, 365);
+
+-- Insert sample data into Users table
+INSERT INTO Users (username, password, email, user_type, date_account, firstname, lastname, gender, birthday, job, subscription_id) VALUES
+('johndoe', 'password123', 'john@example.com', 'admin', '2024-01-01', 'John', 'Doe', 'male', '1990-01-01', 'Developer', 1),
+('janedoe', 'password456', 'jane@example.com', 'user', '2024-02-01', 'Jane', 'Doe', 'female', '1992-02-02', 'Designer', 2);
