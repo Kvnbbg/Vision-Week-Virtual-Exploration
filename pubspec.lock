@@ -73,6 +73,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+<<<<<<< HEAD
   crypto:
     dependency: transitive
     description:
@@ -81,6 +82,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -97,6 +100,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+<<<<<<< HEAD
   ffi:
     dependency: transitive
     description:
@@ -113,6 +117,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   firebase_analytics:
     dependency: "direct main"
     description:
@@ -185,6 +191,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.17.2"
+<<<<<<< HEAD
   fixnum:
     dependency: transitive
     description:
@@ -193,11 +200,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   flutter_svg:
     dependency: "direct main"
     description:
@@ -206,6 +216,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.6"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -216,6 +228,7 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+<<<<<<< HEAD
   geolocator:
     dependency: "direct main"
     description:
@@ -264,6 +277,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.3"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   google_identity_services_web:
     dependency: transitive
     description:
@@ -328,6 +343,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+<<<<<<< HEAD
   js:
     dependency: transitive
     description:
@@ -336,6 +352,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   leak_tracker:
     dependency: transitive
     description:
@@ -360,6 +378,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+<<<<<<< HEAD
   location:
     dependency: "direct main"
     description:
@@ -384,6 +403,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   matcher:
     dependency: transitive
     description:
@@ -408,6 +429,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.0"
+<<<<<<< HEAD
   nested:
     dependency: transitive
     description:
@@ -416,6 +438,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   path:
     dependency: transitive
     description:
@@ -424,6 +448,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+<<<<<<< HEAD
   path_drawing:
     dependency: transitive
     description:
@@ -464,6 +489,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   petitparser:
     dependency: transitive
     description:
@@ -472,6 +499,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+<<<<<<< HEAD
   platform:
     dependency: transitive
     description:
@@ -480,6 +508,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.5"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -488,6 +518,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+<<<<<<< HEAD
   provider:
     dependency: "direct main"
     description:
@@ -552,6 +583,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   sky_engine:
     dependency: transitive
     description: flutter
@@ -565,6 +598,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+<<<<<<< HEAD
   sprintf:
     dependency: transitive
     description:
@@ -573,6 +607,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   stack_trace:
     dependency: transitive
     description:
@@ -621,6 +657,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
+<<<<<<< HEAD
   url_launcher:
     dependency: "direct main"
     description:
@@ -693,6 +730,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.4.0"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   vector_math:
     dependency: transitive
     description:
@@ -717,6 +756,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
+<<<<<<< HEAD
   win32:
     dependency: transitive
     description:
@@ -733,6 +773,8 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+=======
+>>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
   xml:
     dependency: "direct main"
     description:
