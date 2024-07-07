@@ -2,49 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());
+  bool useFirebase = true; // Toggle this based on your needs or configuration
+
+  if (useFirebase) {
+    try {
+      await Firebase.initializeApp();
+    } catch (e) {
+      useFirebase = false;
+      print('Failed to initialize Firebase: $e');
+    }
+  }
+
+  runApp(MyApp(useFirebase: useFirebase));
 }
 
 class MyApp extends StatelessWidget {
+  final bool useFirebase;
+
+  MyApp({required this.useFirebase});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login/Register',
+      title: 'Flutter Login/Register by Kevin Marville',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
-      home: LoginRegisterScreen(),
+      home: LoginRegisterScreen(useFirebase: useFirebase),
     );
   }
 }
 
 class LoginRegisterScreen extends StatefulWidget {
+  final bool useFirebase;
+
+  LoginRegisterScreen({required this.useFirebase});
+
   @override
   _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
 }
 
 class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
-  bool showLogin = true;
-  final _loginFormKey = GlobalKey<FormState>();
-  final _registerFormKey = GlobalKey<FormState>();
-  String loginUsername = '';
-  String loginPassword = '';
-  String registerUsername = '';
-  String registerPassword = '';
-  String loginError = '';
-  String registerError = '';
+  bool showLogin = true; // Toggle between login and register screen
+  final _formKey = GlobalKey<FormState>();
+  String username = '';
+  String password = '';
+  String errorMessage = '';
   Database? database;
 
   @override
   void initState() {
     super.initState();
-    _initDatabase();
+    if (!widget.useFirebase) {
+      _initDatabase();
+    }
   }
 
   Future<void> _initDatabase() async {
@@ -59,186 +73,193 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     );
   }
 
-  Future<void> _addUser(String username, String password) async {
-    final db = database;
-    if (db != null) {
-      await db.insert(
-        'users',
-        {'username': username, 'password': password},
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
+  void _login() async {
+    // Implement login logic here
+    // Use Firebase Authentication or local database
   }
 
-  Future<bool> _authenticateUser(String username, String password) async {
-    final db = database;
-    if (db != null) {
-      final List<Map<String, dynamic>> maps = await db.query(
-        'users',
-        where: 'username = ? AND password = ?',
-        whereArgs: [username, password],
-      );
-      return maps.isNotEmpty;
-    }
-    return false;
-  }
-
-  void toggleForm() {
-    setState(() {
-      showLogin = !showLogin;
-      loginError = '';
-      registerError = '';
-    });
-  }
-
-  void login() async {
-    if (_loginFormKey.currentState!.validate()) {
-      if (loginUsername == 'admin' && loginPassword == 'admin') {
-        Navigator.pushReplacementNamed(context as BuildContext, '/home');
-      } else if (await _authenticateUser(loginUsername, loginPassword)) {
-        Navigator.pushReplacementNamed(context as BuildContext, '/home');
-      } else {
-        setState(() {
-          loginError = 'Invalid username or password';
-        });
-      }
-    }
-  }
-
-  void register() async {
-    if (_registerFormKey.currentState!.validate()) {
-      await _addUser(registerUsername, registerPassword);
-      ScaffoldMessenger.of(context as BuildContext).showSnackBar(
-        SnackBar(content: Text('Registration successful! Please log in.')),
-      );
-      toggleForm();
-    }
-  }
-
-  Future<void> _signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    if (googleUser != null) {
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      Navigator.pushReplacementNamed(context as BuildContext, '/home');
-    }
+  void _register() async {
+    // Implement registration logic here
+    // Use Firebase Authentication or local database
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome!'),
+        title: Text(showLogin ? 'Login' : 'Register'),
       ),
-      body: Center(
+      body: Form(
+        key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (showLogin) ...[
-                Text('Login', style: TextStyle(fontSize: 24)),
-                Form(
-                  key: _loginFormKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Username'),
-                        onChanged: (value) {
-                          loginUsername = value;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your username';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
-                        obscureText: true,
-                        onChanged: (value) {
-                          loginPassword = value;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
-                      if (loginError.isNotEmpty)
-                        Text(loginError, style: TextStyle(color: Colors.red)),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: login,
-                        child: Text('Login'),
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton.icon(
-                        icon: Icon(Icons.login),
-                        label: Text('Login with Google'),
-                        onPressed: _signInWithGoogle,
-                      ),
-                      TextButton(
-                        onPressed: toggleForm,
-                        child: Text('Don\'t have an account? Register'),
-                      ),
-                    ],
-                  ),
-                ),
-              ] else ...[
-                Text('Register', style: TextStyle(fontSize: 24)),
-                Form(
-                  key: _registerFormKey,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Username'),
-                        onChanged: (value) {
-                          registerUsername = value;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your username';
-                          }
-                          return null;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
-                        obscureText: true,
-                        onChanged: (value) {
-                          registerPassword = value;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your password';
-                          }
-                          return null;
-                        },
-                      ),
-                      if (registerError.isNotEmpty)
-                        Text(registerError, style: TextStyle(color: Colors.red)),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: register,
-                        child: Text('Register'),
-                      ),
-                      TextButton(
-                        onPressed: toggleForm,
-                        child: Text('Already have an account? Login'),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Username'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your username';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  username = value!;
+                },
+              ),
+              SizedBox(height: 16),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  password = value!;
+                },
+              ),
+              SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    if (showLogin) {
+                      _login();
+                    } else {
+                      _register();
+                    }
+                  }
+                },
+                child: Text(showLogin ? 'Login' : 'Register'),
+              ),
+              SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    showLogin = !showLogin;
+                  });
+                },
+                child: Text(showLogin
+                    ? 'Don\'t have an account? Register'
+                    : 'Already have an account? Login'),
+              ),
+              SizedBox(height: 16),
+              Text(errorMessage, style: TextStyle(color: Colors.red)),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+  void _register() async {
+    // Implement registration logic here
+    // Use Firebase Authentication or local database
+    if (widget.useFirebase) {
+      // Firebase registration logic
+    } else {
+      // Local database registration logic
+      if (database != null) {
+        try {
+          await database!.insert(
+            'users',
+            {'username': username, 'password': password},
+            conflictAlgorithm: ConflictAlgorithm.replace,
+          );
+          print('User registered successfully!');
+        } catch (e) {
+          print('Error registering user: $e');
+          setState(() {
+            errorMessage = 'Error registering user';
+          });
+        }
+      } else {
+        setState(() {
+          errorMessage = 'Database not initialized';
+        });
+      }
+    }
+  }
+
+  void _login() async {
+    // Implement login logic here
+    // Use Firebase Authentication or local database
+    if (widget.useFirebase) {
+      // Firebase login logic
+    } else {
+      // Local database login logic
+      if (database != null) {
+        try {
+          final List<Map<String, dynamic>> users = await database!.query(
+            'users',
+            where: 'username = ?',
+            whereArgs: [username],
+          );
+          if (users.isNotEmpty && users[0]['password'] == password) {
+            print('Login successful!');
+          } else {
+            print('Invalid username or password');
+            setState(() {
+              errorMessage = 'Invalid username or password';
+            });
+          }
+        } catch (e) {
+          print('Error logging in: $e');
+          setState(() {
+            errorMessage = 'Error logging in';
+          });
+        }
+      } else {
+        setState(() {
+          errorMessage = 'Database not initialized';
+        });
+      }
+    }
+  }
+}
+
+class LoginRegisterScreen extends StatefulWidget {
+  final bool useFirebase;
+
+  LoginRegisterScreen({required this.useFirebase});
+
+  @override
+  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
+}
+
+class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
+  bool showLogin = true; // Toggle between login and register screen
+  final _formKey = GlobalKey<FormState>();
+  String username = '';
+  String password = '';
+  String errorMessage = '';
+  Database? database;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.useFirebase) {
+      _initDatabase();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Implement UI here
+    return Scaffold(
+      appBar: AppBar(title: Text(showLogin ? 'Login' : 'Register')),
+      body: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            // Add TextFormFields for username and password
+            // Add buttons for toggling login/register and submitting
+          ],
         ),
       ),
     );
