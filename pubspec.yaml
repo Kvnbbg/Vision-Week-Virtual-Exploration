@@ -21,9 +21,9 @@ dependencies:
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
   flutter_svg: ^1.0.3
-  flutter_facebook_auth: latest_version
-  sqflite: latest_version
 
+  path: any
+  your_app_name: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
