@@ -1,4 +1,7 @@
 <?php
+// This script initializes the database connection, serves the Flutter web build, 
+// and handles data fetching for the Vision Week app.
+
 // Parse the JawsDB connection information
 $jawsdb_url = parse_url(getenv("JAWSDB_URL"));
 $jawsdb_server = $jawsdb_url["host"];
@@ -14,44 +17,23 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Serve the Flutter web build
-include_once("index.html");
-?>
-<?php
-require_once '../config.php'; // Ensure this path is correct based on your directory structure
-
-session_start();
-
-$db = getDatabaseConnection(DB_FILE);
-$usersDb = getDatabaseConnection('sql/users.db');
-$zooDb = getDatabaseConnection('sql/zoo.db');
-$dataDb = getDatabaseConnection('sql/data.db');
-
-$articles = [];
-$users = [];
-$zoo = [];
-$logs = [];
-$errorMessage = '';
-
-if ($db) {
-    $articles = fetchFromDatabase($db, "SELECT title, content, published_at FROM news ORDER BY published_at DESC LIMIT 3");
-} else {
-    $errorMessage = "Database connection failed. Please try again later.";
+// Function to fetch data from the database
+function fetchFromDatabase($conn, $query) {
+    $result = $conn->query($query);
+    return $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
 }
 
+// Fetch data for various sections
+$articles = fetchFromDatabase($conn, "SELECT title, content, published_at FROM news ORDER BY published_at DESC LIMIT 3");
+$users = fetchFromDatabase($conn, "SELECT * FROM Users");
+$zoo = fetchFromDatabase($conn, "SELECT * FROM Zoo");
+$logs = fetchFromDatabase($conn, "SELECT * FROM DataAccessLog");
+
+// Determine welcome message
+session_start();
 $welcomeMessage = isset($_SESSION['user']) ? "Welcome back, " . htmlspecialchars($_SESSION['user']['username']) . "!" : "Welcome to our website!";
 
-if ($usersDb) {
-    $users = fetchFromDatabase($usersDb, "SELECT * FROM Users");
-}
-
-if ($zooDb) {
-    $zoo = fetchFromDatabase($zooDb, "SELECT * FROM Zoo");
-}
-
-if ($dataDb) {
-    $logs = fetchFromDatabase($dataDb, "SELECT * FROM DataAccessLog");
-}
+// HTML output begins here
 ?>
 
 <!DOCTYPE html>
@@ -59,25 +41,19 @@ if ($dataDb) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vision Week, a virtual exploration!</title>
+    <title>Vision Week - Virtual Exploration</title>
     <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
     <?php if (file_exists('header.php')) include 'header.php'; ?>
     <?php if (file_exists('navigation.php')) include 'navigation.php'; ?>
 
-    <main class="container">
-        <button onclick="openDesignThinkingQuiz()">Take the Design Thinking Quiz</button>
-
-        <?php if ($errorMessage): ?>
-            <p class="error"><?php echo htmlspecialchars($errorMessage); ?></p>
-        <?php endif; ?>
-
+    <main>
         <h1><?php echo htmlspecialchars($welcomeMessage); ?></h1>
 
         <section>
+            <h2>Latest News</h2>
             <?php if (!empty($articles)): ?>
-                <h2>Latest News</h2>
                 <ul>
                     <?php foreach ($articles as $article): ?>
                         <li>
@@ -133,8 +109,11 @@ if ($dataDb) {
     </main>
 
     <?php if (file_exists('footer.php')) include 'footer.php'; ?>
-
     <script src="/assets/script.js"></script>
-    <script src="/conception/receuil-des-besoins/design_thinking.js"></script>
 </body>
 </html>
+
+<?php
+// Close the database connection
+$conn->close();
+?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once 'db_config.php';
 session_start();
 
 $errorMessage = '';
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password)) {
         $errorMessage = 'Veuillez remplir tous les champs.';
     } else {
-        $db = new PDO('sqlite:' . USERS_DB_FILE);
+        $db = new PDO('sqlite:' . './database/users.sql');
         $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         $stmt = $db->prepare('SELECT * FROM Users WHERE username = :username LIMIT 1');
