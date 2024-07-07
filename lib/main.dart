@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -104,9 +105,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     }
   }
 
-  void register() {
+  void register() async {
     if (_registerFormKey.currentState!.validate()) {
-      _addUser(registerUsername, registerPassword);
+      await _addUser(registerUsername, registerPassword);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Registration successful! Please log in.')),
       );
@@ -164,7 +165,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           loginPassword = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null or value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
@@ -182,12 +183,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                         icon: Icon(Icons.login),
                         label: Text('Login with Google'),
                         onPressed: _signInWithGoogle,
-                      ),
-                      SizedBox(height: 10),
-                      ElevatedButton.icon(
-                        icon: Icon(Icons.login),
-                        label: Text('Login with Facebook'),
-                        onPressed: _signInWithFacebook,
                       ),
                       TextButton(
                         onPressed: toggleForm,
@@ -208,7 +203,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           registerUsername = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null or value.isEmpty) {
                             return 'Please enter your username';
                           }
                           return null;
@@ -221,7 +216,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           registerPassword = value;
                         },
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
+                          if (value == null or value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;

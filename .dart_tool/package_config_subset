@@ -274,6 +274,14 @@ sprintf
 2.12
 file:///home/kevin/.pub-cache/hosted/pub.dev/sprintf-7.0.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/sprintf-7.0.0/lib/
+sqflite
+3.3
+file:///home/kevin/.pub-cache/hosted/pub.dev/sqflite-2.3.3+1/
+file:///home/kevin/.pub-cache/hosted/pub.dev/sqflite-2.3.3+1/lib/
+sqflite_common
+3.3
+file:///home/kevin/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4/
+file:///home/kevin/.pub-cache/hosted/pub.dev/sqflite_common-2.5.4/lib/
 stack_trace
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/stack_trace-1.11.1/
@@ -286,6 +294,10 @@ string_scanner
 2.18
 file:///home/kevin/.pub-cache/hosted/pub.dev/string_scanner-1.2.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/string_scanner-1.2.0/lib/
+synchronized
+3.0
+file:///home/kevin/.pub-cache/hosted/pub.dev/synchronized-3.1.0+1/
+file:///home/kevin/.pub-cache/hosted/pub.dev/synchronized-3.1.0+1/lib/
 term_glyph
 2.12
 file:///home/kevin/.pub-cache/hosted/pub.dev/term_glyph-1.2.1/

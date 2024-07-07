@@ -26,6 +26,7 @@ shared_preferences_foundation=/home/kevin/.pub-cache/hosted/pub.dev/shared_prefe
 shared_preferences_linux=/home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/
 shared_preferences_web=/home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_web-2.3.0/
 shared_preferences_windows=/home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_windows-2.3.2/
+sqflite=/home/kevin/.pub-cache/hosted/pub.dev/sqflite-2.3.3+1/
 url_launcher=/home/kevin/.pub-cache/hosted/pub.dev/url_launcher-6.3.0/
 url_launcher_android=/home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3/
 url_launcher_ios=/home/kevin/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.0/
