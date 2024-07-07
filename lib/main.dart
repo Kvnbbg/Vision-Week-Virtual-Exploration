@@ -1,7 +1,17 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:your_app_name/screens/navigation.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -10,9 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Login/Register',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: ThemeMode.system,
       home: LoginRegisterScreen(),
     );
   }
@@ -33,6 +43,49 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   String registerPassword = '';
   String loginError = '';
   String registerError = '';
+  Database? database;
+
+  @override
+  void initState() {
+    super.initState();
+    _initDatabase();
+  }
+
+  Future<void> _initDatabase() async {
+    database = await openDatabase(
+      join(await getDatabasesPath(), 'users.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
+        );
+      },
+      version: 1,
+    );
+  }
+
+  Future<void> _addUser(String username, String password) async {
+    final db = database;
+    if (db != null) {
+      await db.insert(
+        'users',
+        {'username': username, 'password': password},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  }
+
+  Future<bool> _authenticateUser(String username, String password) async {
+    final db = database;
+    if (db != null) {
+      final List<Map<String, dynamic>> maps = await db.query(
+        'users',
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, password],
+      );
+      return maps.isNotEmpty;
+    }
+    return false;
+  }
 
   void toggleForm() {
     setState(() {
@@ -42,13 +95,12 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     });
   }
 
-  void login() {
+  void login() async {
     if (_loginFormKey.currentState!.validate()) {
       if (loginUsername == 'admin' && loginPassword == 'admin') {
-        // Successful login
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login successful!')),
-        );
+        Navigator.pushReplacementNamed(context, '/home');
+      } else if (await _authenticateUser(loginUsername, loginPassword)) {
+        Navigator.pushReplacementNamed(context, '/home');
       } else {
         setState(() {
           loginError = 'Invalid username or password';
@@ -59,10 +111,33 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
 
   void register() {
     if (_registerFormKey.currentState!.validate()) {
-      // Registration logic
-      setState(() {
-        registerError = 'Registration not implemented';
-      });
+      _addUser(registerUsername, registerPassword);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration successful! Please log in.')),
+      );
+      toggleForm();
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (googleUser != null) {
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      Navigator.pushReplacementNamed(context, '/home');
+    }
+  }
+
+  Future<void> _signInWithFacebook() async {
+    final LoginResult result = await FacebookAuth.instance.login();
+    if (result.status == LoginStatus.success) {
+      final AuthCredential credential = FacebookAuthProvider.credential(result.accessToken!.token);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
@@ -115,6 +190,18 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                       ElevatedButton(
                         onPressed: login,
                         child: Text('Login'),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.login),
+                        label: Text('Login with Google'),
+                        onPressed: _signInWithGoogle,
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.login),
+                        label: Text('Login with Facebook'),
+                        onPressed: _signInWithFacebook,
                       ),
                       TextButton(
                         onPressed: toggleForm,
