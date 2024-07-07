@@ -94,9 +94,9 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   void login() async {
     if (_loginFormKey.currentState!.validate()) {
       if (loginUsername == 'admin' && loginPassword == 'admin') {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context as BuildContext, '/home');
       } else if (await _authenticateUser(loginUsername, loginPassword)) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context as BuildContext, '/home');
       } else {
         setState(() {
           loginError = 'Invalid username or password';
@@ -108,7 +108,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   void register() async {
     if (_registerFormKey.currentState!.validate()) {
       await _addUser(registerUsername, registerPassword);
-      ScaffoldMessenger.of(context).showSnackBar(
+      ScaffoldMessenger.of(context as BuildContext).showSnackBar(
         SnackBar(content: Text('Registration successful! Please log in.')),
       );
       toggleForm();
@@ -124,7 +124,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
         idToken: googleAuth.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context as BuildContext, '/home');
     }
   }
 
@@ -165,7 +165,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           loginPassword = value;
                         },
                         validator: (value) {
-                          if (value == null or value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
@@ -203,7 +203,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           registerUsername = value;
                         },
                         validator: (value) {
-                          if (value == null or value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your username';
                           }
                           return null;
@@ -216,7 +216,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
                           registerPassword = value;
                         },
                         validator: (value) {
-                          if (value == null or value.isEmpty) {
+                          if (value == null || value.isEmpty) {
                             return 'Please enter your password';
                           }
                           return null;
