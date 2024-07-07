@@ -6,7 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:your_app_name/screens/navigation.dart';
+import 'package:vision-week-virtual-exploration/screens/navigation.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
