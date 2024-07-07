@@ -23,7 +23,7 @@ dependencies:
   flutter_svg: ^1.0.3
 
   path: any
-  your_app_name: any
+  vision_week_virtual_exploration: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
