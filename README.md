@@ -68,7 +68,7 @@
 
 ![Installation Extension](img/installextension.png)
 
-This extension is from [the visual studio marketplace](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate)
+This extension is from [the visual studio marketplace](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate/)
 
 
 1. **Clone the repository**:
