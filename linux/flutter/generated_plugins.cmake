@@ -3,10 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-<<<<<<< HEAD
   url_launcher_linux
-=======
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

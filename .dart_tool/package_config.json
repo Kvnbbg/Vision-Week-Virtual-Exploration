@@ -3,96 +3,59 @@
   "packages": [
     {
       "name": "_flutterfire_internals",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.38",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/_flutterfire_internals-1.3.38",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "async",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/async-2.11.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/async-2.11.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "boolean_selector",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "characters",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/characters-1.3.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/characters-1.3.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "clock",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/clock-1.1.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/clock-1.1.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "cloud_firestore",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore-5.0.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.8",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_platform_interface-6.2.8",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "cloud_firestore_web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cloud_firestore_web-4.0.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "collection",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/collection-1.18.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/collection-1.18.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
-<<<<<<< HEAD
       "name": "crypto",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/crypto-3.0.3",
       "packageUri": "lib/",
@@ -101,25 +64,16 @@
     {
       "name": "cupertino_icons",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.8",
-=======
-      "name": "cupertino_icons",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/cupertino_icons-1.0.8",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.1"
     },
     {
       "name": "fake_async",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
-<<<<<<< HEAD
       "name": "ffi",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/ffi-2.1.2",
       "packageUri": "lib/",
@@ -134,95 +88,58 @@
     {
       "name": "firebase_analytics",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics-11.1.0",
-=======
-      "name": "firebase_analytics",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics-11.1.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_analytics_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-4.1.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_platform_interface-4.1.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_analytics_web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_auth",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_auth_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_auth_web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.3",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_auth_web-5.12.3",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "firebase_core",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core-3.1.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core-3.1.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_core_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-5.1.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core_platform_interface-5.1.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "firebase_core_web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_core_web-2.17.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/firebase_core_web-2.17.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
-<<<<<<< HEAD
       "name": "fixnum",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/fixnum-1.1.0",
       "packageUri": "lib/",
@@ -230,16 +147,11 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter/packages/flutter",
-=======
-      "name": "flutter",
-      "rootUri": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter/packages/flutter",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+      "rootUri": "file:///opt/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
-<<<<<<< HEAD
       "name": "flutter_svg",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/flutter_svg-1.1.6",
       "packageUri": "lib/",
@@ -247,26 +159,17 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter/packages/flutter_test",
-=======
-      "name": "flutter_test",
-      "rootUri": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter/packages/flutter_test",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+      "rootUri": "file:///opt/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "flutter_web_plugins",
-<<<<<<< HEAD
-      "rootUri": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter/packages/flutter_web_plugins",
-=======
-      "rootUri": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter/packages/flutter_web_plugins",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+      "rootUri": "file:///opt/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
-<<<<<<< HEAD
       "name": "geolocator",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/geolocator-9.0.2",
       "packageUri": "lib/",
@@ -305,85 +208,52 @@
     {
       "name": "google_identity_services_web",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_identity_services_web-0.3.1+1",
-=======
-      "name": "google_identity_services_web",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_identity_services_web-0.3.1+1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "google_sign_in",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in-6.2.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_sign_in-6.2.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "google_sign_in_android",
-<<<<<<< HEAD
-      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.25",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.25",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.26",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
       "name": "google_sign_in_ios",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.6",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_sign_in_ios-5.7.6",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "google_sign_in_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "google_sign_in_web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.4+1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/google_sign_in_web-0.12.4+1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "http",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/http-1.2.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/http-1.2.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "http_parser",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/http_parser-4.0.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
-<<<<<<< HEAD
       "name": "js",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -392,35 +262,22 @@
     {
       "name": "leak_tracker",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/leak_tracker-10.0.4",
-=======
-      "name": "leak_tracker",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/leak_tracker-10.0.4",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.3",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.3",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_testing",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/leak_tracker_testing-3.0.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
-<<<<<<< HEAD
       "name": "location",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/location-4.4.0",
       "packageUri": "lib/",
@@ -441,26 +298,17 @@
     {
       "name": "matcher",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/matcher-0.12.16+1",
-=======
-      "name": "matcher",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/matcher-0.12.16+1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "material_color_utilities",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/material_color_utilities-0.8.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/material_color_utilities-0.8.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
       "name": "meta",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/meta-1.12.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
@@ -468,24 +316,16 @@
     {
       "name": "nested",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/nested-1.0.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/meta-1.12.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "path",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/path-1.9.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/path-1.9.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
-<<<<<<< HEAD
       "name": "path_drawing",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/path_drawing-1.0.1",
       "packageUri": "lib/",
@@ -524,25 +364,16 @@
     {
       "name": "platform",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/platform-3.1.5",
-=======
-      "name": "petitparser",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/petitparser-6.0.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "plugin_platform_interface",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
-<<<<<<< HEAD
       "name": "provider",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/provider-6.1.2",
       "packageUri": "lib/",
@@ -592,26 +423,17 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter/bin/cache/pkg/sky_engine",
-=======
-      "name": "sky_engine",
-      "rootUri": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter/bin/cache/pkg/sky_engine",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+      "rootUri": "file:///opt/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "source_span",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/source_span-1.10.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/source_span-1.10.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
-<<<<<<< HEAD
       "name": "sprintf",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/sprintf-7.0.0",
       "packageUri": "lib/",
@@ -620,65 +442,40 @@
     {
       "name": "stack_trace",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
-=======
-      "name": "stack_trace",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "stream_channel",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/stream_channel-2.1.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.19"
     },
     {
       "name": "string_scanner",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.18"
     },
     {
       "name": "term_glyph",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/term_glyph-1.2.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
     {
       "name": "test_api",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/test_api-0.7.0",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/test_api-0.7.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.0"
     },
     {
       "name": "typed_data",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/typed_data-1.3.2",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
     {
-<<<<<<< HEAD
       "name": "url_launcher",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher-6.3.0",
       "packageUri": "lib/",
@@ -735,35 +532,22 @@
     {
       "name": "vector_math",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
-=======
-      "name": "vector_math",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/vector_math-2.1.4",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "2.14"
     },
     {
       "name": "vm_service",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/vm_service-14.2.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/vm_service-14.2.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "web",
-<<<<<<< HEAD
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/web-0.5.1",
-=======
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/web-0.5.1",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
-<<<<<<< HEAD
       "name": "win32",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/win32-5.5.1",
       "packageUri": "lib/",
@@ -778,10 +562,6 @@
     {
       "name": "xml",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/xml-6.5.0",
-=======
-      "name": "xml",
-      "rootUri": "file:///Users/katiarachon/.pub-cache/hosted/pub.dev/xml-6.5.0",
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -792,19 +572,10 @@
       "languageVersion": "2.17"
     }
   ],
-<<<<<<< HEAD
-  "generated": "2024-07-04T19:26:06.746728Z",
+  "generated": "2024-07-07T21:46:57.507714Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
-  "flutterRoot": "file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/flutter",
-  "flutterVersion": "3.22.3-0.0.pre.2",
-  "pubCache": "file:///home/kevin/.pub-cache"
-=======
-  "generated": "2024-06-30T18:53:04.274245Z",
-  "generator": "pub",
-  "generatorVersion": "3.4.3",
-  "flutterRoot": "file:///Users/katiarachon/Documents/GitHub/vision_week_virtual_exploration/flutter/flutter",
+  "flutterRoot": "file:///opt/flutter",
   "flutterVersion": "3.22.2",
-  "pubCache": "file:///Users/katiarachon/.pub-cache"
->>>>>>> 5d3022ace5df3363aadb20e7a42864364f0dce68
+  "pubCache": "file:///home/kevin/.pub-cache"
 }
