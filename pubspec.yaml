@@ -22,8 +22,6 @@ dependencies:
   url_launcher: ^6.0.20
   flutter_svg: ^1.0.3
 
-  path: any
-  vision_week_virtual_exploration: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

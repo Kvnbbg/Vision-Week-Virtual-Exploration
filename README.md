@@ -64,6 +64,11 @@
 
 ![Installation Process](img/install.png)
 
+### Running the Extensions
+
+![Installation Extension](img/installextension.png)
+
+
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration.git
@@ -72,6 +77,11 @@
 
 2. **Run the Application**:
    - Web: 
+     ```bash
+     flutter build web
+     flutter run -d web
+     ```
+   - Web Mobile: 
      ```bash
      flutter run -d chrome
      ```
