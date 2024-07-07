@@ -74,13 +74,73 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
   }
 
   void _login() async {
-    // Implement login logic here
-    // Use Firebase Authentication or local database
+    if (widget.useFirebase) {
+      // Firebase login logic
+    } else {
+      if (database != null) {
+        try {
+          final List<Map<String, dynamic>> users = await database!.query(
+            'users',
+            where: 'username = ?',
+            whereArgs: [username],
+          );
+          if (users.isNotEmpty && users[0]['password'] == password) {
+            print('Login successful!');
+          } else {
+            print('Invalid username or password');
+            setState(() {
+              errorMessage = 'Invalid username or password';
+            });
+          }
+        } catch (e) {
+          print('Error logging in: $e');
+          setState(() {
+            errorMessage = 'Error logging in';
+          });
+        }
+      } else {
+        setState(() {
+          errorMessage = 'Database not initialized';
+        });
+      }
+    }
   }
 
   void _register() async {
-    // Implement registration logic here
-    // Use Firebase Authentication or local database
+    if (widget.useFirebase) {
+      // Firebase registration logic
+    } else {
+      if (database != null) {
+        try {
+          final List<Map<String, dynamic>> users = await database!.query(
+            'users',
+            where: 'username = ?',
+            whereArgs: [username],
+          );
+          if (users.isEmpty) {
+            await database!.insert(
+              'users',
+              {'username': username, 'password': password},
+            );
+            print('Registration successful!');
+          } else {
+            print('Username already exists');
+            setState(() {
+              errorMessage = 'Username already exists';
+            });
+          }
+        } catch (e) {
+          print('Error registering: $e');
+          setState(() {
+            errorMessage = 'Error registering';
+          });
+        }
+      } else {
+        setState(() {
+          errorMessage = 'Database not initialized';
+        });
+      }
+    }
   }
 
   @override
@@ -151,115 +211,6 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
               Text(errorMessage, style: TextStyle(color: Colors.red)),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-  void _register() async {
-    // Implement registration logic here
-    // Use Firebase Authentication or local database
-    if (widget.useFirebase) {
-      // Firebase registration logic
-    } else {
-      // Local database registration logic
-      if (database != null) {
-        try {
-          await database!.insert(
-            'users',
-            {'username': username, 'password': password},
-            conflictAlgorithm: ConflictAlgorithm.replace,
-          );
-          print('User registered successfully!');
-        } catch (e) {
-          print('Error registering user: $e');
-          setState(() {
-            errorMessage = 'Error registering user';
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = 'Database not initialized';
-        });
-      }
-    }
-  }
-
-  void _login() async {
-    // Implement login logic here
-    // Use Firebase Authentication or local database
-    if (widget.useFirebase) {
-      // Firebase login logic
-    } else {
-      // Local database login logic
-      if (database != null) {
-        try {
-          final List<Map<String, dynamic>> users = await database!.query(
-            'users',
-            where: 'username = ?',
-            whereArgs: [username],
-          );
-          if (users.isNotEmpty && users[0]['password'] == password) {
-            print('Login successful!');
-          } else {
-            print('Invalid username or password');
-            setState(() {
-              errorMessage = 'Invalid username or password';
-            });
-          }
-        } catch (e) {
-          print('Error logging in: $e');
-          setState(() {
-            errorMessage = 'Error logging in';
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = 'Database not initialized';
-        });
-      }
-    }
-  }
-}
-
-class LoginRegisterScreen extends StatefulWidget {
-  final bool useFirebase;
-
-  LoginRegisterScreen({required this.useFirebase});
-
-  @override
-  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
-}
-
-class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
-  bool showLogin = true; // Toggle between login and register screen
-  final _formKey = GlobalKey<FormState>();
-  String username = '';
-  String password = '';
-  String errorMessage = '';
-  Database? database;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!widget.useFirebase) {
-      _initDatabase();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // Implement UI here
-    return Scaffold(
-      appBar: AppBar(title: Text(showLogin ? 'Login' : 'Register')),
-      body: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            // Add TextFormFields for username and password
-            // Add buttons for toggling login/register and submitting
-          ],
         ),
       ),
     );
