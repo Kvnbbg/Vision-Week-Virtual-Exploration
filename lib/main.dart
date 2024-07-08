@@ -22,12 +22,12 @@ void main() async {
 class MyApp extends StatelessWidget {
   final bool useFirebase;
 
-  MyApp({required this.useFirebase});
+  const MyApp({required this.useFirebase, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Login/Register by Kevin Marville',
+      title: 'Flutter Vision Week by Kevin Marville',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.system,
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
 class LoginRegisterScreen extends StatefulWidget {
   final bool useFirebase;
 
-  LoginRegisterScreen({required this.useFirebase});
+  const LoginRegisterScreen({required this.useFirebase, Key? key}) : super(key: key);
 
   @override
   _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
