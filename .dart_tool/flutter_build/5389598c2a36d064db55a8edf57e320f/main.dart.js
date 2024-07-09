@@ -76054,7 +76054,7 @@ s=s[3]
 return Math.sqrt(r*r+q*q+p*p+s*s)}}
 A.Gf.prototype={
 O(a){var s=null
-return new A.vN(new A.vH(this.c,s),"Flutter Login/Register by Kevin Marville",A.qH(B.V,s),A.qH(B.a3,s),B.xQ,s)}}
+return new A.vN(new A.vH(this.c,s),"Flutter Vision Week by Kevin Marville",A.qH(B.V,s),A.qH(B.a3,s),B.xQ,s)}}
 A.vH.prototype={
 ag(){return new A.N0(new A.bJ(null,t.am),B.k)}}
 A.N0.prototype={
