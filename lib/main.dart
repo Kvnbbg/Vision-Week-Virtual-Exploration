@@ -132,7 +132,7 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
         } catch (e) {
           print('Error registering: $e');
           setState(() {
-            errorMessage = 'Error registering';
+            errorMessage = 'Error registering'; 
           });
         }
       } else {
