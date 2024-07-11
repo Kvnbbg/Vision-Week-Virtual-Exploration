@@ -1,81 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:path/path.dart' show join;
-import 'package:sqflite/sqflite.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'navigation.dart'; // Import the navigation screen
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  bool useFirebase = true; // Toggle this based on your needs or configuration
-
-  if (useFirebase) {
-    try {
-      await Firebase.initializeApp();
-    } catch (e) {
-      useFirebase = false;
-      print('Failed to initialize Firebase: $e');
-    }
-  }
-
-  runApp(MyApp(useFirebase: useFirebase));
-}
-
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final bool useFirebase;
 
-  const MyApp({required this.useFirebase, Key? key}) : super(key: key);
+  MyApp({required this.useFirebase});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Vision Week by Kevin Marville',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
-      home: LoginRegisterScreen(useFirebase: useFirebase),
-    );
-  }
+  _MyAppState createState() => _MyAppState();
 }
 
-class LoginRegisterScreen extends StatefulWidget {
-  final bool useFirebase;
-
-  const LoginRegisterScreen({required this.useFirebase, Key? key}) : super(key: key);
-
-  @override
-  _LoginRegisterScreenState createState() => _LoginRegisterScreenState();
-}
-
-class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
-  bool showLogin = true; // Toggle between login and register screen
-  final _formKey = GlobalKey<FormState>();
-  String username = '';
-  String password = '';
+class _MyAppState extends State<MyApp> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   String errorMessage = '';
-  Database? database;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!widget.useFirebase) {
-      _initDatabase();
-    }
-  }
-
-  Future<void> _initDatabase() async {
-    database = await openDatabase(
-      join(await getDatabasesPath(), 'users.db'),
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
-        );
-      },
-      version: 1,
-    );
-  }
 
   void _login() async {
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+
+    if (username == 'admin' && password == 'admin') {
+      // Directly navigate to the navigation screen for admin
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => NavigationScreen()),
+      );
+      return;
+    }
+
     if (widget.useFirebase) {
       // Firebase login logic
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: username,
+          password: password,
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NavigationScreen()),
+        );
+      } catch (e) {
+        setState(() {
+          errorMessage = 'Invalid username or password';
+        });
+      }
     } else {
       if (database != null) {
         try {
@@ -85,15 +54,16 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
             whereArgs: [username],
           );
           if (users.isNotEmpty && users[0]['password'] == password) {
-            print('Login successful!');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NavigationScreen()),
+            );
           } else {
-            print('Invalid username or password');
             setState(() {
               errorMessage = 'Invalid username or password';
             });
           }
         } catch (e) {
-          print('Error logging in: $e');
           setState(() {
             errorMessage = 'Error logging in';
           });
@@ -106,109 +76,33 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     }
   }
 
-  void _register() async {
-    if (widget.useFirebase) {
-      // Firebase registration logic
-    } else {
-      if (database != null) {
-        try {
-          final List<Map<String, dynamic>> users = await database!.query(
-            'users',
-            where: 'username = ?',
-            whereArgs: [username],
-          );
-          if (users.isEmpty) {
-            await database!.insert(
-              'users',
-              {'username': username, 'password': password},
-            );
-            print('Registration successful!');
-          } else {
-            print('Username already exists');
-            setState(() {
-              errorMessage = 'Username already exists';
-            });
-          }
-        } catch (e) {
-          print('Error registering: $e');
-          setState(() {
-            errorMessage = 'Error registering'; 
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = 'Database not initialized';
-        });
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(showLogin ? 'Login' : 'Register'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Login')),
+        body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
+            children: [
+              TextField(
+                controller: _usernameController,
                 decoration: InputDecoration(labelText: 'Username'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your username';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  username = value!;
-                },
               ),
-              SizedBox(height: 16),
-              TextFormField(
+              TextField(
+                controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  password = value!;
-                },
               ),
-              SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-                    if (showLogin) {
-                      _login();
-                    } else {
-                      _register();
-                    }
-                  }
-                },
-                child: Text(showLogin ? 'Login' : 'Register'),
+                onPressed: _login,
+                child: Text('Login'),
               ),
-              SizedBox(height: 16),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    showLogin = !showLogin;
-                  });
-                },
-                child: Text(showLogin
-                    ? 'Don\'t have an account? Register'
-                    : 'Already have an account? Login'),
-              ),
-              SizedBox(height: 16),
-              Text(errorMessage, style: TextStyle(color: Colors.red)),
+              if (errorMessage.isNotEmpty)
+                Text(
+                  errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
             ],
           ),
         ),
@@ -216,3 +110,5 @@ class _LoginRegisterScreenState extends State<LoginRegisterScreen> {
     );
   }
 }
+
+void main() => runApp(MyApp(useFirebase: false));
