@@ -1,4 +1,3 @@
-```groovy
 plugins {
     id 'com.android.application'
     id 'java'
@@ -46,4 +45,3 @@ compileJava {
     options.fork = true
     options.forkOptions.executable = '/usr/lib/jvm/java-11-openjdk-amd64/bin/javac'
 }
-```
