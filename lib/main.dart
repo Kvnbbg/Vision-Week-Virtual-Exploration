@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// Import the navigation screen
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+
+// Define the NavigationScreen class
+class NavigationScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Navigation Screen'),
+      ),
+      body: Center(
+        child: Text('Welcome to the Navigation Screen!'),
+      ),
+    );
+  }
+}
 
 // Main application widget
 class MyApp extends StatefulWidget {
@@ -16,6 +32,34 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String errorMessage = '';
+  Database? _database;
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.useFirebase) {
+      _initDatabase();
+    }
+  }
+
+  // Initialize the local database
+  Future<void> _initDatabase() async {
+    _database = await openDatabase(
+      join(await getDatabasesPath(), 'my_database.db'),
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
+        );
+      },
+    );
+
+    // Insert a test user
+    await _database!.insert('users', {
+      'username': 'testuser',
+      'password': 'testpass',
+    });
+  }
 
   // Method to handle login logic
   void _login() async {
@@ -52,10 +96,10 @@ class _MyAppState extends State<MyApp> {
         });
       }
     } else {
-      // Local database login logic (assuming `database` is defined elsewhere)
-      if (database != null) {
+      // Local database login logic
+      if (_database != null) {
         try {
-          final List<Map<String, dynamic>> users = await database!.query(
+          final List<Map<String, dynamic>> users = await _database!.query(
             'users',
             where: 'username = ?',
             whereArgs: [username],

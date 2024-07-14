@@ -6,17 +6,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() async {
   // Ensure that widget binding is initialized before any other operations
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   try {
     // Initialize Firebase
     await Firebase.initializeApp();
-    
+
     // Configure Firestore settings
     FirebaseFirestore.instance.settings = const Settings(
       persistenceEnabled: true,
       cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
     );
-    
+
     // Run the main application
     runApp(SemaineVisionApp());
   } catch (e) {
