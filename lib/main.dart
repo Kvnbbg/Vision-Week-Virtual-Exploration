@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'navigation.dart'; // Import the navigation screen
+// Import the navigation screen
 
 // Main application widget
 class MyApp extends StatefulWidget {
