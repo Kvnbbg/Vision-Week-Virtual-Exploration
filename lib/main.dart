@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:path/path.dart' as p;
 
 // Define the NavigationScreen class
 class NavigationScreen extends StatelessWidget {
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   // Initialize the local database
   Future<void> _initDatabase() async {
     _database = await openDatabase(
-      join(await getDatabasesPath(), 'my_database.db'),
+      p.join(await getDatabasesPath(), 'my_database.db'),
       version: 1,
       onCreate: (db, version) {
         return db.execute(
