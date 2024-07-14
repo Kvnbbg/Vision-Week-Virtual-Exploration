@@ -169,6 +169,13 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/lib/fi
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/lib/interop/analytics.dart
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/lib/interop/analytics_interop.dart
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_analytics_web-0.5.8/lib/utils/exception.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/firebase_auth.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/confirmation_result.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/firebase_auth.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/multi_factor.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/recaptcha_verifier.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/user.dart
+file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth-5.1.1/lib/src/user_credential.dart
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1/lib/firebase_auth_platform_interface.dart
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1/lib/src/action_code_info.dart
 file:///home/kevin/.pub-cache/hosted/pub.dev/firebase_auth_platform_interface-7.4.1/lib/src/action_code_settings.dart
@@ -796,7 +803,7 @@ file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/.dart_tool/f
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/.dart_tool/flutter_build/5389598c2a36d064db55a8edf57e320f/web_plugin_registrant.dart
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/.dart_tool/package_config.json
 file:///home/kevin/Documents/Github/Vision-Week-Virtual-Exploration/lib/main.dart
-file:///opt/flutter/bin/cache/flutter_web_sdk/kernel/dart2js_platform.dill
+file:///home/kevin/snap/flutter/common/flutter/bin/cache/flutter_web_sdk/kernel/dart2js_platform.dill
 file:///opt/flutter/packages/flutter/lib/animation.dart
 file:///opt/flutter/packages/flutter/lib/cupertino.dart
 file:///opt/flutter/packages/flutter/lib/foundation.dart
