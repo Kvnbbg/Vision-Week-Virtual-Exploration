@@ -1,6 +1,16 @@
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.2.0'
+    }
+}
+
 plugins {
     id 'com.android.application'
-    id 'java'
+    id 'kotlin-android'
 }
 
 android {
@@ -20,17 +30,10 @@ android {
     }
 }
 
-group 'com.example'
-version '1.0-SNAPSHOT'
-
-sourceCompatibility = '11'
-
 repositories {
+    google()
+    jcenter()
     mavenCentral()
-}
-
-test {
-    useJUnitPlatform()
 }
 
 dependencies {
