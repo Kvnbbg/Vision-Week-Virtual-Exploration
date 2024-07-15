@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'navigation_screen.dart';
 
-// Define the NavigationScreen class
+// Define the NavigationScreen class (if not defined in a separate file)
 class NavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
   // Initialize the local database
   Future<void> _initDatabase() async {
     _database = await openDatabase(
-      p.join(await getDatabasesPath(), 'my_database.db'), // Using alias p to resolve path
+      p.join(await getDatabasesPath(), 'my_database.db'),
       version: 1,
       onCreate: (db, version) {
         return db.execute(
@@ -139,23 +140,38 @@ class _MyAppState extends State<MyApp> {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Username input field
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: InputDecoration(
+                  labelText: 'Username',
+                  border: OutlineInputBorder(),
+                ),
               ),
+              SizedBox(height: 10),
               // Password input field
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
                 obscureText: true,
               ),
+              SizedBox(height: 20),
               // Login button
               ElevatedButton(
                 onPressed: _login,
                 child: Text('Login'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue,
+                  onPrimary: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
               ),
+              SizedBox(height: 10),
               // Display error message if any
               if (errorMessage.isNotEmpty)
                 Text(
