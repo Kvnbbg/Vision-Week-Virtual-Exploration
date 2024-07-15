@@ -2,22 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
-import 'navigation_screen.dart';
-
-// Define the NavigationScreen class (if not defined in a separate file)
-class NavigationScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Navigation Screen'),
-      ),
-      body: Center(
-        child: Text('Welcome to the Navigation Screen!'),
-      ),
-    );
-  }
-}
+import 'navigation_screen.dart'; // Ensure this import matches your file structure
 
 // Main application widget
 class MyApp extends StatefulWidget {
@@ -140,38 +125,26 @@ class _MyAppState extends State<MyApp> {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Username input field
               TextField(
                 controller: _usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Username'),
               ),
-              SizedBox(height: 10),
               // Password input field
               TextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
-              SizedBox(height: 20),
               // Login button
               ElevatedButton(
                 onPressed: _login,
-                child: Text('Login'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
-                  onPrimary: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                  backgroundColor: Colors.blue, // Corrected usage
                 ),
+                child: Text('Login'),
               ),
-              SizedBox(height: 10),
               // Display error message if any
               if (errorMessage.isNotEmpty)
                 Text(
