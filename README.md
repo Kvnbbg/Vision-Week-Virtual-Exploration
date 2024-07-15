@@ -1,4 +1,6 @@
-# Vision Week [Play Live 🚀](https://vision-week-783f01d43fbd.herokuapp.com/)
+# Vision Week
+
+[Play Live 🚀](https://vision-week-783f01d43fbd.herokuapp.com/)
 
 ![Logo](img/logo.png)
 
@@ -8,16 +10,15 @@
 [![Stars](https://img.shields.io/github/stars/Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/stargazers)
 [![License](https://img.shields.io/github/license/Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/blob/main/LICENSE)
 
-**Vision Week** est une application web et mobile offrant une expérience de zoo virtuel unique avec des casques VR. Explorez des parcours variés avec du contenu vidéo à chaque point d'intérêt. Accessible via un abonnement mensuel.
+**Vision Week** is a web and mobile application offering a unique virtual zoo experience with VR headsets. Explore various paths with video content at each point of interest. Accessible through a monthly subscription.
 
 ## Presentation
 
-- [Video Presentation on YouTube]()
+- [Video Presentation on YouTube](#)
 
 ## About
 
-
-**Vision Week** est un projet innovant débuté le 1er mars 2024, fonctionnant jusqu'au 1er juillet 2024. Il combine exploration virtuelle et interactions réelles, inspiré par Apple Vision Pro et Meta.
+**Vision Week** is an innovative project started on March 1, 2024, running until July 1, 2024. It combines virtual exploration and real interactions, inspired by Apple Vision Pro and Meta.
 
 - [Onboarding with Trello](https://trello.com/invite/b/d0s3w1dC/ATTI06fd9d3a996d76b6a64f03d769128607E026F6C8/kvnbbg-vision-week-virtual-explorat)
 - [Agile Method with Scrum, Slack, Confluence, and Jira](https://join.slack.com/t/kvnbbgworkspace/shared_invite/zt-2l36m5wvl-rhrPKr0n5O9B_flmlsQbKw)
@@ -29,32 +30,33 @@
 - [Technologies](#technologies)
 - [Prototype](#prototype)
 - [Installation](#installation)
+- [Running the Backend](#running-the-backend)
 - [Contributing](#contributing)
 - [Future Development](#future-development)
 - [Sponsor](#sponsor)
 - [Acknowledgements](#acknowledgements)
 - [Learn More](#learn-more)
+- [Contributors](#contributors)
 - [Useful Links](#useful-links)
 - [Side Project for Fun](#side-project-for-fun)
-- [Contributors](#contributors)
 
 ## Features
 
-- **Explore by Category**: Découvrez des vidéos par type d'exploration.
-- **Search Functionality**: Recherchez des vidéos par mots-clés ou localisation.
-- **Detailed Information**: Apprenez-en plus sur chaque exploration.
-- **Interactive Games**: Participez à des jeux amusants et éducatifs.
-- **Latest News Updates**: Restez informé des dernières nouvelles.
-- **User Data Management**: Gérez efficacement les données des utilisateurs.
-- **Zoo Information**: Explorez les animaux et leurs habitats.
-- **Access Logs**: Suivi des accès aux données pour la transparence.
-- **Future Interactive Experience**: Commentaires et évaluations des utilisateurs à venir.
+- **Explore by Category**: Discover videos by type of exploration.
+- **Search Functionality**: Search for videos by keywords or location.
+- **Detailed Information**: Learn more about each exploration.
+- **Interactive Games**: Participate in fun and educational games.
+- **Latest News Updates**: Stay informed with the latest news.
+- **User Data Management**: Efficiently manage user data.
+- **Zoo Information**: Explore animals and their habitats.
+- **Access Logs**: Track data access for transparency.
+- **Future Interactive Experience**: User comments and ratings coming soon.
 
 ## Technologies
 
 - **Frontend**: Dart (Flutter)
 - **Backend**: PHP (API development)
-- **Database**: Base de données relationnelle
+- **Database**: Relational database
 
 ## Prototype
 
@@ -68,8 +70,15 @@
 
 ![Installation Extension](img/installextension.png)
 
-This extension is from [the visual studio marketplace](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate/)
+This extension is available on [the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=DiemasMichiels.emulate/)
 
+### Prerequisites
+
+- Dart and Flutter SDK: [Installation Guide](https://flutter.dev/docs/get-started/install)
+- Gradle: [Installation Guide](https://gradle.org/install/)
+- MySQL: [Installation Guide](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
+
+### Steps
 
 1. **Clone the repository**:
    ```bash
@@ -78,21 +87,21 @@ This extension is from [the visual studio marketplace](https://marketplace.visua
    ```
 
 2. **Run the Application**:
-   - Web: 
+   - **Web**: 
      ```bash
      flutter build web
      flutter run -d web
      ```
-   - Web Mobile: 
+   - **Web Mobile**: 
      ```bash
      flutter run -d chrome
      ```
-   - Android/iOS: 
+   - **Android/iOS**: 
      ```bash
      flutter build apk
      flutter build ios
      ```
-   - Desktop:
+   - **Desktop**:
      ```bash
      flutter build windows
      flutter build macos
@@ -105,62 +114,59 @@ This extension is from [the visual studio marketplace](https://marketplace.visua
    - Download and install from [php.net](https://www.php.net/).
 
 2. **Configure Database**:
-   - Créez une nouvelle base de données et un utilisateur dans votre serveur MySQL.
-   - Mettez à jour les informations d'identification dans `backend/db_config.php`.
+   - Create a new database and user on your MySQL server.
+   - Update the credentials in `backend/db_config.php`.
 
 3. **Start the Server**:
-   - Allez dans le répertoire `backend`.
-   - Lancez le serveur avec :
+   - Navigate to the `backend` directory.
+   - Start the server with:
      ```bash
      php -S localhost:8000
      ```
 
 ## Contributing
 
-Nous accueillons les contributions pour améliorer ce projet ! N'hésitez pas à forker le dépôt et à soumettre des pull requests avec vos améliorations.
+We welcome contributions to improve this project! Feel free to fork the repository and submit pull requests with your enhancements.
 
-Consultez notre [CONTRIBUTING](CONTRIBUTING.md) pour plus de détails.
+Refer to our [CONTRIBUTING](CONTRIBUTING.md) guide for more details.
 
 ## Future Development
 
-- **Video Platform Integration**: Intégration avec des plateformes comme YouTube ou Vimeo.
-- **User Interactions**: Commentaires et évaluations des utilisateurs.
-- **Educational Resources**: Ajout de ressources pédagogiques.
-- **Backend Development**: Développement du backend pour la gestion des vidéos et des interactions.
+- **Video Platform Integration**: Integrate with platforms like YouTube or Vimeo.
+- **User Interactions**: Enable user comments and ratings.
+- **Educational Resources**: Add educational resources.
+- **Backend Development**: Develop the backend for managing videos and interactions.
 
 ## Sponsor
 
-Votre parrainage aide à couvrir les frais d'hébergement, d'enregistrement de domaine et d'outils de développement.
+Your sponsorship helps cover hosting, domain registration, and development tools.
 
-Lisez plus sur [SPONSORING](SPONSORING.md) Vision Week.
+Read more on [SPONSORING](SPONSORING.md) Vision Week.
 
-Merci pour votre soutien !
+Thank you for your support!
 
 ## Acknowledgements
 
-Ce projet a été créé par Kevin MARVILLE pour STUDI. Un grand merci à [STUDI](https://studi.com) pour leur soutien.
+This project was created by Kevin MARVILLE for STUDI. Many thanks to [STUDI](https://studi.com) for their support.
 
 ## Learn More
 
-Pour plus d'informations, visitez [kvnbbg.fr](https://kvnbbg.fr).
+For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
 
 ## Contributors
 
 [![GitHub contributors](https://contrib.rocks/image?repo=Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/graphs/contributors)
 
-Nous apprécions tous les contributeurs qui ont aidé à améliorer ce projet.
+We appreciate all contributors who have helped improve this project.
 
 ## Useful Links
 
 - [Discussion](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/discussions)
-
 - [Insight](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/settings/access)
 
 ## Side Project for Fun
 
-Découvrez mon projet parallèle, TurboZoo:
+Check out my side project, TurboZoo:
 - [GitHub](https://github.com/Kvnbbg/TurboZoo)
-
 - [Replit](https://replit.com/@kvnbbg/TurboZoo)
-
 - [First Version Video](https://www.youtube.com/watch?v=iS9uFwMw1SM)

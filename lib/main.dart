@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
   // Initialize the local database
   Future<void> _initDatabase() async {
     _database = await openDatabase(
-      p.join(await getDatabasesPath(), 'my_database.db'),
+      p.join(await getDatabasesPath(), 'my_database.db'), // Using alias p to resolve path
       version: 1,
       onCreate: (db, version) {
         return db.execute(
