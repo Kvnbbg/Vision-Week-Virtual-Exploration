@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
-import 'navigation_screen.dart'; // Ensure this import matches your file structure
+import 'package:vision_week_virtual_exploration/navigation_screen.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Main application widget
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  try {
+    await Firebase.initializeApp();
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    );
+    runApp(MyApp(useFirebase: true));
+  } catch (e) {
+    runApp(ErrorApp(error: e.toString()));
+  }
+}
+
 class MyApp extends StatefulWidget {
   final bool useFirebase;
 
@@ -28,93 +45,95 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // Initialize the local database
   Future<void> _initDatabase() async {
-    _database = await openDatabase(
-      p.join(await getDatabasesPath(), 'my_database.db'),
-      version: 1,
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
-        );
-      },
-    );
+    try {
+      _database = await openDatabase(
+        p.join(await getDatabasesPath(), 'my_database.db'),
+        version: 1,
+        onCreate: (db, version) {
+          return db.execute(
+            "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
+          );
+        },
+      );
 
-    // Insert a test user
-    await _database!.insert('users', {
-      'username': 'testuser',
-      'password': 'testpass',
-    });
+      // Insert a test user if the table is empty
+      final List<Map<String, dynamic>> users = await _database!.query('users');
+      if (users.isEmpty) {
+        await _database!.insert('users', {
+          'username': 'testuser',
+          'password': 'testpass',
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error initializing database: $e';
+      });
+    }
   }
 
-  // Method to handle login logic
   void _login() async {
     final String username = _usernameController.text;
     final String password = _passwordController.text;
 
-    // Special case for admin login
     if (username == 'admin' && password == 'admin') {
-      // Directly navigate to the navigation screen for admin
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => NavigationScreen()),
-      );
+      _navigateToHome();
       return;
     }
 
-    // Check if Firebase authentication is enabled
     if (widget.useFirebase) {
-      // Firebase login logic
+      _loginWithFirebase(username, password);
+    } else {
+      _loginWithDatabase(username, password);
+    }
+  }
+
+  Future<void> _loginWithFirebase(String username, String password) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: username,
+        password: password,
+      );
+      _navigateToHome();
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Invalid username or password';
+      });
+    }
+  }
+
+  Future<void> _loginWithDatabase(String username, String password) async {
+    if (_database != null) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: username,
-          password: password,
+        final List<Map<String, dynamic>> users = await _database!.query(
+          'users',
+          where: 'username = ?',
+          whereArgs: [username],
         );
-        // Navigate to the navigation screen upon successful login
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => NavigationScreen()),
-        );
+        if (users.isNotEmpty && users[0]['password'] == password) {
+          _navigateToHome();
+        } else {
+          setState(() {
+            errorMessage = 'Invalid username or password';
+          });
+        }
       } catch (e) {
-        // Display error message if login fails
         setState(() {
-          errorMessage = 'Invalid username or password';
+          errorMessage = 'Error logging in: $e';
         });
       }
     } else {
-      // Local database login logic
-      if (_database != null) {
-        try {
-          final List<Map<String, dynamic>> users = await _database!.query(
-            'users',
-            where: 'username = ?',
-            whereArgs: [username],
-          );
-          if (users.isNotEmpty && users[0]['password'] == password) {
-            // Navigate to the navigation screen upon successful login
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NavigationScreen()),
-            );
-          } else {
-            // Display error message if login fails
-            setState(() {
-              errorMessage = 'Invalid username or password';
-            });
-          }
-        } catch (e) {
-          // Display error message if there is an error querying the database
-          setState(() {
-            errorMessage = 'Error logging in';
-          });
-        }
-      } else {
-        // Display error message if the database is not initialized
-        setState(() {
-          errorMessage = 'Database not initialized';
-        });
-      }
+      setState(() {
+        errorMessage = 'Database not initialized';
+      });
     }
+  }
+
+  void _navigateToHome() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => NavigationScreen()),
+    );
   }
 
   @override
@@ -126,26 +145,22 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Username input field
               TextField(
                 controller: _usernameController,
                 decoration: InputDecoration(labelText: 'Username'),
               ),
-              // Password input field
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
-              // Login button
               ElevatedButton(
                 onPressed: _login,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Corrected usage
+                  backgroundColor: Colors.blue,
                 ),
                 child: Text('Login'),
               ),
-              // Display error message if any
               if (errorMessage.isNotEmpty)
                 Text(
                   errorMessage,
@@ -159,5 +174,18 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-// Entry point of the application
-void main() => runApp(MyApp(useFirebase: false));
+class ErrorApp extends StatelessWidget {
+  final String error;
+
+  ErrorApp({required this.error});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Error')),
+        body: Center(child: Text('Failed to initialize Firebase: $error')),
+      ),
+    );
+  }
+}
