@@ -140,6 +140,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Login in Vision Week',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
+      ],
       home: Scaffold(
         appBar: AppBar(title: Text('Login')),
         body: Padding(
