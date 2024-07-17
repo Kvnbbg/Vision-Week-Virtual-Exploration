@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:vision_week_virtual_exploration/screens/navigation_screen.dart';
 import 'screens/welcome_screen.dart';
 import 'screens/error_app.dart';
 import 'package:sqflite/sqflite.dart';
@@ -180,6 +181,11 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+  
+  NavigationScreen() {
+    /// return the navigation_screen.dart file
+    /// with the code from the snippet
+    /// lib/screens/navigation_screen.dart}
 }
 
 class ErrorApp extends StatelessWidget {
@@ -187,13 +193,4 @@ class ErrorApp extends StatelessWidget {
 
   ErrorApp({required this.error});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Error')),
-        body: Center(child: Text('Failed to initialize Firebase: $error')),
-      ),
-    );
-  }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'ecran_accueil.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_acceuil.dart';
 import 'ecran_profil.dart';
 import 'ecran_carte.dart';
 import 'ecran_video.dart';

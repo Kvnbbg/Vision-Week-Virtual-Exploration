@@ -309,7 +309,7 @@
     },
     {
       "name": "http",
-      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/http-1.2.1",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/http-1.2.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -668,7 +668,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-07-16T17:17:42.744507Z",
+  "generated": "2024-07-17T13:06:01.565693Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///home/kevin/snap/flutter/common/flutter",
