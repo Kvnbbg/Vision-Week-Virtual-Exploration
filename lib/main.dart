@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vision_week_virtual_exploration/screens/navigation_screen.dart';
-import 'screens/error_app.dart';
+import 'package:vision_week_virtual_exploration/screens/error_app.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
 
