@@ -184,7 +184,12 @@ class _MyAppState extends State<MyApp> {
   NavigationScreen() {
     /// return the navigation_screen.dart file
     /// with the code from the snippet
-    /// lib/screens/navigation_screen.dart}
+    /// lib/screens/navigation_screen.dart
+    /// with the code from the snippet
+    /// output: lib/screens/navigation_screen.dart
+    return NavigationScreen();
+  }
+  
 }
 
 class ErrorApp extends StatelessWidget {
