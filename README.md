@@ -51,12 +51,14 @@
 - **Zoo Information**: Explore animals and their habitats.
 - **Access Logs**: Track data access for transparency.
 - **Future Interactive Experience**: User comments and ratings coming soon.
+- **Multi-language Support**: Available in both French and English.
+- **Dark/Light Mode**: Switch between dark and light themes based on user preference.
 
 ## Technologies
 
 - **Frontend**: Dart (Flutter)
 - **Backend**: PHP (API development)
-- **Database**: Relational database
+- **Database**: MySQL
 
 ## Prototype
 
@@ -136,6 +138,8 @@ Refer to our [CONTRIBUTING](CONTRIBUTING.md) guide for more details.
 - **User Interactions**: Enable user comments and ratings.
 - **Educational Resources**: Add educational resources.
 - **Backend Development**: Develop the backend for managing videos and interactions.
+- **Enhanced VR Features**: Improve VR experiences with more interactive elements.
+- **Subscription Management**: Implement subscription plans and payment gateways.
 
 ## Sponsor
 

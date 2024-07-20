@@ -1,99 +1,70 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_accueil.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_principal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'screens/ecran_accueil.dart';
+import 'l10n/l10n.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  try {
-    await Firebase.initializeApp();
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
-    );
-    runApp(SemaineVisionApp());
-  } catch (e) {
-    runApp(ErrorApp(error: e.toString()));
-  }
+void main() {
+  runApp(SemaineVisionApp());
 }
 
 class SemaineVisionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Vision Week',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        brightness: Brightness.light,
-      ),
-      darkTheme: ThemeData(
-        brightness: Brightness.dark,
-      ),
-      themeMode: ThemeMode.system,
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-      ],
+      title: 'Vision Week Virtual Exploration',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      home: WelcomeScreen(),
+      home: EcranPrincipal(),
     );
   }
 }
 
-class ErrorApp extends StatelessWidget {
-  final String error;
-  ErrorApp({required this.error});
+class EcranPrincipal extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Error')),
-        body: Center(child: Text('Failed to initialize Firebase: $error')),
-      ),
-    );
+  _EcranPrincipalState createState() => _EcranPrincipalState();
+}
+
+class _EcranPrincipalState extends State<EcranPrincipal> {
+  int _selectedIndex = 0;
+
+  List<Widget> _widgetOptions = <Widget>[
+    EcranAccueil(),
+    Text('Profile'),
+    Text('Map'),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
-}
 
-class WelcomeScreen extends StatefulWidget {
-  @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(appLocalizations.welcomeTitle)),
+      appBar: AppBar(
+        title: Text('Ecran Principal'),
+      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              appLocalizations.welcomeMessage,
-              style: TextStyle(fontSize: 24),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => EcranPrincipal()),
-                );
-              },
-              child: Text(appLocalizations.startButton),
-            ),
-          ],
-        ),
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }
