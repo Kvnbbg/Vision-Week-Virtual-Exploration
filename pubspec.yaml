@@ -31,7 +31,7 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   sqflite: ^2.3.3+1
-  intl: ^0.17.0
+  intl: ^0.19.0
 
   path: any
   flutter_gen: any
