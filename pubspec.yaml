@@ -17,13 +17,13 @@ dependencies:
   firebase_analytics: ^11.0.1
   http: ^1.2.1
   xml: ^6.0.1
-  geolocator: ^9.0.2
-  location: ^4.3.0
+  geolocator: ^12.0.0
+  location: ^7.0.0
   provider: ^6.0.3
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
-  flutter_svg: ^1.0.3
-  flutter_secure_storage: ^4.2.0
+  flutter_svg: ^2.0.10+1
+  flutter_secure_storage: ^9.2.2
   flutter_localizations:
     sdk: flutter
   flutter_kinesis_video_webrtc: ^1.0.0
@@ -36,10 +36,10 @@ dependencies:
   path: any
   flutter_gen: any
 dev_dependencies:
-  lints: ^1.0.0
+  lints: ^4.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^4.0.0
 
   flutter_gen: any
 flutter:
