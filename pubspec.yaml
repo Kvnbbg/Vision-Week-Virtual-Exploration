@@ -1,6 +1,8 @@
 name: vision_week_virtual_exploration
 description: A new Flutter project for Vision Week Virtual Exploration.
 
+version: 1.0.0+1
+
 environment:
   sdk: ">=2.17.0 <4.0.0"
 
@@ -21,8 +23,7 @@ dependencies:
   shared_preferences: ^2.0.13
   url_launcher: ^6.0.20
   flutter_svg: ^1.0.3
-
-  flutter_secure_storage: ^8.0.0
+  flutter_secure_storage: ^4.2.0
   flutter_localizations:
     sdk: flutter
   flutter_kinesis_video_webrtc: ^1.0.0
@@ -30,12 +31,15 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
   sqflite: ^2.3.3+1
+  intl: ^0.17.0
 
-  path: any
 dev_dependencies:
   lints: ^1.0.0
   flutter_test:
     sdk: flutter
+  flutter_lints: ^1.0.0
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/translations/

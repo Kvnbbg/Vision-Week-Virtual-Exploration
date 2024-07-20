@@ -6,6 +6,7 @@ import 'package:vision_week_virtual_exploration/screens/ecran_carte.dart';
 import 'package:vision_week_virtual_exploration/screens/ecran_video.dart';
 import 'package:vision_week_virtual_exploration/screens/ecran_vr.dart';
 import 'package:vision_week_virtual_exploration/screens/ecran_parametres.dart';
+import 'package:vision_week_virtual_exploration/l10n/l10n.dart';
 
 class EcranPrincipal extends StatefulWidget {
   @override
@@ -27,46 +28,59 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index);
     });
     _analytics.logEvent(name: 'tab_change', parameters: {'index': index});
   }
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vision Week'),
+        title: Text(appLocalizations.appTitle),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.exit_to_app),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => WelcomeScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
         child: _widgetOptions[_selectedIndex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Accueil',
+            label: appLocalizations.home,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profil',
+            label: appLocalizations.profile,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: 'Carte',
+            label: appLocalizations.map,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.video_library),
-            label: 'Vidéos',
+            label: appLocalizations.videos,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.vrpano),
-            label: 'VR',
+            label: appLocalizations.vr,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Paramètres',
+            label: appLocalizations.settings,
           ),
         ],
         currentIndex: _selectedIndex,
