@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vision_week_virtual_exploration/screens/ecran_accueil.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_profil.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_carte.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_video.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_vr.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_parametres.dart';
 import 'package:vision_week_virtual_exploration/screens/ecran_principal.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

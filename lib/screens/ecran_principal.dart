@@ -30,7 +30,7 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     setState(() {
       _selectedIndex = index);
     });
-    _analytics.logEvent(name: 'tab_change', parameters: {'index': index});
+    _analytics.logEvent();
   }
 
   @override
