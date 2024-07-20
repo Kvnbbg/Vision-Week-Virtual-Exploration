@@ -1,38 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vision_week_virtual_exploration/screens/navigation_screen.dart';
-import 'package:vision_week_virtual_exploration/screens/error_app.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'package:vision_week_virtual_exploration/screens/ecran_principal.dart';
+import 'package:vision_week_virtual_exploration/screens/register_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:vision_week_virtual_exploration/l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(SemaineVisionApp());
+}
 
-  try {
-    await Firebase.initializeApp();
-    FirebaseFirestore.instance.settings = const Settings(
-      persistenceEnabled: true,
-      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+class SemaineVisionApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Vision Week',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.system,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.delegate,
+      ],
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: WelcomeScreen(),
     );
-    runApp(MyApp(useFirebase: true));
-  } catch (e) {
-    runApp(ErrorApp(error: e.toString()));
   }
 }
 
-class MyApp extends StatefulWidget {
-  final bool useFirebase;
-
-  MyApp({required this.useFirebase});
-
+class WelcomeScreen extends StatefulWidget {
   @override
-  _MyAppState createState() => _MyAppState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String errorMessage = '';
@@ -41,36 +53,19 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    if (!widget.useFirebase) {
-      _initDatabase();
-    }
+    _initDatabase();
   }
 
   Future<void> _initDatabase() async {
-    try {
-      _database = await openDatabase(
-        p.join(await getDatabasesPath(), 'my_database.db'),
-        version: 1,
-        onCreate: (db, version) {
-          return db.execute(
-            "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
-          );
-        },
-      );
-
-      // Insert a test user if the table is empty
-      final List<Map<String, dynamic>> users = await _database!.query('users');
-      if (users.isEmpty) {
-        await _database!.insert('users', {
-          'username': 'testuser',
-          'password': 'testpass',
-        });
-      }
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Error initializing database: $e';
-      });
-    }
+    _database = await openDatabase(
+      p.join(await getDatabasesPath(), 'users.db'),
+      version: 1,
+      onCreate: (db, version) {
+        return db.execute(
+          "CREATE TABLE users(id INTEGER PRIMARY KEY, username TEXT, password TEXT)",
+        );
+      },
+    );
   }
 
   void _login() async {
@@ -78,49 +73,27 @@ class _MyAppState extends State<MyApp> {
     final String password = _passwordController.text;
 
     if (username == 'admin' && password == 'admin') {
-      _navigateToHome();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => EcranPrincipal()),
+      );
       return;
     }
 
-    if (widget.useFirebase) {
-      _loginWithFirebase(username, password);
-    } else {
-      _loginWithDatabase(username, password);
-    }
-  }
-
-  Future<void> _loginWithFirebase(String username, String password) async {
-    try {
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: username,
-        password: password,
-      );
-      _navigateToHome();
-    } catch (e) {
-      setState(() {
-        errorMessage = 'Invalid username or password';
-      });
-    }
-  }
-
-  Future<void> _loginWithDatabase(String username, String password) async {
     if (_database != null) {
-      try {
-        final List<Map<String, dynamic>> users = await _database!.query(
-          'users',
-          where: 'username = ?',
-          whereArgs: [username],
+      final List<Map<String, dynamic>> users = await _database!.query(
+        'users',
+        where: 'username = ?',
+        whereArgs: [username],
+      );
+      if (users.isNotEmpty && users[0]['password'] == password) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => EcranPrincipal()),
         );
-        if (users.isNotEmpty && users[0]['password'] == password) {
-          _navigateToHome();
-        } else {
-          setState(() {
-            errorMessage = 'Invalid username or password';
-          });
-        }
-      } catch (e) {
+      } else {
         setState(() {
-          errorMessage = 'Error logging in: $e';
+          errorMessage = 'Invalid username or password';
         });
       }
     } else {
@@ -130,71 +103,59 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void _navigateToHome() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => NavigationScreen()),
-    );
+  void _register() async {
+    final String username = _usernameController.text;
+    final String password = _passwordController.text;
+
+    if (_database != null) {
+      await _database!.insert('users', {
+        'username': username,
+        'password': password,
+      });
+      _login();
+    } else {
+      setState(() {
+        errorMessage = 'Database not initialized';
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login in Vision Week',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    final appLocalizations = AppLocalizations.of(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(appLocalizations?.translate('welcome') ?? 'Welcome'),
       ),
-      navigatorObservers: [
-        FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance),
-      ],
-      home: Scaffold(
-        appBar: AppBar(title: Text('Login')),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              TextField(
-                controller: _usernameController,
-                decoration: InputDecoration(labelText: 'Username'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _usernameController,
+              decoration: InputDecoration(labelText: appLocalizations?.translate('username') ?? 'Username'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: InputDecoration(labelText: appLocalizations?.translate('password') ?? 'Password'),
+              obscureText: true,
+            ),
+            ElevatedButton(
+              onPressed: _login,
+              child: Text(appLocalizations?.translate('login') ?? 'Login'),
+            ),
+            ElevatedButton(
+              onPressed: _register,
+              child: Text(appLocalizations?.translate('register') ?? 'Register'),
+            ),
+            if (errorMessage.isNotEmpty)
+              Text(
+                errorMessage,
+                style: TextStyle(color: Colors.red),
               ),
-              TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-              ),
-              ElevatedButton(
-                onPressed: _login,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                ),
-                child: Text('Login'),
-              ),
-              if (errorMessage.isNotEmpty)
-                Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.red),
-                ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ErrorApp extends StatelessWidget {
-  final String error;
-
-  ErrorApp({required this.error});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Error',
-      home: Scaffold(
-        appBar: AppBar(title: Text('Error')),
-        body: Center(
-          child: Text(error, style: TextStyle(color: Colors.red, fontSize: 24)),
+          ],
         ),
       ),
     );

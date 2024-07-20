@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_acceuil.dart';
-import 'ecran_profil.dart';
-import 'ecran_carte.dart';
-import 'ecran_video.dart';
-import 'ecran_vr.dart';
-import 'ecran_parametres.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_accueil.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_profil.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_carte.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_video.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_vr.dart';
+import 'package:vision_week_virtual_exploration/screens/ecran_parametres.dart';
 
 class EcranPrincipal extends StatefulWidget {
   @override
@@ -29,14 +29,14 @@ class _EcranPrincipalState extends State<EcranPrincipal> {
     setState(() {
       _selectedIndex = index;
     });
-    _analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
+    _analytics.logEvent(name: 'tab_change', parameters: {'index': index});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Semaine Vision'),
+        title: Text('Vision Week'),
       ),
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
