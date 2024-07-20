@@ -180,16 +180,6 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-  
-  NavigationScreen() {
-    /// return the navigation_screen.dart file
-    /// with the code from the snippet
-    /// lib/screens/navigation_screen.dart
-    /// with the code from the snippet
-    /// output: lib/screens/navigation_screen.dart
-    return NavigationScreen();
-  }
-  
 }
 
 class ErrorApp extends StatelessWidget {
@@ -197,4 +187,16 @@ class ErrorApp extends StatelessWidget {
 
   ErrorApp({required this.error});
 
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Error',
+      home: Scaffold(
+        appBar: AppBar(title: Text('Error')),
+        body: Center(
+          child: Text(error, style: TextStyle(color: Colors.red, fontSize: 24)),
+        ),
+      ),
+    );
+  }
 }

@@ -307,9 +307,9 @@ shared_preferences_linux
 file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/
 file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_linux-2.3.2/lib/
 shared_preferences_platform_interface
-3.0
-file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.3.2/
-file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.3.2/lib/
+3.2
+file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.0/
+file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.0/lib/
 shared_preferences_web
 3.3
 file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_web-2.3.0/
@@ -368,8 +368,8 @@ file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher-6.3.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher-6.3.0/lib/
 url_launcher_android
 3.4
-file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3/
-file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3/lib/
+file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.5/
+file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.5/lib/
 url_launcher_ios
 3.2
 file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_ios-6.3.1/

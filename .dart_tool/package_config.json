@@ -489,9 +489,9 @@
     },
     {
       "name": "shared_preferences_platform_interface",
-      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.3.2",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/shared_preferences_platform_interface-2.4.0",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.2"
     },
     {
       "name": "shared_preferences_web",
@@ -585,7 +585,7 @@
     },
     {
       "name": "url_launcher_android",
-      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.3",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_android-6.3.5",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -668,7 +668,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-07-17T13:27:34.939499Z",
+  "generated": "2024-07-20T15:39:14.702786Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///home/kevin/snap/flutter/common/flutter",
