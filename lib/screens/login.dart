@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'ecran_principal.dart';
+import 'register.dart';
 import '../auth/auth_service.dart';
+import 'ecran_d_acceuil.dart';
 
-class RegisterScreen extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -22,21 +24,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _register() async {
+  void _login() async {
     if (_formKey.currentState!.validate()) {
       try {
         await Provider.of<AuthService>(context, listen: false)
-            .signUp(_emailController.text, _passwordController.text);
+            .signIn(_emailController.text, _passwordController.text);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => EcranPrincipal()),
         );
       } catch (e) {
         setState(() {
-          _errorMessage = 'Failed to register';
+          _errorMessage = 'Invalid email or password';
         });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => EcranDAccueil()),
+        );
       }
     }
+  }
+
+  void _register() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisterScreen()),
+    );
   }
 
   @override
@@ -45,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.registerTitle),
+        title: Text(appLocalizations.loginTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -83,6 +96,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               SizedBox(height: 20),
               ElevatedButton(
+                onPressed: _login,
+                child: Text(appLocalizations.login),
+              ),
+              TextButton(
                 onPressed: _register,
                 child: Text(appLocalizations.register),
               ),

@@ -1,70 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'screens/ecran_accueil.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'screens/ecran_principal.dart';
+import 'screens/login.dart';
+import 'screens/register.dart';
+import 'screens/ecran_d_acceuil.dart';
+import 'auth/auth_service.dart';
 import 'l10n/l10n.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(SemaineVisionApp());
 }
 
 class SemaineVisionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Vision Week Virtual Exploration',
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: EcranPrincipal(),
-    );
-  }
-}
-
-class EcranPrincipal extends StatefulWidget {
-  @override
-  _EcranPrincipalState createState() => _EcranPrincipalState();
-}
-
-class _EcranPrincipalState extends State<EcranPrincipal> {
-  int _selectedIndex = 0;
-
-  List<Widget> _widgetOptions = <Widget>[
-    EcranAccueil(),
-    Text('Profile'),
-    Text('Map'),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ecran Principal'),
-      ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
+    return ChangeNotifierProvider(
+      create: (context) => AuthService(),
+      child: MaterialApp(
+        title: 'Vision Week Virtual Exploration',
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Consumer<AuthService>(
+          builder: (context, authService, _) {
+            return authService.user == null ? LoginScreen() : EcranPrincipal();
+          },
+        ),
       ),
     );
   }

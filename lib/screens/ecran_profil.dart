@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:vision_week_virtual_exploration/l10n/l10n.dart';
 
 class EcranProfil extends StatelessWidget {
   @override

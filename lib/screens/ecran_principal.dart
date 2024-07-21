@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_accueil.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_profil.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_carte.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_video.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_vr.dart';
-import 'package:vision_week_virtual_exploration/screens/ecran_parametres.dart';
-import 'package:vision_week_virtual_exploration/l10n/l10n.dart';
+import 'package:provider/provider.dart';
+import '../auth/auth_service.dart';
 
 class EcranPrincipal extends StatefulWidget {
   @override
@@ -15,78 +9,147 @@ class EcranPrincipal extends StatefulWidget {
 
 class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    EcranAccueil(),
-    EcranProfil(),
-    EcranCarte(),
-    EcranVideo(),
-    EcranVR(),
-    EcranParametres(),
+  List<Widget> _widgetOptions = <Widget>[
+    Text('Welcome to the Vision Week Virtual Exploration!'),
+    ProfileScreen(),
+    MapScreen(),
+    ExploreScreen(),
+    FavoritesScreen(),
+    SettingsScreen(),
+    VRTourScreen(),
+    AboutScreen(),
+    ContactScreen(),
+    HelpScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index);
+      _selectedIndex = index;
     });
-    _analytics.logEvent();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final user = Provider.of<AuthService>(context).user;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.appTitle),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.exit_to_app),
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => WelcomeScreen()),
-              );
-            },
-          ),
-        ],
+        title: Text('Welcome ${user?.email}'),
       ),
-      body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300),
-        child: _widgetOptions[_selectedIndex],
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: appLocalizations.home,
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: appLocalizations.profile,
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            label: appLocalizations.map,
+            label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.video_library),
-            label: appLocalizations.videos,
+            icon: Icon(Icons.explore),
+            label: 'Explore',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.vrpano),
-            label: appLocalizations.vr,
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: appLocalizations.settings,
+            label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.vrpano),
+            label: 'VR Tour',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'About',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.help),
+            label: 'Help',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
         onTap: _onItemTapped,
       ),
     );
+  }
+}
+
+// Mock screens for demonstration purposes
+class ProfileScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Profile'));
+  }
+}
+
+class MapScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Map'));
+  }
+}
+
+class ExploreScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Explore'));
+  }
+}
+
+class FavoritesScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Favorites'));
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Settings'));
+  }
+}
+
+class VRTourScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('VR Tour'));
+  }
+}
+
+class AboutScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('About'));
+  }
+}
+
+class ContactScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Contact'));
+  }
+}
+
+class HelpScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Help'));
   }
 }
