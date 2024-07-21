@@ -1,0 +1,22 @@
+{
+    "welcomeTitle": "Semaine Vision",
+    "welcomeMessage": "Bienvenue à la Semaine Vision !",
+    "startButton": "Commencer",
+    "home": "Accueil",
+    "profile": "Profil",
+    "map": "Carte",
+    "videos": "Vidéos",
+    "vr": "VR",
+    "settings": "Paramètres",
+    "appTitle": "Semaine Vision",
+    "exploreZoo": "Explorez le zoo et découvrez nos animaux !",
+    "userProfile": "Profil Utilisateur",
+    "manageProfile": "Gérez votre profil et vos abonnements.",
+    "interactiveMap": "Carte Interactive",
+    "findWay": "Trouvez votre chemin dans le zoo avec notre carte interactive.",
+    "watchVideos": "Regardez des vidéos sur nos animaux et leurs habitats.",
+    "vrViewer": "Visionneuse VR",
+    "discoverZooVR": "Découvrez le zoo en réalité virtuelle.",
+    "settingsScreen": "Ajustez vos paramètres de l'application."
+  }
+  

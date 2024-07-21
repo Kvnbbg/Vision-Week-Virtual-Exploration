@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'screens/ecran_principal.dart';
 import 'screens/login.dart';
 import 'auth/auth_service.dart';
+import 'settings/theme_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,21 +18,31 @@ class SemaineVisionApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => AuthService(),
-      child: MaterialApp(
-        title: 'Vision Week Virtual Exploration',
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: Consumer<AuthService>(
-          builder: (context, authService, _) {
-            return authService.user == null ? LoginScreen() : EcranPrincipal();
-          },
-        ),
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return ChangeNotifierProvider(
+            create: (context) => AuthService(),
+            child: MaterialApp(
+              title: 'Vision Week Virtual Exploration',
+              theme: themeProvider.lightTheme,
+              darkTheme: themeProvider.darkTheme,
+              themeMode: themeProvider.themeMode,
+              localizationsDelegates: [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: Consumer<AuthService>(
+                builder: (context, authService, _) {
+                  return authService.user == null ? LoginScreen() : EcranPrincipal();
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }

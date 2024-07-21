@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.registerTitle),
+        title: Text(appLocalizations!.registerTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

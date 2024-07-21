@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'ecran_principal.dart';
 import 'register.dart';
 import '../auth/auth_service.dart';
-import 'ecran_d_acceuil.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -37,10 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _errorMessage = 'Invalid email or password';
         });
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => EcranDAccueil()),
-        );
       }
     }
   }
@@ -58,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.loginTitle),
+        title: Text(appLocalizations!.loginTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -69,10 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(labelText: appLocalizations.email),
+                decoration: InputDecoration(labelText: appLocalizations.username),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return appLocalizations.emailRequired;
+                    return appLocalizations.usernameRequired;
                   }
                   return null;
                 },
