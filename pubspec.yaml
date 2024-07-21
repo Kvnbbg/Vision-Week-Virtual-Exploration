@@ -34,15 +34,18 @@ dependencies:
   intl: ^0.19.0
 
   path: any
-  flutter_gen: any
+  flutter_gen: ^3.0.0
 dev_dependencies:
   lints: ^4.0.0
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
 
-  flutter_gen: any
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/translations/
+    - assets/images/
+    - assets/icons/
+    - lib/l10n

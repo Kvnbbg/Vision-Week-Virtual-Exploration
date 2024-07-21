@@ -1,0 +1,14 @@
+{
+  "homeTitle": "Home",
+  "loginTitle": "Login",
+  "username": "Username",
+  "password": "Password",
+  "login": "Login",
+  "register": "Register",
+  "usernameRequired": "Username is required",
+  "passwordRequired": "Password is required",
+  "welcomeMessage": "Welcome to the home screen",
+  "exploreZoo": "Explore our virtual zoo and discover the wonders of wildlife.",
+  "startExploring": "Start Exploring",
+  "informationText": "For the best experience, use headphones and a stable internet connection."
+}
