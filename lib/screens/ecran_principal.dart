@@ -10,7 +10,7 @@ class EcranPrincipal extends StatefulWidget {
 class _EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0;
 
-  List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = <Widget>[
     Text('Welcome to the Vision Week Virtual Exploration!'),
     ProfileScreen(),
     MapScreen(),

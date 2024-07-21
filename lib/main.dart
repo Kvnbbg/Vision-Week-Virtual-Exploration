@@ -5,10 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'screens/ecran_principal.dart';
 import 'screens/login.dart';
-import 'screens/register.dart';
-import 'screens/ecran_d_acceuil.dart';
 import 'auth/auth_service.dart';
-import 'l10n/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
