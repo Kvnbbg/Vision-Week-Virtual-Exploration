@@ -29,7 +29,6 @@ dependencies:
   sqflite: ^2.3.3+1
   intl: ^0.19.0
   flutter_gen: ^5.6.0
-
   path: any
 
 dev_dependencies:
@@ -45,6 +44,5 @@ flutter:
 
   assets:
     - assets/
-
-    - lib/l10n/int_en.arb
-    - lib/l10n/int_fr.arb
+    - lib/l10n/app_en.arb
+    - lib/l10n/app_fr.arb
