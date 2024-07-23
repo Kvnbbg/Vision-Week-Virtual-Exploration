@@ -162,6 +162,10 @@ fixnum
 2.19
 file:///home/kevin/.pub-cache/hosted/pub.dev/fixnum-1.1.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/fixnum-1.1.0/lib/
+flame
+3.4
+file:///home/kevin/.pub-cache/hosted/pub.dev/flame-1.18.0/
+file:///home/kevin/.pub-cache/hosted/pub.dev/flame-1.18.0/lib/
 flutter_gen
 2.17
 file:///home/kevin/.pub-cache/hosted/pub.dev/flutter_gen-5.6.0/
@@ -346,6 +350,10 @@ nested
 2.12
 file:///home/kevin/.pub-cache/hosted/pub.dev/nested-1.0.0/
 file:///home/kevin/.pub-cache/hosted/pub.dev/nested-1.0.0/lib/
+ordered_set
+2.14
+file:///home/kevin/.pub-cache/hosted/pub.dev/ordered_set-5.0.3/
+file:///home/kevin/.pub-cache/hosted/pub.dev/ordered_set-5.0.3/lib/
 package_config
 2.12
 file:///home/kevin/.pub-cache/hosted/pub.dev/package_config-2.1.0/
@@ -531,9 +539,9 @@ url_launcher_web
 file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.1/
 file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_web-2.3.1/lib/
 url_launcher_windows
-3.0
-file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/
-file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.1/lib/
+3.2
+file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.2/
+file:///home/kevin/.pub-cache/hosted/pub.dev/url_launcher_windows-3.1.2/lib/
 uuid
 3.0
 file:///home/kevin/.pub-cache/hosted/pub.dev/uuid-4.4.2/
