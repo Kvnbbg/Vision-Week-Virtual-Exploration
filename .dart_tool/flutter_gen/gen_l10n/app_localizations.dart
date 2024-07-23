@@ -93,6 +93,120 @@ abstract class AppLocalizations {
     Locale('fr')
   ];
 
+  /// No description provided for @welcomeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vision Week'**
+  String get welcomeTitle;
+
+  /// No description provided for @welcomeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to Vision Week!'**
+  String get welcomeMessage;
+
+  /// No description provided for @startButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get startButton;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @map.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get map;
+
+  /// No description provided for @videos.
+  ///
+  /// In en, this message translates to:
+  /// **'Videos'**
+  String get videos;
+
+  /// No description provided for @vr.
+  ///
+  /// In en, this message translates to:
+  /// **'VR'**
+  String get vr;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Vision Week'**
+  String get appTitle;
+
+  /// No description provided for @exploreZoo.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore the zoo and discover our animals!'**
+  String get exploreZoo;
+
+  /// No description provided for @userProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'User Profile'**
+  String get userProfile;
+
+  /// No description provided for @manageProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your profile and subscriptions.'**
+  String get manageProfile;
+
+  /// No description provided for @interactiveMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive Map'**
+  String get interactiveMap;
+
+  /// No description provided for @findWay.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your way around the zoo with our interactive map.'**
+  String get findWay;
+
+  /// No description provided for @watchVideos.
+  ///
+  /// In en, this message translates to:
+  /// **'Watch videos about our animals and their habitats.'**
+  String get watchVideos;
+
+  /// No description provided for @vrViewer.
+  ///
+  /// In en, this message translates to:
+  /// **'VR Viewer'**
+  String get vrViewer;
+
+  /// No description provided for @discoverZooVR.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover the zoo in virtual reality.'**
+  String get discoverZooVR;
+
+  /// No description provided for @settingsScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust your app settings.'**
+  String get settingsScreen;
+
   /// No description provided for @homeTitle.
   ///
   /// In en, this message translates to:
@@ -141,17 +255,17 @@ abstract class AppLocalizations {
   /// **'Password is required'**
   String get passwordRequired;
 
-  /// No description provided for @welcomeMessage.
+  /// No description provided for @welcomeMessageHome.
   ///
   /// In en, this message translates to:
   /// **'Welcome to the home screen'**
-  String get welcomeMessage;
+  String get welcomeMessageHome;
 
-  /// No description provided for @exploreZoo.
+  /// No description provided for @exploreZooHome.
   ///
   /// In en, this message translates to:
   /// **'Explore our virtual zoo and discover the wonders of wildlife.'**
-  String get exploreZoo;
+  String get exploreZooHome;
 
   /// No description provided for @startExploring.
   ///
