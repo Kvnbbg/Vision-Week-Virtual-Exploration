@@ -55,11 +55,19 @@ class AuthService {
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
   }
 
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
-    await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    try {
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    } catch (e) {
+      throw AuthException(e.toString());
+    }
   }
 
   Future<void> signOut() async {
@@ -69,6 +77,11 @@ class AuthService {
   bool isUserLoggedIn() {
     return _auth.currentUser != null;
   }
+}
+
+class AuthException implements Exception {
+  final String message;
+  AuthException(this.message);
 }
 
 class ThemeProvider extends ChangeNotifier {
@@ -121,22 +134,31 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  String _error = '';
 
   void _login() async {
     setState(() {
       _isLoading = true;
+      _error = '';
     });
-    await AuthService().signInWithEmailAndPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+    try {
+      await AuthService().signInWithEmailAndPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -158,12 +180,12 @@ class _LoginScreenState extends State<LoginScreen> {
               obscureText: true,
             ),
             SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _login,
-                    child: Text('Login'),
-                  ),
+            if (_isLoading) CircularProgressIndicator(),
+            if (_error.isNotEmpty) Text(_error, style: TextStyle(color: Colors.red)),
+            ElevatedButton(
+              onPressed: _login,
+              child: Text('Login'),
+            ),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -189,22 +211,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
+  String _error = '';
 
   void _register() async {
     setState(() {
       _isLoading = true;
+      _error = '';
     });
-    await AuthService().signUpWithEmailAndPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
-    setState(() {
-      _isLoading = false;
-    });
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+    try {
+      await AuthService().signUpWithEmailAndPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -226,12 +257,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
               obscureText: true,
             ),
             SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _register,
-                    child: Text('Register'),
-                  ),
+            if (_isLoading) CircularProgressIndicator(),
+            if (_error.isNotEmpty) Text(_error, style: TextStyle(color: Colors.red)),
+            ElevatedButton(
+              onPressed: _register,
+              child: Text('Register'),
+            ),
           ],
         ),
       ),

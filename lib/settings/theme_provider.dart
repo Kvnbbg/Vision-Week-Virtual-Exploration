@@ -15,16 +15,14 @@ class ThemeProvider with ChangeNotifier {
   ThemeData get lightTheme {
     return ThemeData(
       brightness: Brightness.light,
-      primaryColor: Colors.blue,
-      accentColor: Colors.blueAccent,
+      primaryColor: Colors.blue, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
     );
   }
 
   ThemeData get darkTheme {
     return ThemeData(
       brightness: Brightness.dark,
-      primaryColor: Colors.grey,
-      accentColor: Colors.blueGrey,
+      primaryColor: Colors.grey, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueGrey),
     );
   }
 }
