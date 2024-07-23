@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +17,7 @@ void main() async {
   runApp(MyApp());
 }
 
+// Main app widget
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -37,22 +38,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// Zoo VR Game class using Flame
 class ZooVRGame extends FlameGame {
-  ZooVRGame()
-      : super(
-          camera: CameraComponent(
-            world: PositionComponent()
-              ..size = Vector2(800, 600),
-          ),
-        );
+  ZooVRGame() : super(camera: CameraComponent(world: World()));
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
     // Load your components here
+    add(PositionComponent()..size = Vector2(800, 600));
   }
 }
 
+// Authentication Service
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -60,12 +58,8 @@ class AuthService {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
-      if (email == 'admin' && password == 'admin') {
-        // Admin login
-        return;
-      }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw AuthException(_handleAuthError(e));
     }
   }
@@ -73,7 +67,7 @@ class AuthService {
   Future<void> signUpWithEmailAndPassword(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw AuthException(_handleAuthError(e));
     }
   }
@@ -93,16 +87,18 @@ class AuthService {
       case 'wrong-password':
         return 'Wrong password provided.';
       default:
-        return 'An undefined Error happened.';
+        return 'An undefined error happened.';
     }
   }
 }
 
+// Custom Exception for Authentication Errors
 class AuthException implements Exception {
   final String message;
   AuthException(this.message);
 }
 
+// Theme Provider for Dark and Light Mode
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
 
@@ -146,6 +142,7 @@ class ThemeProvider extends ChangeNotifier {
   }
 }
 
+// Login Screen
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -180,9 +177,9 @@ class _LoginScreenState extends State<LoginScreen> {
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } catch (e) {
+    } on AuthException catch (e) {
       setState(() {
-        _error = e.toString();
+        _error = e.message;
       });
     } finally {
       setState(() {
@@ -232,6 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+// Register Screen
 class RegisterScreen extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
@@ -266,9 +264,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
       );
-    } catch (e) {
+    } on AuthException catch (e) {
       setState(() {
-        _error = e.toString();
+        _error = e.message;
       });
     } finally {
       setState(() {
@@ -309,6 +307,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
+// Home Screen with Navigation
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -382,8 +381,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// Home Widget with URL Launcher
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({Key? key}) : super(key: key);
+  const HomeWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -413,7 +413,10 @@ class HomeWidget extends StatelessWidget {
   }
 }
 
+// Mini-Game Screen with Random Events
 class MiniGameScreen extends StatefulWidget {
+  const MiniGameScreen({super.key});
+
   @override
   _MiniGameScreenState createState() => _MiniGameScreenState();
 }
@@ -422,7 +425,7 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   double _bankBalance = 100.0;
   double _temperature = 20.0;
   int _grabCount = 0;
-  Random _random = Random();
+  final Random _random = Random();
 
   void _grabAnimal() {
     int units = _random.nextInt(4) + 1;
@@ -467,8 +470,9 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   }
 }
 
+// Settings Screen Placeholder
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -477,3 +481,81 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+
+// Data Service to Handle API Calls
+class DataService {
+  final String apiUrl = "https://jsonplaceholder.typicode.com/posts";
+
+  Future<List<Post>> fetchPosts() async {
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      List<dynamic> body = jsonDecode(response.body);
+      List<Post> posts = body.map((dynamic item) => Post.fromJson(item)).toList();
+      return posts;
+    } else {
+      throw Exception('Failed to load posts');
+    }
+  }
+
+  Future<Post> createPost(Post post) async {
+    final response = await http.post(
+      Uri.parse(apiUrl),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(post.toJson()),
+    );
+    if (response.statusCode == 201) {
+      return Post.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to create post');
+    }
+  }
+
+  Future<Post> updatePost(int id, Post post) async {
+    final response = await http.put(
+      Uri.parse('$apiUrl/$id'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(post.toJson()),
+    );
+    if (response.statusCode == 200) {
+      return Post.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to update post');
+    }
+  }
+
+  Future<void> deletePost(int id) async {
+    final response = await http.delete(Uri.parse('$apiUrl/$id'));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete post');
+    }
+  }
+}
+
+// Model Class for Post
+class Post {
+  final int id;
+  final String title;
+  final String body;
+
+  Post({required this.id, required this.title, required this.body});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      title: json['title'],
+      body: json['body'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'body': body,
+    };
+  }
+}
+
+
+  
+  
