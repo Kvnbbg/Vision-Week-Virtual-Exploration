@@ -1,7 +1,3 @@
-Sure! Here is an updated and improved version of your `README.md`, including emojis for languages, clearer instructions, and more concise explanations:
-
----
-
 # Vision Week
 
 [Play Live 🚀](https://vision-week-783f01d43fbd.herokuapp.com/)
@@ -220,5 +216,3 @@ Découvrez mon projet annexe, TurboZoo :
 - [GitHub](https://github.com/Kvnbbg/TurboZoo)
 - [Replit](https://replit.com/@kvnbbg/TurboZoo)
 - [First Version Video / Première Version Vidéo](https://www.youtube.com/watch?v=iS9uFwMw1SM)
-
----
