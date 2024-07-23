@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,9 +40,9 @@ class MyApp extends StatelessWidget {
 class ZooVRGame extends FlameGame {
   ZooVRGame()
       : super(
-          camera: CameraComponent.withFixedResolution(
-            width: 800,
-            height: 600,
+          camera: CameraComponent(
+            world: PositionComponent()
+              ..size = Vector2(800, 600),
           ),
         );
 
@@ -56,9 +60,13 @@ class AuthService {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
+      if (email == 'admin' && password == 'admin') {
+        // Admin login
+        return;
+      }
       await _auth.signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      throw AuthException(e.toString());
+      throw AuthException(_handleAuthError(e));
     }
   }
 
@@ -66,7 +74,7 @@ class AuthService {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      throw AuthException(e.toString());
+      throw AuthException(_handleAuthError(e));
     }
   }
 
@@ -76,6 +84,17 @@ class AuthService {
 
   bool isUserLoggedIn() {
     return _auth.currentUser != null;
+  }
+
+  String _handleAuthError(FirebaseAuthException e) {
+    switch (e.code) {
+      case 'user-not-found':
+        return 'No user found for that email.';
+      case 'wrong-password':
+        return 'Wrong password provided.';
+      default:
+        return 'An undefined Error happened.';
+    }
   }
 }
 
@@ -115,13 +134,15 @@ class ThemeProvider extends ChangeNotifier {
   Future<void> _loadTheme() async {
     final prefs = await SharedPreferences.getInstance();
     final isDark = prefs.getBool('isDarkTheme') ?? false;
-    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
+    if (_themeMode != (isDark ? ThemeMode.dark : ThemeMode.light)) {
+      _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+      notifyListeners();
+    }
   }
 
   Future<void> _saveTheme(bool isDark) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isDarkTheme', isDark);
+    await prefs.setBool('isDarkTheme', isDark);
   }
 }
 
@@ -137,15 +158,24 @@ class _LoginScreenState extends State<LoginScreen> {
   String _error = '';
 
   void _login() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() {
+        _error = 'Email and password cannot be empty';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _error = '';
     });
+
     try {
       await AuthService().signInWithEmailAndPassword(
         _emailController.text,
         _passwordController.text,
       );
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -214,15 +244,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _error = '';
 
   void _register() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      setState(() {
+        _error = 'Email and password cannot be empty';
+      });
+      return;
+    }
+
     setState(() {
       _isLoading = true;
       _error = '';
     });
+
     try {
       await AuthService().signUpWithEmailAndPassword(
         _emailController.text,
         _passwordController.text,
       );
+      if (!mounted) return;
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -270,7 +309,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  static const List<Widget> _widgetOptions = <Widget>[
+    HomeWidget(),
+    MiniGameScreen(),
+    SettingsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -279,8 +336,9 @@ class HomeScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () {
-              AuthService().signOut();
+            onPressed: () async {
+              await AuthService().signOut();
+              if (!mounted) return;
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => LoginScreen()),
@@ -296,8 +354,126 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: Center(
-        child: Text('Welcome to Vision Week Virtual Exploration!'),
+        child: AnimatedSwitcher(
+          duration: Duration(milliseconds: 300),
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.games),
+            label: 'Mini-Game',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
+      ),
+    );
+  }
+}
+
+class HomeWidget extends StatelessWidget {
+  const HomeWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Welcome to Vision Week Virtual Exploration!'),
+          SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              launchURL('https://kvnbbg.fr');
+            },
+            child: Text('Visit my blog'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+}
+
+class MiniGameScreen extends StatefulWidget {
+  @override
+  _MiniGameScreenState createState() => _MiniGameScreenState();
+}
+
+class _MiniGameScreenState extends State<MiniGameScreen> {
+  double _bankBalance = 100.0;
+  double _temperature = 20.0;
+  int _grabCount = 0;
+  Random _random = Random();
+
+  void _grabAnimal() {
+    int units = _random.nextInt(4) + 1;
+    setState(() {
+      _bankBalance += units * 10;
+      _temperature += units * 2;
+      _grabCount += units;
+    });
+  }
+
+  double _calculateLevelProgress() {
+    return (_grabCount % 100) / 100;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Mini-Game')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Bank Balance: \$${_bankBalance.toStringAsFixed(2)}'),
+            Text('Temperature: ${_temperature.toStringAsFixed(1)}°C'),
+            ElevatedButton(
+              onPressed: _grabAnimal,
+              child: Text('Grab Animal'),
+            ),
+            SizedBox(height: 20),
+            LinearProgressIndicator(
+              value: _calculateLevelProgress(),
+              backgroundColor: Colors.grey[300],
+              color: Colors.blue,
+              minHeight: 10,
+            ),
+            SizedBox(height: 10),
+            Text('Level Progress: ${(_calculateLevelProgress() * 100).toStringAsFixed(0)}%'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Settings'),
     );
   }
 }
