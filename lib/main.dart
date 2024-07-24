@@ -6,8 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -17,7 +18,6 @@ void main() async {
   runApp(MyApp());
 }
 
-// Main app widget
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,19 +38,168 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Zoo VR Game class using Flame
-class ZooVRGame extends FlameGame {
-  ZooVRGame() : super(camera: CameraComponent(world: World()));
+// Enum for game states
+enum GameState {
+  playing,
+  gameOver,
+}
+
+class FluttersGame extends Game {
+  GameState currentGameState = GameState.playing;
+  late Size viewport;
+  late Background skyBackground;
+  late Floor groundFloor;
+  late Level currentLevel;
+  late Bird birdPlayer;
+  late TextComponent scoreText;
+  late TextComponent floorText;
+  late Dialog gameOverDialog;
+
+  late double tileSize;
+  late double birdPosY;
+  double birdPosYOffset = 8;
+  bool isFluttering = false;
+  double flutterValue = 0;
+  double flutterIntensity = 20;
+  double floorHeight = 250;
+  double currentHeight = 0; // Game score
+
+  FluttersGame(Size screenDimensions) {
+    resize(screenDimensions);
+    skyBackground = Background(this, 0, 0, viewport.width, viewport.height);
+    groundFloor = Floor(this, 0, viewport.height - floorHeight, viewport.width, floorHeight, 0xff48BB78);
+    currentLevel = Level(this);
+    birdPlayer = Bird(this, 0, birdPosY, tileSize, tileSize);
+    scoreText = TextComponent(this, '0', 30.0, 60);
+    floorText = TextComponent(this, 'Tap to flutter!', 40.0, viewport.height - floorHeight / 2);
+    gameOverDialog = Dialog(this);
+  }
 
   @override
-  Future<void> onLoad() async {
-    super.onLoad();
-    // Load your components here
-    add(PositionComponent()..size = Vector2(800, 600));
+  void resize(Size size) {
+    viewport = size;
+    tileSize = viewport.width / 6;
+    birdPosY = viewport.height - floorHeight - tileSize + (tileSize / 8);
+  }
+
+  @override
+  void render(Canvas c) {
+    skyBackground.render(c);
+    c.save();
+    c.translate(0, currentHeight);
+    currentLevel.levelObstacles.forEach((obstacle) {
+      if (isObstacleInRange(obstacle)) {
+        obstacle.render(c);
+      }
+    });
+    groundFloor.render(c);
+    floorText.render(c);
+    c.restore();
+
+    birdPlayer.render(c);
+
+    if (currentGameState == GameState.gameOver) {
+      gameOverDialog.render(c);
+    } else {
+      scoreText.render(c);
+    }
+  }
+
+  @override
+  void update(double t) {
+    if (currentGameState == GameState.playing) {
+      currentLevel.levelObstacles.forEach((obstacle) {
+        if (isObstacleInRange(obstacle)) {
+          obstacle.update(t);
+        }
+      });
+      skyBackground.update(t);
+      birdPlayer.update(t);
+
+      scoreText.setText(currentHeight.floor().toString());
+      scoreText.update(t);
+      floorText.update(t);
+      gameOverDialog.update(t);
+
+      flutterHandler();
+      checkCollision();
+    }
+  }
+
+  void checkCollision() {
+    currentLevel.levelObstacles.forEach((obstacle) {
+      if (isObstacleInRange(obstacle)) {
+        if (birdPlayer.toCollisionRect().overlaps(obstacle.toRect())) {
+          obstacle.markHit();
+          gameOver();
+        }
+      }
+    });
+  }
+
+  void gameOver() {
+    currentGameState = GameState.gameOver;
+  }
+
+  void restartGame() {
+    birdPlayer.setRotation(0);
+    currentHeight = 0;
+    currentLevel.generateObstacles();
+    currentGameState = GameState.playing;
+  }
+
+  bool isObstacleInRange(Obstacle obs) {
+    return -obs.y < viewport.height + currentHeight && -obs.y > currentHeight - viewport.height;
+  }
+
+  void flutterHandler() {
+    if (isFluttering) {
+      flutterValue *= 0.8;
+      currentHeight += flutterValue;
+      birdPlayer.setRotation(-flutterValue * birdPlayer.direction * 1.5);
+
+      if (flutterValue < 1) isFluttering = false;
+    } else {
+      if (flutterValue < 15) {
+        flutterValue *= 1.2;
+      }
+      if (currentHeight > flutterValue) {
+        birdPlayer.setRotation(flutterValue * birdPlayer.direction * 2);
+        currentHeight -= flutterValue;
+      } else if (currentHeight > 0) {
+        currentHeight = 0;
+        birdPlayer.setRotation(0);
+      }
+    }
+  }
+
+  void onTapDown(TapDownDetails d) {
+    if (currentGameState != GameState.gameOver) {
+      birdPlayer.startFlutter();
+      isFluttering = true;
+      flutterValue = flutterIntensity;
+    } else if (gameOverDialog.playButton.contains(d.globalPosition)) {
+      restartGame();
+    } else if (gameOverDialog.creditsText.toRect().contains(d.globalPosition)) {
+      _launchURL();
+    }
+  }
+
+  void onTapUp(TapUpDetails d) {
+    birdPlayer.endFlutter();
+  }
+
+  Future<void> _launchURL() async {
+    const url = 'https://github.com/ecklf';
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
-// Authentication Service
+// Auth service class
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -92,13 +241,12 @@ class AuthService {
   }
 }
 
-// Custom Exception for Authentication Errors
 class AuthException implements Exception {
   final String message;
   AuthException(this.message);
 }
 
-// Theme Provider for Dark and Light Mode
+// Theme provider class
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
 
@@ -142,172 +290,6 @@ class ThemeProvider extends ChangeNotifier {
   }
 }
 
-// Login Screen
-class LoginScreen extends StatefulWidget {
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-  String _error = '';
-
-  void _login() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      setState(() {
-        _error = 'Email and password cannot be empty';
-      });
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-      _error = '';
-    });
-
-    try {
-      await AuthService().signInWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      );
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    } on AuthException catch (e) {
-      setState(() {
-        _error = e.message;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            if (_isLoading) CircularProgressIndicator(),
-            if (_error.isNotEmpty) Text(_error, style: TextStyle(color: Colors.red)),
-            ElevatedButton(
-              onPressed: _login,
-              child: Text('Login'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen()),
-                );
-              },
-              child: Text('Register'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Register Screen
-class RegisterScreen extends StatefulWidget {
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
-  String _error = '';
-
-  void _register() async {
-    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      setState(() {
-        _error = 'Email and password cannot be empty';
-      });
-      return;
-    }
-
-    setState(() {
-      _isLoading = true;
-      _error = '';
-    });
-
-    try {
-      await AuthService().signUpWithEmailAndPassword(
-        _emailController.text,
-        _passwordController.text,
-      );
-      if (!mounted) return;
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
-      );
-    } on AuthException catch (e) {
-      setState(() {
-        _error = e.message;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Register')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            if (_isLoading) CircularProgressIndicator(),
-            if (_error.isNotEmpty) Text(_error, style: TextStyle(color: Colors.red)),
-            ElevatedButton(
-              onPressed: _register,
-              child: Text('Register'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Home Screen with Navigation
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -331,7 +313,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Vision Week Virtual Exploration'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -349,6 +331,22 @@ class _HomeScreenState extends State<HomeScreen> {
             onChanged: (value) {
               Provider.of<ThemeProvider>(context, listen: false).toggleTheme(value);
             },
+          ),
+          Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // Switch to English
+                },
+                child: Text('English'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Switch to French
+                },
+                child: Text('Français'),
+              ),
+            ],
           ),
         ],
       ),
@@ -381,7 +379,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// Home Widget with URL Launcher
 class HomeWidget extends StatelessWidget {
   const HomeWidget({super.key});
 
@@ -395,7 +392,7 @@ class HomeWidget extends StatelessWidget {
           SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              launchURL('https://kvnbbg.fr');
+              _launchURL('https://kvnbbg.fr');
             },
             child: Text('Visit my blog'),
           ),
@@ -404,16 +401,15 @@ class HomeWidget extends StatelessWidget {
     );
   }
 
-  void launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+  void _launchURL(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url);
     } else {
       throw 'Could not launch $url';
     }
   }
 }
 
-// Mini-Game Screen with Random Events
 class MiniGameScreen extends StatefulWidget {
   const MiniGameScreen({super.key});
 
@@ -470,7 +466,6 @@ class _MiniGameScreenState extends State<MiniGameScreen> {
   }
 }
 
-// Settings Screen Placeholder
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
 
@@ -482,7 +477,6 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-// Data Service to Handle API Calls
 class DataService {
   final String apiUrl = "https://jsonplaceholder.typicode.com/posts";
 
@@ -531,7 +525,6 @@ class DataService {
   }
 }
 
-// Model Class for Post
 class Post {
   final int id;
   final String title;
@@ -555,7 +548,3 @@ class Post {
     };
   }
 }
-
-
-  
-  
