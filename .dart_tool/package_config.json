@@ -32,6 +32,48 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "audioplayers",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers-6.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_android",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_android-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_darwin",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_darwin-6.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_linux",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_linux-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_platform_interface",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_platform_interface-7.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "audioplayers_web",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_web-5.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "audioplayers_windows",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/audioplayers_windows-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -250,6 +292,12 @@
     {
       "name": "flame",
       "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/flame-1.18.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "flame_audio",
+      "rootUri": "file:///home/kevin/.pub-cache/hosted/pub.dev/flame_audio-2.10.2",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
@@ -932,7 +980,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2024-07-23T20:07:35.206895Z",
+  "generated": "2024-07-24T19:37:37.235501Z",
   "generator": "pub",
   "generatorVersion": "3.4.3",
   "flutterRoot": "file:///home/kevin/snap/flutter/common/flutter",
