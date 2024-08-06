@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// Enum for game states
 enum GameState {
   playing,
   gameOver,
@@ -62,7 +61,7 @@ class FluttersGame extends Game {
   double flutterValue = 0;
   double flutterIntensity = 20;
   double floorHeight = 250;
-  double currentHeight = 0; // Game score
+  double currentHeight = 0;
 
   FluttersGame(Size screenDimensions) {
     resize(screenDimensions);
@@ -70,8 +69,8 @@ class FluttersGame extends Game {
     groundFloor = Floor(this, 0, viewport.height - floorHeight, viewport.width, floorHeight, 0xff48BB78);
     currentLevel = Level(this);
     birdPlayer = Bird(this, 0, birdPosY, tileSize, tileSize);
-    scoreText = TextComponent(this, '0', 30.0, 60);
-    floorText = TextComponent(this, 'Tap to flutter!', 40.0, viewport.height - floorHeight / 2);
+    scoreText = TextComponent(text: '0', position: Vector2(30.0, 60));
+    floorText = TextComponent(text: 'Tap to flutter!', position: Vector2(viewport.width / 2, viewport.height - floorHeight / 2));
     gameOverDialog = Dialog(this);
   }
 
@@ -116,7 +115,7 @@ class FluttersGame extends Game {
       skyBackground.update(t);
       birdPlayer.update(t);
 
-      scoreText.setText(currentHeight.floor().toString());
+      scoreText.text = currentHeight.floor().toString();
       scoreText.update(t);
       floorText.update(t);
       gameOverDialog.update(t);
@@ -199,7 +198,140 @@ class FluttersGame extends Game {
   }
 }
 
-// Auth service class
+class Background extends Component {
+  Background(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Floor extends Component {
+  Floor(this.game, this.x, this.y, this.width, this.height, this.color);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+  final int color;
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Level extends Component {
+  Level(this.game);
+
+  final FluttersGame game;
+  final List<Obstacle> levelObstacles = [];
+
+  void generateObstacles() {
+    // Generate obstacles for the level
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Bird extends Component {
+  Bird(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+  double direction = 1.0;
+
+  void startFlutter() {
+    // Implement start flutter logic
+  }
+
+  void endFlutter() {
+    // Implement end flutter logic
+  }
+
+  void setRotation(double rotation) {
+    // Implement rotation logic
+  }
+
+  Rect toCollisionRect() {
+    return Rect.fromLTWH(x, y, width, height);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Obstacle extends Component {
+  Obstacle(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+
+  void markHit() {
+    // Implement hit logic
+  }
+
+  Rect toRect() {
+    return Rect.fromLTWH(x, y, width, height);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Dialog extends Component {
+  Dialog(this.game);
+
+  final FluttersGame game;
+
+  Rect get playButton => Rect.fromLTWH(0, 0, 100, 50);
+  TextComponent get creditsText => TextComponent(text: 'Credits');
+
+  @override
+  void render(Canvas canvas) {
+    // Implement rendering logic
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -207,7 +339,8 @@ class AuthService {
 
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password
+      );
     } on FirebaseAuthException catch (e) {
       throw AuthException(_handleAuthError(e));
     }
@@ -246,7 +379,6 @@ class AuthException implements Exception {
   AuthException(this.message);
 }
 
-// Theme provider class
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
 
@@ -546,5 +678,304 @@ class Post {
       'title': title,
       'body': body,
     };
+  }
+}
+
+class LoginScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+     
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(labelText: 'Email'),
+            ),
+            TextField(
+              controller: passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await AuthService().signInWithEmailAndPassword(
+                    emailController.text,
+                    passwordController.text,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.toString()),
+                  ));
+                }
+              },
+              child: Text('Login'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await AuthService().signUpWithEmailAndPassword(
+                    emailController.text,
+                    passwordController.text,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(e.toString()),
+                  ));
+                }
+              },
+              child: Text('Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Background extends Component {
+  Background(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+
+  @override
+  void render(Canvas canvas) {
+    Paint paint = Paint()..color = Color(0xFF87CEEB);
+    canvas.drawRect(Rect.fromLTWH(x, y, width, height), paint);
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic if needed
+  }
+}
+
+class Floor extends Component {
+  Floor(this.game, this.x, this.y, this.width, this.height, this.color);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+  final int color;
+
+  @override
+  void render(Canvas canvas) {
+    Paint paint = Paint()..color = Color(color);
+    canvas.drawRect(Rect.fromLTWH(x, y, width, height), paint);
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic if needed
+  }
+}
+
+class Level extends Component {
+  Level(this.game);
+
+  final FluttersGame game;
+  final List<Obstacle> levelObstacles = [];
+
+  void generateObstacles() {
+    levelObstacles.clear();
+    for (int i = 0; i < 5; i++) {
+      levelObstacles.add(Obstacle(game, i * 100.0, game.viewport.height - game.floorHeight - 50, 50, 50));
+    }
+  }
+
+  @override
+  void render(Canvas canvas) {
+    for (var obstacle in levelObstacles) {
+      obstacle.render(canvas);
+    }
+  }
+
+  @override
+  void update(double t) {
+    for (var obstacle in levelObstacles) {
+      obstacle.update(t);
+    }
+  }
+}
+
+class Bird extends Component {
+  Bird(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+  double direction = 1.0;
+
+  void startFlutter() {
+    // Implement start flutter logic
+  }
+
+  void endFlutter() {
+    // Implement end flutter logic
+  }
+
+  void setRotation(double rotation) {
+    // Implement rotation logic
+  }
+
+  Rect toCollisionRect() {
+    return Rect.fromLTWH(x, y, width, height);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    Paint paint = Paint()..color = Colors.yellow;
+    canvas.drawRect(Rect.fromLTWH(x, y, width, height), paint);
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Obstacle extends Component {
+  Obstacle(this.game, this.x, this.y, this.width, this.height);
+
+  final FluttersGame game;
+  final double x, y, width, height;
+
+  void markHit() {
+    // Implement hit logic
+  }
+
+  Rect toRect() {
+    return Rect.fromLTWH(x, y, width, height);
+  }
+
+  @override
+  void render(Canvas canvas) {
+    Paint paint = Paint()..color = Colors.red;
+    canvas.drawRect(Rect.fromLTWH(x, y, width, height), paint);
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic
+  }
+}
+
+class Dialog extends Component {
+  Dialog(this.game);
+
+  final FluttersGame game;
+
+  Rect get playButton => Rect.fromLTWH(100, 200, 100, 50);
+  TextComponent get creditsText => TextComponent(text: 'Credits', position: Vector2(100, 300));
+
+  @override
+  void render(Canvas canvas) {
+    Paint paint = Paint()..color = Colors.black.withOpacity(0.7);
+    canvas.drawRect(Rect.fromLTWH(50, 150, game.viewport.width - 100, game.viewport.height - 300), paint);
+
+    Paint buttonPaint = Paint()..color = Colors.green;
+    canvas.drawRect(playButton, buttonPaint);
+
+    creditsText.render(canvas);
+  }
+
+  @override
+  void update(double t) {
+    // Implement update logic if needed
+  }
+}
+
+class GameOverDialog extends StatelessWidget {
+  final FluttersGame game;
+
+  GameOverDialog({required this.game});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Game Over'),
+      content: Text('You reached a height of ${this.game.currentHeight.floor()}!'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            this.game.restartGame();
+          },
+          child: Text('Play Again'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Text('Exit'),
+        ),
+      ],
+    );
+  }
+}
+
+class MiniGameScreen extends StatefulWidget {
+  const MiniGameScreen({super.key});
+
+  @override
+  _MiniGameScreenState createState() => _MiniGameScreenState();
+}
+
+class _MiniGameScreenState extends State<MiniGameScreen> {
+  double _bankBalance = 100.0;
+  double _temperature = 20.0;
+  int _grabCount = 0;
+  final Random _random = Random();
+
+  void _grabAnimal() {
+    int units = _random.nextInt(4) + 1;
+    setState(() {
+      _bankBalance += units * 10;
+      _temperature += units * 2;
+      _grabCount += units;
+    });
+  }
+
+  double _calculateLevelProgress() {
+    return (_grabCount % 100) / 100;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Mini-Game')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Bank Balance: \$${_bankBalance.toStringAsFixed(2)}'),
+            Text('Temperature: ${_temperature.toStringAsFixed(1)}°C'),
+            ElevatedButton(
+              onPressed: _grabAnimal,
+              child: Text('Grab Animal'),
+            ),
+            SizedBox(height: 20),
+            LinearProgressIndicator(
+              value: _
+
+
   }
 }
