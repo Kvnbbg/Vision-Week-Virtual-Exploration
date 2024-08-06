@@ -27,10 +27,7 @@ class VisionWeekApp extends StatelessWidget {
             darkTheme: ThemeData.dark(),
             themeMode: settingsProvider.themeMode,
             locale: settingsProvider.locale,
-            supportedLocales: [
-              Locale('en', ''),
-              Locale('fr', ''),
-            ],
+            supportedLocales: [Locale('en', ''), Locale('fr', '')],
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -70,10 +67,8 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<void> _loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
-    final isDark = prefs.getBool('isDarkTheme') ?? false;
-    final languageCode = prefs.getString('languageCode') ?? 'en';
-    _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-    _locale = Locale(languageCode, '');
+    _themeMode = (prefs.getBool('isDarkTheme') ?? false) ? ThemeMode.dark : ThemeMode.light;
+    _locale = Locale(prefs.getString('languageCode') ?? 'en', '');
     notifyListeners();
   }
 
@@ -91,6 +86,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
   static const List<Widget> _widgetOptions = <Widget>[
     HomeContent(),
     ArenaScreen(),
@@ -108,32 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.appTitle),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              // Implement sign-out functionality
-            },
-          ),
-        ],
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: Center(child: _widgetOptions[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
         items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: AppLocalizations.of(context)!.home,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.games),
-            label: AppLocalizations.of(context)!.arena,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: AppLocalizations.of(context)!.settings,
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: AppLocalizations.of(context)!.home),
+          BottomNavigationBarItem(icon: Icon(Icons.games), label: AppLocalizations.of(context)!.arena),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: AppLocalizations.of(context)!.settings),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
@@ -152,20 +129,12 @@ class HomeContent extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            AppLocalizations.of(context)!.welcomeMessage,
-            style: Theme.of(context).textTheme.headline1,
-          ),
+          Text(AppLocalizations.of(context)!.welcomeMessage, style: Theme.of(context).textTheme.headline1),
           SizedBox(height: 20),
-          Text(
-            'Author: Kevin Marville\nLinkedIn: https://linkedin.com/in/kevin-marville',
-            textAlign: TextAlign.center,
-          ),
+          Text('Author: Kevin Marville\nLinkedIn: https://linkedin.com/in/kevin-marville', textAlign: TextAlign.center),
           SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {
-              // Implement button action
-            },
+            onPressed: () {},
             child: Text(AppLocalizations.of(context)!.visitBlog),
           ),
         ],
@@ -193,12 +162,7 @@ class _ArenaScreenState extends State<ArenaScreen> {
 
   void _generateAdversaries() {
     final random = Random();
-    final adversaryNames = [
-      'Fire Wizard 🔥',
-      'Ice Queen ❄️',
-      'Earth Giant 🌍',
-      'Wind Spirit 🌬️'
-    ];
+    final adversaryNames = ['Fire Wizard 🔥', 'Ice Queen ❄️', 'Earth Giant 🌍', 'Wind Spirit 🌬️'];
     for (int i = 0; i < 4; i++) {
       _adversaries.add(
         Adversary(
@@ -213,15 +177,9 @@ class _ArenaScreenState extends State<ArenaScreen> {
     final random = Random();
     final adversary = _adversaries[random.nextInt(_adversaries.length)];
     final result = random.nextInt(100);
-    if (result < adversary.strength) {
-      setState(() {
-        _score -= 10;
-      });
-    } else {
-      setState(() {
-        _score += 20;
-      });
-    }
+    setState(() {
+      _score += result < adversary.strength ? -10 : 20;
+    });
   }
 
   @override
@@ -232,15 +190,9 @@ class _ArenaScreenState extends State<ArenaScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${AppLocalizations.of(context)!.score}: $_score',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Text('${AppLocalizations.of(context)!.score}: $_score', style: Theme.of(context).textTheme.headline4),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _fightAdversary,
-              child: Text(AppLocalizations.of(context)!.fight),
-            ),
+            ElevatedButton(onPressed: _fightAdversary, child: Text(AppLocalizations.of(context)!.fight)),
             SizedBox(height: 20),
             Column(
               children: _adversaries.map((adversary) {
@@ -271,33 +223,18 @@ class SettingsScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            AppLocalizations.of(context)!.settings,
-            style: Theme.of(context).textTheme.headline4,
-          ),
+          Text(AppLocalizations.of(context)!.settings, style: Theme.of(context).textTheme.headline4),
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.darkTheme),
             value: settingsProvider.themeMode == ThemeMode.dark,
-            onChanged: (value) {
-              settingsProvider.toggleTheme(value);
-            },
+            onChanged: settingsProvider.toggleTheme,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  settingsProvider.switchLocale('en');
-                },
-                child: Text('English'),
-              ),
+              ElevatedButton(onPressed: () => settingsProvider.switchLocale('en'), child: Text('English')),
               SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  settingsProvider.switchLocale('fr');
-                },
-                child: Text('Français'),
-              ),
+              ElevatedButton(onPressed: () => settingsProvider.switchLocale('fr'), child: Text('Français')),
             ],
           ),
         ],

@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:http/http.dart' as http;
@@ -86,11 +85,11 @@ class FluttersGame extends Game {
     skyBackground.render(c);
     c.save();
     c.translate(0, currentHeight);
-    currentLevel.levelObstacles.forEach((obstacle) {
+    for (var obstacle in currentLevel.levelObstacles) {
       if (isObstacleInRange(obstacle)) {
         obstacle.render(c);
       }
-    });
+    }
     groundFloor.render(c);
     floorText.render(c);
     c.restore();
@@ -107,11 +106,11 @@ class FluttersGame extends Game {
   @override
   void update(double t) {
     if (currentGameState == GameState.playing) {
-      currentLevel.levelObstacles.forEach((obstacle) {
+      for (var obstacle in currentLevel.levelObstacles) {
         if (isObstacleInRange(obstacle)) {
           obstacle.update(t);
         }
-      });
+      }
       skyBackground.update(t);
       birdPlayer.update(t);
 
@@ -126,14 +125,14 @@ class FluttersGame extends Game {
   }
 
   void checkCollision() {
-    currentLevel.levelObstacles.forEach((obstacle) {
+    for (var obstacle in currentLevel.levelObstacles) {
       if (isObstacleInRange(obstacle)) {
         if (birdPlayer.toCollisionRect().overlaps(obstacle.toRect())) {
           obstacle.markHit();
           gameOver();
         }
       }
-    });
+    }
   }
 
   void gameOver() {
@@ -912,12 +911,12 @@ class GameOverDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Game Over'),
-      content: Text('You reached a height of ${this.game.currentHeight.floor()}!'),
+      content: Text('You reached a height of ${game.currentHeight.floor()}!'),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
-            this.game.restartGame();
+            game.restartGame();
           },
           child: Text('Play Again'),
         ),
