@@ -21,7 +21,7 @@ class VisionWeekApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
               textTheme: TextTheme(
-                headline1: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                headlineMedium: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               ),
             ),
             darkTheme: ThemeData.dark(),
@@ -53,15 +53,15 @@ class SettingsProvider extends ChangeNotifier {
   ThemeMode get themeMode => _themeMode;
   Locale get locale => _locale;
 
-  void toggleTheme(bool isDark) {
+  void toggleTheme(bool isDark) async {
     _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
-    _saveSettings();
+    await _saveSettings();
     notifyListeners();
   }
 
-  void switchLocale(String languageCode) {
+  void switchLocale(String languageCode) async {
     _locale = Locale(languageCode, '');
-    _saveSettings();
+    await _saveSettings();
     notifyListeners();
   }
 
@@ -86,12 +86,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-
-  static const List<Widget> _widgetOptions = <Widget>[
-    HomeContent(),
-    ArenaScreen(),
-    SettingsScreen(),
-  ];
+  static final _widgetOptions = [HomeContent(), ArenaScreen(), SettingsScreen()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -107,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Center(child: _widgetOptions[_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: AppLocalizations.of(context)!.home),
           BottomNavigationBarItem(icon: Icon(Icons.games), label: AppLocalizations.of(context)!.arena),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: AppLocalizations.of(context)!.settings),
@@ -121,15 +116,13 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(AppLocalizations.of(context)!.welcomeMessage, style: Theme.of(context).textTheme.headline1),
+          Text(AppLocalizations.of(context)!.welcomeMessage, style: Theme.of(context).textTheme.headlineMedium),
           SizedBox(height: 20),
           Text('Author: Kevin Marville\nLinkedIn: https://linkedin.com/in/kevin-marville', textAlign: TextAlign.center),
           SizedBox(height: 20),
@@ -144,41 +137,26 @@ class HomeContent extends StatelessWidget {
 }
 
 class ArenaScreen extends StatefulWidget {
-  const ArenaScreen({Key? key}) : super(key: key);
-
   @override
   _ArenaScreenState createState() => _ArenaScreenState();
 }
 
 class _ArenaScreenState extends State<ArenaScreen> {
   int _score = 0;
-  List<Adversary> _adversaries = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _generateAdversaries();
-  }
-
-  void _generateAdversaries() {
+  final _adversaries = List.generate(4, (index) {
     final random = Random();
     final adversaryNames = ['Fire Wizard 🔥', 'Ice Queen ❄️', 'Earth Giant 🌍', 'Wind Spirit 🌬️'];
-    for (int i = 0; i < 4; i++) {
-      _adversaries.add(
-        Adversary(
-          name: adversaryNames[random.nextInt(adversaryNames.length)],
-          strength: random.nextInt(100),
-        ),
-      );
-    }
-  }
+    return Adversary(
+      name: adversaryNames[random.nextInt(adversaryNames.length)],
+      strength: random.nextInt(100),
+    );
+  });
 
   void _fightAdversary() {
     final random = Random();
     final adversary = _adversaries[random.nextInt(_adversaries.length)];
-    final result = random.nextInt(100);
     setState(() {
-      _score += result < adversary.strength ? -10 : 20;
+      _score += random.nextInt(100) < adversary.strength ? -10 : 20;
     });
   }
 
@@ -190,14 +168,12 @@ class _ArenaScreenState extends State<ArenaScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('${AppLocalizations.of(context)!.score}: $_score', style: Theme.of(context).textTheme.headline4),
+            Text('${AppLocalizations.of(context)!.score}: $_score', style: Theme.of(context).textTheme.headlineSmall),
             SizedBox(height: 20),
             ElevatedButton(onPressed: _fightAdversary, child: Text(AppLocalizations.of(context)!.fight)),
             SizedBox(height: 20),
             Column(
-              children: _adversaries.map((adversary) {
-                return Text('${adversary.name} - ${adversary.strength} 💪');
-              }).toList(),
+              children: _adversaries.map((adversary) => Text('${adversary.name} - ${adversary.strength} 💪')).toList(),
             ),
           ],
         ),
@@ -214,8 +190,6 @@ class Adversary {
 }
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
@@ -223,7 +197,7 @@ class SettingsScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(AppLocalizations.of(context)!.settings, style: Theme.of(context).textTheme.headline4),
+          Text(AppLocalizations.of(context)!.settings, style: Theme.of(context).textTheme.headlineSmall),
           SwitchListTile(
             title: Text(AppLocalizations.of(context)!.darkTheme),
             value: settingsProvider.themeMode == ThemeMode.dark,
