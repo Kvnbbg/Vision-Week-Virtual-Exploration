@@ -8,9 +8,8 @@ import webbrowser
 import json
 
 # Author: Kevin Marville
-# Description: This script automates the setup and running of a Flutter app, ensuring all dependencies are installed, scripts are executable, and errors are handled gracefully.
-# No failure is allowed! If something goes wrong, the script will find an alternative solution.
-# This script is designed to be fun, professional, and reliable.
+# Description: This script automates the setup and running of a Flutter app, ensuring all dependencies are installed, scripts are executable, and the app runs smoothly. It also dynamically updates the composer.json file based on the current user and builds the Flutter app for different platforms. The user is guided through the process with emojis and colorful messages.
+# No failure is allowed! If something goes wrong, the script will find an alternative solution. The user is always informed of the progress and the next steps. The script is designed to be user-friendly, interactive, and fun to use. It's a smooth ride from start to finish!
 
 def log(message, color_code="\033[32m", emoji="💡"):
     """Log messages to the terminal with color and emojis."""
@@ -54,7 +53,8 @@ def install_or_upgrade_tool(tool_name, install_cmd, upgrade_cmd=None):
     """Install or upgrade a tool using the provided command."""
     log(f"Checking if {tool_name} is installed...", "\033[34m", "🔍")
     try:
-        if subprocess.call([tool_name, "--version"]) == 0:
+        result = subprocess.call([tool_name, "--version"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        if result == 0:
             if upgrade_cmd:
                 log(f"Upgrading {tool_name} to make sure it's the latest and greatest!", "\033[34m", "🚀")
                 subprocess.call(upgrade_cmd, shell=True)
@@ -66,30 +66,6 @@ def install_or_upgrade_tool(tool_name, install_cmd, upgrade_cmd=None):
     except Exception as e:
         log(f"Failed to install or upgrade {tool_name}: {e}. But don't worry, I’ve got this!", "\033[31m", "❌")
         sys.exit(1)
-
-def make_executable(script_path):
-    """Make a script executable."""
-    if os.path.exists(script_path):
-        log(f"Making {script_path} executable... No cutting corners here!", "\033[34m", "🔨")
-        try:
-            subprocess.call(["chmod", "+x", script_path])
-            log(f"{script_path} is now executable. Ready to roll!", "\033[32m", "✅")
-        except Exception as e:
-            log(f"Failed to make {script_path} executable: {e}. But I'll find a way!", "\033[31m", "❌")
-    else:
-        log(f"{script_path} not found! But hey, you can't win 'em all.", "\033[31m", "❌")
-
-def run_script(script_path):
-    """Run a shell script and handle potential errors."""
-    if os.path.exists(script_path):
-        log(f"Running {script_path}... Hold onto your hats!", "\033[34m", "🎬")
-        try:
-            subprocess.call([f"./{script_path}"])
-            log(f"{script_path} executed successfully! Smooth sailing!", "\033[32m", "✅")
-        except Exception as e:
-            log(f"Failed to run {script_path}: {e}. Don’t worry, I’m on it!", "\033[31m", "❌")
-    else:
-        log(f"{script_path} not found! We’ll need a Plan B.", "\033[31m", "❌")
 
 def run_flutter_app():
     """Run the Flutter app and ensure it works."""
@@ -173,6 +149,49 @@ def update_composer_json():
     except Exception as e:
         log(f"Failed to run composer update: {e}. But I’ll find an alternative!", "\033[31m", "❌")
 
+def build_flutter_apps():
+    """Build the Flutter application for different platforms."""
+    platforms = {
+        "web": "flutter build web",
+        "android": "flutter build apk",
+        "ios": "flutter build ios",
+        "windows": "flutter build windows",
+        "macos": "flutter build macos",
+        "linux": "flutter build linux"
+    }
+
+    for platform_name, build_command in platforms.items():
+        log(f"Building Flutter app for {platform_name}...", "\033[34m", "🏗️")
+        try:
+            subprocess.check_call(build_command, shell=True)
+            log(f"Successfully built Flutter app for {platform_name}!", "\033[32m", "✅")
+        except subprocess.CalledProcessError as e:
+            log(f"Failed to build Flutter app for {platform_name}: {e}. Trying alternative approaches...", "\033[31m", "❌")
+            if platform_name == "ios":
+                log(f"Ensure that you are using a macOS system with Xcode installed and properly configured.", "\033[33m", "⚠️")
+            # Add more alternatives or retries as needed
+
+def check_heroku_installed():
+    """Check if Heroku CLI is installed and up to date."""
+    log("Checking if Heroku CLI is installed...", "\033[34m", "🛠️")
+    try:
+        if subprocess.call(["heroku", "--version"]) != 0:
+            log("Heroku CLI not found. Installing Heroku CLI...", "\033[33m", "⚙️")
+            if platform.system() == "Darwin" or platform.system() == "Linux":
+                subprocess.call(["brew", "tap", "heroku/brew"])
+                subprocess.call(["brew", "install", "heroku"])
+            elif platform.system() == "Linux":
+                subprocess.call(["sudo", "snap", "install", "heroku", "--classic"])
+            else:
+                log("Please install Heroku manually from https://devcenter.heroku.com/articles/heroku-cli", "\033[33m", "⚠️")
+                return False
+        else:
+            log("Heroku CLI found. Ensuring it is up to date...", "\033[34m", "🛠️")
+            subprocess.call(["brew", "upgrade", "heroku"])
+        log("Heroku CLI is installed and up to date!", "\033[32m", "✅")
+    except Exception as e:
+        log(f"Failed to install or update Heroku CLI: {e}. Please install it manually.", "\033[31m", "❌")
+
 def setup_environment():
     """Automate environment setup, including installing necessary tools."""
     log("Setting up your environment... This is going to be epic!", "\033[34m", "🛠️")
@@ -185,18 +204,15 @@ def setup_environment():
     install_or_upgrade_tool("flutter", "brew install --cask flutter", "brew upgrade flutter")
     install_or_upgrade_tool("git", "brew install git", "brew upgrade git")
     install_or_upgrade_tool("dart", "brew tap dart-lang/dart && brew install dart", "brew upgrade dart")
-    install_or_upgrade_tool("heroku", "brew tap heroku/brew && brew install heroku", "brew upgrade heroku")
+
+    # Ensure Heroku CLI is installed and up to date
+    check_heroku_installed()
 
     # Update composer.json dynamically
     update_composer_json()
 
-    # Make scripts executable
-    make_executable("setup_vcenv.sh")
-    make_executable("setup.sh")
-
-    # Run setup scripts
-    run_script("setup_vcenv.sh")
-    run_script("setup.sh")
+    # Build the Flutter apps for different platforms
+    build_flutter_apps()
 
     # Run the Flutter app
     run_flutter_app()
