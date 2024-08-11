@@ -93,6 +93,11 @@
    ```
 
 2. **Run the Application**:
+   - **Alternative**:
+    ```bash
+    chmod +x start_app.py
+    ./start_app.py
+    ```
    - **Web**: 
      ```bash
      flutter build web
