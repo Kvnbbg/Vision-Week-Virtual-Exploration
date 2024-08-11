@@ -146,8 +146,9 @@ def main():
     """Main function to automate the process."""
     log("Welcome to the Flutter App Setup and Runner! Let’s get you started!", "\033[36m", "🎉")
     setup_environment()
-    log("All done! You’re ready to go! Remember, this script is brought to you by [Your Name]!", "\033[36m", "🚀")
+    log("All done! You’re ready to go! Remember, this script is brought to you by Kevin Marville https://github.com/Kvnbbg!", "\033[36m", "🚀")
     log("If you enjoyed this smooth ride, feel free to give me a shoutout!", "\033[36m", "👋")
+
 
 if __name__ == "__main__":
     main()

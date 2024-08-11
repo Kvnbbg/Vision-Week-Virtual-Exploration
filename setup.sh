@@ -267,7 +267,7 @@ main() {
 
     log "$GREEN" "✅" "All done! Your environment is now set up and ready to go! 🚀"
     log "$BLUE" "💡" "Remember to give a shoutout to Kevin Marville on LinkedIn or GitHub if this made your day easier! 🎉"
-    log "$MAGENTA" "🧙‍♂️" "And of course, a special thanks to GPT-4o Grimoire for guiding you on this coding quest! ⚔️"
+    log "$MAGENTA" "🧙‍♂️" "And of course, a special thanks to GPT-4o Grimoire for guiding us through this coding quest! ⚔️"
 }
 
 # Execute the main function
