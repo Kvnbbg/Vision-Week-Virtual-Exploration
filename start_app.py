@@ -5,8 +5,9 @@ import subprocess
 import platform
 import sys
 import webbrowser
+import json
 
-# Author: [Your Name]
+# Author: Kevin Marville
 # Description: This script automates the setup and running of a Flutter app, ensuring all dependencies are installed, scripts are executable, and errors are handled gracefully.
 # No failure is allowed! If something goes wrong, the script will find an alternative solution.
 # This script is designed to be fun, professional, and reliable.
@@ -117,6 +118,61 @@ def run_flutter_app():
         log(f"Failed to run Flutter app: {e}. This isn’t the end!", "\033[31m", "❌")
         return False
 
+def update_composer_json():
+    """Dynamically update the 'name' field in composer.json based on the current username."""
+    log("Updating composer.json based on the current user...", "\033[34m", "🔧")
+
+    # Get the current username
+    username = os.getlogin()
+    project_name = "vision-week-virtual-exploration"
+    vendor_name = "generic-user"
+
+    if "katia" in username.lower():
+        vendor_name = "katia-rachon"
+    elif "kevin" in username.lower():
+        vendor_name = "kevin-marville"
+
+    # Path to composer.json
+    composer_json_path = "composer.json"
+
+    if not os.path.exists(composer_json_path):
+        log("composer.json file not found! Creating a default composer.json...", "\033[33m", "⚠️")
+        default_composer_json = {
+            "name": f"{vendor_name}/{project_name}",
+            "description": "PHP backend for Vision Week Virtual Exploration",
+            "require": {
+                "php": ">=8.0",
+                "slim/slim": "^4.0",
+                "slim/psr7": "^1.0",
+                "monolog/monolog": "^2.0"
+            },
+            "autoload": {
+                "psr-4": {
+                    "App\\": "src/"
+                }
+            }
+        }
+        with open(composer_json_path, "w") as composer_file:
+            json.dump(default_composer_json, composer_file, indent=4)
+    else:
+        # Update the existing composer.json
+        with open(composer_json_path, "r+") as composer_file:
+            composer_data = json.load(composer_file)
+            composer_data["name"] = f"{vendor_name}/{project_name}"
+            composer_file.seek(0)
+            json.dump(composer_data, composer_file, indent=4)
+            composer_file.truncate()
+
+    log(f"Updated composer.json name to: {vendor_name}/{project_name}", "\033[32m", "✅")
+
+    # Run composer update
+    try:
+        log("Running composer update to generate composer.lock...", "\033[34m", "🚀")
+        subprocess.call(["composer", "update"])
+        log("composer.lock generated successfully!", "\033[32m", "✅")
+    except Exception as e:
+        log(f"Failed to run composer update: {e}. But I’ll find an alternative!", "\033[31m", "❌")
+
 def setup_environment():
     """Automate environment setup, including installing necessary tools."""
     log("Setting up your environment... This is going to be epic!", "\033[34m", "🛠️")
@@ -130,6 +186,9 @@ def setup_environment():
     install_or_upgrade_tool("git", "brew install git", "brew upgrade git")
     install_or_upgrade_tool("dart", "brew tap dart-lang/dart && brew install dart", "brew upgrade dart")
     install_or_upgrade_tool("heroku", "brew tap heroku/brew && brew install heroku", "brew upgrade heroku")
+
+    # Update composer.json dynamically
+    update_composer_json()
 
     # Make scripts executable
     make_executable("setup_vcenv.sh")
