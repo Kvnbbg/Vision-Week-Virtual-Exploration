@@ -47,6 +47,7 @@ class VisionWeekApp extends StatelessWidget {
 class SettingsProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
   Locale _locale = Locale('en', '');
+  String _username = '';
 
   SettingsProvider() {
     _loadSettings();
@@ -54,6 +55,7 @@ class SettingsProvider extends ChangeNotifier {
 
   ThemeMode get themeMode => _themeMode;
   Locale get locale => _locale;
+  String get username => _username;
 
   void toggleTheme(bool isDark) async {
     _themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -67,10 +69,47 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setUsername(String input, BuildContext context) async {
+    _username = _generateUsername(input);
+    await _saveSettings();
+    _showUsernameModifiedPopup(context);
+    notifyListeners();
+  }
+
+  String _generateUsername(String input) {
+    input = input.trim(); // Trim leading and trailing whitespace
+    if (input.isEmpty) return "User";
+
+    StringBuffer username = StringBuffer();
+    bool hasAlpha = false;
+
+    for (int i = 0; i < input.length; i++) {
+      if (isAlphanumeric(input[i])) {
+        username.write(input[i]);
+        if (isAlphabetic(input[i])) hasAlpha = true;
+      }
+    }
+
+    if (!hasAlpha) {
+      username.write("User"); // Ensure the username contains alphabetic characters
+    }
+
+    return username.toString().isEmpty ? "User" : username.toString();
+  }
+
+  bool isAlphanumeric(String char) {
+    return RegExp(r'^[a-zA-Z0-9]+$').hasMatch(char);
+  }
+
+  bool isAlphabetic(String char) {
+    return RegExp(r'^[a-zA-Z]+$').hasMatch(char);
+  }
+
   Future<void> _loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
     _themeMode = (prefs.getBool('isDarkTheme') ?? false) ? ThemeMode.dark : ThemeMode.light;
     _locale = Locale(prefs.getString('languageCode') ?? 'en', '');
+    _username = prefs.getString('username') ?? "User";
     notifyListeners();
   }
 
@@ -78,8 +117,61 @@ class SettingsProvider extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isDarkTheme', _themeMode == ThemeMode.dark);
     await prefs.setString('languageCode', _locale.languageCode);
+    await prefs.setString('username', _username);
+  }
+
+  void _showUsernameModifiedPopup(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white.withOpacity(0.9),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.cloud, size: 50, color: Colors.blueAccent),
+              SizedBox(height: 10),
+              Text(
+                'Username Modified!',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Your username has been modified to follow the Kvnbbg story as featured in his ebooks, blog posts, and other adventures!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Got it!'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }
+
 
 class HomeScreen extends StatefulWidget {
   @override
