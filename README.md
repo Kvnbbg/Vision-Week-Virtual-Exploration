@@ -1,6 +1,6 @@
 # Vision Week
 
-[![Play Live 🚀](https://vision-week-783f01d43fbd.herokuapp.com/)](https://vision-week-783f01d43fbd.herokuapp.com/)
+[![Play Live 🚀]()]()
 
 ![Logo](img/logo.png)
 
@@ -184,18 +184,20 @@ Check out my side project, TurboZoo:
 - [Replit](https://replit.com/@kvnbbg/TurboZoo)
 - [First Version Video](https://www.youtube.com/watch?v=iS9uFwMw1SM)
 
----
+## Deployment
 
-### Key Improvements and Professional Enhancements:
+**Note:** The application is deployed using either [Back4App](https://containers.back4app.com/) or [Netlify](https://netlify.app/) for now. The final decision is pending. For production deployment, further instructions will be provided.
 
-1. **Consistent Language**: I maintained consistent terminology throughout the document, using either English or French but not mixing them within the same sentence or paragraph.
+### Deploying the Application:
 
-2. **Table of Contents**: I structured the table of contents to flow logically, reflecting the structure of the document.
+- **Deploy on Netlify** (Static files):
+  - Connect your GitHub repository to Netlify.
+  - Set the build command to `npm run build` and the publish directory to `build/`.
 
-3. **Headings and Subheadings**: I used concise and clear headings to make it easy for users to navigate and understand the content.
+- **Deploy on Back4App** (For Docker containers):
+  - Follow Back4App’s documentation to deploy your Node.js application in a container.
 
-4. **Code Blocks**: For commands and steps, I used appropriate code blocks, ensuring readability and clarity.
+### Alternative Deployment Options:
 
-5. **Links and References**: All links were formatted consistently, and I provided a balanced mix of English and French content for international users.
-
-6. **Visual Elements**: Images and badges were retained to maintain a visually engaging document.
+- **Vercel**:
+  - Easily deploy with Vercel by linking your GitHub repository and following their Node.js deployment steps.
