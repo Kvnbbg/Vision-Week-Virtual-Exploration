@@ -1,17 +1,34 @@
-# Use the official Flutter image
-FROM cirrusci/flutter:stable
+# Stage 1: Build the Flutter app
+FROM cirrusci/flutter:stable AS build-stage
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
+# Copy only the pubspec files to install dependencies separately
+COPY pubspec.yaml pubspec.lock ./
 
-# Run flutter dependencies installation
-RUN flutter pub get
+# Install dependencies and remove unnecessary cache to reduce image size
+RUN flutter pub get && \
+    rm -rf ~/.pub-cache/*
 
-# Expose the port the app runs on
+# Copy the rest of the app code
+COPY . .
+
+# Build the Flutter web app and remove intermediate build artifacts
+RUN flutter build web && \
+    rm -rf /app/.dart_tool /app/build/flutter_assets /app/test /app/docs
+
+# Stage 2: Create a minimal runtime image
+FROM cirrusci/flutter:stable AS runtime-stage
+
+# Set the working directory
+WORKDIR /app
+
+# Copy only the build output from the build stage
+COPY --from=build-stage /app/build/web /app/web
+
+# Expose the port the app will run on
 EXPOSE 8080
 
-# Define the entry point command
-CMD ["flutter", "run", "-d", "web-server", "--web-port", "8080"]
+# Start the web server using the built files
+CMD ["flutter", "serve", "--web-port", "8080", "--web-hostname", "0.0.0.0", "--no-sound-null-safety"]
