@@ -1,33 +1,62 @@
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
 /// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Vision Week 🎉';
+  String get appTitle => 'Vision Week';
 
   @override
-  String get home => 'Home';
-
-  @override
-  String get arena => 'Arena';
-
-  @override
-  String get settings => 'Settings';
+  String get helloWorld => 'Hello World';
 
   @override
   String get welcomeMessage => 'Welcome to Vision Week!';
 
   @override
-  String get visitBlog => 'Visit my blog';
+  String get login => 'Login';
 
   @override
-  String get darkTheme => 'Dark Theme';
+  String get logout => 'Logout';
 
   @override
-  String get score => 'Score';
+  String get emailLabel => 'Email Address';
 
   @override
-  String get fight => 'Fight';
+  String get passwordLabel => 'Password';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get homeTitle => 'Home';
+
+  @override
+  String get exploreZoo => 'Explore the zoo and learn about animals.';
+
+  @override
+  String get startExploring => 'Start Exploring';
+
+  @override
+  String get generateText => 'Generate Text';
+
+  @override
+  String get animalGallery => 'Animal Gallery';
+
+  @override
+  String get feedbackTitle => 'Your Feedback';
+
+  @override
+  String get feedbackLabel => 'Enter your feedback';
+
+  @override
+  String get submitFeedback => 'Submit Feedback';
+
+  @override
+  String get feedbackListTitle => 'Feedback List';
 }
