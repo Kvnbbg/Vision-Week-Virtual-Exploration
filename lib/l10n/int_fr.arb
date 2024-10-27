@@ -1,0 +1,12 @@
+{
+    "homeTitle": "Accueil",
+    "welcomeMessage": "Bienvenue dans notre application Zoo!",
+    "exploreZoo": "Explorez le zoo et découvrez les animaux.",
+    "startExploring": "Commencer l'exploration",
+    "generateText": "Générer du texte",
+    "animalGallery": "Galerie d'animaux",
+    "feedbackTitle": "Votre avis",
+    "feedbackLabel": "Entrez votre avis",
+    "submitFeedback": "Soumettre l'avis",
+    "feedbackListTitle": "Liste des avis"
+}

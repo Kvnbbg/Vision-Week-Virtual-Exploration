@@ -1,1 +1,13 @@
-{}
+{
+    "homeTitle": "Home",
+    "welcomeMessage": "Welcome to our Zoo App!",
+    "exploreZoo": "Explore the zoo and learn about animals.",
+    "startExploring": "Start Exploring",
+    "generateText": "Generate Text",
+    "animalGallery": "Animal Gallery",
+    "feedbackTitle": "Your Feedback",
+    "feedbackLabel": "Enter your feedback",
+    "submitFeedback": "Submit Feedback",
+    "feedbackListTitle": "Feedback List"
+  }
+  
