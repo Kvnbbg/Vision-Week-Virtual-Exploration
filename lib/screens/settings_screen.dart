@@ -14,7 +14,7 @@ class SettingsScreen extends StatelessWidget {
           child: Text(
             'Paramètres',
             semanticsLabel: 'Settings Screen', // For better accessibility
-            style: Theme.of(context).textTheme.headline6, // Use the app's theme
+            style: Theme.of(context).textTheme.titleLarge, // Use the app's theme
           ),
         ),
       ),

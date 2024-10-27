@@ -67,11 +67,11 @@ class EcranPrincipal extends StatefulWidget {
 }
 
 class_EcranPrincipalState extends State<EcranPrincipal> {
-  int _selectedIndex = 0; // Index of the currently selected tab
-  final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
+  int selectedIndex = 0; // Index of the currently selected tab
+  final FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   // List of widgets for each tab
-  static final List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> widgetOptions = <Widget>[
     EcranAccueil(),
     EcranProfil(),
     EcranCarte(),
@@ -81,12 +81,12 @@ class_EcranPrincipalState extends State<EcranPrincipal> {
   ];
 
   // Handle tab selection
-  void _onItemTapped(int index) {
+  void onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      selectedIndex = index;
     });
     // Log tab change event to Firebase Analytics
-    _analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
+    analytics.logEvent(name: 'changement_onglet', parameters: {'index': index});
   }
 
   @override
@@ -97,7 +97,7 @@ class_EcranPrincipalState extends State<EcranPrincipal> {
       ),
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
-        child: _widgetOptions[_selectedIndex], // Display the selected tab's widget
+        child: widgetOptions[selectedIndex], // Display the selected tab's widget
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -126,9 +126,9 @@ class_EcranPrincipalState extends State<EcranPrincipal> {
             label: 'Paramètres',
           ),
         ],
-        currentIndex: _selectedIndex, // Highlight the selected tab
+        currentIndex: selectedIndex, // Highlight the selected tab
         selectedItemColor: Colors.blue,
-        onTap: _onItemTapped, // Handle tab selection
+        onTap: onItemTapped, // Handle tab selection
       ),
     );
   }
