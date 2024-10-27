@@ -3,10 +3,10 @@ import 'ecran_principal.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
+  WelcomeScreenState createState() => WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

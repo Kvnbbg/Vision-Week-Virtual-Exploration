@@ -63,10 +63,10 @@ class ErrorApp extends StatelessWidget {
 // Main screen with bottom navigation
 class EcranPrincipal extends StatefulWidget {
   @override
-  _EcranPrincipalState createState() => _EcranPrincipalState();
+  EcranPrincipalState createState() => EcranPrincipalState();
 }
 
-class _EcranPrincipalState extends State<EcranPrincipal> {
+class_EcranPrincipalState extends State<EcranPrincipal> {
   int _selectedIndex = 0; // Index of the currently selected tab
   final FirebaseAnalytics _analytics = FirebaseAnalytics.instance;
 
