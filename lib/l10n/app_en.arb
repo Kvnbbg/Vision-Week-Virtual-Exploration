@@ -1,0 +1,75 @@
+{
+  "@@locale": "en",
+  "appTitle": "Vision Week",
+  "@appTitle": {
+    "description": "The title of the app displayed in the header"
+  },
+  "helloWorld": "Hello World",
+  "@helloWorld": {
+    "description": "A basic greeting to the user, often used in tutorials or initial greetings"
+  },
+  "welcomeMessage": "Welcome to Vision Week!",
+  "@welcomeMessage": {
+    "description": "A welcoming message for users when they enter the app"
+  },
+  "login": "Login",
+  "@login": {
+    "description": "Text displayed on the login button"
+  },
+  "logout": "Logout",
+  "@logout": {
+    "description": "Text displayed on the logout button"
+  },
+  "emailLabel": "Email Address",
+  "@emailLabel": {
+    "description": "Label for the email input field in the login form"
+  },
+  "passwordLabel": "Password",
+  "@passwordLabel": {
+    "description": "Label for the password input field in the login form"
+  },
+  "signUp": "Sign Up",
+  "@signUp": {
+    "description": "Text displayed on the sign-up button"
+  },
+  "forgotPassword": "Forgot Password?",
+  "@forgotPassword": {
+    "description": "Link text for users to reset their password"
+  },
+  "homeTitle": "Home",
+  "@homeTitle": {
+    "description": "Title for the home screen of the app"
+  },
+  "exploreZoo": "Explore the zoo and learn about animals.",
+  "@exploreZoo": {
+    "description": "Description inviting users to explore the zoo feature"
+  },
+  "startExploring": "Start Exploring",
+  "@startExploring": {
+    "description": "Button text to begin the exploration of the zoo"
+  },
+  "generateText": "Generate Text",
+  "@generateText": {
+    "description": "Button text to generate random text or content"
+  },
+  "animalGallery": "Animal Gallery",
+  "@animalGallery": {
+    "description": "Title for the section displaying a gallery of animals"
+  },
+  "feedbackTitle": "Your Feedback",
+  "@feedbackTitle": {
+    "description": "Title for the feedback submission section"
+  },
+  "feedbackLabel": "Enter your feedback",
+  "@feedbackLabel": {
+    "description": "Label for the text area where users can provide their feedback"
+  },
+  "submitFeedback": "Submit Feedback",
+  "@submitFeedback": {
+    "description": "Text displayed on the button to submit feedback"
+  },
+  "feedbackListTitle": "Feedback List",
+  "@feedbackListTitle": {
+    "description": "Title for the section displaying all submitted feedback"
+  }
+}

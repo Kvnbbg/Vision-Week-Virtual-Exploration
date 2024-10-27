@@ -43,6 +43,9 @@ dev_dependencies:
   intl_utils: ^2.8.7
 
 flutter:
+  generate: true
+  assets:
+    - assets
   uses-material-design: true
 
 flutter_gen:

@@ -1,0 +1,75 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Semaine de la Vision",
+  "@appTitle": {
+    "description": "Le titre de l'application affiché dans l'en-tête"
+  },
+  "helloWorld": "Bonjour le monde",
+  "@helloWorld": {
+    "description": "Une salutation de base à l'utilisateur, souvent utilisée dans les tutoriels ou les salutations initiales"
+  },
+  "welcomeMessage": "Bienvenue à la Semaine de la Vision !",
+  "@welcomeMessage": {
+    "description": "Un message de bienvenue pour les utilisateurs lorsqu'ils entrent dans l'application"
+  },
+  "login": "Connexion",
+  "@login": {
+    "description": "Texte affiché sur le bouton de connexion"
+  },
+  "logout": "Déconnexion",
+  "@logout": {
+    "description": "Texte affiché sur le bouton de déconnexion"
+  },
+  "emailLabel": "Adresse électronique",
+  "@emailLabel": {
+    "description": "Étiquette pour le champ de saisie de l'e-mail dans le formulaire de connexion"
+  },
+  "passwordLabel": "Mot de passe",
+  "@passwordLabel": {
+    "description": "Étiquette pour le champ de saisie du mot de passe dans le formulaire de connexion"
+  },
+  "signUp": "S'inscrire",
+  "@signUp": {
+    "description": "Texte affiché sur le bouton d'inscription"
+  },
+  "forgotPassword": "Mot de passe oublié ?",
+  "@forgotPassword": {
+    "description": "Texte du lien pour permettre aux utilisateurs de réinitialiser leur mot de passe"
+  },
+  "homeTitle": "Accueil",
+  "@homeTitle": {
+    "description": "Titre de l'écran d'accueil de l'application"
+  },
+  "exploreZoo": "Explorer le zoo et découvrir les animaux.",
+  "@exploreZoo": {
+    "description": "Description invitant les utilisateurs à explorer la fonctionnalité du zoo"
+  },
+  "startExploring": "Commencer l'exploration",
+  "@startExploring": {
+    "description": "Texte du bouton pour commencer l'exploration du zoo"
+  },
+  "generateText": "Générer du texte",
+  "@generateText": {
+    "description": "Texte du bouton pour générer du texte ou du contenu aléatoire"
+  },
+  "animalGallery": "Galerie d'animaux",
+  "@animalGallery": {
+    "description": "Titre de la section affichant une galerie d'animaux"
+  },
+  "feedbackTitle": "Votre avis",
+  "@feedbackTitle": {
+    "description": "Titre de la section de soumission de commentaires"
+  },
+  "feedbackLabel": "Entrez votre avis",
+  "@feedbackLabel": {
+    "description": "Étiquette pour la zone de texte où les utilisateurs peuvent fournir leurs commentaires"
+  },
+  "submitFeedback": "Envoyer un avis",
+  "@submitFeedback": {
+    "description": "Texte affiché sur le bouton pour envoyer un avis"
+  },
+  "feedbackListTitle": "Liste des avis",
+  "@feedbackListTitle": {
+    "description": "Titre de la section affichant tous les avis soumis"
+  }
+}
