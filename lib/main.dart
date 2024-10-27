@@ -158,7 +158,7 @@ class SettingsProvider extends ChangeNotifier {
                 },
                 child: Text('Got it!'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blueAccent,
+                  backgroundColor: Colors.blueAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
