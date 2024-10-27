@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,10 +5,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'auth/auth_service.dart';
-import 'settings/theme_provider.dart';
-import 'screens/ecran_principal.dart';
-import 'screens/login.dart';
-import 'screens/home_screen.dart';
+import '../screens/login.dart';
+import '../screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

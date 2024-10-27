@@ -51,6 +51,12 @@ flutter_gen:
     flutter_localizations: true
 
 assets:
-  - assets/
-  - lib/l10n/app_en.arb
-  - lib/l10n/app_fr.arb
+  - assets/images
+
+l10n:
+  - lib/l10n/int_en.arb
+  - lib/l10n/int_fr.arb
+
+web:
+  favicon: assets/images/favicon.ico
+

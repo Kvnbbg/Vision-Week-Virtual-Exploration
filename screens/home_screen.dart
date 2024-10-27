@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../auth/auth_service.dart';
-import '../settings/theme_provider.dart';
+import '../lib/auth/auth_service.dart';
+import '../lib/settings/theme_provider.dart';
 import 'login.dart'; // Import your login screen if needed
 
 class HomeScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   String _feedback = '';
-  List<String> _feedbackList = [];
+  final List<String> _feedbackList = [];
 
   void _generateRandomText() {
     const texts = [
@@ -129,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(height: 20),
                         Text(
                           _generatedText,
-                          style: Theme.of(context).textTheme.headline4,
+                          style: Theme.of(context).textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),
                         SizedBox(height: 20),
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           appLocalizations.feedbackListTitle,
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                         ),
-                        ..._feedbackList.map((feedback) => ListTile(title: Text(feedback))).toList(),
+                        ..._feedbackList.map((feedback) => ListTile(title: Text(feedback))),
                       ],
                     ),
                   ),

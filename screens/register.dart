@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'ecran_principal.dart';
-import '../auth/auth_service.dart';
+import '../lib/auth/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
