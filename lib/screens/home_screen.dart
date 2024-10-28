@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../auth/auth_service.dart';
-import '../settings/theme_provider.dart';
 import 'login.dart'; // Import your login screen if needed
 
 class HomeScreen extends StatefulWidget {
