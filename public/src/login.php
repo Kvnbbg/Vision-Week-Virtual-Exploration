@@ -1,5 +1,11 @@
 <?php
-require_once 'db_config.php';
+// DEPRECATION NOTE: This login system is part of a traditional PHP web page flow
+// and uses a separate SQLite database. For the main Vision Week application (Flutter),
+// Firebase Authentication is the recommended and primary authentication method.
+// This script should be reviewed for its current necessity or adapted if
+// intended for a separate administrative web interface.
+
+require_once 'db_config.php'; // This sets up MySQL connection ($conn), but this script uses SQLite below.
 session_start();
 
 $errorMessage = '';
