@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  # PHP Slim API Service (Apache)
+  slim_api:
+    build:
+      context: .
+      dockerfile: Dockerfile.slim_api
+    ports:
+      - "8000:80" # Map host port 8000 to container port 80 (Apache)
+    volumes:
+      - ./public:/var/www/html # Mount the public directory for live code changes (development)
+      # If your Slim app writes logs or has other persistent data outside /var/www/html, mount those too.
+    environment:
+      # Environment variables for db_config.php
+      - DB_SERVERNAME=mysql_db # Service name of the MySQL container
+      - DB_USERNAME=visionuser
+      - DB_PASSWORD=visionpass
+      - DB_NAME=vision_week_db
+      # Add any other environment variables your Slim app needs
+    depends_on:
+      - mysql_db
+    networks:
+      - visionweek_network
+
+  # ReactPHP WebSocket Server Service
+  websocket_server:
+    build:
+      context: .
+      dockerfile: Dockerfile.websocket
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080 (WebSocket server)
+    volumes:
+      - ./server:/app/server # Mount the server directory for live code changes
+      - ./composer.json:/app/composer.json
+      - ./composer.lock:/app/composer.lock
+      - ./vendor:/app/vendor # Mount vendor if you run composer install locally, otherwise let Dockerfile handle it.
+                            # For simplicity in dev, mounting can be easier. For prod, build vendor into image.
+    environment:
+      # Environment variables if your WebSocket server needs them (e.g., DB connection for auth/persistence)
+      - DB_SERVERNAME=mysql_db
+      - DB_USERNAME=visionuser
+      - DB_PASSWORD=visionpass
+      - DB_NAME=vision_week_db
+      # Add any other environment variables your WebSocket server needs
+    depends_on:
+      - mysql_db
+    networks:
+      - visionweek_network
+
+  # MySQL Database Service
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306" # Map host port 3306 to container port 3306 (MySQL default)
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # For root user, not directly used by app
+      MYSQL_DATABASE: vision_week_db
+      MYSQL_USER: visionuser
+      MYSQL_PASSWORD: visionpass
+    volumes:
+      - mysql_data:/var/lib/mysql # Persistent storage for MySQL data
+      # You can also mount your .sql schema files to auto-initialize the DB
+      # e.g., - ./lib/database:/docker-entrypoint-initdb.d
+    networks:
+      - visionweek_network
+
+# Define a network for services to communicate
+networks:
+  visionweek_network:
+    driver: bridge
+
+# Define a named volume for persistent MySQL data
+volumes:
+  mysql_data:
+    driver: local

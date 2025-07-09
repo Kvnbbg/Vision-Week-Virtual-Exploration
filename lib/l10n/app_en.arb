@@ -71,5 +71,17 @@
   "feedbackListTitle": "Feedback List",
   "@feedbackListTitle": {
     "description": "Title for the section displaying all submitted feedback"
+  },
+  "welcomeAppBarTitle": "Vision Week",
+  "@welcomeAppBarTitle": {
+    "description": "Title for the AppBar on the Welcome Screen"
+  },
+  "welcomeMessageBody": "Welcome to Vision Week!",
+  "@welcomeMessageBody": {
+    "description": "Main welcome message on the Welcome Screen"
+  },
+  "welcomeStartButton": "Start",
+  "@welcomeStartButton": {
+    "description": "Text for the button to proceed from the Welcome Screen"
   }
 }

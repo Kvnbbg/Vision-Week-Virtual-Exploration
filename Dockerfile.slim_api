@@ -1,0 +1,26 @@
+# Dockerfile for the Slim API (PHP/Apache)
+
+# Use an official PHP image with Apache
+FROM php:8.0-apache
+
+# Install necessary PHP extensions for MySQL
+# and any other extensions your Slim app might need (e.g., mbstring, intl if using localization in API)
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable mysqli pdo_mysql
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy the public directory contents which contains the Slim app's entry point (index.php) and assets
+# Assuming this Dockerfile is in the project root, and 'public' is the web root for Slim.
+COPY public/ /var/www/html/
+
+# Apache's default document root is /var/www/html, which is what we want.
+# Ensure Apache's rewrite module is enabled if your Slim app uses URL rewriting (common for routing)
+# This is often enabled by default, but can be explicitly done:
+RUN a2enmod rewrite
+
+# Expose port 80 (Apache's default HTTP port)
+EXPOSE 80
+
+# The base image's CMD already starts Apache.
+# CMD ["apache2-foreground"]
