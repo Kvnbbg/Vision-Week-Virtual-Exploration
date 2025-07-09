@@ -71,5 +71,17 @@
   "feedbackListTitle": "Liste des avis",
   "@feedbackListTitle": {
     "description": "Titre de la section affichant tous les avis soumis"
+  },
+  "welcomeAppBarTitle": "Semaine Vision",
+  "@welcomeAppBarTitle": {
+    "description": "Titre de l'AppBar sur l'écran de bienvenue"
+  },
+  "welcomeMessageBody": "Bienvenue à la Semaine Vision !",
+  "@welcomeMessageBody": {
+    "description": "Message d'accueil principal sur l'écran de bienvenue"
+  },
+  "welcomeStartButton": "Commencer",
+  "@welcomeStartButton": {
+    "description": "Texte du bouton pour continuer depuis l'écran de bienvenue"
   }
 }

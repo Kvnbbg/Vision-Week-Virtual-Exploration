@@ -235,6 +235,47 @@ For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
 
 We appreciate all contributors who have helped improve this project.
 
+## Running Backend Services with Docker (Recommended for Development)
+
+For a consistent development environment, you can use Docker and Docker Compose to run the backend services (Slim API, WebSocket Server, MySQL Database).
+
+### Prerequisites
+- Docker: [Install Docker](https://docs.docker.com/get-docker/)
+- Docker Compose: [Install Docker Compose](https://docs.docker.com/compose/install/) (Often included with Docker Desktop)
+
+### Steps
+1.  **Navigate to the project root directory** (where `docker-compose.yml` is located).
+2.  **Build and start the services**:
+    ```bash
+    docker-compose up --build
+    ```
+    - The `--build` flag ensures images are built if they don't exist or if Dockerfiles have changed.
+    - To run in detached mode (in the background), use `docker-compose up -d --build`.
+3.  **Accessing services**:
+    -   **Slim API**: `http://localhost:8000`
+    -   **WebSocket Server**: `ws://localhost:8080`
+    -   **MySQL Database**: Connect using a MySQL client to `localhost:3306` (credentials are in `docker-compose.yml` and used by the PHP services via environment variables).
+4.  **Stopping the services**:
+    ```bash
+    docker-compose down
+    ```
+    - To stop and remove volumes (like `mysql_data`): `docker-compose down -v`
+
+**Note on Database Initialization**:
+The `docker-compose.yml` for `mysql_db` can be configured to automatically import `.sql`, `.sql.gz`, or `.sh` scripts placed in a directory mounted to `/docker-entrypoint-initdb.d` in the MySQL container. You might want to copy your schema files (e.g., from `lib/database/`) into a dedicated `docker-init-db/` folder in your project root and then add this volume mount to the `mysql_db` service in `docker-compose.yml`:
+```yaml
+# In docker-compose.yml, under services.mysql_db.volumes:
+# - ./docker-init-db:/docker-entrypoint-initdb.d
+```
+This will ensure your database schema is created when the MySQL container starts for the first time.
+
+## Author / Credits
+
+This project is developed and maintained by **Kevin Marville**.
+
+-   **Website**: [kvnbbg.fr](https://kvnbbg.fr)
+-   **Instagram**: [@techandstream](https://instagram.com/techandstream)
+
 ## Useful Links
 
 - [Discussion](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/discussions)

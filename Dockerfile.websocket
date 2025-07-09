@@ -1,0 +1,40 @@
+# Dockerfile for the ReactPHP WebSocket Server
+
+# Use an official PHP CLI image
+FROM php:8.0-cli
+
+# Install necessary PHP extensions if any are specifically needed by ReactPHP or Ratchet
+# For basic ReactPHP/Ratchet, common extensions like sockets, posix are usually included or not strictly required.
+# If specific extensions like pcntl (for advanced loop features) or ev/uv (for alternative event loops)
+# were to be used by ReactPHP, they would be installed here.
+# Example: RUN docker-php-ext-install sockets
+
+# Set working directory
+WORKDIR /app
+
+# Copy composer files
+COPY composer.json composer.lock* ./
+
+# Install dependencies
+# This ensures that dependencies are installed based on the lock file for consistency.
+# Using --no-dev assumes you don't need dev dependencies like PHPUnit in the production image.
+# If you need them for any reason (e.g. running tests within the container before startup, not typical for prod), adjust this.
+RUN apt-get update && apt-get install -y --no-install-recommends unzip libzip-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install zip \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-dev --optimize-autoloader --no-scripts --no-interaction
+
+# Copy the application code for the WebSocket server and the rest of the app
+# if the server script has dependencies on other parts of your PHP application.
+# For now, assuming websocket_server.php and its direct dependencies are within server/
+# and it uses the shared vendor directory.
+COPY server/ ./server/
+# If your websocket_server.php needs access to other PHP code from your project (e.g. from a `src` or `lib` dir not part of Slim's `public`),
+# you'd copy that here too. For this setup, vendor is the main shared part.
+
+# Expose the WebSocket port (e.g., 8080, should match what's in websocket_server.php)
+EXPOSE 8080
+
+# Command to run the WebSocket server
+CMD ["php", "server/websocket_server.php"]
