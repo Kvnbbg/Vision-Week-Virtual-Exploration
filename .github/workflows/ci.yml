@@ -16,8 +16,16 @@ jobs:
 
       - name: Setup Trunk
         uses: trunk-io/trunk-action@v1
+        id: setup-trunk # Add an id to reference outputs if needed
 
       - name: Run Trunk Check (Linters & Formatters)
+        # The trunk-io/trunk-action should add trunk to the PATH automatically.
+        # If it's not found, it might be an issue with the action or runner environment.
+        # Explicitly trying to ensure PATH is correct or calling directly if a path is outputted.
+        # For now, assuming the action correctly handles PATH.
+        # If `trunk` is still not found, one might need to do:
+        # run: ${{ steps.setup-trunk.outputs.trunk-path }} check --ci --all --upstream
+        # Or ensure the shell environment correctly sources PATH updates.
         run: trunk check --ci --all --upstream
 
   flutter_test:
