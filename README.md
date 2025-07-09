@@ -133,17 +133,44 @@ For a detailed overview of the project's architecture, please see [ARCHITECTURE.
 1. **Install PHP**:
    - Download and install from [php.net](https://www.php.net/).
 
-2. **Configure Database**:
-   - Create a new database and user on your MySQL server.
-   - Update the credentials in `backend/db_config.php`.
+2. **Configure Database (MySQL)**:
+   - Create a new database (e.g., `vision_week_db`) and user on your MySQL server.
+   - **Import SQL Schemas**: You will need to import the table structures. SQL files are located in the `lib/database/` directory. This includes:
+     - `zoo.sql` (example, if it contains main app schema)
+     - `animals.sql` (example)
+     - `videos.sql` (example)
+     - `messaging_schema.sql` (for the new messaging features)
+     - And any other relevant `.sql` files for table creation.
+     (Example import command: `mysql -u youruser -p your_database_name < lib/database/your_schema_file.sql`)
+   - Update the database credentials in `public/src/db_config.php` by setting the appropriate environment variables as outlined in that file.
 
-3. **Start the Server**:
-   - Navigate to the `backend` directory.
-   - Start the server with:
+3. **Start the HTTP API Server (Slim Application)**:
+   - Navigate to the project root directory.
+   - Ensure PHP is installed and accessible.
+   - Start the server (which serves from the `public` directory):
      ```bash
      php -S localhost:8000 -t public
      ```
-   - **API Documentation**: As API endpoints are developed in the Slim framework (see `public/index.php`), they should be documented using OpenAPI (Swagger) specifications. Refer to `ARCHITECTURE.md` for more details.
+   - **API Documentation**: As API endpoints are developed in the Slim framework, they should be documented using OpenAPI (Swagger) specifications. Refer to `ARCHITECTURE.md` for more details.
+
+### Running the WebSocket Server (for Real-time Messaging)
+
+The real-time messaging features are handled by a separate WebSocket server.
+
+1. **Ensure Composer Dependencies are Installed**:
+   If you haven't already, install PHP dependencies:
+   ```bash
+   composer install
+   ```
+
+2. **Start the WebSocket Server**:
+   Navigate to the project root directory and run:
+   ```bash
+   php server/websocket_server.php
+   ```
+   This will typically start the server on port 8080 (as configured in the script). Check the console output for the exact port.
+
+   **Note**: This server needs to be running alongside the main web server (PHP Slim application) for messaging features to work.
 
 ## Testing & CI
 

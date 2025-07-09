@@ -12,17 +12,27 @@ The application consists of the following main components:
     *   **VR Rendering:** The specifics of VR rendering (e.g., using Flutter plugins like a Unity/Unreal view, direct platform VR SDK integration, or WebXR for the web version) are critical. This component must be highly performant and responsive to VR input methods (controllers, hand tracking, gaze).
     *   Handles local data caching using SQLite.
 
-*   **Backend API:**
+*   **Backend API (PHP/Slim):**
     *   Built with **PHP using the Slim micro-framework**.
-    *   Provides RESTful API endpoints for the Flutter application.
+    *   Provides RESTful API endpoints for the Flutter application for synchronous operations.
     *   Responsibilities include:
         *   Managing zoo data, animal information, video metadata, etc. (stored in MySQL).
         *   Handling specific business logic not suited for the client or Firebase.
         *   Potentially managing user interactions data (comments, ratings - if not handled by Firebase).
         *   Subscription management (interfacing with payment gateways).
 
-*   **Database (Primary Application Data):**
-    *   **MySQL** is the primary relational database for storing core application data like zoo information, animal details, video content metadata, user subscriptions, etc.
+*   **Real-time Messaging Service (PHP/ReactPHP):**
+    *   A separate PHP server process utilizing **ReactPHP and the Ratchet library** to handle WebSocket connections for real-time messaging.
+    *   Manages live chat features, user presence, and other real-time event propagation.
+    *   Communicates with the MySQL database for message persistence and user data.
+    *   Runs independently of the Slim framework's HTTP request-response cycle for REST APIs.
+
+*   **Database (Primary Application Data - MySQL):**
+    *   **MySQL** is the primary relational database. It stores:
+        *   Core application data: zoo information, animal details, video content metadata, user subscriptions, etc.
+        *   **Messaging data:**
+            *   `direct_messages`: Stores content and metadata for one-to-one user messages.
+            *   `user_presence`: Tracks user online/offline status and last seen time.
 
 *   **Firebase Services:**
     *   **Firebase Authentication:** Used for user sign-up, sign-in (including Google Sign-In), and overall user session management. Acts as the primary authentication provider.
