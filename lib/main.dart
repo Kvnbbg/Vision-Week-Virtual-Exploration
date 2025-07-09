@@ -4,6 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart'; // Added
+import 'package:flutter/foundation.dart' show kDebugMode; // Added for kDebugMode
+
 import 'auth/auth_service.dart';
 import '../screens/login.dart';
 import '../screens/home_screen.dart';
@@ -11,6 +14,23 @@ import '../screens/home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Initialize Firebase Crashlytics
+  if (kDebugMode) {
+    // Disable Crashlytics in debug mode if you prefer
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  } else {
+    // Enable Crashlytics in release mode
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    // Pass all uncaught "fatal" errors from the framework to Crashlytics
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true; // Indicate that the error has been handled
+    };
+  }
+
   runApp(VisionWeekApp());
 }
 

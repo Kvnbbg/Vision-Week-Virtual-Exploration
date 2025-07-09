@@ -70,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
+            tooltip: 'Logout', // TODO: Localize this string e.g., appLocalizations.logoutButtonTooltip
             onPressed: _logout,
           ),
           Switch(
@@ -154,8 +155,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             return Card(
                               child: Column(
                                 children: [
-                                  Image.asset(_animalImages[index], fit: BoxFit.cover),
-                                  Text(_animalNames[index]),
+                                  Expanded( // Ensure image can expand
+                                    child: Image.asset(
+                                      _animalImages[index],
+                                      fit: BoxFit.cover,
+                                      semanticLabel: _animalNames[index], // Accessibility: Describe the image
+                                    ),
+                                  ),
+                                  Padding( // Add some padding for the text
+                                    padding: const EdgeInsets.all(4.0),
+                                    child: Text(_animalNames[index]),
+                                  ),
                                 ],
                               ),
                             );

@@ -1,0 +1,62 @@
+name: Vision Week CI
+
+on:
+  push:
+    branches: [ main, develop ] # Or your primary development branches
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    name: Code Linting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Trunk
+        uses: trunk-io/trunk-action@v1
+
+      - name: Run Trunk Check (Linters & Formatters)
+        run: trunk check --ci --all --upstream
+
+  flutter_test:
+    name: Flutter Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' # Or your specific Flutter channel
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+      - name: Run Flutter tests
+        run: flutter test
+
+  php_test:
+    name: PHPUnit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0' # Match your composer.json requirement
+          extensions: mbstring, pdo_sqlite # Add extensions needed by your app and tests
+          coverage: none # Or 'xdebug' if you want code coverage
+
+      - name: Get Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run PHPUnit tests
+        # Assumes your phpunit.xml is configured or tests are in standard locations
+        # The script "test": "phpunit" was added to composer.json
+        run: composer test
+        # Or directly: vendor/bin/phpunit
