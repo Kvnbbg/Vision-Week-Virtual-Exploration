@@ -47,7 +47,7 @@ dev_dependencies:
 flutter:
   generate: true
   assets:
-    - assets
+    - assets/ # Include all files in the assets directory and its subdirectories
   uses-material-design: true
 
 flutter_gen:
@@ -55,8 +55,7 @@ flutter_gen:
   integrations:
     flutter_localizations: true
 
-assets:
-  - assets/images
+# Removed incorrect root-level assets declaration
 
 l10n:
   - lib/l10n/int_en.arb

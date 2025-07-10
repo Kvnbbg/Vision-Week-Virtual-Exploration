@@ -2,14 +2,30 @@ name: Vision Week CI
 
 on:
   push:
-    branches: [ main, develop ] # Or your primary development branches
+    branches: [main, develop] # Or your primary development branches
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   lint:
     name: Code Linting
     runs-on: ubuntu-latest
+    services: # Add a MySQL service container
+      mysql_ci_db:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword # Not used by app, but required by image
+          MYSQL_DATABASE: vision_week_ci_test_db # Specific test DB name
+          MYSQL_USER: visionuser_ci
+          MYSQL_PASSWORD: visionpass_ci
+        ports:
+          - 3306 # MySQL service port within the Docker network
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,11 +37,7 @@ jobs:
       - name: Run Trunk Check (Linters & Formatters)
         # The trunk-io/trunk-action should add trunk to the PATH automatically.
         # If it's not found, it might be an issue with the action or runner environment.
-        # Explicitly trying to ensure PATH is correct or calling directly if a path is outputted.
         # For now, assuming the action correctly handles PATH.
-        # If `trunk` is still not found, one might need to do:
-        # run: ${{ steps.setup-trunk.outputs.trunk-path }} check --ci --all --upstream
-        # Or ensure the shell environment correctly sources PATH updates.
         run: trunk check --ci --all --upstream
 
   flutter_test:
@@ -57,14 +69,18 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0' # Match your composer.json requirement
-          extensions: mbstring, pdo_sqlite # Add extensions needed by your app and tests
+          extensions: mbstring, pdo_sqlite, pdo_mysql # Added pdo_mysql
           coverage: none # Or 'xdebug' if you want code coverage
 
       - name: Get Composer dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run PHPUnit tests
-        # Assumes your phpunit.xml is configured or tests are in standard locations
-        # The script "test": "phpunit" was added to composer.json
+        env: # Pass DB credentials as environment variables to the test script
+          DB_HOST_CI: 127.0.0.1 # Service is available on localhost from the job container
+          DB_PORT_CI: ${{ job.services.mysql_ci_db.ports[3306] }} # Get the mapped port for MySQL
+          DB_NAME_CI: vision_week_ci_test_db
+          DB_USER_CI: visionuser_ci
+          DB_PASS_CI: visionpass_ci
         run: composer test
         # Or directly: vendor/bin/phpunit
