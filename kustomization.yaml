@@ -1,0 +1,80 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: vision-week-production
+  annotations:
+    config.kubernetes.io/local-config: "true"
+
+namespace: vision-week-prod
+
+namePrefix: prod-
+
+resources:
+  - ../../base
+  - hpa.yaml
+  - monitoring.yaml
+
+commonLabels:
+  environment: production
+  tier: production
+
+commonAnnotations:
+  environment: "production"
+  deployment.kubernetes.io/revision: "1"
+
+images:
+  - name: vision-week/app
+    newTag: v2.0.0
+
+replicas:
+  - name: vision-week-app
+    count: 5
+  - name: vision-week-websocket
+    count: 3
+
+configMapGenerator:
+  - name: production-config
+    behavior: merge
+    literals:
+      - APP_ENV=production
+      - APP_DEBUG=false
+      - LOG_LEVEL=warning
+
+secretGenerator:
+  - name: production-secrets
+    behavior: merge
+    files:
+      - APP_KEY=secrets/app-key.txt
+      - DB_PASSWORD=secrets/db-password.txt
+      - REDIS_PASSWORD=secrets/redis-password.txt
+      - JWT_SECRET=secrets/jwt-secret.txt
+
+patchesStrategicMerge:
+  - app-production-patch.yaml
+  - postgres-production-patch.yaml
+  - redis-production-patch.yaml
+
+patchesJson6902:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: vision-week-app
+    path: app-resources-patch.yaml
+
+patches:
+  - target:
+      kind: Ingress
+      name: vision-week-ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: vision-week.com
+      - op: replace
+        path: /spec/rules/1/host
+        value: api.vision-week.com
+      - op: replace
+        path: /spec/rules/2/host
+        value: ws.vision-week.com
+

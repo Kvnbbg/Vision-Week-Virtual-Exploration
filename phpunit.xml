@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.4/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         executionOrder="depends,defects"
+         failOnRisky="true"
+         failOnWarning="true"
+         stopOnFailure="false"
+         cacheDirectory=".phpunit.cache"
+         backupGlobals="false"
+         backupStaticAttributes="false">
+    
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests/unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory suffix="Test.php">tests/integration</directory>
+        </testsuite>
+        <testsuite name="E2E">
+            <directory suffix="Test.php">tests/e2e</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <exclude>
+            <directory>src/Migrations</directory>
+            <directory>src/Seeds</directory>
+            <file>src/bootstrap.php</file>
+        </exclude>
+    </source>
+
+    <coverage includeUncoveredFiles="true"
+              processUncoveredFiles="true"
+              ignoreDeprecatedCodeUnits="true"
+              disableCodeCoverageIgnore="true">
+        <report>
+            <html outputDirectory="coverage/html"/>
+            <clover outputFile="coverage.xml"/>
+            <text outputFile="php://stdout" showUncoveredFiles="false"/>
+        </report>
+    </coverage>
+
+    <logging>
+        <junit outputFile="tests/results/junit.xml"/>
+        <teamcity outputFile="tests/results/teamcity.txt"/>
+    </logging>
+
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_DEBUG" value="true"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_PORT" value="5432"/>
+        <env name="DB_DATABASE" value="vision_week_test"/>
+        <env name="DB_USERNAME" value="postgres"/>
+        <env name="DB_PASSWORD" value="postgres"/>
+        <env name="REDIS_HOST" value="localhost"/>
+        <env name="REDIS_PORT" value="6379"/>
+        <env name="REDIS_PASSWORD" value=""/>
+        <env name="JWT_SECRET" value="test-jwt-secret-key"/>
+        <env name="APP_KEY" value="test-app-key"/>
+    </php>
+
+    <extensions>
+        <bootstrap class="PHPUnit\Runner\Extension\Xdebug"/>
+    </extensions>
+</phpunit>
+

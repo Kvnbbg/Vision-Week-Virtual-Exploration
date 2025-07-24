@@ -1,0 +1,226 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: redis
+spec:
+  serviceName: redis-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vision-week-virtual-exploration
+      component: redis
+  template:
+    metadata:
+      labels:
+        app: vision-week-virtual-exploration
+        component: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          command:
+            - redis-server
+            - /etc/redis/redis.conf
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secrets
+                  key: REDIS_PASSWORD
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+            - name: redis-config
+              mountPath: /etc/redis/redis.conf
+              subPath: redis.conf
+              readOnly: true
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: redis-config
+          configMap:
+            name: redis-config
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-storage
+        labels:
+          app: vision-week-virtual-exploration
+          component: redis
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: fast-ssd
+        resources:
+          requests:
+            storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
+      protocol: TCP
+  selector:
+    app: vision-week-virtual-exploration
+    component: redis
+
+---
+# Redis Sentinel for high availability (optional)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-sentinel
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: redis-sentinel
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vision-week-virtual-exploration
+      component: redis-sentinel
+  template:
+    metadata:
+      labels:
+        app: vision-week-virtual-exploration
+        component: redis-sentinel
+    spec:
+      containers:
+        - name: redis-sentinel
+          image: redis:7-alpine
+          ports:
+            - name: sentinel
+              containerPort: 26379
+              protocol: TCP
+          command:
+            - redis-sentinel
+            - /etc/redis/sentinel.conf
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secrets
+                  key: REDIS_PASSWORD
+          volumeMounts:
+            - name: sentinel-config
+              mountPath: /etc/redis/sentinel.conf
+              subPath: sentinel.conf
+              readOnly: true
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - -p
+                - "26379"
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - -p
+                - "26379"
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+      volumes:
+        - name: sentinel-config
+          configMap:
+            name: redis-sentinel-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-sentinel-service
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: redis-sentinel
+spec:
+  type: ClusterIP
+  ports:
+    - name: sentinel
+      port: 26379
+      targetPort: sentinel
+      protocol: TCP
+  selector:
+    app: vision-week-virtual-exploration
+    component: redis-sentinel
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-sentinel-config
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: redis-sentinel
+data:
+  sentinel.conf: |
+    port 26379
+    sentinel monitor mymaster redis-service 6379 2
+    sentinel auth-pass mymaster REDIS_PASSWORD_PLACEHOLDER
+    sentinel down-after-milliseconds mymaster 5000
+    sentinel parallel-syncs mymaster 1
+    sentinel failover-timeout mymaster 10000
+    sentinel deny-scripts-reconfig yes
+

@@ -1,0 +1,55 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+numReplicas = 1
+sleepApplication = false
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+[environments.production]
+[environments.production.variables]
+APP_ENV = "production"
+APP_DEBUG = "false"
+NODE_ENV = "production"
+
+[environments.staging]
+[environments.staging.variables]
+APP_ENV = "staging"
+APP_DEBUG = "true"
+NODE_ENV = "staging"
+
+# Services configuration
+[[services]]
+name = "vision-week-app"
+source = "."
+build.builder = "dockerfile"
+build.dockerfilePath = "Dockerfile"
+
+[services.deploy]
+numReplicas = 2
+sleepApplication = false
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+healthcheckPath = "/health"
+healthcheckTimeout = 30
+
+[[services]]
+name = "vision-week-postgres"
+source = "postgres:15-alpine"
+
+[services.deploy]
+numReplicas = 1
+sleepApplication = false
+
+[[services]]
+name = "vision-week-redis"
+source = "redis:7-alpine"
+
+[services.deploy]
+numReplicas = 1
+sleepApplication = false
+

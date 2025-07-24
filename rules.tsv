@@ -1,0 +1,90 @@
+# ZAP Security Rules Configuration
+# Format: RULE_ID	THRESHOLD	[COMMENT]
+
+# High priority security rules
+10021	PASS	# X-Content-Type-Options Header Missing
+10020	PASS	# X-Frame-Options Header Missing
+10016	PASS	# Web Browser XSS Protection Not Enabled
+10017	PASS	# Cross-Domain JavaScript Source File Inclusion
+10019	PASS	# Content-Type Header Missing
+10027	PASS	# Information Disclosure - Suspicious Comments
+10028	PASS	# Open Redirect
+10029	PASS	# Cookie Poisoning
+10030	PASS	# User Controllable Charset
+10031	PASS	# User Controllable HTML Element Attribute (Potential XSS)
+10032	PASS	# Viewstate Scanner
+10033	PASS	# Directory Browsing
+10034	PASS	# Heartbleed OpenSSL Vulnerability
+10035	PASS	# Strict-Transport-Security Header Missing
+10036	PASS	# Server Leaks Version Information via "Server" HTTP Response Header Field
+10037	PASS	# Server Leaks Information via "X-Powered-By" HTTP Response Header Field(s)
+10038	PASS	# Content Security Policy (CSP) Header Not Set
+10040	PASS	# Secure Pages Include Mixed Content
+10041	PASS	# HTTP to HTTPS Insecure Transition in Form Post
+10042	PASS	# HTTPS to HTTP Insecure Transition in Form Post
+10043	PASS	# User Controllable JavaScript Event (XSS)
+10044	PASS	# Big Redirect Detected (Potential Sensitive Information Leak)
+10045	PASS	# Source Code Disclosure - /WEB-INF folder
+10046	PASS	# Source Code Disclosure - Git
+10047	PASS	# Source Code Disclosure - SVN
+10048	PASS	# Remote Code Execution - Shell Shock
+10049	PASS	# Content Cacheability
+10050	PASS	# Retrieved from Cache
+10051	PASS	# Relative Path Confusion
+10052	PASS	# X-ChromeLogger-Data (XCOLD) Header Information Leak
+10054	PASS	# Cookie Without SameSite Attribute
+10055	PASS	# CSP Scanner
+10056	PASS	# X-Debug-Token Information Leak
+10057	PASS	# Username Hash Found
+10061	PASS	# X-AspNet-Version Response Header
+10062	PASS	# PII Disclosure
+10063	PASS	# Feature Policy Header Not Set
+10096	PASS	# Timestamp Disclosure
+10097	PASS	# Hash Disclosure
+10098	PASS	# Cross-Domain Misconfiguration
+10099	PASS	# Source Code Disclosure
+
+# SQL Injection rules
+40018	PASS	# SQL Injection
+40019	PASS	# SQL Injection - MySQL
+40020	PASS	# SQL Injection - Hypersonic SQL
+40021	PASS	# SQL Injection - Oracle
+40022	PASS	# SQL Injection - PostgreSQL
+40023	PASS	# Possible Username Enumeration
+40024	PASS	# SQL Injection - SQLite
+40025	PASS	# Proxy Disclosure
+40026	PASS	# Cross Site Scripting (Reflected)
+40027	PASS	# SQL Injection - MsSQL
+40028	PASS	# CRLF Injection
+40029	PASS	# Trace.axd Information Leak
+
+# Authentication and session management
+10010	PASS	# Cookie No HttpOnly Flag
+10011	PASS	# Cookie Without Secure Flag
+10015	PASS	# Incomplete or No Cache-control and Pragma HTTP Header Set
+90001	PASS	# Insecure JSF ViewState
+90011	PASS	# Charset Mismatch
+90017	PASS	# XSLT Injection
+90019	PASS	# Server Side Code Injection
+90020	PASS	# Remote OS Command Injection
+90021	PASS	# XPath Injection
+90022	PASS	# Application Error Disclosure
+90023	PASS	# XML External Entity Attack
+90024	PASS	# Generic Padding Oracle
+90025	PASS	# Expression Language Injection
+90026	PASS	# SOAP Action Spoofing
+90027	PASS	# Cookie Slack Detector
+90028	PASS	# Insecure HTTP Method
+90029	PASS	# LDAP Injection
+
+# Ignore certain false positives for development
+10009	IGNORE	# In Page Banner Information Leak (development environment)
+10012	IGNORE	# Password Autocomplete in Browser (acceptable for some forms)
+10018	IGNORE	# Secure Pages Include Mixed Content (development environment)
+
+# Custom rules for API endpoints
+# Allow certain endpoints to have different security requirements
+# /api/public/*	IGNORE	# Public API endpoints may have relaxed security
+# /health	IGNORE	# Health check endpoint
+# /metrics	IGNORE	# Metrics endpoint for monitoring
+

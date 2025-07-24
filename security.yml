@@ -1,0 +1,371 @@
+name: Security Scan
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Job 1: Scan des dépendances
+  dependency-scan:
+    name: Dependency Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev
+
+      - name: Install Node.js dependencies
+        run: npm ci
+
+      - name: PHP Security Audit
+        run: |
+          composer audit --format=json > php-audit.json || true
+          vendor/bin/security-checker security:check --format=json > php-security.json || true
+
+      - name: Node.js Security Audit
+        run: |
+          npm audit --json > npm-audit.json || true
+          npx audit-ci --config .audit-ci.json
+
+      - name: Snyk Security Scan
+        uses: snyk/actions/php@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --json > snyk-php.json
+
+      - name: Snyk Node.js Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --json > snyk-node.json
+
+      - name: Upload security reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: security-reports
+          path: |
+            php-audit.json
+            php-security.json
+            npm-audit.json
+            snyk-php.json
+            snyk-node.json
+
+  # Job 2: Scan du code source
+  code-scan:
+    name: Code Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript, php
+          queries: security-and-quality
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v2
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+
+      - name: Semgrep Security Scan
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >-
+            p/security-audit
+            p/secrets
+            p/owasp-top-ten
+            p/php
+            p/javascript
+
+      - name: SonarCloud Security Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # Job 3: Scan des secrets
+  secret-scan:
+    name: Secret Detection
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+      - name: GitLeaks Secret Scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Detect Secrets
+        run: |
+          pip install detect-secrets
+          detect-secrets scan --all-files --baseline .secrets.baseline
+          detect-secrets audit .secrets.baseline
+
+  # Job 4: Scan des images Docker
+  container-scan:
+    name: Container Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t local-scan:latest .
+
+      - name: Trivy Container Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'local-scan:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Grype Container Scan
+        uses: anchore/scan-action@v3
+        with:
+          image: 'local-scan:latest'
+          severity-cutoff: high
+          fail-build: true
+
+      - name: Docker Scout Scan
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: local-scan:latest
+          sarif-file: scout-results.sarif
+
+      - name: Upload Scout scan results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'scout-results.sarif'
+
+  # Job 5: Test de pénétration automatisé
+  penetration-test:
+    name: Automated Penetration Testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+
+    services:
+      app:
+        image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        ports:
+          - 8080:80
+        env:
+          APP_ENV: testing
+          DB_HOST: postgres
+          REDIS_HOST: redis
+      
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: vision_week_test
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Wait for application to start
+        run: |
+          timeout 60 bash -c 'until curl -f http://localhost:8080/health; do sleep 2; done'
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.7.0
+        with:
+          target: 'http://localhost:8080'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: OWASP ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.4.0
+        with:
+          target: 'http://localhost:8080'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: Nuclei Security Scan
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: 'http://localhost:8080'
+          templates: 'cves,vulnerabilities,exposures'
+
+      - name: SQLMap SQL Injection Test
+        run: |
+          pip install sqlmap
+          sqlmap -u "http://localhost:8080/api/animals?id=1" --batch --level=3 --risk=2
+
+  # Job 6: Compliance et audit
+  compliance-audit:
+    name: Compliance Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: GDPR Compliance Check
+        run: |
+          # Check for GDPR compliance patterns
+          grep -r "personal.*data\|privacy\|consent\|cookie" src/ || echo "No GDPR patterns found"
+          
+      - name: Security Headers Check
+        run: |
+          # Verify security headers are configured
+          grep -r "X-Frame-Options\|X-Content-Type-Options\|X-XSS-Protection" docker/nginx/ || exit 1
+
+      - name: Encryption Check
+        run: |
+          # Verify encryption is used
+          grep -r "password_hash\|bcrypt\|argon2" src/ || exit 1
+          grep -r "https\|ssl\|tls" docker/ || exit 1
+
+      - name: Access Control Check
+        run: |
+          # Verify access controls are in place
+          grep -r "auth\|permission\|role" src/ || exit 1
+
+  # Job 7: Rapport de sécurité
+  security-report:
+    name: Generate Security Report
+    runs-on: ubuntu-latest
+    needs: [dependency-scan, code-scan, secret-scan, container-scan, compliance-audit]
+    if: always()
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download security artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: security-reports
+          path: security-reports/
+
+      - name: Generate security report
+        run: |
+          cat > security-report.md << EOF
+          # Security Scan Report
+          
+          **Date**: $(date)
+          **Commit**: ${{ github.sha }}
+          **Branch**: ${{ github.ref_name }}
+          
+          ## Summary
+          
+          | Scan Type | Status | Critical | High | Medium | Low |
+          |-----------|--------|----------|------|--------|-----|
+          | Dependencies | ${{ needs.dependency-scan.result }} | - | - | - | - |
+          | Code Analysis | ${{ needs.code-scan.result }} | - | - | - | - |
+          | Secret Detection | ${{ needs.secret-scan.result }} | - | - | - | - |
+          | Container Scan | ${{ needs.container-scan.result }} | - | - | - | - |
+          | Compliance | ${{ needs.compliance-audit.result }} | - | - | - | - |
+          
+          ## Recommendations
+          
+          1. Review and update dependencies regularly
+          2. Implement additional security headers
+          3. Enable security monitoring
+          4. Conduct regular penetration testing
+          
+          ## Next Steps
+          
+          - [ ] Address critical vulnerabilities
+          - [ ] Update security policies
+          - [ ] Schedule next security review
+          EOF
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-report
+          path: security-report.md
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('security-report.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🔒 Security Scan Results\n\n${report}`
+            });
+
+      - name: Notify security team
+        if: contains(needs.*.result, 'failure')
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#security'
+          text: |
+            🚨 Security scan failed!
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            
+            Please review the security report and take immediate action.
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+

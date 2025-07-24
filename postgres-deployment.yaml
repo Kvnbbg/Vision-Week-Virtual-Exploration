@@ -1,0 +1,224 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: postgres
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vision-week-virtual-exploration
+      component: postgres
+  template:
+    metadata:
+      labels:
+        app: vision-week-virtual-exploration
+        component: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_DB
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: POSTGRES_PASSWORD
+            - name: POSTGRES_INITDB_ARGS
+              value: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+            - name: postgres-config
+              mountPath: /etc/postgresql/postgresql.conf
+              subPath: postgresql.conf
+              readOnly: true
+            - name: postgres-init
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h 127.0.0.1 -p 5432
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+      volumes:
+        - name: postgres-config
+          configMap:
+            name: postgres-config
+        - name: postgres-init
+          configMap:
+            name: postgres-init-scripts
+      securityContext:
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+        labels:
+          app: vision-week-virtual-exploration
+          component: postgres
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: fast-ssd
+        resources:
+          requests:
+            storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: postgres
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+  selector:
+    app: vision-week-virtual-exploration
+    component: postgres
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-scripts
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: postgres
+data:
+  01-schema.sql: |
+    -- This will be populated from the schema.sql file
+    -- during the build process or via a separate ConfigMap
+    CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+    
+  02-seeds.sql: |
+    -- Initial seed data
+    INSERT INTO categories (name, description) VALUES 
+    ('Mammals', 'Warm-blooded vertebrates with hair or fur'),
+    ('Birds', 'Feathered, winged, bipedal, endothermic vertebrates'),
+    ('Reptiles', 'Cold-blooded vertebrates with scales'),
+    ('Fish', 'Aquatic vertebrates with gills'),
+    ('Amphibians', 'Cold-blooded vertebrates that live both in water and on land');
+
+---
+# Backup CronJob for PostgreSQL
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: postgres-backup
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: postgres-backup
+              image: postgres:15-alpine
+              command:
+                - /bin/bash
+                - -c
+                - |
+                  BACKUP_FILE="/backup/postgres-backup-$(date +%Y%m%d-%H%M%S).sql"
+                  pg_dump -h postgres-service -U $POSTGRES_USER -d $POSTGRES_DB > $BACKUP_FILE
+                  echo "Backup completed: $BACKUP_FILE"
+                  # Keep only last 7 backups
+                  find /backup -name "postgres-backup-*.sql" -type f -mtime +7 -delete
+              env:
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secrets
+                      key: POSTGRES_USER
+                - name: POSTGRES_DB
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secrets
+                      key: POSTGRES_DB
+                - name: PGPASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: postgres-secrets
+                      key: POSTGRES_PASSWORD
+              volumeMounts:
+                - name: backup-storage
+                  mountPath: /backup
+          volumes:
+            - name: backup-storage
+              persistentVolumeClaim:
+                claimName: postgres-backup-pvc
+          restartPolicy: OnFailure
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-backup-pvc
+  namespace: vision-week
+  labels:
+    app: vision-week-virtual-exploration
+    component: postgres-backup
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: fast-ssd
+

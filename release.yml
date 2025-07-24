@@ -1,0 +1,303 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # Job 1: Créer la release GitHub
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    
+    outputs:
+      release-id: ${{ steps.create-release.outputs.id }}
+      upload-url: ${{ steps.create-release.outputs.upload_url }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Generate changelog from git commits
+          PREVIOUS_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+          if [ -n "$PREVIOUS_TAG" ]; then
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" $PREVIOUS_TAG..HEAD)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)")
+          fi
+          
+          # Save changelog to file
+          cat > CHANGELOG.md << EOF
+          ## What's Changed
+          
+          $CHANGELOG
+          
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREVIOUS_TAG...${{ github.ref_name }}
+          EOF
+          
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat CHANGELOG.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create-release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
+
+  # Job 2: Build des artifacts de release
+  build-artifacts:
+    name: Build Release Artifacts
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    strategy:
+      matrix:
+        platform: [linux/amd64, linux/arm64]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo, pdo_pgsql, redis, gd, mbstring, xml, intl, opcache, bcmath
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+          composer install --no-dev --optimize-autoloader
+
+      - name: Build Flutter web
+        run: |
+          flutter build web --release --web-renderer html
+          tar -czf flutter-web-${{ github.ref_name }}.tar.gz build/web/
+
+      - name: Build PHP application
+        run: |
+          # Create production build
+          mkdir -p dist/
+          cp -r src/ dist/
+          cp -r database/ dist/
+          cp composer.json composer.lock dist/
+          cp .env.example dist/.env
+          
+          # Install production dependencies
+          cd dist/
+          composer install --no-dev --optimize-autoloader --no-scripts
+          
+          # Create archive
+          cd ..
+          tar -czf php-app-${{ github.ref_name }}.tar.gz dist/
+
+      - name: Upload Flutter web artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload-url }}
+          asset_path: ./flutter-web-${{ github.ref_name }}.tar.gz
+          asset_name: flutter-web-${{ github.ref_name }}.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload PHP app artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload-url }}
+          asset_path: ./php-app-${{ github.ref_name }}.tar.gz
+          asset_name: php-app-${{ github.ref_name }}.tar.gz
+          asset_content_type: application/gzip
+
+  # Job 3: Build et push des images Docker pour release
+  build-release-images:
+    name: Build Release Docker Images
+    runs-on: ubuntu-latest
+    needs: create-release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            VCS_REF=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+
+  # Job 4: Déploiement en production
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [create-release, build-release-images]
+    environment:
+      name: production
+      url: https://vision-week.com
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+
+      - name: Setup Kustomize
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
+
+      - name: Deploy to production
+        run: |
+          cd k8s/overlays/production
+          kustomize edit set image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          kustomize build . | kubectl apply -f -
+          
+          # Wait for rollout
+          kubectl rollout status deployment/prod-vision-week-app -n vision-week-prod --timeout=600s
+
+      - name: Run production smoke tests
+        run: |
+          sleep 60
+          curl -f https://vision-week.com/health || exit 1
+          curl -f https://api.vision-week.com/health || exit 1
+
+      - name: Update release with deployment info
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { data: release } = await github.rest.repos.getRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ needs.create-release.outputs.release-id }}
+            });
+            
+            const deploymentInfo = `
+            
+            ## 🚀 Deployment Information
+            
+            - **Environment**: Production
+            - **URL**: https://vision-week.com
+            - **API**: https://api.vision-week.com
+            - **Deployed at**: ${new Date().toISOString()}
+            - **Docker Image**: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+            `;
+            
+            await github.rest.repos.updateRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              release_id: ${{ needs.create-release.outputs.release-id }},
+              body: release.body + deploymentInfo
+            });
+
+  # Job 5: Notification et documentation
+  post-release:
+    name: Post-Release Tasks
+    runs-on: ubuntu-latest
+    needs: [create-release, deploy-production]
+    if: always()
+
+    steps:
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#releases'
+          text: |
+            🎉 New release published!
+            Version: ${{ github.ref_name }}
+            URL: https://vision-week.com
+            Release Notes: https://github.com/${{ github.repository }}/releases/tag/${{ github.ref_name }}
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Update documentation
+        run: |
+          # Update version in documentation
+          echo "Latest version: ${{ github.ref_name }}" > VERSION.txt
+
+      - name: Create deployment record
+        uses: actions/github-script@v6
+        with:
+          script: |
+            // Create a deployment record
+            await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: '${{ github.ref_name }}',
+              environment: 'production',
+              description: 'Production deployment of ${{ github.ref_name }}',
+              auto_merge: false,
+              required_contexts: []
+            });
+
+      - name: Security scan of release
+        run: |
+          # Run additional security scans on the release
+          echo "Running security scan for release ${{ github.ref_name }}"
+          # Add security scanning commands here
+
