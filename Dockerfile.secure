@@ -1,0 +1,229 @@
+# Dockerfile sécurisé pour Vision Week Virtual Exploration
+# Multi-stage build pour optimiser la sécurité et la taille
+
+# Stage 1: Build environment
+FROM ubuntu:22.04 AS build-env
+
+# Éviter les interactions pendant l'installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    zip \
+    libglu1-mesa \
+    ca-certificates \
+    gnupg \
+    lsb-release \
+    && rm -rf /var/lib/apt/lists/*
+
+# Installer Flutter avec une version spécifique pour la reproductibilité
+ENV FLUTTER_VERSION=3.24.5
+ENV FLUTTER_HOME=/opt/flutter
+ENV PATH="$FLUTTER_HOME/bin:$PATH"
+
+RUN git clone --depth 1 --branch $FLUTTER_VERSION https://github.com/flutter/flutter.git $FLUTTER_HOME \
+    && flutter doctor -v \
+    && flutter config --enable-web
+
+# Créer un utilisateur non-root pour la compilation
+RUN useradd -m -u 1000 flutter
+USER flutter
+WORKDIR /home/flutter/app
+
+# Copier les fichiers de configuration des dépendances
+COPY --chown=flutter:flutter pubspec.yaml pubspec.lock ./
+
+# Installer les dépendances Flutter
+RUN flutter pub get
+
+# Copier le code source
+COPY --chown=flutter:flutter . .
+
+# Construire l'application web avec optimisations de sécurité
+RUN flutter build web \
+    --release \
+    --web-renderer html \
+    --source-maps \
+    --tree-shake-icons \
+    --dart-define=FLUTTER_WEB_USE_SKIA=false
+
+# Stage 2: Production environment avec Nginx
+FROM nginx:1.25-alpine AS production
+
+# Installer des outils de sécurité
+RUN apk add --no-cache \
+    ca-certificates \
+    tzdata \
+    && rm -rf /var/cache/apk/*
+
+# Créer un utilisateur non-root pour Nginx
+RUN addgroup -g 1000 -S appgroup && \
+    adduser -u 1000 -S appuser -G appgroup
+
+# Configuration Nginx sécurisée
+COPY <<EOF /etc/nginx/nginx.conf
+user appuser;
+worker_processes auto;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+    use epoll;
+    multi_accept on;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    
+    # Logging format
+    log_format main '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+                    '\$status \$body_bytes_sent "\$http_referer" '
+                    '"\$http_user_agent" "\$http_x_forwarded_for"';
+    
+    access_log /var/log/nginx/access.log main;
+    
+    # Performance optimizations
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    
+    # Security headers
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-XSS-Protection "1; mode=block" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
+    
+    # Content Security Policy
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.gstatic.com https://apis.google.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.example.com wss://api.example.com; frame-src 'self' https://www.youtube.com;" always;
+    
+    # Hide Nginx version
+    server_tokens off;
+    
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types
+        text/plain
+        text/css
+        text/xml
+        text/javascript
+        application/json
+        application/javascript
+        application/xml+rss
+        application/atom+xml
+        image/svg+xml;
+    
+    # Rate limiting
+    limit_req_zone \$binary_remote_addr zone=api:10m rate=10r/s;
+    limit_req_zone \$binary_remote_addr zone=login:10m rate=1r/s;
+    
+    server {
+        listen 8080;
+        server_name _;
+        root /usr/share/nginx/html;
+        index index.html;
+        
+        # Security configurations
+        client_max_body_size 10M;
+        client_body_timeout 12;
+        client_header_timeout 12;
+        keepalive_timeout 15;
+        send_timeout 10;
+        
+        # Disable access to hidden files
+        location ~ /\. {
+            deny all;
+            access_log off;
+            log_not_found off;
+        }
+        
+        # Main application
+        location / {
+            try_files \$uri \$uri/ /index.html;
+            
+            # Cache static assets
+            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)\$ {
+                expires 1y;
+                add_header Cache-Control "public, immutable";
+                add_header X-Content-Type-Options "nosniff";
+            }
+        }
+        
+        # API endpoints with rate limiting
+        location /api/ {
+            limit_req zone=api burst=20 nodelay;
+            proxy_pass http://backend:3000;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+        
+        # Login endpoint with stricter rate limiting
+        location /api/auth/login {
+            limit_req zone=login burst=5 nodelay;
+            proxy_pass http://backend:3000;
+            proxy_set_header Host \$host;
+            proxy_set_header X-Real-IP \$remote_addr;
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto \$scheme;
+        }
+        
+        # Health check endpoint
+        location /health {
+            access_log off;
+            return 200 "healthy\n";
+            add_header Content-Type text/plain;
+        }
+        
+        # Block access to sensitive files
+        location ~* \.(env|log|sql|bak|backup)\$ {
+            deny all;
+            access_log off;
+            log_not_found off;
+        }
+    }
+}
+EOF
+
+# Copier les fichiers construits depuis le stage de build
+COPY --from=build-env --chown=appuser:appgroup /home/flutter/app/build/web /usr/share/nginx/html
+
+# Créer les répertoires de logs avec les bonnes permissions
+RUN mkdir -p /var/log/nginx && \
+    chown -R appuser:appgroup /var/log/nginx && \
+    chown -R appuser:appgroup /usr/share/nginx/html && \
+    chown -R appuser:appgroup /var/cache/nginx && \
+    chown -R appuser:appgroup /var/run
+
+# Exposer le port 8080 (non-privilégié)
+EXPOSE 8080
+
+# Utiliser l'utilisateur non-root
+USER appuser
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1
+
+# Commande de démarrage
+CMD ["nginx", "-g", "daemon off;"]
+
+# Métadonnées
+LABEL maintainer="Kevin Marville <kevin@kvnbbg.fr>"
+LABEL version="1.1.0"
+LABEL description="Vision Week Virtual Exploration - Secure Production Build"
+LABEL org.opencontainers.image.source="https://github.com/kvnbbg/vision-week-virtual-exploration"
+

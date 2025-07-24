@@ -1,0 +1,435 @@
+# Docker Compose sécurisé pour Vision Week Virtual Exploration
+# Version: 1.1.0
+# Maintainer: Kevin Marville
+
+version: '3.8'
+
+# Réseaux isolés pour la sécurité
+networks:
+  frontend:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+  backend:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.21.0.0/24
+  database:
+    driver: bridge
+    internal: true
+    ipam:
+      config:
+        - subnet: 172.22.0.0/24
+
+# Volumes persistants avec chiffrement
+volumes:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/mysql
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/redis
+  uploads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data/uploads
+  logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./logs
+
+# Secrets pour les données sensibles
+secrets:
+  mysql_root_password:
+    file: ./secrets/mysql_root_password.txt
+  mysql_password:
+    file: ./secrets/mysql_password.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
+  firebase_config:
+    file: ./secrets/firebase_config.json
+
+services:
+  # Reverse Proxy et Load Balancer
+  traefik:
+    image: traefik:v3.0
+    container_name: vision_week_traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - frontend
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Dashboard (à désactiver en production)
+    environment:
+      - TRAEFIK_API_DASHBOARD=true
+      - TRAEFIK_API_INSECURE=false
+      - TRAEFIK_ENTRYPOINTS_WEB_ADDRESS=:80
+      - TRAEFIK_ENTRYPOINTS_WEBSECURE_ADDRESS=:443
+      - TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_EMAIL=kevin@kvnbbg.fr
+      - TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_STORAGE=/letsencrypt/acme.json
+      - TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_HTTPCHALLENGE_ENTRYPOINT=web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/letsencrypt:/letsencrypt
+      - ./traefik/config:/etc/traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.localhost`)"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.certresolver=letsencrypt"
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Application Frontend Flutter
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.secure
+      args:
+        - FLUTTER_VERSION=3.24.5
+    container_name: vision_week_frontend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/cache/nginx
+      - /var/run
+    networks:
+      - frontend
+      - backend
+    environment:
+      - NODE_ENV=production
+      - API_BASE_URL=https://api.visionweek.local
+    volumes:
+      - logs:/var/log/nginx:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`visionweek.local`)"
+      - "traefik.http.routers.frontend.entrypoints=websecure"
+      - "traefik.http.routers.frontend.tls=true"
+      - "traefik.http.routers.frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.frontend.loadbalancer.server.port=8080"
+      # Middleware de sécurité
+      - "traefik.http.middlewares.security-headers.headers.frameDeny=true"
+      - "traefik.http.middlewares.security-headers.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.security-headers.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.security-headers.headers.referrerPolicy=strict-origin-when-cross-origin"
+      - "traefik.http.routers.frontend.middlewares=security-headers"
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    depends_on:
+      - backend
+      - redis
+
+  # Backend API PHP/Slim
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend.secure
+    container_name: vision_week_backend
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /var/tmp
+    networks:
+      - backend
+      - database
+    environment:
+      - PHP_ENV=production
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_NAME=vision_week_db
+      - DB_USER=vision_week_user
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_ALGORITHM=HS256
+      - CORS_ALLOWED_ORIGINS=https://visionweek.local
+      - UPLOAD_MAX_SIZE=10M
+      - SESSION_LIFETIME=3600
+    secrets:
+      - mysql_password
+      - jwt_secret
+      - firebase_config
+    volumes:
+      - uploads:/app/uploads:rw
+      - logs:/var/log/php:rw
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.visionweek.local`)"
+      - "traefik.http.routers.backend.entrypoints=websecure"
+      - "traefik.http.routers.backend.tls=true"
+      - "traefik.http.routers.backend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.backend.loadbalancer.server.port=9000"
+      # Rate limiting
+      - "traefik.http.middlewares.api-ratelimit.ratelimit.burst=100"
+      - "traefik.http.middlewares.api-ratelimit.ratelimit.average=50"
+      - "traefik.http.routers.backend.middlewares=api-ratelimit,security-headers"
+    healthcheck:
+      test: ["CMD", "php", "-m"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # WebSocket Server pour le temps réel
+  websocket:
+    build:
+      context: .
+      dockerfile: Dockerfile.websocket.secure
+    container_name: vision_week_websocket
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks:
+      - backend
+    environment:
+      - NODE_ENV=production
+      - WS_PORT=8080
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET_FILE=/run/secrets/jwt_secret
+    secrets:
+      - jwt_secret
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.websocket.rule=Host(`ws.visionweek.local`)"
+      - "traefik.http.routers.websocket.entrypoints=websecure"
+      - "traefik.http.routers.websocket.tls=true"
+      - "traefik.http.routers.websocket.tls.certresolver=letsencrypt"
+      - "traefik.http.services.websocket.loadbalancer.server.port=8080"
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # Base de données MySQL avec sécurité renforcée
+  mysql:
+    image: mysql:8.0
+    container_name: vision_week_mysql
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - database
+    environment:
+      - MYSQL_DATABASE=vision_week_db
+      - MYSQL_USER=vision_week_user
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
+      - MYSQL_PASSWORD_FILE=/run/secrets/mysql_password
+      - MYSQL_INITDB_SKIP_TZINFO=1
+    secrets:
+      - mysql_root_password
+      - mysql_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./lib/database/create_tables_secure.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./mysql/conf.d:/etc/mysql/conf.d:ro
+      - logs:/var/log/mysql:rw
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --innodb-buffer-pool-size=256M
+      --innodb-log-file-size=64M
+      --innodb-flush-log-at-trx-commit=1
+      --sync-binlog=1
+      --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_DATE,NO_ZERO_IN_DATE,ERROR_FOR_DIVISION_BY_ZERO
+      --max-connections=100
+      --max-allowed-packet=16M
+      --slow-query-log=1
+      --slow-query-log-file=/var/log/mysql/slow.log
+      --long-query-time=2
+      --log-error=/var/log/mysql/error.log
+      --general-log=1
+      --general-log-file=/var/log/mysql/general.log
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$(cat /run/secrets/mysql_root_password)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  # Cache Redis pour les sessions et performances
+  redis:
+    image: redis:7-alpine
+    container_name: vision_week_redis
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks:
+      - backend
+      - database
+    volumes:
+      - redis_data:/data
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Monitoring avec Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: vision_week_prometheus
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+    networks:
+      - backend
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./data/prometheus:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.prometheus.rule=Host(`prometheus.visionweek.local`)"
+      - "traefik.http.routers.prometheus.entrypoints=websecure"
+      - "traefik.http.routers.prometheus.tls=true"
+      - "traefik.http.services.prometheus.loadbalancer.server.port=9090"
+
+  # Monitoring avec Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: vision_week_grafana
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - backend
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123!
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.visionweek.local`)"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.tls=true"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+    depends_on:
+      - prometheus
+
+  # Backup automatisé
+  backup:
+    image: alpine:latest
+    container_name: vision_week_backup
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - database
+    environment:
+      - BACKUP_SCHEDULE=0 2 * * *  # Tous les jours à 2h du matin
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=vision_week_db
+      - MYSQL_USER=vision_week_user
+    secrets:
+      - mysql_password
+    volumes:
+      - ./backups:/backups
+      - mysql_data:/source/mysql:ro
+      - uploads:/source/uploads:ro
+    command: >
+      sh -c "
+      apk add --no-cache mysql-client dcron &&
+      echo '0 2 * * * /backup.sh' | crontab - &&
+      crond -f
+      "
+    profiles:
+      - backup
+
+# Configuration des ressources et limites
+x-default-resources: &default-resources
+  deploy:
+    resources:
+      limits:
+        memory: 512M
+        cpus: '0.5'
+      reservations:
+        memory: 256M
+        cpus: '0.25'
+
+# Application des ressources par défaut
+services:
+  frontend:
+    <<: *default-resources
+  backend:
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+  mysql:
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+  redis:
+    <<: *default-resources
+

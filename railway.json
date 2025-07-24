@@ -1,0 +1,249 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "Dockerfile.secure"
+  },
+  "deploy": {
+    "numReplicas": 2,
+    "sleepApplication": false,
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 3
+  },
+  "environments": {
+    "production": {
+      "variables": {
+        "NODE_ENV": "production",
+        "APP_ENV": "production",
+        "APP_DEBUG": "false",
+        "APP_TIMEZONE": "Europe/Paris",
+        "CORS_ALLOWED_ORIGINS": "${{RAILWAY_STATIC_URL}}",
+        "JWT_ALGORITHM": "HS256",
+        "JWT_EXPIRATION": "3600",
+        "BCRYPT_ROUNDS": "12",
+        "UPLOAD_MAX_SIZE": "10485760",
+        "UPLOAD_ALLOWED_TYPES": "jpg,jpeg,png,gif,mp4,webm",
+        "RATE_LIMIT_REQUESTS": "100",
+        "RATE_LIMIT_WINDOW": "3600",
+        "LOG_LEVEL": "warning"
+      },
+      "secrets": [
+        "DATABASE_URL",
+        "REDIS_URL",
+        "JWT_SECRET",
+        "MYSQL_ROOT_PASSWORD",
+        "MYSQL_PASSWORD",
+        "FIREBASE_CONFIG",
+        "GOOGLE_CLIENT_ID",
+        "GOOGLE_CLIENT_SECRET"
+      ]
+    },
+    "staging": {
+      "variables": {
+        "NODE_ENV": "staging",
+        "APP_ENV": "staging",
+        "APP_DEBUG": "true",
+        "APP_TIMEZONE": "Europe/Paris",
+        "CORS_ALLOWED_ORIGINS": "${{RAILWAY_STATIC_URL}}",
+        "JWT_ALGORITHM": "HS256",
+        "JWT_EXPIRATION": "7200",
+        "BCRYPT_ROUNDS": "10",
+        "UPLOAD_MAX_SIZE": "5242880",
+        "UPLOAD_ALLOWED_TYPES": "jpg,jpeg,png,gif",
+        "RATE_LIMIT_REQUESTS": "50",
+        "RATE_LIMIT_WINDOW": "3600",
+        "LOG_LEVEL": "debug"
+      },
+      "secrets": [
+        "DATABASE_URL",
+        "REDIS_URL",
+        "JWT_SECRET",
+        "MYSQL_ROOT_PASSWORD",
+        "MYSQL_PASSWORD",
+        "FIREBASE_CONFIG"
+      ]
+    }
+  },
+  "services": [
+    {
+      "name": "vision-week-frontend",
+      "source": {
+        "type": "image",
+        "image": "vision-week/frontend:latest"
+      },
+      "variables": {
+        "PORT": "8080",
+        "API_BASE_URL": "${{BACKEND_URL}}"
+      },
+      "domains": [
+        {
+          "host": "visionweek.up.railway.app"
+        }
+      ],
+      "healthcheck": {
+        "path": "/health",
+        "timeout": 10
+      },
+      "resources": {
+        "cpu": 0.5,
+        "memory": 512
+      }
+    },
+    {
+      "name": "vision-week-backend",
+      "source": {
+        "type": "dockerfile",
+        "dockerfile": "Dockerfile.backend.secure"
+      },
+      "variables": {
+        "PORT": "9000",
+        "DB_HOST": "${{MYSQL_HOST}}",
+        "DB_PORT": "${{MYSQL_PORT}}",
+        "DB_NAME": "${{MYSQL_DATABASE}}",
+        "DB_USER": "${{MYSQL_USER}}",
+        "REDIS_HOST": "${{REDIS_HOST}}",
+        "REDIS_PORT": "${{REDIS_PORT}}"
+      },
+      "domains": [
+        {
+          "host": "api.visionweek.up.railway.app"
+        }
+      ],
+      "healthcheck": {
+        "path": "/health",
+        "timeout": 10
+      },
+      "resources": {
+        "cpu": 1.0,
+        "memory": 1024
+      },
+      "dependencies": ["vision-week-mysql", "vision-week-redis"]
+    },
+    {
+      "name": "vision-week-mysql",
+      "source": {
+        "type": "image",
+        "image": "mysql:8.0"
+      },
+      "variables": {
+        "MYSQL_DATABASE": "vision_week_db",
+        "MYSQL_USER": "vision_week_user",
+        "MYSQL_ROOT_PASSWORD": "${{MYSQL_ROOT_PASSWORD}}",
+        "MYSQL_PASSWORD": "${{MYSQL_PASSWORD}}"
+      },
+      "volumes": [
+        {
+          "name": "mysql-data",
+          "mountPath": "/var/lib/mysql",
+          "size": "10GB"
+        }
+      ],
+      "healthcheck": {
+        "command": ["mysqladmin", "ping", "-h", "localhost"],
+        "timeout": 10
+      },
+      "resources": {
+        "cpu": 1.0,
+        "memory": 2048
+      }
+    },
+    {
+      "name": "vision-week-redis",
+      "source": {
+        "type": "image",
+        "image": "redis:7-alpine"
+      },
+      "variables": {
+        "REDIS_PASSWORD": "${{REDIS_PASSWORD}}"
+      },
+      "command": ["redis-server", "--requirepass", "$REDIS_PASSWORD"],
+      "volumes": [
+        {
+          "name": "redis-data",
+          "mountPath": "/data",
+          "size": "1GB"
+        }
+      ],
+      "healthcheck": {
+        "command": ["redis-cli", "ping"],
+        "timeout": 5
+      },
+      "resources": {
+        "cpu": 0.25,
+        "memory": 256
+      }
+    }
+  ],
+  "networking": {
+    "allowPublicNetworking": true,
+    "internalNetworking": true
+  },
+  "monitoring": {
+    "enabled": true,
+    "alerts": [
+      {
+        "name": "High CPU Usage",
+        "condition": "cpu > 80",
+        "duration": "5m",
+        "channels": ["email"]
+      },
+      {
+        "name": "High Memory Usage",
+        "condition": "memory > 90",
+        "duration": "5m",
+        "channels": ["email"]
+      },
+      {
+        "name": "Service Down",
+        "condition": "up == 0",
+        "duration": "1m",
+        "channels": ["email", "slack"]
+      }
+    ]
+  },
+  "backup": {
+    "enabled": true,
+    "schedule": "0 2 * * *",
+    "retention": "30d",
+    "targets": [
+      {
+        "service": "vision-week-mysql",
+        "type": "mysql",
+        "database": "vision_week_db"
+      }
+    ]
+  },
+  "security": {
+    "ssl": {
+      "enabled": true,
+      "redirect": true
+    },
+    "headers": {
+      "X-Frame-Options": "SAMEORIGIN",
+      "X-Content-Type-Options": "nosniff",
+      "X-XSS-Protection": "1; mode=block",
+      "Referrer-Policy": "strict-origin-when-cross-origin",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+    },
+    "cors": {
+      "enabled": true,
+      "allowedOrigins": ["${{FRONTEND_URL}}"],
+      "allowedMethods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      "allowedHeaders": ["Content-Type", "Authorization", "X-Requested-With"]
+    }
+  },
+  "scaling": {
+    "autoscaling": {
+      "enabled": true,
+      "minReplicas": 1,
+      "maxReplicas": 5,
+      "targetCPU": 70,
+      "targetMemory": 80
+    }
+  },
+  "logs": {
+    "retention": "7d",
+    "level": "info"
+  }
+}
+

@@ -1,0 +1,335 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vision-week-frontend-config
+  namespace: vision-week
+  labels:
+    app: vision-week-frontend
+    component: config
+data:
+  nginx.conf: |
+    user nginx;
+    worker_processes auto;
+    error_log /var/log/nginx/error.log warn;
+    pid /var/run/nginx.pid;
+
+    events {
+        worker_connections 1024;
+        use epoll;
+        multi_accept on;
+    }
+
+    http {
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+        
+        log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+                        '$status $body_bytes_sent "$http_referer" '
+                        '"$http_user_agent" "$http_x_forwarded_for"';
+        
+        access_log /var/log/nginx/access.log main;
+        
+        sendfile on;
+        tcp_nopush on;
+        tcp_nodelay on;
+        keepalive_timeout 65;
+        types_hash_max_size 2048;
+        server_tokens off;
+        
+        # Security headers
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+        
+        # Gzip compression
+        gzip on;
+        gzip_vary on;
+        gzip_min_length 1024;
+        gzip_comp_level 6;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+        
+        server {
+            listen 8080;
+            server_name _;
+            root /usr/share/nginx/html;
+            index index.html;
+            
+            client_max_body_size 10M;
+            
+            location / {
+                try_files $uri $uri/ /index.html;
+            }
+            
+            location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+                expires 1y;
+                add_header Cache-Control "public, immutable";
+            }
+            
+            location /health {
+                access_log off;
+                return 200 "healthy\n";
+                add_header Content-Type text/plain;
+            }
+        }
+    }
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vision-week-backend-config
+  namespace: vision-week
+  labels:
+    app: vision-week-backend
+    component: config
+data:
+  php.ini: |
+    [PHP]
+    engine = On
+    short_open_tag = Off
+    precision = 14
+    output_buffering = 4096
+    zlib.output_compression = Off
+    implicit_flush = Off
+    unserialize_callback_func =
+    serialize_precision = -1
+    disable_functions = exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source
+    disable_classes =
+    zend.enable_gc = On
+    zend.exception_ignore_args = On
+    expose_php = Off
+    max_execution_time = 30
+    max_input_time = 60
+    memory_limit = 256M
+    error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
+    display_errors = Off
+    display_startup_errors = Off
+    log_errors = On
+    log_errors_max_len = 1024
+    ignore_repeated_errors = Off
+    ignore_repeated_source = Off
+    report_memleaks = On
+    variables_order = "GPCS"
+    request_order = "GP"
+    register_argc_argv = Off
+    auto_globals_jit = On
+    post_max_size = 10M
+    auto_prepend_file =
+    auto_append_file =
+    default_mimetype = "text/html"
+    default_charset = "UTF-8"
+    doc_root =
+    user_dir =
+    enable_dl = Off
+    file_uploads = On
+    upload_max_filesize = 10M
+    max_file_uploads = 20
+    allow_url_fopen = Off
+    allow_url_include = Off
+    default_socket_timeout = 60
+    
+    [Date]
+    date.timezone = Europe/Paris
+    
+    [Session]
+    session.save_handler = redis
+    session.save_path = "tcp://vision-week-redis:6379"
+    session.use_strict_mode = 1
+    session.use_cookies = 1
+    session.use_only_cookies = 1
+    session.name = VWSESSID
+    session.auto_start = 0
+    session.cookie_lifetime = 0
+    session.cookie_path = /
+    session.cookie_domain =
+    session.cookie_httponly = 1
+    session.cookie_secure = 1
+    session.cookie_samesite = Strict
+    session.serialize_handler = php
+    session.gc_probability = 1
+    session.gc_divisor = 1000
+    session.gc_maxlifetime = 3600
+    session.referer_check =
+    session.cache_limiter = nocache
+    session.cache_expire = 180
+    session.use_trans_sid = 0
+    session.sid_length = 26
+    session.trans_sid_tags = "a=href,area=href,frame=src,form="
+    session.sid_bits_per_character = 5
+
+  app.env: |
+    APP_ENV=production
+    APP_DEBUG=false
+    APP_TIMEZONE=Europe/Paris
+    
+    # Database
+    DB_HOST=vision-week-mysql
+    DB_PORT=3306
+    DB_NAME=vision_week_db
+    DB_USER=vision_week_user
+    DB_CHARSET=utf8mb4
+    DB_COLLATION=utf8mb4_unicode_ci
+    
+    # Redis
+    REDIS_HOST=vision-week-redis
+    REDIS_PORT=6379
+    REDIS_DATABASE=0
+    
+    # Security
+    JWT_ALGORITHM=HS256
+    JWT_EXPIRATION=3600
+    BCRYPT_ROUNDS=12
+    
+    # CORS
+    CORS_ALLOWED_ORIGINS=https://visionweek.example.com
+    CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
+    CORS_ALLOWED_HEADERS=Content-Type,Authorization,X-Requested-With
+    
+    # File Upload
+    UPLOAD_MAX_SIZE=10485760
+    UPLOAD_ALLOWED_TYPES=jpg,jpeg,png,gif,mp4,webm
+    UPLOAD_PATH=/app/uploads
+    
+    # Rate Limiting
+    RATE_LIMIT_REQUESTS=100
+    RATE_LIMIT_WINDOW=3600
+    
+    # Logging
+    LOG_LEVEL=warning
+    LOG_PATH=/var/log/php
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vision-week-mysql-config
+  namespace: vision-week
+  labels:
+    app: vision-week-mysql
+    component: config
+data:
+  my.cnf: |
+    [mysqld]
+    # Basic settings
+    user = mysql
+    pid-file = /var/run/mysqld/mysqld.pid
+    socket = /var/run/mysqld/mysqld.sock
+    port = 3306
+    basedir = /usr
+    datadir = /var/lib/mysql
+    tmpdir = /tmp
+    lc-messages-dir = /usr/share/mysql
+    
+    # Character set
+    character-set-server = utf8mb4
+    collation-server = utf8mb4_unicode_ci
+    
+    # Security
+    local-infile = 0
+    skip-show-database
+    skip-symbolic-links
+    
+    # Performance
+    innodb_buffer_pool_size = 512M
+    innodb_log_file_size = 128M
+    innodb_flush_log_at_trx_commit = 1
+    innodb_lock_wait_timeout = 50
+    
+    # Connection limits
+    max_connections = 200
+    max_allowed_packet = 16M
+    max_connect_errors = 1000000
+    
+    # Query cache
+    query_cache_type = 1
+    query_cache_size = 64M
+    query_cache_limit = 2M
+    
+    # Logging
+    log-error = /var/log/mysql/error.log
+    slow-query-log = 1
+    slow-query-log-file = /var/log/mysql/slow.log
+    long_query_time = 2
+    log-queries-not-using-indexes = 1
+    
+    # Binary logging
+    log-bin = mysql-bin
+    binlog_format = ROW
+    expire_logs_days = 7
+    max_binlog_size = 100M
+    
+    # SSL
+    ssl-ca = /etc/mysql/ssl/ca-cert.pem
+    ssl-cert = /etc/mysql/ssl/server-cert.pem
+    ssl-key = /etc/mysql/ssl/server-key.pem
+    
+    [mysql]
+    default-character-set = utf8mb4
+    
+    [client]
+    default-character-set = utf8mb4
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vision-week-redis-config
+  namespace: vision-week
+  labels:
+    app: vision-week-redis
+    component: config
+data:
+  redis.conf: |
+    # Network
+    bind 0.0.0.0
+    port 6379
+    tcp-backlog 511
+    timeout 0
+    tcp-keepalive 300
+    
+    # General
+    daemonize no
+    supervised no
+    pidfile /var/run/redis_6379.pid
+    loglevel notice
+    logfile ""
+    databases 16
+    
+    # Security
+    protected-mode yes
+    requirepass changeme123!
+    
+    # Memory management
+    maxmemory 256mb
+    maxmemory-policy allkeys-lru
+    
+    # Persistence
+    save 900 1
+    save 300 10
+    save 60 10000
+    stop-writes-on-bgsave-error yes
+    rdbcompression yes
+    rdbchecksum yes
+    dbfilename dump.rdb
+    dir /data
+    
+    # Append only file
+    appendonly yes
+    appendfilename "appendonly.aof"
+    appendfsync everysec
+    no-appendfsync-on-rewrite no
+    auto-aof-rewrite-percentage 100
+    auto-aof-rewrite-min-size 64mb
+    aof-load-truncated yes
+    
+    # Slow log
+    slowlog-log-slower-than 10000
+    slowlog-max-len 128
+    
+    # Client output buffer limits
+    client-output-buffer-limit normal 0 0 0
+    client-output-buffer-limit replica 256mb 64mb 60
+    client-output-buffer-limit pubsub 32mb 8mb 60
+
