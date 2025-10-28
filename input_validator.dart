@@ -4,12 +4,14 @@
 // Maintainer: Kevin Marville
 
 import 'dart:convert';
+import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:validators/validators.dart';
 import 'package:email_validator/email_validator.dart';
 
 /// Classe principale pour la validation et sanitization des entrées
 class InputValidator {
+  static final Random _secureRandom = Random.secure();
   // Expressions régulières pour la validation
   static final RegExp _nameRegex = RegExp(r'^[a-zA-ZÀ-ÿ\s\-\']{2,50}$');
   static final RegExp _passwordRegex = RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$');
@@ -243,9 +245,18 @@ class InputValidator {
 
   /// Génère un token sécurisé
   static String generateSecureToken([int length = 32]) {
-    final bytes = List<int>.generate(length, (i) => 
-        DateTime.now().millisecondsSinceEpoch + i);
-    return sha256.convert(bytes).toString().substring(0, length);
+    if (length <= 0) {
+      throw ArgumentError.value(length, 'length', 'Token length must be positive');
+    }
+
+    final buffer = StringBuffer();
+
+    while (buffer.length < length) {
+      final bytes = List<int>.generate(32, (_) => _secureRandom.nextInt(256));
+      buffer.write(base64UrlEncode(bytes).replaceAll('=', ''));
+    }
+
+    return buffer.toString().substring(0, length);
   }
 
   /// Hash un mot de passe avec salt
