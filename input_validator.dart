@@ -243,6 +243,9 @@ class InputValidator {
         .replaceAll("'", '&#x27;');
   }
 
+  static const String _tokenAlphabet =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+
   /// Génère un token sécurisé
   static String generateSecureToken([int length = 32]) {
     if (length <= 0) {
@@ -251,12 +254,11 @@ class InputValidator {
 
     final buffer = StringBuffer();
 
-    while (buffer.length < length) {
-      final bytes = List<int>.generate(32, (_) => _secureRandom.nextInt(256));
-      buffer.write(base64UrlEncode(bytes).replaceAll('=', ''));
+    for (var i = 0; i < length; i++) {
+      buffer.write(_tokenAlphabet[_secureRandom.nextInt(_tokenAlphabet.length)]);
     }
 
-    return buffer.toString().substring(0, length);
+    return buffer.toString();
   }
 
   /// Hash un mot de passe avec salt
