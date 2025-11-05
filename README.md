@@ -229,6 +229,8 @@ This project was created by Kevin MARVILLE for STUDI. Many thanks to [STUDI](htt
 
 For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
 
+- [Android developer readiness for 2025](doc/android_developer_updates_2025.md)
+
 ## Contributors
 
 [![GitHub contributors](https://contrib.rocks/image?repo=Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/graphs/contributors)
