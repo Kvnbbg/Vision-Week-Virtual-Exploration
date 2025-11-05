@@ -1,66 +1,130 @@
-## Deploying a PHP Web App with MySQL on Heroku
+# Secure Deployment & "Try It Now" Playbook
 
-This guide outlines deploying a PHP web application with a MySQL database on Heroku. Heroku is a popular Platform as a Service (PaaS) that simplifies application deployment and management.
+This guide explains how to go from source code to a running Vision Week experience in minutes, while keeping production rollouts modern and secure. It covers:
 
-### Prerequisites
+1. **Instant local preview** of the Flutter front-end + PHP backend.
+2. **One-command Android builds** for devices and stores.
+3. **Web hosting options** for production-ready deployments.
+4. **Container/Kubernetes delivery** using the hardened tooling in this repo.
+5. **Security guardrails** you should keep enabled in every environment.
 
-* A Heroku account (Free tier available)
-* A Github repository containing your PHP application code
-* A MySQL database (locally or on another service) containing your application schema
+---
 
-### Deploying with GitHub Pages and Jekyll
+## 1. Instant Local Preview (Web + Backend)
 
-This method involves using GitHub Pages, a static site hosting service, along with Jekyll, a static site generator, to deploy your PHP application. Follow these steps:
+### Requirements
+- Docker Desktop or Docker Engine with Compose v2 (`docker compose`).
+- Flutter 3.22+ with web support enabled.
+- Optional: Android SDK/adb if you want mobile hot reload while the backend runs.
 
-1. **Set Up Jekyll:**
-   If you haven't already, install Jekyll and create a Jekyll site for your PHP application.
+### Start everything with one command
+```bash
+./scripts/quickstart.sh web
+```
+This script:
+1. Spins up MySQL, the Slim API, and WebSocket server with `docker compose`.
+2. Waits for the database to become healthy.
+3. Runs `flutter pub get` and launches the Flutter web server on `http://localhost:5173` (override with `WEB_PORT` and `WEB_HOST`).
+4. Tears down the containers automatically when you exit the Flutter process.
 
-2. **Generate Static HTML:**
-   Convert your PHP files into static HTML files using Jekyll. You can include PHP code in your Jekyll templates, but it will be processed during the build phase, and the resulting HTML files will be static.
+#### Useful flags
+- `./scripts/quickstart.sh web --skip-backend` — launch the Flutter web preview only (useful if you already have the backend running elsewhere).
+- `WEB_PORT=9000 ./scripts/quickstart.sh web` — expose the web preview on an alternate port.
 
-3. **Commit to GitHub:**
-   Commit your Jekyll site, including the generated static HTML files, to your GitHub repository.
+When the command finishes booting you can open the browser and log into the app immediately against the locally provisioned backend.
 
-4. **Enable GitHub Pages:**
-   In your GitHub repository settings, enable GitHub Pages and select the branch containing your Jekyll site (e.g., `main`). Your site will be hosted at `<username>.github.io/<repository>`.
+---
 
-5. **Access Your Site:**
-   Once GitHub Pages builds and deploys your site, you can access it using the GitHub Pages URL for your repository.
+## 2. Android: Build & Install in One Step
 
-### Deploying with Server-Side Processing on Heroku
+```bash
+./scripts/quickstart.sh android
+```
+The helper script runs `flutter pub get`, builds a debug APK, and—if an `adb`-connected device or emulator is detected—installs it automatically.
 
-If you require server-side processing, you'll need to deploy your PHP application on a platform that supports PHP execution. Heroku is a popular choice for PHP hosting. Here's how to deploy your PHP app on Heroku:
+Options:
+- `./scripts/quickstart.sh android --device emulator-5554` — target a specific device id.
+- `./scripts/quickstart.sh android --release` — create a Play-ready `app-release.aab` with code obfuscation (`build/app/obfuscation-symbols` stores symbol maps).
 
-### Steps
+For Play Store distribution, sign the release bundle with your keystore and upload the generated `.aab`.
 
-1. **Create a Heroku App:**
-    * Log in to your Heroku account and navigate to the "Create New App" section.
-    * Choose a unique name for your application and click "Create App".
+---
 
-2. **Connect Heroku to Github:**
-    * In your Heroku dashboard, navigate to the app settings and locate the "Deploy" section.
-    * Click on "Connect to GitHub" and authorize Heroku to access your Github repositories.
-    * Select the repository containing your PHP code and choose the desired branch for deployment (usually `main`).
+## 3. Production Web Deployment (Static Hosting)
 
-3. **Configure Database Connection:**
-    * Set up a MySQL database either locally or using a cloud service provider.
-    * In your Heroku app settings, set environment variables for your database credentials (e.g., `DATABASE_URL`).
+1. **Build optimized assets**
+   ```bash
+   flutter build web --release --base-href /
+   ```
+2. **Deploy to your host**
+   - **Netlify**
+     ```bash
+     netlify deploy --dir build/web --prod
+     ```
+   - **Vercel**
+     ```bash
+     vercel deploy build/web --prod
+     ```
+   - **Any CDN (S3 + CloudFront, Azure Static Web Apps, etc.)** — upload the contents of `build/web/`.
+3. **Lock down environment variables** using the host's secret manager (API endpoint, analytics keys, etc.).
 
-4. **Deploy your Application:**
-    * Once connected to GitHub, Heroku will automatically deploy your application whenever you push code changes to your chosen branch.
+Pair this static front end with the containerized API described below.
 
-### Additional Considerations
+---
 
-* **Security:**  
-    * Follow security best practices to protect your application from common vulnerabilities.
-* **Database Management:**  
-    * Choose a database provider that integrates well with Heroku and offers the features you need.
-* **Scaling:**  
-    * Heroku provides scaling options to accommodate varying levels of traffic.
+## 4. Backend Containers & Kubernetes Rollout
 
-### Resources
+### Build & publish images
+```bash
+./deploy.sh staging build --tag v1.0.0
+./deploy.sh staging deploy --tag v1.0.0
+```
+The script validates Docker/Kubernetes prerequisites, builds the multi-stage Dockerfile, pushes it to `$DOCKER_REGISTRY/$IMAGE_NAME`, and applies the Kustomize overlay for your environment. Supported actions: `deploy`, `rollback`, `status`, `logs`, `cleanup`, and `test`.
 
-* Heroku Dev Center - Getting Started with PHP: [https://devcenter.heroku.com/articles/getting-started-with-php](https://devcenter.heroku.com/articles/getting-started-with-php)
-* Heroku Add-ons - Heroku Postgres: [https://elements.heroku.com/addons/heroku-postgresql](https://elements.heroku.com/addons/heroku-postgresql)
+### Minimal Docker Compose stack (no Kubernetes)
+```bash
+docker compose up -d slim_api websocket_server mysql_db
+```
+Use this when you only need a throwaway environment without Traefik or Redis.
 
-This documentation provides a basic guide for deploying a PHP web application with a MySQL database on Heroku !
+---
+
+## 5. Security Guardrails (Do Not Skip)
+
+| Layer | Guardrail | Why it matters |
+| --- | --- | --- |
+| Secrets | Populate `secrets/*.txt` (secure compose) or Kubernetes secrets before deploying. | Prevents accidental secret leakage in images or source. |
+| TLS & Proxy | The secure Traefik stack in `docker-compose.secure.yml` terminates TLS, injects security headers, and rate limits the API. | Enforces HTTPS/HSTS and mitigates abuse. |
+| Supply Chain | Always run `npm audit`, `composer audit`, and `flutter pub outdated --mode=null-safety` in CI. | Detects vulnerable dependencies early. |
+| Static Analysis | Enable `dart analyze`, `flutter test`, and `composer test` in CI (see `ci-cd.yml`). | Blocks regressions before deployment. |
+| Observability | Keep the OpenTelemetry + Prometheus instrumentation enabled in staging/production. | Gives you the Quantum Feedback Loop for anomaly detection. |
+| Rollback | `./deploy.sh <env> rollback` preserves service continuity when incidents occur. | Reduces mean time to recovery. |
+
+---
+
+## 6. Smoke Testing Checklist
+
+Before exposing any environment to users, run:
+
+```bash
+# Flutter unit & widget tests
+flutter test
+
+# Dart analyzer (static checks)
+dart analyze
+
+# PHP backend tests
+composer install
+composer test
+
+# Web performance checks (optional Lighthouse)
+npx lhci autorun --config=lighthouse-config.js
+```
+
+Confirm the following once deployed:
+- `/health` endpoint returns HTTP 200.
+- WebSocket handshake succeeds (`wss://.../ws`).
+- Database migrations executed successfully.
+- Telemetry dashboards receive traces and metrics.
+
+This playbook positions the project for rapid experimentation today while keeping a clear, secure path to production-scale deployments.
