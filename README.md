@@ -86,6 +86,24 @@ For a detailed overview of the project's architecture, please see [ARCHITECTURE.
 - Gradle: [Installation Guide](https://gradle.org/install/)
 - MySQL: [Installation Guide](https://dev.mysql.com/doc/refman/8.0/en/installing.html)
 
+### Instant Quickstart (local web + backend)
+
+For a fully wired local environment in one command run:
+
+```bash
+./scripts/quickstart.sh web
+```
+
+The helper script launches the MySQL, Slim API, and WebSocket containers with Docker Compose and then serves the Flutter web experience on <http://localhost:5173>. Use `WEB_PORT=<port>` to override the port or `--skip-backend` if you already have the backend running elsewhere.
+
+To build and optionally install an Android package immediately on a connected device, execute:
+
+```bash
+./scripts/quickstart.sh android
+```
+
+Add `--release` to generate a Play Store-ready `.aab` bundle or `--device <id>` to target a specific emulator/device over `adb`.
+
 ### Steps
 
 1. **Clone the repository**:
@@ -230,6 +248,7 @@ This project was created by Kevin MARVILLE for STUDI. Many thanks to [STUDI](htt
 For more information, visit [kvnbbg.fr](https://kvnbbg.fr).
 
 - [Android developer readiness for 2025](doc/android_developer_updates_2025.md)
+- [Secure deployment & try-it-now playbook](doc/deployment_documentation.md)
 
 ## Contributors
 
