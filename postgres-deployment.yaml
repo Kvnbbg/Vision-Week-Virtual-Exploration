@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:15-alpine
+          image: postgres:18-alpine
           ports:
             - name: postgres
               containerPort: 5432
@@ -170,7 +170,7 @@ spec:
         spec:
           containers:
             - name: postgres-backup
-              image: postgres:15-alpine
+              image: postgres:18-alpine
               command:
                 - /bin/bash
                 - -c
