@@ -16,17 +16,33 @@
   "@login": {
     "description": "Texte affiché sur le bouton de connexion"
   },
+  "loginTitle": "Connexion",
+  "@loginTitle": {
+    "description": "Titre affiché sur l'écran de connexion"
+  },
   "logout": "Déconnexion",
   "@logout": {
     "description": "Texte affiché sur le bouton de déconnexion"
   },
-  "emailLabel": "Adresse électronique",
-  "@emailLabel": {
-    "description": "Étiquette pour le champ de saisie de l'e-mail dans le formulaire de connexion"
+  "email": "Adresse e-mail",
+  "@email": {
+    "description": "Libellé du champ de saisie de l'e-mail"
   },
-  "passwordLabel": "Mot de passe",
-  "@passwordLabel": {
-    "description": "Étiquette pour le champ de saisie du mot de passe dans le formulaire de connexion"
+  "emailRequired": "L'e-mail est obligatoire",
+  "@emailRequired": {
+    "description": "Message de validation pour le champ e-mail"
+  },
+  "password": "Mot de passe",
+  "@password": {
+    "description": "Libellé du champ de mot de passe"
+  },
+  "passwordRequired": "Le mot de passe est obligatoire",
+  "@passwordRequired": {
+    "description": "Message de validation pour le mot de passe"
+  },
+  "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+  "@passwordTooShort": {
+    "description": "Message de validation lorsque le mot de passe est trop court"
   },
   "signUp": "S'inscrire",
   "@signUp": {
@@ -83,5 +99,57 @@
   "welcomeStartButton": "Commencer",
   "@welcomeStartButton": {
     "description": "Texte du bouton pour continuer depuis l'écran de bienvenue"
+  },
+  "registerSuccessMessage": "Compte créé avec succès. Consultez votre messagerie pour vérifier votre email.",
+  "@registerSuccessMessage": {
+    "description": "Message affiché après une inscription réussie"
+  },
+  "registerTitle": "Créer un compte",
+  "@registerTitle": {
+    "description": "Titre pour l'écran d'inscription"
+  },
+  "feedbackEmpty": "Aucun avis pour le moment",
+  "@feedbackEmpty": {
+    "description": "Texte affiché lorsque la liste d'avis est vide"
+  },
+  "settings": "Paramètres",
+  "@settings": {
+    "description": "Intitulé pour l'écran des paramètres"
+  },
+  "darkModeLabel": "Thème sombre",
+  "@darkModeLabel": {
+    "description": "Titre du commutateur de thème sombre"
+  },
+  "darkModeDescription": "Expérience sombre activée",
+  "@darkModeDescription": {
+    "description": "Description lorsque le thème sombre est actif"
+  },
+  "lightModeDescription": "Expérience claire activée",
+  "@lightModeDescription": {
+    "description": "Description lorsque le thème clair est actif"
+  },
+  "languagePickerLabel": "Langue de l'application",
+  "@languagePickerLabel": {
+    "description": "Libellé du sélecteur de langue"
+  },
+  "languagesTooltip": "Langues",
+  "@languagesTooltip": {
+    "description": "Infobulle pour le bouton de sélection de langue"
+  },
+  "languageEnglish": "Anglais",
+  "@languageEnglish": {
+    "description": "Nom localisé pour la langue anglaise"
+  },
+  "languageFrench": "Français",
+  "@languageFrench": {
+    "description": "Nom localisé pour la langue française"
+  },
+  "accessibilityTitle": "Accessibilité",
+  "@accessibilityTitle": {
+    "description": "Titre de la carte d'informations sur l'accessibilité"
+  },
+  "accessibilityDescription": "Disposition adaptative et grandes zones tactiles activées par défaut.",
+  "@accessibilityDescription": {
+    "description": "Description pour la carte d'accessibilité"
   }
 }

@@ -16,17 +16,33 @@
   "@login": {
     "description": "Text displayed on the login button"
   },
+  "loginTitle": "Sign in",
+  "@loginTitle": {
+    "description": "Title shown on the login screen"
+  },
   "logout": "Logout",
   "@logout": {
     "description": "Text displayed on the logout button"
   },
-  "emailLabel": "Email Address",
-  "@emailLabel": {
-    "description": "Label for the email input field in the login form"
+  "email": "Email address",
+  "@email": {
+    "description": "Label for the email input field"
   },
-  "passwordLabel": "Password",
-  "@passwordLabel": {
-    "description": "Label for the password input field in the login form"
+  "emailRequired": "Email is required",
+  "@emailRequired": {
+    "description": "Validation text for the email field"
+  },
+  "password": "Password",
+  "@password": {
+    "description": "Label for the password input field"
+  },
+  "passwordRequired": "Password is required",
+  "@passwordRequired": {
+    "description": "Validation text for the password field"
+  },
+  "passwordTooShort": "Password must contain at least 8 characters",
+  "@passwordTooShort": {
+    "description": "Validation text shown when the password is too short"
   },
   "signUp": "Sign Up",
   "@signUp": {
@@ -83,5 +99,57 @@
   "welcomeStartButton": "Start",
   "@welcomeStartButton": {
     "description": "Text for the button to proceed from the Welcome Screen"
+  },
+  "registerSuccessMessage": "Account created successfully. Check your inbox to verify your email.",
+  "@registerSuccessMessage": {
+    "description": "Status text shown after a successful registration"
+  },
+  "registerTitle": "Create an account",
+  "@registerTitle": {
+    "description": "Title for the registration screen"
+  },
+  "feedbackEmpty": "No feedback yet",
+  "@feedbackEmpty": {
+    "description": "Label displayed when there is no feedback"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Label for the settings screen"
+  },
+  "darkModeLabel": "Dark theme",
+  "@darkModeLabel": {
+    "description": "Title for the dark mode toggle"
+  },
+  "darkModeDescription": "Using the dark experience",
+  "@darkModeDescription": {
+    "description": "Description when the dark theme is enabled"
+  },
+  "lightModeDescription": "Using the light experience",
+  "@lightModeDescription": {
+    "description": "Description when the light theme is enabled"
+  },
+  "languagePickerLabel": "App language",
+  "@languagePickerLabel": {
+    "description": "Label for the language picker"
+  },
+  "languagesTooltip": "Languages",
+  "@languagesTooltip": {
+    "description": "Tooltip for the language selection button"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "Localized name for English"
+  },
+  "languageFrench": "French",
+  "@languageFrench": {
+    "description": "Localized name for French"
+  },
+  "accessibilityTitle": "Accessibility",
+  "@accessibilityTitle": {
+    "description": "Card title for accessibility information"
+  },
+  "accessibilityDescription": "Responsive layout and larger tap targets are enabled by default.",
+  "@accessibilityDescription": {
+    "description": "Description for the accessibility card"
   }
 }

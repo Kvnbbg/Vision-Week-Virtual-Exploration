@@ -1,142 +1,119 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class AuthService with ChangeNotifier {
+enum AuthStatus { unknown, authenticated, unauthenticated }
+
+/// Thin wrapper around [FirebaseAuth] that exposes a listenable authentication
+/// state to the rest of the application. By notifying listeners whenever the
+/// status changes we can keep navigation, guards and widgets in sync without
+/// scattering Firebase specific logic throughout the UI layer.
+class AuthService extends ChangeNotifier {
+  AuthService() {
+    _subscription = _auth.userChanges().listen(_handleUserChanged);
+    _handleUserChanged(_auth.currentUser);
+  }
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  late final StreamSubscription<User?> _subscription;
+
+  AuthStatus _status = AuthStatus.unknown;
   User? _user;
 
+  AuthStatus get status => _status;
   User? get user => _user;
+  bool get isLoading => _status == AuthStatus.unknown;
 
-  // Constructor to listen to auth state changes
-  AuthService() {
-    _auth.authStateChanges().listen(_onAuthStateChanged);
-  }
-
-  // Asynchronous auth state change handler
-  Future<void> _onAuthStateChanged(User? user) async {
-    _user = user;
-    notifyListeners();
-  }
-
-  // Sign-in method with enhanced error handling
   Future<String?> signIn(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-
-      // Check if email is verified before granting access
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
         return 'Please verify your email before logging in.';
       }
-
-      return null; // Success
-    } on FirebaseAuthException catch (e) {
-      return _handleAuthError(e);
-    } catch (e) {
+      return null;
+    } on FirebaseAuthException catch (error) {
+      return _mapFirebaseError(error);
+    } catch (error, stackTrace) {
+      debugPrint('Unexpected signIn error: $error\n$stackTrace');
       return 'An unexpected error occurred. Please try again.';
     }
   }
 
-  // Sign-up method with email verification
   Future<String?> signUp(String email, String password) async {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
-
-      // Send email verification after sign-up
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
         await _auth.currentUser!.sendEmailVerification();
         return 'A verification email has been sent. Please verify your email.';
       }
-
-      return null; // Success
-    } on FirebaseAuthException catch (e) {
-      return _handleAuthError(e);
-    } catch (e) {
+      return null;
+    } on FirebaseAuthException catch (error) {
+      return _mapFirebaseError(error);
+    } catch (error, stackTrace) {
+      debugPrint('Unexpected signUp error: $error\n$stackTrace');
       return 'An unexpected error occurred. Please try again.';
     }
   }
 
-  // Sign-out method with error handling
   Future<void> signOut() async {
-    try {
-      await _auth.signOut();
-      _user = null;
-      notifyListeners();
-    } catch (e) {
-      print('Error signing out: $e');
-    }
+    await _auth.signOut();
   }
 
-  // Password reset functionality
   Future<String?> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       return 'Password reset email sent. Please check your inbox.';
-    } on FirebaseAuthException catch (e) {
-      return _handleAuthError(e);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
+      return _mapFirebaseError(error);
+    } catch (error, stackTrace) {
+      debugPrint('Unexpected password reset error: $error\n$stackTrace');
       return 'An unexpected error occurred. Please try again.';
     }
   }
 
-  // OAuth sign-in example (Google) [Optional]
-  Future<String?> signInWithGoogle() async {
-    try {
-      // Use Firebase Auth to sign in with Google here.
-      // e.g., `GoogleSignInAccount googleUser = await GoogleSignIn().signIn();`
-      // This requires configuring Google Sign-In in Firebase.
-      return null; // Success
-    } on FirebaseAuthException catch (e) {
-      return _handleAuthError(e);
-    } catch (e) {
-      return 'An unexpected error occurred. Please try again.';
-    }
-  }
-
-  // Token fetching for server-side verification
   Future<String?> getAuthToken() async {
     try {
       return await _user?.getIdToken();
-    } catch (e) {
+    } catch (error, stackTrace) {
+      debugPrint('Unable to fetch auth token: $error\n$stackTrace');
       return 'Error retrieving token.';
     }
   }
 
-  // Helper method for FirebaseAuth error handling
-  String _handleAuthError(FirebaseAuthException e) {
-    String errorMessage;
-    switch (e.code) {
+  bool isUserLoggedIn() => _status == AuthStatus.authenticated && _user != null;
+
+  bool get isEmailVerified => _user?.emailVerified ?? false;
+
+  void _handleUserChanged(User? user) {
+    _user = user;
+    _status = user == null ? AuthStatus.unauthenticated : AuthStatus.authenticated;
+    notifyListeners();
+  }
+
+  String _mapFirebaseError(FirebaseAuthException exception) {
+    switch (exception.code) {
       case 'user-not-found':
-        errorMessage = 'No user found for this email.';
-        break;
+        return 'No user found for this email.';
       case 'wrong-password':
-        errorMessage = 'Incorrect password.';
-        break;
+        return 'Incorrect password.';
       case 'email-already-in-use':
-        errorMessage = 'This email is already associated with another account.';
-        break;
+        return 'This email is already associated with another account.';
       case 'weak-password':
-        errorMessage = 'Your password is too weak. Please use a stronger password.';
-        break;
+        return 'Your password is too weak. Please use a stronger password.';
       case 'invalid-email':
-        errorMessage = 'The email format is invalid.';
-        break;
+        return 'The email format is invalid.';
       case 'network-request-failed':
-        errorMessage = 'Network error. Please check your connection.';
-        break;
+        return 'Network error. Please check your connection.';
       default:
-        errorMessage = 'An unknown error occurred. Please try again.';
-        break;
+        return 'An unknown error occurred. Please try again.';
     }
-    return errorMessage;
   }
 
-  // Method to check if the user is logged in
-  bool isUserLoggedIn() {
-    return _auth.currentUser != null;
-  }
-
-  // Optional: Enforce email verification check
-  bool isEmailVerified() {
-    return _auth.currentUser?.emailVerified ?? false;
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }
