@@ -239,3 +239,81 @@ class _HomeTab {
   final String Function(AppLocalizations l10n) title;
   final WidgetBuilder builder;
 }
+
+class _FeedbackPanel extends StatelessWidget {
+  const _FeedbackPanel({
+    required this.controller,
+    required this.onSubmit,
+    required this.feedback,
+    required this.l10n,
+  });
+
+  final TextEditingController controller;
+  final VoidCallback onSubmit;
+  final List<String> feedback;
+  final AppLocalizations l10n;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(l10n.feedbackTitle, style: Theme.of(context).textTheme.titleLarge),
+            const SizedBox(height: 12),
+            TextField(
+              controller: controller,
+              maxLines: 5,
+              decoration: InputDecoration(
+                labelText: l10n.feedbackLabel,
+                alignLabelWithHint: true,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: onSubmit,
+              icon: const Icon(Icons.send),
+              label: Text(l10n.submitFeedback),
+            ),
+            const SizedBox(height: 16),
+            Text(l10n.feedbackListTitle, style: Theme.of(context).textTheme.titleMedium),
+            const SizedBox(height: 8),
+            if (feedback.isEmpty)
+              Text(
+                l10n.feedbackEmpty,
+                style: Theme.of(context).textTheme.bodySmall,
+              )
+            else
+              ...feedback.map(
+                (item) => ListTile(
+                  leading: const Icon(Icons.chat_bubble_outline),
+                  title: Text(item),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+IconData? _iconForFeature(FeatureIcon? icon) {
+  switch (icon) {
+    case FeatureIcon.explore:
+      return Icons.travel_explore_outlined;
+    case FeatureIcon.settings:
+      return Icons.settings_outlined;
+    case FeatureIcon.live:
+      return Icons.videocam_outlined;
+    case FeatureIcon.trophy:
+      return Icons.emoji_events_outlined;
+    case FeatureIcon.wellness:
+      return Icons.self_improvement;
+    case FeatureIcon.info:
+      return Icons.info_outline;
+    case null:
+      return null;
+  }
+}
