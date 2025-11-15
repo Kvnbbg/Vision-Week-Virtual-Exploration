@@ -152,20 +152,403 @@
   "@accessibilityDescription": {
     "description": "Description for the accessibility card"
   },
-  "userProfile": "User Profile",
-  "@userProfile": {
-    "description": "Title for the profile screen"
+  "explorerTabLabel": "Explorer hub",
+  "@explorerTabLabel": {
+    "description": "Navigation label for the explorer dashboard"
   },
-  "manageProfile": "Manage your account and preferences.",
-  "@manageProfile": {
-    "description": "Description for managing the user profile"
+  "merchantTabLabel": "Seller ops",
+  "@merchantTabLabel": {
+    "description": "Navigation label for the merchant dashboard"
   },
-  "videos": "Videos",
-  "@videos": {
-    "description": "Title for the video screen"
+  "courierTabLabel": "Courier",
+  "@courierTabLabel": {
+    "description": "Navigation label for the courier dashboard"
   },
-  "watchVideos": "Watch the latest exploration highlights.",
-  "@watchVideos": {
-    "description": "Description encouraging users to watch videos"
+  "trackingTabLabel": "Live tracking",
+  "@trackingTabLabel": {
+    "description": "Navigation label for the live order tracking view"
+  },
+  "profileTabLabel": "Profile",
+  "@profileTabLabel": {
+    "description": "Navigation label for the profile section"
+  },
+  "adminTabLabel": "Admin console",
+  "@adminTabLabel": {
+    "description": "Navigation label for administrator-only insights"
+  },
+  "explorerHeroHeadline": "Design immersive journeys faster",
+  "@explorerHeroHeadline": {
+    "description": "Headline for the explorer hero banner"
+  },
+  "explorerHeroSubtitle": "Curate culinary pairings and VR routes that adapt to each guest in real time.",
+  "@explorerHeroSubtitle": {
+    "description": "Subtitle text under the explorer hero banner"
+  },
+  "quickActionsTitle": "Quick actions",
+  "@quickActionsTitle": {
+    "description": "Section title for quick shortcut cards"
+  },
+  "quickActionTrack": "View live route",
+  "@quickActionTrack": {
+    "description": "Button label to open live tracking from the hero banner"
+  },
+  "quickActionSchedule": "Schedule drop",
+  "@quickActionSchedule": {
+    "description": "Button label for scheduling a delivery"
+  },
+  "quickActionInvite": "Invite collaborators",
+  "@quickActionInvite": {
+    "description": "Button label for inviting collaborators"
+  },
+  "quickActionOrder": "Order VR tasting",
+  "@quickActionOrder": {
+    "description": "Title for the quick action to order a tasting menu"
+  },
+  "quickActionOrderDescription": "Pair hero animals with chef-led menus in seconds.",
+  "@quickActionOrderDescription": {
+    "description": "Description for the order quick action"
+  },
+  "quickActionExperience": "Launch experience",
+  "@quickActionExperience": {
+    "description": "Title for the quick action to start an experience"
+  },
+  "quickActionExperienceDescription": "Spin up multi-room VR tours with prebuilt storylines.",
+  "@quickActionExperienceDescription": {
+    "description": "Description for the launch experience quick action"
+  },
+  "quickActionShare": "Share link",
+  "@quickActionShare": {
+    "description": "Title for the quick action to share a link"
+  },
+  "quickActionShareDescription": "Send branded journeys to guests and VIP partners.",
+  "@quickActionShareDescription": {
+    "description": "Description for the share link quick action"
+  },
+  "activeOrderTitle": "Live concierge order",
+  "@activeOrderTitle": {
+    "description": "Title for the active order card"
+  },
+  "activeOrderSubtitle": "Order {orderNumber}",
+  "@activeOrderSubtitle": {
+    "description": "Subtitle showing the order number for the active order",
+    "placeholders": {
+      "orderNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderView": "Open live map",
+  "@activeOrderView": {
+    "description": "Button label to open the live map"
+  },
+  "activeOrderEta": "ETA {eta}",
+  "@activeOrderEta": {
+    "description": "Chip text for estimated arrival time",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderCourier": "Guide {courier}",
+  "@activeOrderCourier": {
+    "description": "Chip text showing courier name",
+    "placeholders": {
+      "courier": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderRating": "{rating} ⭐ courier rating",
+  "@activeOrderRating": {
+    "description": "Chip text showing courier rating",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "trendingExperiencesTitle": "Trending experiences",
+  "@trendingExperiencesTitle": {
+    "description": "Section title for trending experiences"
+  },
+  "signatureBundlesTitle": "Signature bundles",
+  "@signatureBundlesTitle": {
+    "description": "Section title for signature bundles"
+  },
+  "bundlePrice": "{price} credits",
+  "@bundlePrice": {
+    "description": "Price label for bundles",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "communityHighlightsTitle": "Community highlights",
+  "@communityHighlightsTitle": {
+    "description": "Title for community feedback section"
+  },
+  "communityHighlightsInsights": "View insights",
+  "@communityHighlightsInsights": {
+    "description": "Button label to open community insights"
+  },
+  "communityHighlightsEmpty": "No highlights yet. Be the first to share what worked!",
+  "@communityHighlightsEmpty": {
+    "description": "Message when there is no community feedback"
+  },
+  "feedbackSubmitted": "Thanks for sharing — the team will review shortly.",
+  "@feedbackSubmitted": {
+    "description": "Snack bar message after submitting feedback"
+  },
+  "merchantOverviewTitle": "Seller command center",
+  "@merchantOverviewTitle": {
+    "description": "Heading for the merchant dashboard"
+  },
+  "ordersTableTitle": "Active orders",
+  "@ordersTableTitle": {
+    "description": "Title for the merchant orders table"
+  },
+  "ordersTableOrder": "Order",
+  "@ordersTableOrder": {
+    "description": "Column label for order number"
+  },
+  "ordersTableCustomer": "Customer",
+  "@ordersTableCustomer": {
+    "description": "Column label for customer name"
+  },
+  "ordersTableValue": "Value",
+  "@ordersTableValue": {
+    "description": "Column label for order value"
+  },
+  "ordersTableItems": "Items",
+  "@ordersTableItems": {
+    "description": "Column label for item count"
+  },
+  "ordersTableStatus": "Status",
+  "@ordersTableStatus": {
+    "description": "Column label for order status"
+  },
+  "ordersTableEmpty": "No active orders. Launch a campaign to drive demand.",
+  "@ordersTableEmpty": {
+    "description": "Empty state for the merchant orders table"
+  },
+  "merchantCtaMenu": "Manage menu",
+  "@merchantCtaMenu": {
+    "description": "Button label to manage the seller menu"
+  },
+  "merchantCtaCampaign": "Create campaign",
+  "@merchantCtaCampaign": {
+    "description": "Button label to create a marketing campaign"
+  },
+  "merchantCtaAutomation": "Automate prep",
+  "@merchantCtaAutomation": {
+    "description": "Button label to automate preparation workflows"
+  },
+  "courierOverviewTitle": "Courier mission control",
+  "@courierOverviewTitle": {
+    "description": "Heading for the courier dashboard"
+  },
+  "courierNextStopTitle": "Next stop",
+  "@courierNextStopTitle": {
+    "description": "Title for the next stop card"
+  },
+  "courierOpenNavigation": "Open navigation",
+  "@courierOpenNavigation": {
+    "description": "Button label to open navigation"
+  },
+  "courierPickupSubtitle": "Deliver to {destination}",
+  "@courierPickupSubtitle": {
+    "description": "Subtitle describing delivery destination",
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "courierDistance": "{distance} km",
+  "@courierDistance": {
+    "description": "Chip text for distance to destination",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "courierEta": "ETA {eta}",
+  "@courierEta": {
+    "description": "Chip text for courier ETA",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "courierStatus": "Status: {status}",
+  "@courierStatus": {
+    "description": "Chip text for courier status",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "courierAssignmentsTitle": "Assignments queue",
+  "@courierAssignmentsTitle": {
+    "description": "Heading for upcoming courier assignments"
+  },
+  "courierAssignmentsEmpty": "No upcoming assignments. Stand by for dispatch.",
+  "@courierAssignmentsEmpty": {
+    "description": "Empty state when no courier assignments exist"
+  },
+  "courierDistanceEta": "{distance} km • ETA {eta}",
+  "@courierDistanceEta": {
+    "description": "Subtitle combining distance and ETA",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      },
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "courierLiveOrderTitle": "Live order telemetry",
+  "@courierLiveOrderTitle": {
+    "description": "Title for the courier live order card"
+  },
+  "courierCompleteStop": "Complete stop",
+  "@courierCompleteStop": {
+    "description": "Button label to mark a stop complete"
+  },
+  "orderTrackingTitle": "Order {orderNumber}",
+  "@orderTrackingTitle": {
+    "description": "Title for the order tracking screen",
+    "placeholders": {
+      "orderNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "orderTrackingEta": "Estimated arrival {eta}",
+  "@orderTrackingEta": {
+    "description": "Subtitle indicating estimated arrival",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "orderTimelineTitle": "Timeline",
+  "@orderTimelineTitle": {
+    "description": "Section title for the order timeline"
+  },
+  "orderTrackingShare": "Share tracking link",
+  "@orderTrackingShare": {
+    "description": "Button label to share the tracking link"
+  },
+  "profileHeadline": "Your Vision Week identity",
+  "@profileHeadline": {
+    "description": "Heading for the profile section"
+  },
+  "profileGuestName": "Guest explorer",
+  "@profileGuestName": {
+    "description": "Default display name for anonymous users"
+  },
+  "profileGuestEmail": "guest@visionweek.dev",
+  "@profileGuestEmail": {
+    "description": "Default email for anonymous users"
+  },
+  "profileEmailPending": "Email verification pending",
+  "@profileEmailPending": {
+    "description": "Chip text when the email is not verified"
+  },
+  "profileRoleLabel": "Active role",
+  "@profileRoleLabel": {
+    "description": "Label for the role dropdown"
+  },
+  "profileRoleDescription": "Switch between explorer, seller, courier, or admin to preview their experience.",
+  "@profileRoleDescription": {
+    "description": "Helper text explaining role selection"
+  },
+  "profilePreferences": "Experience preferences",
+  "@profilePreferences": {
+    "description": "List tile title for preferences"
+  },
+  "profilePreferencesSubtitle": "Update language, accessibility, and layout presets.",
+  "@profilePreferencesSubtitle": {
+    "description": "Subtitle describing preferences"
+  },
+  "profileNotifications": "Notifications",
+  "@profileNotifications": {
+    "description": "List tile title for notifications"
+  },
+  "profileNotificationsSubtitle": "Push + email alerts for assignments, reviews, and incidents.",
+  "@profileNotificationsSubtitle": {
+    "description": "Subtitle describing notifications"
+  },
+  "profileSecurity": "Security",
+  "@profileSecurity": {
+    "description": "List tile title for security"
+  },
+  "profileSecuritySubtitle": "Manage MFA, device approvals, and recovery codes.",
+  "@profileSecuritySubtitle": {
+    "description": "Subtitle describing security settings"
+  },
+  "profileSignOut": "Sign out",
+  "@profileSignOut": {
+    "description": "Button label to sign out"
+  },
+  "roleExplorer": "Explorer",
+  "@roleExplorer": {
+    "description": "Label for the explorer role"
+  },
+  "roleSeller": "Seller",
+  "@roleSeller": {
+    "description": "Label for the seller role"
+  },
+  "roleCourier": "Courier",
+  "@roleCourier": {
+    "description": "Label for the courier role"
+  },
+  "roleAdmin": "Admin",
+  "@roleAdmin": {
+    "description": "Label for the admin role"
+  },
+  "adminOverviewTitle": "Platform governance",
+  "@adminOverviewTitle": {
+    "description": "Heading for the admin console"
+  },
+  "adminInsightsTitle": "Operational insights",
+  "@adminInsightsTitle": {
+    "description": "Title for the admin insights card"
+  },
+  "adminGovernanceTitle": "Governance updates",
+  "@adminGovernanceTitle": {
+    "description": "List tile title for governance updates"
+  },
+  "adminGovernanceSubtitle": "Review ADRs, compliance tasks, and ownership changes.",
+  "@adminGovernanceSubtitle": {
+    "description": "Subtitle for governance updates"
+  },
+  "adminAuditTitle": "Audit trail",
+  "@adminAuditTitle": {
+    "description": "List tile title for audit trail"
+  },
+  "adminAuditSubtitle": "Latest deployments, policy checks, and anomaly alerts.",
+  "@adminAuditSubtitle": {
+    "description": "Subtitle for audit trail"
+  },
+  "adminActionSecurity": "Open security center",
+  "@adminActionSecurity": {
+    "description": "Button label to open security center"
+  },
+  "adminActionMetrics": "View DORA metrics",
+  "@adminActionMetrics": {
+    "description": "Button label to view metrics"
+  },
+  "adminActionTeams": "Manage teams",
+  "@adminActionTeams": {
+    "description": "Button label to manage teams"
   }
 }

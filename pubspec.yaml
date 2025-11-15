@@ -57,8 +57,7 @@ flutter_gen:
   integrations:
     flutter_localizations: true
 
-# Removed incorrect root-level assets declaration
-
+# Localizations configuration aligned with generated ARB files
 l10n:
   arb-dir: lib/l10n
   template-arb-file: app_en.arb

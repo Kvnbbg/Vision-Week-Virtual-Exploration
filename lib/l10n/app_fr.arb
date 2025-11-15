@@ -152,20 +152,403 @@
   "@accessibilityDescription": {
     "description": "Description pour la carte d'accessibilité"
   },
-  "userProfile": "Profil utilisateur",
-  "@userProfile": {
-    "description": "Titre de l'écran de profil"
+  "explorerTabLabel": "Hub explorateur",
+  "@explorerTabLabel": {
+    "description": "Libellé de navigation pour le tableau de bord explorateur"
   },
-  "manageProfile": "Gérez votre compte et vos préférences.",
-  "@manageProfile": {
-    "description": "Description pour la gestion du profil utilisateur"
+  "merchantTabLabel": "Opérations vendeur",
+  "@merchantTabLabel": {
+    "description": "Libellé de navigation pour le tableau de bord vendeur"
   },
-  "videos": "Vidéos",
-  "@videos": {
-    "description": "Titre de l'écran vidéo"
+  "courierTabLabel": "Coursier",
+  "@courierTabLabel": {
+    "description": "Libellé de navigation pour le tableau de bord coursier"
   },
-  "watchVideos": "Regardez les derniers moments forts de l'exploration.",
-  "@watchVideos": {
-    "description": "Description invitant les utilisateurs à regarder des vidéos"
+  "trackingTabLabel": "Suivi en direct",
+  "@trackingTabLabel": {
+    "description": "Libellé de navigation pour la vue de suivi"
+  },
+  "profileTabLabel": "Profil",
+  "@profileTabLabel": {
+    "description": "Libellé de navigation pour le profil"
+  },
+  "adminTabLabel": "Console admin",
+  "@adminTabLabel": {
+    "description": "Libellé de navigation pour la console administrateur"
+  },
+  "explorerHeroHeadline": "Concevez des parcours immersifs en un clin d'œil",
+  "@explorerHeroHeadline": {
+    "description": "Titre principal dans la bannière explorateur"
+  },
+  "explorerHeroSubtitle": "Composez des accords culinaires et des visites VR synchronisées pour chaque visiteur.",
+  "@explorerHeroSubtitle": {
+    "description": "Sous-titre de la bannière explorateur"
+  },
+  "quickActionsTitle": "Actions rapides",
+  "@quickActionsTitle": {
+    "description": "Titre pour les cartes d'actions rapides"
+  },
+  "quickActionTrack": "Voir l'itinéraire",
+  "@quickActionTrack": {
+    "description": "Bouton pour ouvrir le suivi en direct"
+  },
+  "quickActionSchedule": "Programmer une livraison",
+  "@quickActionSchedule": {
+    "description": "Bouton pour programmer une livraison"
+  },
+  "quickActionInvite": "Inviter des partenaires",
+  "@quickActionInvite": {
+    "description": "Bouton pour inviter des collaborateurs"
+  },
+  "quickActionOrder": "Commander une dégustation VR",
+  "@quickActionOrder": {
+    "description": "Titre de l'action rapide pour commander"
+  },
+  "quickActionOrderDescription": "Associez vos animaux phares à un menu guidé par le chef en quelques secondes.",
+  "@quickActionOrderDescription": {
+    "description": "Description de l'action rapide de commande"
+  },
+  "quickActionExperience": "Lancer une expérience",
+  "@quickActionExperience": {
+    "description": "Titre de l'action rapide pour lancer une expérience"
+  },
+  "quickActionExperienceDescription": "Déployez des visites VR multi-salles avec scénarios préconstruits.",
+  "@quickActionExperienceDescription": {
+    "description": "Description de l'action rapide pour lancer une expérience"
+  },
+  "quickActionShare": "Partager un lien",
+  "@quickActionShare": {
+    "description": "Titre de l'action rapide pour partager un lien"
+  },
+  "quickActionShareDescription": "Envoyez des parcours personnalisés aux invités et partenaires VIP.",
+  "@quickActionShareDescription": {
+    "description": "Description de l'action rapide de partage"
+  },
+  "activeOrderTitle": "Commande concierge en direct",
+  "@activeOrderTitle": {
+    "description": "Titre de la carte commande active"
+  },
+  "activeOrderSubtitle": "Commande {orderNumber}",
+  "@activeOrderSubtitle": {
+    "description": "Sous-titre indiquant le numéro de commande",
+    "placeholders": {
+      "orderNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderView": "Ouvrir la carte",
+  "@activeOrderView": {
+    "description": "Bouton pour ouvrir la carte en direct"
+  },
+  "activeOrderEta": "Arrivée prévue {eta}",
+  "@activeOrderEta": {
+    "description": "Puce pour l'heure estimée",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderCourier": "Guide {courier}",
+  "@activeOrderCourier": {
+    "description": "Puce indiquant le nom du coursier",
+    "placeholders": {
+      "courier": {
+        "type": "String"
+      }
+    }
+  },
+  "activeOrderRating": "Note coursier {rating} ⭐",
+  "@activeOrderRating": {
+    "description": "Puce indiquant la note du coursier",
+    "placeholders": {
+      "rating": {
+        "type": "String"
+      }
+    }
+  },
+  "trendingExperiencesTitle": "Expériences tendances",
+  "@trendingExperiencesTitle": {
+    "description": "Titre pour les expériences populaires"
+  },
+  "signatureBundlesTitle": "Formules signatures",
+  "@signatureBundlesTitle": {
+    "description": "Titre pour les formules signatures"
+  },
+  "bundlePrice": "{price} crédits",
+  "@bundlePrice": {
+    "description": "Libellé du prix des formules",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "communityHighlightsTitle": "Moments de la communauté",
+  "@communityHighlightsTitle": {
+    "description": "Titre de la section des retours communauté"
+  },
+  "communityHighlightsInsights": "Voir les insights",
+  "@communityHighlightsInsights": {
+    "description": "Bouton pour ouvrir les insights communauté"
+  },
+  "communityHighlightsEmpty": "Aucun retour pour le moment. Partagez votre succès !",
+  "@communityHighlightsEmpty": {
+    "description": "Message lorsque la section communauté est vide"
+  },
+  "feedbackSubmitted": "Merci, votre retour a été transmis à l'équipe.",
+  "@feedbackSubmitted": {
+    "description": "Notification après envoi d'un retour"
+  },
+  "merchantOverviewTitle": "Centre de commande vendeur",
+  "@merchantOverviewTitle": {
+    "description": "Titre pour le tableau de bord vendeur"
+  },
+  "ordersTableTitle": "Commandes actives",
+  "@ordersTableTitle": {
+    "description": "Titre du tableau des commandes"
+  },
+  "ordersTableOrder": "Commande",
+  "@ordersTableOrder": {
+    "description": "Entête numéro de commande"
+  },
+  "ordersTableCustomer": "Client",
+  "@ordersTableCustomer": {
+    "description": "Entête client"
+  },
+  "ordersTableValue": "Montant",
+  "@ordersTableValue": {
+    "description": "Entête montant"
+  },
+  "ordersTableItems": "Articles",
+  "@ordersTableItems": {
+    "description": "Entête nombre d'articles"
+  },
+  "ordersTableStatus": "Statut",
+  "@ordersTableStatus": {
+    "description": "Entête statut"
+  },
+  "ordersTableEmpty": "Aucune commande en cours. Lancez une campagne pour générer de la demande.",
+  "@ordersTableEmpty": {
+    "description": "Message lorsque le tableau des commandes est vide"
+  },
+  "merchantCtaMenu": "Gérer le menu",
+  "@merchantCtaMenu": {
+    "description": "Bouton pour gérer le menu"
+  },
+  "merchantCtaCampaign": "Créer une campagne",
+  "@merchantCtaCampaign": {
+    "description": "Bouton pour créer une campagne"
+  },
+  "merchantCtaAutomation": "Automatiser la préparation",
+  "@merchantCtaAutomation": {
+    "description": "Bouton pour automatiser la préparation"
+  },
+  "courierOverviewTitle": "Tour de contrôle coursier",
+  "@courierOverviewTitle": {
+    "description": "Titre pour le tableau de bord coursier"
+  },
+  "courierNextStopTitle": "Prochaine étape",
+  "@courierNextStopTitle": {
+    "description": "Titre de la carte prochaine étape"
+  },
+  "courierOpenNavigation": "Ouvrir la navigation",
+  "@courierOpenNavigation": {
+    "description": "Bouton pour ouvrir la navigation"
+  },
+  "courierPickupSubtitle": "Livrer à {destination}",
+  "@courierPickupSubtitle": {
+    "description": "Sous-titre indiquant la destination",
+    "placeholders": {
+      "destination": {
+        "type": "String"
+      }
+    }
+  },
+  "courierDistance": "{distance} km",
+  "@courierDistance": {
+    "description": "Puce indiquant la distance",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      }
+    }
+  },
+  "courierEta": "Arrivée {eta}",
+  "@courierEta": {
+    "description": "Puce indiquant l'ETA",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "courierStatus": "Statut : {status}",
+  "@courierStatus": {
+    "description": "Puce indiquant le statut",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "courierAssignmentsTitle": "File des missions",
+  "@courierAssignmentsTitle": {
+    "description": "Titre de la liste des missions"
+  },
+  "courierAssignmentsEmpty": "Aucune mission à venir. En attente de dispatch.",
+  "@courierAssignmentsEmpty": {
+    "description": "Message lorsque la file des missions est vide"
+  },
+  "courierDistanceEta": "{distance} km • ETA {eta}",
+  "@courierDistanceEta": {
+    "description": "Sous-titre combinant distance et ETA",
+    "placeholders": {
+      "distance": {
+        "type": "String"
+      },
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "courierLiveOrderTitle": "Télémetrie commande",
+  "@courierLiveOrderTitle": {
+    "description": "Titre de la carte commande en direct"
+  },
+  "courierCompleteStop": "Terminer l'étape",
+  "@courierCompleteStop": {
+    "description": "Bouton pour terminer l'étape"
+  },
+  "orderTrackingTitle": "Commande {orderNumber}",
+  "@orderTrackingTitle": {
+    "description": "Titre de la page de suivi",
+    "placeholders": {
+      "orderNumber": {
+        "type": "String"
+      }
+    }
+  },
+  "orderTrackingEta": "Arrivée estimée {eta}",
+  "@orderTrackingEta": {
+    "description": "Sous-titre indiquant l'heure estimée",
+    "placeholders": {
+      "eta": {
+        "type": "String"
+      }
+    }
+  },
+  "orderTimelineTitle": "Chronologie",
+  "@orderTimelineTitle": {
+    "description": "Titre de la chronologie de commande"
+  },
+  "orderTrackingShare": "Partager le suivi",
+  "@orderTrackingShare": {
+    "description": "Bouton pour partager le lien de suivi"
+  },
+  "profileHeadline": "Votre identité Vision Week",
+  "@profileHeadline": {
+    "description": "Titre de la section profil"
+  },
+  "profileGuestName": "Explorateur invité",
+  "@profileGuestName": {
+    "description": "Nom par défaut pour un utilisateur invité"
+  },
+  "profileGuestEmail": "guest@visionweek.dev",
+  "@profileGuestEmail": {
+    "description": "Email par défaut pour un utilisateur invité"
+  },
+  "profileEmailPending": "Email en attente de vérification",
+  "@profileEmailPending": {
+    "description": "Puce lorsque l'email n'est pas vérifié"
+  },
+  "profileRoleLabel": "Rôle actif",
+  "@profileRoleLabel": {
+    "description": "Libellé du sélecteur de rôle"
+  },
+  "profileRoleDescription": "Basculez entre explorateur, vendeur, coursier ou admin pour prévisualiser leurs flux.",
+  "@profileRoleDescription": {
+    "description": "Texte d'aide pour le sélecteur de rôle"
+  },
+  "profilePreferences": "Préférences d'expérience",
+  "@profilePreferences": {
+    "description": "Titre de la ligne préférences"
+  },
+  "profilePreferencesSubtitle": "Mettez à jour langue, accessibilité et dispositions.",
+  "@profilePreferencesSubtitle": {
+    "description": "Sous-titre de la ligne préférences"
+  },
+  "profileNotifications": "Notifications",
+  "@profileNotifications": {
+    "description": "Titre de la ligne notifications"
+  },
+  "profileNotificationsSubtitle": "Alertes push et e-mail pour missions, avis et incidents.",
+  "@profileNotificationsSubtitle": {
+    "description": "Sous-titre de la ligne notifications"
+  },
+  "profileSecurity": "Sécurité",
+  "@profileSecurity": {
+    "description": "Titre de la ligne sécurité"
+  },
+  "profileSecuritySubtitle": "Gérez MFA, appareils approuvés et codes de récupération.",
+  "@profileSecuritySubtitle": {
+    "description": "Sous-titre de la ligne sécurité"
+  },
+  "profileSignOut": "Se déconnecter",
+  "@profileSignOut": {
+    "description": "Bouton de déconnexion"
+  },
+  "roleExplorer": "Explorateur",
+  "@roleExplorer": {
+    "description": "Libellé du rôle explorateur"
+  },
+  "roleSeller": "Vendeur",
+  "@roleSeller": {
+    "description": "Libellé du rôle vendeur"
+  },
+  "roleCourier": "Coursier",
+  "@roleCourier": {
+    "description": "Libellé du rôle coursier"
+  },
+  "roleAdmin": "Administrateur",
+  "@roleAdmin": {
+    "description": "Libellé du rôle administrateur"
+  },
+  "adminOverviewTitle": "Gouvernance plateforme",
+  "@adminOverviewTitle": {
+    "description": "Titre de la console admin"
+  },
+  "adminInsightsTitle": "Insights opérationnels",
+  "@adminInsightsTitle": {
+    "description": "Titre de la carte insights"
+  },
+  "adminGovernanceTitle": "Mises à jour gouvernance",
+  "@adminGovernanceTitle": {
+    "description": "Titre de la ligne gouvernance"
+  },
+  "adminGovernanceSubtitle": "Consultez ADR, tâches de conformité et changements d'équipes.",
+  "@adminGovernanceSubtitle": {
+    "description": "Sous-titre de la ligne gouvernance"
+  },
+  "adminAuditTitle": "Journal d'audit",
+  "@adminAuditTitle": {
+    "description": "Titre de la ligne audit"
+  },
+  "adminAuditSubtitle": "Derniers déploiements, contrôles et alertes.",
+  "@adminAuditSubtitle": {
+    "description": "Sous-titre de la ligne audit"
+  },
+  "adminActionSecurity": "Ouvrir le centre sécurité",
+  "@adminActionSecurity": {
+    "description": "Bouton pour ouvrir le centre de sécurité"
+  },
+  "adminActionMetrics": "Voir les métriques DORA",
+  "@adminActionMetrics": {
+    "description": "Bouton pour consulter les métriques"
+  },
+  "adminActionTeams": "Gérer les équipes",
+  "@adminActionTeams": {
+    "description": "Bouton pour gérer les équipes"
   }
 }

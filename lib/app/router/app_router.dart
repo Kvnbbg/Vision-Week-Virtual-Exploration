@@ -2,26 +2,24 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../auth/auth_service.dart';
-import '../../core/config/app_config.dart';
 import '../../screens/home_screen.dart';
 import '../../screens/login.dart';
+import '../../screens/order_tracking_screen.dart';
 import '../../screens/register.dart';
 import '../../screens/settings_screen.dart';
 import '../../screens/welcome_screen.dart';
+import '../../core/data/sample_data.dart';
 
 /// Central routing table backed by `go_router` to support declarative,
 /// deep-link friendly navigation. The router listens to [AuthService] changes in
 /// order to redirect automatically when authentication state mutates.
 class AppRouter {
-  AppRouter({required AuthService authService, required NavigationConfig navigation})
-      : _authService = authService,
-        _navigation = navigation;
+  AppRouter({required AuthService authService}) : _authService = authService;
 
   final AuthService _authService;
-  final NavigationConfig _navigation;
 
   late final GoRouter router = GoRouter(
-    initialLocation: _navigation.initialRoute,
+    initialLocation: '/home',
     refreshListenable: _authService,
     routes: <RouteBase>[
       GoRoute(
@@ -38,6 +36,11 @@ class AppRouter {
         path: '/home',
         name: 'home',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/order-tracking',
+        name: 'order-tracking',
+        builder: (context, state) => OrderTrackingScreen(order: SampleData.activeOrder()),
       ),
       GoRoute(
         path: '/settings',

@@ -1,16 +1,17 @@
-import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:vision_week_virtual_exploration/l10n/generated/app_localizations.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import '../auth/auth_service.dart';
-import '../core/config/app_config.dart';
+import '../core/data/sample_data.dart';
 import '../core/settings/settings_controller.dart';
+import 'admin_console_screen.dart';
+import 'courier_dashboard.dart';
+import 'explorer_dashboard.dart';
+import 'merchant_dashboard.dart';
+import 'order_tracking_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,88 +21,42 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _random = Random();
-  final _feedbackController = TextEditingController();
-  final List<String> _feedbackList = <String>[];
-  String? _generatedText;
+  int _selectedIndex = 0;
+  late final LiveOrder _activeOrder;
+  late final List<ExperiencePackage> _experiences;
+  late final List<ExperienceBundle> _bundles;
+  late final List<MerchantKpi> _merchantKpis;
+  late final List<MerchantOrderSummary> _merchantOrders;
+  late final List<CourierAssignment> _assignments;
+  late final List<AdminInsight> _adminInsights;
 
   @override
   void initState() {
     super.initState();
-    _generatedText = null;
-  }
-
-  @override
-  void dispose() {
-    _feedbackController.dispose();
-    super.dispose();
-  }
-
-  void _generateRandomText(AppLocalizations l10n, List<String> messages) {
-    if (messages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.generateText)),
-      );
-      return;
-    }
-
-    setState(() {
-      _generatedText = messages[_random.nextInt(messages.length)];
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.generateText)),
-    );
-  }
-
-  Future<void> _logout() async {
-    await context.read<AuthService>().signOut();
-    if (!mounted) {
-      return;
-    }
-    context.goNamed('login');
-  }
-
-  void _submitFeedback(AppLocalizations l10n) {
-    final feedback = _feedbackController.text.trim();
-    if (feedback.isEmpty) {
-      return;
-    }
-    setState(() {
-      _feedbackList.insert(0, feedback);
-      _feedbackController.clear();
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(l10n.submitFeedback)),
-    );
-  }
-
-  Future<void> _openLink(String url, String? errorMessage) async {
-    if (url.isEmpty) {
-      return;
-    }
-    final launched = await launchUrlString(url);
-    if (!launched && mounted && errorMessage != null && errorMessage.isNotEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
-      );
-    }
+    _activeOrder = SampleData.activeOrder();
+    _experiences = SampleData.featuredExperiences();
+    _bundles = SampleData.curatedBundles();
+    _merchantKpis = SampleData.merchantKpis();
+    _merchantOrders = SampleData.merchantOrders();
+    _assignments = SampleData.courierAssignments();
+    _adminInsights = SampleData.adminInsights();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final settings = context.watch<SettingsController>();
-    final config = context.watch<AppConfig>();
-    final homeConfig = config.home;
+    final auth = context.watch<AuthService>();
+    final tabs = _visibleTabs(l10n, auth, settings);
+    final selectedIndex = _selectedIndex.clamp(0, tabs.length - 1).toInt();
+    final selectedTab = tabs[selectedIndex];
     final isDarkMode = settings.themeMode == ThemeMode.dark;
-    final userEmail = context.watch<AuthService>().user?.email;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final useRail = screenWidth >= 1100;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(config.branding.appName),
-        centerTitle: false,
+        title: Text(selectedTab.title(l10n)),
         actions: [
           IconButton(
             tooltip: l10n.logout,
@@ -111,9 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             tooltip: isDarkMode ? l10n.lightModeDescription : l10n.darkModeDescription,
             onPressed: () => settings.toggleDarkMode(!isDarkMode),
-            icon: Icon(
-              isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined,
-            ),
+            icon: Icon(isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined),
           ),
           PopupMenuButton<Locale>(
             icon: const Icon(Icons.language),
@@ -131,345 +84,160 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final isWide = constraints.maxWidth > 900;
-          final content = _buildContent(
-            l10n: l10n,
-            isWide: isWide,
-            userEmail: userEmail,
-            homeConfig: homeConfig,
-            branding: config.branding,
-            quickLinks: config.quickLinks,
-          );
-
-          if (isWide) {
-            return Row(
-              children: [
-                Expanded(child: content),
-                SizedBox(
-                  width: min(360, constraints.maxWidth * 0.32),
-                  child: _FeedbackPanel(
-                    controller: _feedbackController,
-                    onSubmit: () => _submitFeedback(l10n),
-                    feedback: _feedbackList,
-                    l10n: l10n,
-                  ),
-                ),
-              ],
-            );
-          }
-
-          return SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            child: Column(
-              children: [
-                content,
-                const SizedBox(height: 24),
-                _FeedbackPanel(
-                  controller: _feedbackController,
-                  onSubmit: () => _submitFeedback(l10n),
-                  feedback: _feedbackList,
-                  l10n: l10n,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: homeConfig.randomMessages.isEmpty
-            ? null
-            : () => _generateRandomText(l10n, homeConfig.randomMessages),
-        label: Text(l10n.generateText),
-        icon: const Icon(Icons.auto_awesome),
-      ),
-    );
-  }
-
-  Widget _buildContent({
-    required AppLocalizations l10n,
-    required bool isWide,
-    required String? userEmail,
-    required HomeConfig homeConfig,
-    required BrandingConfig branding,
-    required List<QuickLink> quickLinks,
-  }) {
-    final headline = Theme.of(context).textTheme.headlineMedium;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(homeConfig.heroTitle, style: headline),
-                const SizedBox(height: 12),
-                Text(
-                  branding.tagline,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 8),
-                Text(homeConfig.heroSubtitle),
-                if (userEmail != null) ...[
-                  const SizedBox(height: 16),
-                  Text(
-                    userEmail,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                ],
-                if (homeConfig.callToActions.isNotEmpty) ...[
-                  const SizedBox(height: 16),
-                  Wrap(
-                    spacing: 12,
-                    runSpacing: 12,
-                    children: homeConfig.callToActions
-                        .map((action) => _buildActionButton(action))
-                        .toList(),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-        if (homeConfig.features.isNotEmpty) ...[
-          const SizedBox(height: 24),
-          Text(homeConfig.featuresTitle ?? branding.tagline, style: headline),
-          const SizedBox(height: 12),
-          _FeatureHighlights(features: homeConfig.features),
-        ],
-        if (homeConfig.gallery.isNotEmpty) ...[
-          const SizedBox(height: 24),
-          Text(homeConfig.galleryTitle ?? l10n.animalGallery, style: headline),
-          const SizedBox(height: 12),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: isWide ? 4 : 2,
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 4 / 5,
-            ),
-            itemCount: homeConfig.gallery.length,
-            itemBuilder: (context, index) {
-              final item = homeConfig.gallery[index];
-              return _AnimalCard(item: item);
-            },
-          ),
-        ],
-        if (_generatedText?.isNotEmpty == true) ...[
-          const SizedBox(height: 24),
-          Card(
-            child: ListTile(
-              leading: const Icon(Icons.auto_awesome),
-              title: Text(_generatedText!),
-            ),
-          ),
-        ],
-        if (quickLinks.isNotEmpty) ...[
-          const SizedBox(height: 24),
-          _QuickLinksCard(
-            title: homeConfig.quickLinksTitle ?? 'Quick links',
-            quickLinks: quickLinks,
-            onTap: (url) => _openLink(url, homeConfig.linkErrorMessage),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildActionButton(HomeAction action) {
-    Future<void> handleTap() async {
-      try {
-        if (!mounted) {
-          return;
-        }
-        context.goNamed(action.routeName);
-      } catch (error, stackTrace) {
-        debugPrint('Failed to navigate to ${action.routeName}: $error');
-        debugPrint('$stackTrace');
-      }
-    }
-
-    final iconData = _iconForFeature(action.icon);
-
-    switch (action.style) {
-      case HomeActionStyle.outlined:
-        return iconData != null
-            ? OutlinedButton.icon(
-                onPressed: handleTap,
-                icon: Icon(iconData),
-                label: Text(action.label),
-              )
-            : OutlinedButton(
-                onPressed: handleTap,
-                child: Text(action.label),
-              );
-      case HomeActionStyle.text:
-        return iconData != null
-            ? TextButton.icon(
-                onPressed: handleTap,
-                icon: Icon(iconData),
-                label: Text(action.label),
-              )
-            : TextButton(
-                onPressed: handleTap,
-                child: Text(action.label),
-              );
-      case HomeActionStyle.filled:
-      default:
-        return iconData != null
-            ? FilledButton.icon(
-                onPressed: handleTap,
-                icon: Icon(iconData),
-                label: Text(action.label),
-              )
-            : FilledButton(
-                onPressed: handleTap,
-                child: Text(action.label),
-              );
-    }
-  }
-}
-
-class _AnimalCard extends StatelessWidget {
-  const _AnimalCard({required this.item});
-
-  final GalleryItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Row(
         children: [
-          Expanded(
-            child: Image.asset(
-              item.assetPath,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Center(
-                child: Icon(Icons.photo, size: 48),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.title,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                if (item.description != null && item.description!.isNotEmpty) ...[
-                  const SizedBox(height: 6),
-                  Text(
-                    item.description!,
-                    style: Theme.of(context).textTheme.bodySmall,
+          if (useRail)
+            NavigationRail(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) => setState(() => _selectedIndex = index),
+              extended: screenWidth >= 1440,
+              labelType: NavigationRailLabelType.selected,
+              destinations: [
+                for (final tab in tabs)
+                  NavigationRailDestination(
+                    icon: Icon(tab.icon),
+                    selectedIcon: Icon(tab.icon, color: Theme.of(context).colorScheme.primary),
+                    label: Text(tab.title(l10n)),
                   ),
-                ],
               ],
+            ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              child: KeyedSubtree(
+                key: ValueKey(selectedTab.key),
+                child: selectedTab.builder(context),
+              ),
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _FeatureHighlights extends StatelessWidget {
-  const _FeatureHighlights({required this.features});
-
-  final List<FeatureHighlight> features;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 12,
-      runSpacing: 12,
-      children: features
-          .map(
-            (feature) => SizedBox(
-              width: 280,
-              child: Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (_iconForFeature(feature.icon) != null) ...[
-                        Icon(
-                          _iconForFeature(feature.icon)!,
-                          size: 28,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(height: 12),
-                      ],
-                      Text(
-                        feature.title,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        feature.description,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ],
+      bottomNavigationBar: useRail
+          ? null
+          : NavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) => setState(() => _selectedIndex = index),
+              destinations: [
+                for (final tab in tabs)
+                  NavigationDestination(
+                    icon: Icon(tab.icon),
+                    label: tab.title(l10n),
                   ),
-                ),
-              ),
+              ],
             ),
-          )
-          .toList(),
     );
+  }
+
+  List<_HomeTab> _visibleTabs(
+    AppLocalizations l10n,
+    AuthService auth,
+    SettingsController settings,
+  ) {
+    final allTabs = <_HomeTab>[
+      _HomeTab(
+        key: 'explorer',
+        icon: Icons.auto_awesome_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.seller,
+          UserRole.courier,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.explorerTabLabel,
+        builder: (context) => ExplorerDashboard(
+          packages: _experiences,
+          bundles: _bundles,
+          liveOrder: _activeOrder,
+          onViewOrder: () => context.goNamed('order-tracking'),
+        ),
+      ),
+      _HomeTab(
+        key: 'merchant',
+        icon: Icons.storefront_outlined,
+        roles: const {UserRole.seller, UserRole.admin},
+        title: (l10n) => l10n.merchantTabLabel,
+        builder: (context) => MerchantDashboard(
+          kpis: _merchantKpis,
+          orders: _merchantOrders,
+        ),
+      ),
+      _HomeTab(
+        key: 'courier',
+        icon: Icons.delivery_dining_outlined,
+        roles: const {UserRole.courier, UserRole.admin},
+        title: (l10n) => l10n.courierTabLabel,
+        builder: (context) => CourierDashboard(
+          assignments: _assignments,
+          liveOrder: _activeOrder,
+        ),
+      ),
+      _HomeTab(
+        key: 'tracking',
+        icon: Icons.location_on_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.courier,
+          UserRole.seller,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.trackingTabLabel,
+        builder: (context) => OrderTrackingView(order: _activeOrder),
+      ),
+      _HomeTab(
+        key: 'profile',
+        icon: Icons.account_circle_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.courier,
+          UserRole.seller,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.profileTabLabel,
+        builder: (context) => ProfilePanel(
+          authService: auth,
+          settingsController: settings,
+          onOpenSettings: () => context.goNamed('settings'),
+        ),
+      ),
+      _HomeTab(
+        key: 'admin',
+        icon: Icons.dashboard_customize_outlined,
+        roles: const {UserRole.admin},
+        title: (l10n) => l10n.adminTabLabel,
+        builder: (context) => AdminConsolePanel(insights: _adminInsights),
+      ),
+    ];
+
+    final role = auth.role;
+    final visibleTabs = allTabs.where((tab) => tab.roles.contains(role)).toList();
+    return visibleTabs.isEmpty ? allTabs.where((tab) => tab.roles.contains(UserRole.explorer)).toList() : visibleTabs;
+  }
+
+  Future<void> _logout() async {
+    await context.read<AuthService>().signOut();
+    if (!mounted) {
+      return;
+    }
+    context.goNamed('login');
   }
 }
 
-class _QuickLinksCard extends StatelessWidget {
-  const _QuickLinksCard({
+class _HomeTab {
+  const _HomeTab({
+    required this.key,
+    required this.icon,
+    required this.roles,
     required this.title,
-    required this.quickLinks,
-    required this.onTap,
+    required this.builder,
   });
 
-  final String title;
-  final List<QuickLink> quickLinks;
-  final ValueChanged<String> onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 12),
-            ...quickLinks.map(
-              (link) => ListTile(
-                contentPadding: EdgeInsets.zero,
-                leading: const Icon(Icons.open_in_new),
-                title: Text(link.label),
-                onTap: () => onTap(link.url),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  final String key;
+  final IconData icon;
+  final Set<UserRole> roles;
+  final String Function(AppLocalizations l10n) title;
+  final WidgetBuilder builder;
 }
 
 class _FeedbackPanel extends StatelessWidget {

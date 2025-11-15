@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
+enum UserRole { explorer, seller, courier, admin }
+
 /// Thin wrapper around [FirebaseAuth] that exposes a listenable authentication
 /// state to the rest of the application. By notifying listeners whenever the
 /// status changes we can keep navigation, guards and widgets in sync without
@@ -21,10 +23,13 @@ class AuthService extends ChangeNotifier {
 
   AuthStatus _status = AuthStatus.unknown;
   User? _user;
+  UserRole _role = UserRole.explorer;
 
   AuthStatus get status => _status;
   User? get user => _user;
+  UserRole get role => _role;
   bool get isLoading => _status == AuthStatus.unknown;
+  List<UserRole> get supportedRoles => List<UserRole>.unmodifiable(UserRole.values);
 
   Future<String?> signIn(String email, String password) async {
     try {
@@ -61,6 +66,14 @@ class AuthService extends ChangeNotifier {
     await _auth.signOut();
   }
 
+  Future<void> selectRole(UserRole nextRole) async {
+    if (_role == nextRole) {
+      return;
+    }
+    _role = nextRole;
+    notifyListeners();
+  }
+
   Future<String?> sendPasswordResetEmail(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
@@ -89,7 +102,14 @@ class AuthService extends ChangeNotifier {
   void _handleUserChanged(User? user) {
     _user = user;
     _status = user == null ? AuthStatus.unauthenticated : AuthStatus.authenticated;
+    if (user == null) {
+      _role = UserRole.explorer;
+      notifyListeners();
+      return;
+    }
+
     notifyListeners();
+    unawaited(_hydrateRoleFromClaims(user));
   }
 
   String _mapFirebaseError(FirebaseAuthException exception) {
@@ -115,5 +135,52 @@ class AuthService extends ChangeNotifier {
   void dispose() {
     _subscription.cancel();
     super.dispose();
+  }
+
+  Future<void> _hydrateRoleFromClaims(User user) async {
+    try {
+      final result = await user.getIdTokenResult(true);
+      final roleClaim = result.claims?['role'];
+      final resolvedRole = _roleFromClaim(roleClaim);
+      if (resolvedRole != null && resolvedRole != _role) {
+        _role = resolvedRole;
+        notifyListeners();
+      }
+    } catch (error, stackTrace) {
+      debugPrint('Unable to hydrate user role from claims: $error\n$stackTrace');
+    }
+  }
+
+  UserRole? _roleFromClaim(Object? claim) {
+    if (claim is String) {
+      switch (claim.toLowerCase()) {
+        case 'seller':
+        case 'merchant':
+          return UserRole.seller;
+        case 'courier':
+        case 'rider':
+          return UserRole.courier;
+        case 'admin':
+        case 'administrator':
+          return UserRole.admin;
+        case 'explorer':
+        case 'customer':
+          return UserRole.explorer;
+      }
+    }
+    return null;
+  }
+
+  String roleDisplayName(UserRole role) {
+    switch (role) {
+      case UserRole.explorer:
+        return 'Explorer';
+      case UserRole.seller:
+        return 'Seller';
+      case UserRole.courier:
+        return 'Courier';
+      case UserRole.admin:
+        return 'Admin';
+    }
   }
 }
