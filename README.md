@@ -42,6 +42,7 @@ For a detailed overview of the project's architecture, please see [ARCHITECTURE.
 - [Technologies](#technologies)
 - [Prototype](#prototype)
 - [Installation](#installation)
+- [Audit & Compliance Toolkit](#audit--compliance-toolkit)
 - [Running the Backend](#running-the-backend)
 - [Contributing](#contributing)
 - [Future Development](#future-development)
@@ -145,6 +146,25 @@ Add `--release` to generate a Play Store-ready `.aab` bundle or `--device <id>` 
      flutter build linux
      ```
      (Consider applying obfuscation to desktop builds if sensitive logic is present.)
+
+## Audit & Compliance Toolkit
+
+Pour préparer des audits (ANSSI, RGPD, clients B2B), le dépôt fournit un **pack prêt à l’emploi** :
+
+- **Automatisation sécurité :**
+  - [Analyse CodeQL](.github/workflows/codeql.yml)
+  - [Dependabot](.github/dependabot.yml)
+  - Pipeline CI renforcée avec scans Trivy/Snyk et DAST OWASP ZAP ([ci-cd.yml](ci-cd.yml))
+- **Hardening infrastructure :** en-têtes HTTP, redirection HTTPS et rate limiting dans [nginx.conf](nginx.conf) et [default.conf](default.conf).
+- **Gouvernance & conformité :**
+  - [Politique de confidentialité](PRIVACY_POLICY_FR.md)
+  - [Mentions légales](MENTIONS_LEGALES_FR.md)
+  - [Disclaimer d’utilisation](DISCLAIMER.md)
+  - [Registre des traitements](doc/compliance/registre_traitements.md)
+  - [DPIA simplifiée](doc/compliance/DPIA_vision_week.md)
+  - [Modèle RBAC](doc/security/rbac.md)
+
+Consultez le récapitulatif [Audit-Ready Pack](doc/security/audit_ready_pack.md) pour les prochaines étapes recommandées.
 
 ## Running the Backend
 
