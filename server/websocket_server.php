@@ -1,8 +1,16 @@
 <?php
 // server/websocket_server.php
 
-require dirname(__DIR__) . '/vendor/autoload.php';
+foreach ([dirname(__DIR__) . '/vendor/autoload.php', dirname(__DIR__) . '/autoload.php'] as $autoloadPath) {
+    if (is_file($autoloadPath)) {
+        require $autoloadPath;
+        break;
+    }
+}
 
+use App\Security\AuthorizationException;
+use App\Security\FirebaseTokenValidator;
+use Psr\Http\Message\RequestInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use React\EventLoop\Factory as LoopFactory;
@@ -15,12 +23,18 @@ use Ratchet\WebSocket\WsServer;
 class Chat implements MessageComponentInterface {
     protected $clients;
 
-    public function __construct() {
+    public function __construct(private readonly FirebaseTokenValidator $tokenValidator) {
         $this->clients = new \SplObjectStorage; // Stores all connected clients
         echo "WebSocket Chat Server started.\n";
     }
 
     public function onOpen(ConnectionInterface $conn) {
+        if (!$this->authorize($conn)) {
+            $conn->send(json_encode(['error' => 'unauthorized']));
+            $conn->close();
+            return;
+        }
+
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
         echo "New connection! ({$conn->resourceId})\n";
@@ -56,6 +70,36 @@ class Chat implements MessageComponentInterface {
         echo "An error has occurred: {$e->getMessage()}\n";
         $conn->close();
     }
+
+    private function authorize(ConnectionInterface $conn): bool
+    {
+        $httpRequest = $conn->httpRequest ?? null;
+        $authorization = null;
+        $fallbackToken = null;
+
+        if ($httpRequest instanceof RequestInterface) {
+            $authorization = $httpRequest->getHeaderLine('Authorization');
+
+            $queryString = $httpRequest->getUri()->getQuery();
+            if (is_string($queryString)) {
+                parse_str($queryString, $params);
+                if (isset($params['token']) && is_string($params['token'])) {
+                    $fallbackToken = $params['token'];
+                }
+            }
+        }
+
+        try {
+            $this->tokenValidator->assertValidAuthorization($authorization, $fallbackToken);
+            return true;
+        } catch (AuthorizationException $exception) {
+            echo "Unauthorized connection attempt: {$exception->getMessage()}\n";
+            return false;
+        } catch (\Throwable $exception) {
+            echo "Token validation error: {$exception->getMessage()}\n";
+            return false;
+        }
+    }
 }
 
 // --- Server Setup ---
@@ -66,10 +110,12 @@ $loop = LoopFactory::create();
 
 $socket = new Reactor('0.0.0.0:' . $port, $loop);
 
+$tokenValidator = FirebaseTokenValidator::fromEnvironment();
+
 $server = new IoServer(
     new HttpServer(
         new WsServer(
-            new Chat()
+            new Chat($tokenValidator)
         )
     ),
     $socket,
