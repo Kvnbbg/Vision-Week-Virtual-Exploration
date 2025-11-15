@@ -266,7 +266,7 @@ spec:
         fsGroup: 999
       containers:
       - name: mysql
-        image: mysql:8.0
+        image: mysql:9.5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
