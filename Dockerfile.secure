@@ -2,7 +2,7 @@
 # Multi-stage build pour optimiser la sécurité et la taille
 
 # Stage 1: Build environment
-FROM ubuntu:22.04 AS build-env
+FROM ubuntu:24.04 AS build-env
 
 # Éviter les interactions pendant l'installation
 ENV DEBIAN_FRONTEND=noninteractive
