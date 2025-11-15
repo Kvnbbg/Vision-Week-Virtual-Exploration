@@ -1,0 +1,99 @@
+{
+  "branding": {
+    "appName": "Vision Week Virtual Exploration",
+    "tagline": "Discover the wonders of wildlife from anywhere",
+    "primaryColor": "#5C2E91",
+    "secondaryColor": "#FFB400"
+  },
+  "navigation": {
+    "initialRoute": "/welcome"
+  },
+  "home": {
+    "heroTitle": "Welcome to Vision Week!",
+    "heroSubtitle": "Explore immersive habitats, live events, and curated activities designed for hybrid teams.",
+    "randomMessages": [
+      "Explore and discover new possibilities!",
+      "Let's make the most out of our virtual journey!",
+      "Embrace creativity and innovation!",
+      "Join us in our exploration adventures!",
+      "Celebrate curiosity with every click!"
+    ],
+    "callToActions": [
+      {
+        "label": "Start Exploring",
+        "routeName": "welcome",
+        "style": "filled",
+        "icon": "explore"
+      },
+      {
+        "label": "Open Settings",
+        "routeName": "settings",
+        "style": "outlined",
+        "icon": "settings"
+      }
+    ],
+    "gallery": [
+      {
+        "title": "Lion",
+        "assetPath": "assets/images/lion.jpg",
+        "description": "King of the savannah."
+      },
+      {
+        "title": "Tiger",
+        "assetPath": "assets/images/tiger.jpg",
+        "description": "Stealthy forest predator."
+      },
+      {
+        "title": "Elephant",
+        "assetPath": "assets/images/elephant.jpg",
+        "description": "Gentle giant with a powerful memory."
+      },
+      {
+        "title": "Giraffe",
+        "assetPath": "assets/images/giraffe.jpg",
+        "description": "Tallest land animal with a lofty view."
+      },
+      {
+        "title": "Zebra",
+        "assetPath": "assets/images/zebra.jpg",
+        "description": "Stripes that stand out in every herd."
+      }
+    ],
+    "features": [
+      {
+        "title": "Live Tours",
+        "description": "Experience real-time guided sessions led by wildlife experts.",
+        "icon": "live"
+      },
+      {
+        "title": "Team Challenges",
+        "description": "Compete in friendly scavenger hunts to unlock hidden facts.",
+        "icon": "trophy"
+      },
+      {
+        "title": "Wellness Breaks",
+        "description": "Mindful audio journeys to reset focus during the day.",
+        "icon": "wellness"
+      }
+    ],
+    "featuresTitle": "Program highlights",
+    "galleryTitle": "Animal companions",
+    "quickLinksTitle": "Quick links",
+    "linkErrorMessage": "We couldn't open that link. Please try again later."
+  },
+  "welcome": {
+    "headline": "Welcome, Visionaries!",
+    "message": "Dive into curated habitats, insightful talks, and collaborative missions crafted for your organization.",
+    "primaryButtonLabel": "Enter the Habitat"
+  },
+  "quickLinks": [
+    {
+      "label": "Visit Program Site",
+      "url": "https://example.com/program"
+    },
+    {
+      "label": "Download Schedule",
+      "url": "https://example.com/schedule.pdf"
+    }
+  ]
+}
