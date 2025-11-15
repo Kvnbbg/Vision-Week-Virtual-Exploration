@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'ecran_principal.dart';
+
 import '../auth/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
-  _RegisterScreenState createState() => _RegisterScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String _errorMessage = '';
+  String? _feedbackMessage;
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -22,71 +26,120 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _register() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await Provider.of<AuthService>(context, listen: false)
-            .signUp(_emailController.text, _passwordController.text);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => EcranPrincipal()),
-        );
-      } catch (e) {
-        setState(() {
-          _errorMessage = 'Failed to register';
-        });
-      }
+  Future<void> _register() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = true;
+      _feedbackMessage = null;
+    });
+
+    final authService = context.read<AuthService>();
+    final result = await authService.signUp(
+      _emailController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isSubmitting = false;
+      _feedbackMessage = result;
+    });
+
+    if (result == null || result.contains('verification')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(result ?? AppLocalizations.of(context)!.registerSuccessMessage)),
+      );
+      context.goNamed('login');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(appLocalizations!.registerTitle),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: appLocalizations.email),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return appLocalizations.emailRequired;
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: appLocalizations.password),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return appLocalizations.passwordRequired;
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 20),
-              if (_errorMessage.isNotEmpty)
-                Text(
-                  _errorMessage,
-                  style: TextStyle(color: Colors.red),
+      appBar: AppBar(title: Text(l10n.registerTitle)),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 480),
+              child: Card(
+                elevation: 6,
+                child: Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(l10n.register, style: Theme.of(context).textTheme.headlineSmall),
+                        const SizedBox(height: 24),
+                        TextFormField(
+                          controller: _emailController,
+                          decoration: InputDecoration(labelText: l10n.email),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return l10n.emailRequired;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(labelText: l10n.password),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return l10n.passwordRequired;
+                            }
+                            if (value.length < 8) {
+                              return l10n.passwordTooShort;
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 24),
+                        if (_feedbackMessage != null) ...[
+                          Text(
+                            _feedbackMessage!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: Theme.of(context).colorScheme.secondary),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                        FilledButton(
+                          onPressed: _isSubmitting ? null : _register,
+                          child: _isSubmitting
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                )
+                              : Text(l10n.register),
+                        ),
+                        TextButton(
+                          onPressed: _isSubmitting ? null : () => context.goNamed('login'),
+                          child: Text(l10n.login),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _register,
-                child: Text(appLocalizations.register),
               ),
-            ],
+            ),
           ),
         ),
       ),

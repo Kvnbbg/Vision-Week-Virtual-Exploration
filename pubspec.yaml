@@ -28,6 +28,8 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
+  go_router: ^14.2.1
+  flex_color_scheme: ^7.3.1
   sqflite: ^2.3.3+1
   intl: ^0.20.2 # Updated to resolve conflict with flutter_localizations
   flutter_gen: ^5.6.0
@@ -55,8 +57,8 @@ flutter_gen:
   integrations:
     flutter_localizations: true
 
-# Removed incorrect root-level assets declaration
-
+# Localizations configuration aligned with generated ARB files
 l10n:
-  - lib/l10n/int_en.arb
-  - lib/l10n/int_fr.arb
+  arb-dir: lib/l10n
+  template-arb-file: app_en.arb
+  output-dir: lib/l10n/generated

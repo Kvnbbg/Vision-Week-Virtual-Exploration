@@ -1,41 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart'; // Import AppLocalizations
-import 'ecran_principal.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
-class WelcomeScreen extends StatefulWidget {
-  @override
-  WelcomeScreenState createState() => WelcomeScreenState();
-}
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
-class WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context)!; // Get AppLocalizations instance
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.welcomeAppBarTitle), // Use localized string
+        title: Text(l10n.welcomeAppBarTitle),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              appLocalizations.welcomeMessageBody, // Use localized string
-              style: TextStyle(fontSize: 24),
-              textAlign: TextAlign.center, // Added for better centering of longer text
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => EcranPrincipal()),
-                );
-              },
-              child: Text(appLocalizations.welcomeStartButton), // Use localized string
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.welcomeMessageBody,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () => context.goNamed('home'),
+                child: Text(l10n.welcomeStartButton),
+              ),
+            ],
+          ),
         ),
       ),
     );
