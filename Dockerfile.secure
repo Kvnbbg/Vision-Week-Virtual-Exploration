@@ -52,7 +52,7 @@ RUN flutter build web \
     --dart-define=FLUTTER_WEB_USE_SKIA=false
 
 # Stage 2: Production environment avec Nginx
-FROM nginx:1.25-alpine AS production
+FROM nginx:1.29-alpine AS production
 
 # Installer des outils de sécurité
 RUN apk add --no-cache \
