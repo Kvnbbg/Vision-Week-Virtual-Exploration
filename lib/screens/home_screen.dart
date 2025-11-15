@@ -1,214 +1,241 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
 import '../auth/auth_service.dart';
-import 'login.dart'; // Import your login screen if needed
+import '../core/data/sample_data.dart';
+import '../core/settings/settings_controller.dart';
+import 'admin_console_screen.dart';
+import 'courier_dashboard.dart';
+import 'explorer_dashboard.dart';
+import 'merchant_dashboard.dart';
+import 'order_tracking_screen.dart';
+import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _generatedText = "Press the button to generate text!";
-  final List<String> _animalImages = [
-    'assets/images/lion.jpg',
-    'assets/images/tiger.jpg',
-    'assets/images/elephant.jpg',
-    'assets/images/giraffe.jpg',
-    'assets/images/zebra.jpg',
-  ];
-  
-  final List<String> _animalNames = [
-    'Lion',
-    'Tiger',
-    'Elephant',
-    'Giraffe',
-    'Zebra',
-  ];
+  int _selectedIndex = 0;
+  late final LiveOrder _activeOrder;
+  late final List<ExperiencePackage> _experiences;
+  late final List<ExperienceBundle> _bundles;
+  late final List<MerchantKpi> _merchantKpis;
+  late final List<MerchantOrderSummary> _merchantOrders;
+  late final List<CourierAssignment> _assignments;
+  late final List<AdminInsight> _adminInsights;
 
-  String _feedback = '';
-  final List<String> _feedbackList = [];
-
-  void _generateRandomText() {
-    const texts = [
-      "Welcome to Vision Week!",
-      "Explore and discover new possibilities!",
-      "Let's make the most out of our virtual journey!",
-      "Embrace creativity and innovation!",
-      "Join us in our exploration adventures!",
-    ];
-
-    setState(() {
-      _generatedText = texts[Random().nextInt(texts.length)];
-    });
-  }
-
-  void _logout() async {
-    await AuthService().signOut();
-    if (!mounted) return;
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginScreen()));
-  }
-
-  void _submitFeedback() {
-    if (_feedback.isNotEmpty) {
-      setState(() {
-        _feedbackList.add(_feedback);
-        _feedback = '';
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    _activeOrder = SampleData.activeOrder();
+    _experiences = SampleData.featuredExperiences();
+    _bundles = SampleData.curatedBundles();
+    _merchantKpis = SampleData.merchantKpis();
+    _merchantOrders = SampleData.merchantOrders();
+    _assignments = SampleData.courierAssignments();
+    _adminInsights = SampleData.adminInsights();
   }
 
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final settings = context.watch<SettingsController>();
+    final auth = context.watch<AuthService>();
+    final tabs = _visibleTabs(l10n, auth, settings);
+    final selectedIndex = _selectedIndex.clamp(0, tabs.length - 1).toInt();
+    final selectedTab = tabs[selectedIndex];
+    final isDarkMode = settings.themeMode == ThemeMode.dark;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final useRail = screenWidth >= 1100;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(appLocalizations.homeTitle),
+        title: Text(selectedTab.title(l10n)),
         actions: [
           IconButton(
-            icon: Icon(Icons.logout),
-            tooltip: 'Logout', // TODO: Localize this string e.g., appLocalizations.logoutButtonTooltip
+            tooltip: l10n.logout,
             onPressed: _logout,
+            icon: const Icon(Icons.logout),
           ),
-          Switch(
-            value: Provider.of<SettingsProvider>(context).themeMode == ThemeMode.dark,
-            onChanged: (value) {
-              Provider.of<SettingsProvider>(context, listen: false).toggleTheme(value);
-            },
+          IconButton(
+            tooltip: isDarkMode ? l10n.lightModeDescription : l10n.darkModeDescription,
+            onPressed: () => settings.toggleDarkMode(!isDarkMode),
+            icon: Icon(isDarkMode ? Icons.dark_mode_outlined : Icons.light_mode_outlined),
           ),
-          DropdownButton<String>(
-            value: Provider.of<SettingsProvider>(context).locale.languageCode,
-            onChanged: (String? newValue) {
-              if (newValue != null) {
-                Provider.of<SettingsProvider>(context, listen: false).switchLocale(newValue);
-              }
-            },
-            items: <String>['en', 'fr'].map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value.toUpperCase()),
-              );
-            }).toList(),
-            icon: Icon(Icons.language),
+          PopupMenuButton<Locale>(
+            icon: const Icon(Icons.language),
+            tooltip: l10n.languagesTooltip,
+            onSelected: settings.updateLocale,
+            itemBuilder: (context) => [
+              PopupMenuItem(value: const Locale('en'), child: Text(l10n.languageEnglish)),
+              PopupMenuItem(value: const Locale('fr'), child: Text(l10n.languageFrench)),
+            ],
+          ),
+          IconButton(
+            tooltip: l10n.settings,
+            onPressed: () => context.goNamed('settings'),
+            icon: const Icon(Icons.settings_outlined),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                children: [
-                  Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          appLocalizations.welcomeMessage,
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          appLocalizations.exploreZoo,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Navigate to the zoo exploration page
-                          },
-                          child: Text(appLocalizations.startExploring),
-                        ),
-                        SizedBox(height: 20),
-                        Text(
-                          _generatedText,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: _generateRandomText,
-                          child: Text(appLocalizations.generateText),
-                        ),
-                        SizedBox(height: 20),
-                        // Animal Gallery
-                        Text(
-                          appLocalizations.animalGallery,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1,
-                          ),
-                          itemCount: _animalImages.length,
-                          itemBuilder: (context, index) {
-                            return Card(
-                              child: Column(
-                                children: [
-                                  Expanded( // Ensure image can expand
-                                    child: Image.asset(
-                                      _animalImages[index],
-                                      fit: BoxFit.cover,
-                                      semanticLabel: _animalNames[index], // Accessibility: Describe the image
-                                    ),
-                                  ),
-                                  Padding( // Add some padding for the text
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: Text(_animalNames[index]),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 20),
-                        // Feedback Section
-                        Text(
-                          appLocalizations.feedbackTitle,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        TextField(
-                          decoration: InputDecoration(
-                            labelText: appLocalizations.feedbackLabel,
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              _feedback = value;
-                            });
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: _submitFeedback,
-                          child: Text(appLocalizations.submitFeedback),
-                        ),
-                        SizedBox(height: 20),
-                        // Display Feedback
-                        Text(
-                          appLocalizations.feedbackListTitle,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        ..._feedbackList.map((feedback) => ListTile(title: Text(feedback))),
-                      ],
-                    ),
+      body: Row(
+        children: [
+          if (useRail)
+            NavigationRail(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) => setState(() => _selectedIndex = index),
+              extended: screenWidth >= 1440,
+              labelType: NavigationRailLabelType.selected,
+              destinations: [
+                for (final tab in tabs)
+                  NavigationRailDestination(
+                    icon: Icon(tab.icon),
+                    selectedIcon: Icon(tab.icon, color: Theme.of(context).colorScheme.primary),
+                    label: Text(tab.title(l10n)),
                   ),
-                ],
+              ],
+            ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 250),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              child: KeyedSubtree(
+                key: ValueKey(selectedTab.key),
+                child: selectedTab.builder(context),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+      bottomNavigationBar: useRail
+          ? null
+          : NavigationBar(
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (index) => setState(() => _selectedIndex = index),
+              destinations: [
+                for (final tab in tabs)
+                  NavigationDestination(
+                    icon: Icon(tab.icon),
+                    label: tab.title(l10n),
+                  ),
+              ],
+            ),
     );
   }
+
+  List<_HomeTab> _visibleTabs(
+    AppLocalizations l10n,
+    AuthService auth,
+    SettingsController settings,
+  ) {
+    final allTabs = <_HomeTab>[
+      _HomeTab(
+        key: 'explorer',
+        icon: Icons.auto_awesome_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.seller,
+          UserRole.courier,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.explorerTabLabel,
+        builder: (context) => ExplorerDashboard(
+          packages: _experiences,
+          bundles: _bundles,
+          liveOrder: _activeOrder,
+          onViewOrder: () => context.goNamed('order-tracking'),
+        ),
+      ),
+      _HomeTab(
+        key: 'merchant',
+        icon: Icons.storefront_outlined,
+        roles: const {UserRole.seller, UserRole.admin},
+        title: (l10n) => l10n.merchantTabLabel,
+        builder: (context) => MerchantDashboard(
+          kpis: _merchantKpis,
+          orders: _merchantOrders,
+        ),
+      ),
+      _HomeTab(
+        key: 'courier',
+        icon: Icons.delivery_dining_outlined,
+        roles: const {UserRole.courier, UserRole.admin},
+        title: (l10n) => l10n.courierTabLabel,
+        builder: (context) => CourierDashboard(
+          assignments: _assignments,
+          liveOrder: _activeOrder,
+        ),
+      ),
+      _HomeTab(
+        key: 'tracking',
+        icon: Icons.location_on_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.courier,
+          UserRole.seller,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.trackingTabLabel,
+        builder: (context) => OrderTrackingView(order: _activeOrder),
+      ),
+      _HomeTab(
+        key: 'profile',
+        icon: Icons.account_circle_outlined,
+        roles: const {
+          UserRole.explorer,
+          UserRole.courier,
+          UserRole.seller,
+          UserRole.admin,
+        },
+        title: (l10n) => l10n.profileTabLabel,
+        builder: (context) => ProfilePanel(
+          authService: auth,
+          settingsController: settings,
+          onOpenSettings: () => context.goNamed('settings'),
+        ),
+      ),
+      _HomeTab(
+        key: 'admin',
+        icon: Icons.dashboard_customize_outlined,
+        roles: const {UserRole.admin},
+        title: (l10n) => l10n.adminTabLabel,
+        builder: (context) => AdminConsolePanel(insights: _adminInsights),
+      ),
+    ];
+
+    final role = auth.role;
+    final visibleTabs = allTabs.where((tab) => tab.roles.contains(role)).toList();
+    return visibleTabs.isEmpty ? allTabs.where((tab) => tab.roles.contains(UserRole.explorer)).toList() : visibleTabs;
+  }
+
+  Future<void> _logout() async {
+    await context.read<AuthService>().signOut();
+    if (!mounted) {
+      return;
+    }
+    context.goNamed('login');
+  }
+}
+
+class _HomeTab {
+  const _HomeTab({
+    required this.key,
+    required this.icon,
+    required this.roles,
+    required this.title,
+    required this.builder,
+  });
+
+  final String key;
+  final IconData icon;
+  final Set<UserRole> roles;
+  final String Function(AppLocalizations l10n) title;
+  final WidgetBuilder builder;
 }

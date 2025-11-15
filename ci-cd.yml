@@ -153,10 +153,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push'
-    
+
     outputs:
       image-tag: ${{ steps.meta.outputs.tags }}
       image-digest: ${{ steps.build.outputs.digest }}
+      image-ref: ${{ steps.ref.outputs.image_ref }}
 
     steps:
       - name: Checkout code
@@ -201,6 +202,11 @@ jobs:
             VCS_REF=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
             VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
 
+      - name: Export image reference
+        id: ref
+        run: |
+          echo "image_ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}" >> "$GITHUB_OUTPUT"
+
       - name: Sign container image
         run: |
           echo "${{ secrets.COSIGN_PRIVATE_KEY }}" > cosign.key
@@ -217,11 +223,16 @@ jobs:
 
     steps:
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@0.21.0
         with:
-          image-ref: ${{ needs.build.outputs.image-tag }}
-          format: 'sarif'
-          output: 'trivy-results.sarif'
+          scan-type: image
+          image-ref: ${{ needs.build.outputs.image-ref }}
+          format: sarif
+          output: trivy-results.sarif
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          vuln-type: os,library
+          exit-code: '1'
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
@@ -233,8 +244,37 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: ${{ needs.build.outputs.image-tag }}
+          image: ${{ needs.build.outputs.image-ref }}
           args: --severity-threshold=high
+
+  dast:
+    name: DAST - OWASP ZAP
+    runs-on: ubuntu-latest
+    needs: deploy
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Check DAST target
+        id: target
+        run: |
+          if [ -z "${{ secrets.DAST_TARGET_URL }}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            echo "target=${{ secrets.DAST_TARGET_URL }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run ZAP baseline scan
+        if: steps.target.outputs.configured == 'true'
+        uses: zaproxy/action-baseline@v0.14.0
+        with:
+          target: ${{ steps.target.outputs.target }}
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+      - name: Skip ZAP scan (no target configured)
+        if: steps.target.outputs.configured != 'true'
+        run: echo 'ZAP scan skipped because DAST_TARGET_URL secret is not configured.'
 
   # Job 4: Déploiement automatique
   deploy:
@@ -321,7 +361,7 @@ jobs:
   post-deploy-tests:
     name: Post-Deployment Tests
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: [deploy, dast]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
 
     steps:

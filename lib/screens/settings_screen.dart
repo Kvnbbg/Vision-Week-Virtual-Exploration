@@ -1,43 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-// A StatelessWidget representing the settings screen
+import '../core/settings/settings_controller.dart';
+
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final settings = context.watch<SettingsController>();
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Paramètres'), // Screen title
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0), // Adds padding around the content
-        child: Center(
-          child: Text(
-            'Paramètres',
-            semanticsLabel: 'Settings Screen', // For better accessibility
-            style: Theme.of(context).textTheme.titleLarge, // Use the app's theme
+      appBar: AppBar(title: Text(l10n.settings)),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          Card(
+            child: SwitchListTile.adaptive(
+              value: settings.themeMode == ThemeMode.dark,
+              title: Text(l10n.darkModeLabel),
+              subtitle: Text(settings.themeMode == ThemeMode.dark
+                  ? l10n.darkModeDescription
+                  : l10n.lightModeDescription),
+              onChanged: (value) => settings.toggleDarkMode(value),
+            ),
           ),
-        ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              title: Text(l10n.languagePickerLabel),
+              subtitle: Text('${settings.locale.languageCode.toUpperCase()}'),
+              trailing: DropdownButton<Locale>(
+                value: settings.locale,
+                underline: const SizedBox(),
+                onChanged: (locale) {
+                  if (locale != null) {
+                    settings.updateLocale(locale);
+                  }
+                },
+                items: [
+                  DropdownMenuItem(value: const Locale('en'), child: Text(l10n.languageEnglish)),
+                  DropdownMenuItem(value: const Locale('fr'), child: Text(l10n.languageFrench)),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Card(
+            child: ListTile(
+              title: Text(l10n.accessibilityTitle),
+              subtitle: Text(l10n.accessibilityDescription),
+              leading: const Icon(Icons.accessibility_new),
+            ),
+          ),
+        ],
       ),
     );
   }
-}
-
-void main() {
-  runApp(
-    MaterialApp(
-      title: 'App de Paramètres', // Title for the app
-      theme: ThemeData(
-        primarySwatch: Colors.blue, // Define a primary theme color
-      ),
-      home: SettingsScreen(), // Main widget to show on the app start
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate, // To support multiple languages
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [
-        const Locale('fr', ''), // French localization
-        const Locale('en', ''), // English localization
-      ],
-    ),
-  );
 }
