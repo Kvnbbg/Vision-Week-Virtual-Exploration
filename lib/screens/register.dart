@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vision_week_virtual_exploration/l10n/generated/app_localizations.dart';
 
 import '../auth/auth_service.dart';
 

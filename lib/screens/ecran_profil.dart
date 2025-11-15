@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'package:vision_week_virtual_exploration/l10n/generated/app_localizations.dart';
+
 class EcranProfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
+    final appLocalizations = AppLocalizations.of(context)!;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
