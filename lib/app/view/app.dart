@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vision_week_virtual_exploration/l10n/generated/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
@@ -52,16 +52,8 @@ class _AppState extends State<App> {
             darkTheme: AppTheme.dark(),
             themeMode: widget.settingsController.themeMode,
             locale: widget.settingsController.locale,
-            supportedLocales: const [
-              Locale('en'),
-              Locale('fr'),
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
           );
         },
       ),

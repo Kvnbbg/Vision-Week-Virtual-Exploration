@@ -151,5 +151,21 @@
   "accessibilityDescription": "Responsive layout and larger tap targets are enabled by default.",
   "@accessibilityDescription": {
     "description": "Description for the accessibility card"
+  },
+  "userProfile": "User Profile",
+  "@userProfile": {
+    "description": "Title for the profile screen"
+  },
+  "manageProfile": "Manage your account and preferences.",
+  "@manageProfile": {
+    "description": "Description for managing the user profile"
+  },
+  "videos": "Videos",
+  "@videos": {
+    "description": "Title for the video screen"
+  },
+  "watchVideos": "Watch the latest exploration highlights.",
+  "@watchVideos": {
+    "description": "Description encouraging users to watch videos"
   }
 }

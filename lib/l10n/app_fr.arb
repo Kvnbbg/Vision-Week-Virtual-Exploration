@@ -151,5 +151,21 @@
   "accessibilityDescription": "Disposition adaptative et grandes zones tactiles activées par défaut.",
   "@accessibilityDescription": {
     "description": "Description pour la carte d'accessibilité"
+  },
+  "userProfile": "Profil utilisateur",
+  "@userProfile": {
+    "description": "Titre de l'écran de profil"
+  },
+  "manageProfile": "Gérez votre compte et vos préférences.",
+  "@manageProfile": {
+    "description": "Description pour la gestion du profil utilisateur"
+  },
+  "videos": "Vidéos",
+  "@videos": {
+    "description": "Titre de l'écran vidéo"
+  },
+  "watchVideos": "Regardez les derniers moments forts de l'exploration.",
+  "@watchVideos": {
+    "description": "Description invitant les utilisateurs à regarder des vidéos"
   }
 }
