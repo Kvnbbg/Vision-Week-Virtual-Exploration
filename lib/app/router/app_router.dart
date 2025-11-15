@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../auth/auth_service.dart';
+import '../../core/config/app_config.dart';
 import '../../screens/home_screen.dart';
 import '../../screens/login.dart';
 import '../../screens/register.dart';
@@ -12,12 +13,15 @@ import '../../screens/welcome_screen.dart';
 /// deep-link friendly navigation. The router listens to [AuthService] changes in
 /// order to redirect automatically when authentication state mutates.
 class AppRouter {
-  AppRouter({required AuthService authService}) : _authService = authService;
+  AppRouter({required AuthService authService, required NavigationConfig navigation})
+      : _authService = authService,
+        _navigation = navigation;
 
   final AuthService _authService;
+  final NavigationConfig _navigation;
 
   late final GoRouter router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: _navigation.initialRoute,
     refreshListenable: _authService,
     routes: <RouteBase>[
       GoRoute(

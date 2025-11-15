@@ -4,22 +4,32 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/auth_service.dart';
+import '../../core/config/app_config.dart';
 import '../../core/settings/settings_controller.dart';
 import '../router/app_router.dart';
 import '../theme/app_theme.dart';
 
 class App extends StatefulWidget {
-  const App({super.key, required this.settingsController, required this.authService});
+  const App({
+    super.key,
+    required this.settingsController,
+    required this.authService,
+    required this.config,
+  });
 
   final SettingsController settingsController;
   final AuthService authService;
+  final AppConfig config;
 
   @override
   State<App> createState() => _AppState();
 }
 
 class _AppState extends State<App> {
-  late final AppRouter _router = AppRouter(authService: widget.authService);
+  late final AppRouter _router = AppRouter(
+    authService: widget.authService,
+    navigation: widget.config.navigation,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +38,8 @@ class _AppState extends State<App> {
         ChangeNotifierProvider<SettingsController>.value(
           value: widget.settingsController,
         ),
-        ChangeNotifierProvider<AuthService>.value(
-          value: widget.authService,
-        ),
+        ChangeNotifierProvider<AuthService>.value(value: widget.authService),
+        Provider<AppConfig>.value(value: widget.config),
       ],
       child: AnimatedBuilder(
         animation: widget.settingsController,
@@ -46,10 +55,10 @@ class _AppState extends State<App> {
 
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
-            title: 'Vision Week Virtual Exploration',
+            title: widget.config.branding.appName,
             routerConfig: _router.router,
-            theme: AppTheme.light(),
-            darkTheme: AppTheme.dark(),
+            theme: AppTheme.light(widget.config.branding),
+            darkTheme: AppTheme.dark(widget.config.branding),
             themeMode: widget.settingsController.themeMode,
             locale: widget.settingsController.locale,
             supportedLocales: AppLocalizations.supportedLocales,
