@@ -239,3 +239,22 @@ class _HomeTab {
   final String Function(AppLocalizations l10n) title;
   final WidgetBuilder builder;
 }
+
+IconData? _iconForFeature(FeatureIcon? icon) {
+  switch (icon) {
+    case FeatureIcon.explore:
+      return Icons.travel_explore_outlined;
+    case FeatureIcon.settings:
+      return Icons.settings_outlined;
+    case FeatureIcon.live:
+      return Icons.videocam_outlined;
+    case FeatureIcon.trophy:
+      return Icons.emoji_events_outlined;
+    case FeatureIcon.wellness:
+      return Icons.self_improvement;
+    case FeatureIcon.info:
+      return Icons.info_outline;
+    case null:
+      return null;
+  }
+}
