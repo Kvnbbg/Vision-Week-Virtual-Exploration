@@ -166,6 +166,8 @@ Pour préparer des audits (ANSSI, RGPD, clients B2B), le dépôt fournit un **pa
 
 Consultez le récapitulatif [Audit-Ready Pack](doc/security/audit_ready_pack.md) pour les prochaines étapes recommandées.
 
+Pour une vue d'ensemble synthétique de la fiabilité, des garanties de sécurité et des responsabilités restantes (TVA, conformité EU/France, etc.), référez-vous au [Template Readiness & Reliability Overview](doc/template_readiness.md).
+
 ## Running the Backend
 
 1. **Install PHP**:
