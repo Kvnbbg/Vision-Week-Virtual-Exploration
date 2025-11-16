@@ -27,14 +27,20 @@ class SettingsStorage {
   }
 
   Future<void> writeTheme(ThemeMode mode) async {
-    await _preferences.setString(
-      _themeKey,
-      switch (mode) {
-        ThemeMode.dark => 'dark',
-        ThemeMode.light => 'light',
-        ThemeMode.system => 'system',
-      },
-    );
+    String serializedMode;
+    switch (mode) {
+      case ThemeMode.dark:
+        serializedMode = 'dark';
+        break;
+      case ThemeMode.light:
+        serializedMode = 'light';
+        break;
+      case ThemeMode.system:
+        serializedMode = 'system';
+        break;
+    }
+
+    await _preferences.setString(_themeKey, serializedMode);
   }
 
   Locale readLocale() {
