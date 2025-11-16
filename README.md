@@ -2,6 +2,8 @@
 
 [![Play Live 🚀]()]()
 
+Vision Week is a full-stack template that pairs a Flutter client with a PHP Slim API, a realtime WebSocket service, MySQL, and Firebase services, so you get a cross-platform UI layer and well-documented backend responsibilities out of the box
+
 ![Logo](img/logo.png)
 
 [![Contributors](https://img.shields.io/github/contributors/Kvnbbg/Vision-Week-Virtual-Exploration)](https://github.com/Kvnbbg/Vision-Week-Virtual-Exploration/graphs/contributors)
