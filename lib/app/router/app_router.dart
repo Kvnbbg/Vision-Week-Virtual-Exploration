@@ -48,14 +48,16 @@ class AppRouter {
     ],
     redirect: (context, state) {
       final loggedIn = _authService.isUserLoggedIn();
+      final isVerified = _authService.isEmailVerified;
+      final hasVerifiedSession = loggedIn && isVerified;
       final loggingIn = state.matchedLocation == '/login' ||
           state.matchedLocation == '/register';
       final onWelcome = state.matchedLocation == '/welcome';
 
-      if (!loggedIn && !loggingIn && !onWelcome) {
+      if (!hasVerifiedSession && !loggingIn && !onWelcome) {
         return '/login';
       }
-      if (loggedIn && loggingIn) {
+      if (hasVerifiedSession && loggingIn) {
         return '/home';
       }
       return null;
