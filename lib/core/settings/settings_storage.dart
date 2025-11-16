@@ -27,7 +27,7 @@ class SettingsStorage {
   }
 
   Future<void> writeTheme(ThemeMode mode) async {
-    String serializedMode;
+    var serializedMode = 'system';
     switch (mode) {
       case ThemeMode.dark:
         serializedMode = 'dark';
@@ -36,7 +36,6 @@ class SettingsStorage {
         serializedMode = 'light';
         break;
       case ThemeMode.system:
-        serializedMode = 'system';
         break;
     }
 
