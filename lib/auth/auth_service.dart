@@ -35,6 +35,7 @@ class AuthService extends ChangeNotifier {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
+        await _auth.signOut();
         return 'Please verify your email before logging in.';
       }
       return null;
@@ -51,6 +52,7 @@ class AuthService extends ChangeNotifier {
       await _auth.createUserWithEmailAndPassword(email: email, password: password);
       if (_auth.currentUser != null && !_auth.currentUser!.emailVerified) {
         await _auth.currentUser!.sendEmailVerification();
+        await _auth.signOut();
         return 'A verification email has been sent. Please verify your email.';
       }
       return null;
@@ -95,16 +97,27 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  bool isUserLoggedIn() => _status == AuthStatus.authenticated && _user != null;
+  bool isUserLoggedIn() =>
+      _status == AuthStatus.authenticated && _user != null && _user!.emailVerified;
 
   bool get isEmailVerified => _user?.emailVerified ?? false;
 
   void _handleUserChanged(User? user) {
     _user = user;
-    _status = user == null ? AuthStatus.unauthenticated : AuthStatus.authenticated;
+    final bool isVerified = user?.emailVerified ?? false;
+    _status = (user != null && isVerified)
+        ? AuthStatus.authenticated
+        : AuthStatus.unauthenticated;
+
     if (user == null) {
       _role = UserRole.explorer;
       notifyListeners();
+      return;
+    }
+
+    if (!isVerified) {
+      notifyListeners();
+      unawaited(_auth.signOut());
       return;
     }
 
