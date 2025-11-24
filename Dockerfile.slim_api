@@ -1,7 +1,7 @@
 # Dockerfile for the Slim API (PHP/Apache)
 
 # Use an official PHP image with Apache
-FROM php:8.0-apache
+FROM php:8.5-apache
 
 # Install necessary PHP extensions for MySQL
 # and any other extensions your Slim app might need (e.g., mbstring, intl if using localization in API)
