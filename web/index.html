@@ -1,51 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vision Week Virtual Exploration</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="description" content="Explore the wonders of virtual experiences at Vision Week Virtual Exploration.">
-  <meta name="keywords" content="Virtual, Exploration, Vision Week, Experiences">
-  <meta name="author" content="Vision Week Team">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Consultation Index | Vision Week</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta
+    name="description"
+    content="Consultation index for Vision Week Virtual Exploration with secure bilingual access."
+  />
 </head>
-<body class="light-mode">
-  <div class="header">
-    <div class="language-selector">
-      <button aria-label="Switch to English" onclick="setLanguage('en')">English</button>
-      <button aria-label="Switch to French" onclick="setLanguage('fr')">Français</button>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="brand">
+        <span>VW</span>
+        <div data-i18n="brand">Vision Week</div>
+      </div>
+      <div class="nav-actions">
+        <div class="toggle-group" role="radiogroup" aria-label="Language selector">
+          <button type="button" data-language="en" aria-pressed="false">EN</button>
+          <button type="button" data-language="fr" aria-pressed="false">FR</button>
+        </div>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+          🌗 Theme
+        </button>
+      </div>
     </div>
-    <div class="mode-toggle">
-      <button aria-label="Toggle Dark/Light Mode" onclick="toggleMode()">Toggle Dark/Light Mode</button>
-    </div>
-  </div>
-  <div class="container">
-    <h1 id="title">Welcome to Vision Week Virtual Exploration</h1>
-    <p id="description">Explore the wonders of virtual experiences.</p>
-  </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="badge">Family-first access</div>
+        <h1 data-i18n="heroTitle">Consultation hub for the Vision Week family</h1>
+        <p data-i18n="heroSubtitle">
+          A secure, bilingual space to book consultations, explore experiences, and stay connected with the
+          community.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="explore_home.html" data-i18n="ctaPrimary">Enter the consultation hub</a>
+          <a class="button-secondary" href="landing.html" data-i18n="ctaSecondary">See the landing page</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero-card">
+          <h2 data-i18n="indexTitle">Quick access</h2>
+          <p data-i18n="indexSubtitle">
+            Choose an experience or learn more about what the family is building together.
+          </p>
+          <div class="index-grid">
+            <div class="index-card">
+              <h3 data-i18n="exploreTitle">Virtual exploration</h3>
+              <p data-i18n="exploreDesc">Explore curated virtual journeys and vision week highlights.</p>
+              <a class="button-secondary" href="explore_home.html">Explore</a>
+            </div>
+            <div class="index-card">
+              <h3 data-i18n="mobilityTitle">Mobility stories</h3>
+              <p data-i18n="mobilityDesc">Discover adaptive cars and mobility showcases.</p>
+              <a class="button-secondary" href="cars.html">Visit</a>
+            </div>
+            <div class="index-card">
+              <h3 data-i18n="wellnessTitle">Wellness studio</h3>
+              <p data-i18n="wellnessDesc">Join wellness and gym sessions tailored to the community.</p>
+              <a class="button-secondary" href="gym.html">Join</a>
+            </div>
+            <div class="index-card">
+              <h3 data-i18n="nbaTitle">Athlete spotlight</h3>
+              <p data-i18n="nbaDesc">Follow inspiring athlete collaborations and events.</p>
+              <a class="button-secondary" href="nba.html">See more</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="auth-panel">
+        <div class="auth-status">
+          <div>
+            <div class="badge" data-i18n="authTitle">Join the family</div>
+            <h2 data-i18n="authSubtitle">
+              Create your secure account to participate in consultations and member-only content.
+            </h2>
+            <p class="notice" id="authMessage" data-i18n="statusGuest">Not connected yet</p>
+          </div>
+          <form id="logoutForm" action="auth.php" method="post" hidden>
+            <input type="hidden" name="action" value="logout" />
+            <input type="hidden" name="csrf_token" value="" />
+            <input type="hidden" name="redirect" value="index.html" />
+            <button class="button-secondary" type="submit" data-i18n="logoutButton">Sign out</button>
+          </form>
+        </div>
+        <div class="auth-forms" id="authForms">
+          <div class="form-card">
+            <h3 data-i18n="registerTitle">Register</h3>
+            <form action="auth.php" method="post">
+              <input type="hidden" name="action" value="register" />
+              <input type="hidden" name="csrf_token" value="" />
+              <input type="hidden" name="redirect" value="index.html" />
+              <label for="registerName" data-i18n="fullName">Full name</label>
+              <input id="registerName" name="full_name" type="text" required autocomplete="name" />
+              <label for="registerEmail" data-i18n="email">Email</label>
+              <input id="registerEmail" name="email" type="email" required autocomplete="email" />
+              <label for="registerPassword" data-i18n="password">Password</label>
+              <input
+                id="registerPassword"
+                name="password"
+                type="password"
+                minlength="8"
+                required
+                autocomplete="new-password"
+              />
+              <button class="button-primary" type="submit" data-i18n="registerButton">Create account</button>
+            </form>
+          </div>
+          <div class="form-card">
+            <h3 data-i18n="loginTitle">Sign in</h3>
+            <form action="auth.php" method="post">
+              <input type="hidden" name="action" value="login" />
+              <input type="hidden" name="csrf_token" value="" />
+              <input type="hidden" name="redirect" value="index.html" />
+              <label for="loginEmail" data-i18n="email">Email</label>
+              <input id="loginEmail" name="email" type="email" required autocomplete="email" />
+              <label for="loginPassword" data-i18n="password">Password</label>
+              <input
+                id="loginPassword"
+                name="password"
+                type="password"
+                minlength="8"
+                required
+                autocomplete="current-password"
+              />
+              <button class="button-primary" type="submit" data-i18n="loginButton">Sign in</button>
+            </form>
+          </div>
+        </div>
+        <p class="notice">
+          Secure fallback uses SQLite locally. Serverless database bridges can replace this layer later without
+          changing the UX.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Vision Week Virtual Exploration • Secure consultation hub
+  </footer>
+
+  <script src="app.js"></script>
   <script>
-    const translations = {
-      en: {
-        title: "Welcome to Vision Week Virtual Exploration",
-        description: "Explore the wonders of virtual experiences."
-      },
-      fr: {
-        title: "Bienvenue à la Semaine de la Vision Exploration Virtuelle",
-        description: "Explorez les merveilles des expériences virtuelles."
+    const authMessage = document.getElementById('authMessage');
+    const authForms = document.getElementById('authForms');
+    const logoutForm = document.getElementById('logoutForm');
+    let authState = { authenticated: false, user: null };
+
+    function setCsrfToken(token) {
+      document.querySelectorAll('input[name="csrf_token"]').forEach((input) => {
+        input.value = token;
+      });
+    }
+
+    function updateAuthMessage() {
+      if (authState.authenticated) {
+        authMessage.textContent = `${translations[document.documentElement.lang].statusMember} ${authState.user.fullName}`;
+        authForms.hidden = true;
+        logoutForm.hidden = false;
+      } else {
+        authMessage.textContent = translations[document.documentElement.lang].statusGuest;
+        authForms.hidden = false;
+        logoutForm.hidden = true;
       }
-    };
-
-    function setLanguage(lang) {
-      document.getElementById('title').innerText = translations[lang].title;
-      document.getElementById('description').innerText = translations[lang].description;
-      document.documentElement.lang = lang;
     }
 
-    function toggleMode() {
-      document.body.classList.toggle('dark-mode');
-      document.body.classList.toggle('light-mode');
-    }
+    fetch('auth_status.php', { credentials: 'same-origin' })
+      .then((response) => response.json())
+      .then((data) => {
+        authState = data;
+        setCsrfToken(data.csrfToken);
+        updateAuthMessage();
+      })
+      .catch(() => {
+        authMessage.textContent = 'Secure auth status unavailable.';
+      });
+
+    document.addEventListener('languagechange', updateAuthMessage);
   </script>
-  <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
