@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing | Vision Week</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta
+    name="description"
+    content="Landing page for the Vision Week consultation web app with bilingual access."
+  />
+</head>
+<body>
+  <header>
+    <div class="navbar">
+      <div class="brand">
+        <span>VW</span>
+        <div data-i18n="brand">Vision Week</div>
+      </div>
+      <div class="nav-actions">
+        <div class="toggle-group" role="radiogroup" aria-label="Language selector">
+          <button type="button" data-language="en" aria-pressed="false">EN</button>
+          <button type="button" data-language="fr" aria-pressed="false">FR</button>
+        </div>
+        <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
+          🌗 Theme
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-card">
+        <div class="badge" data-i18n="landingHighlight">Bilingual • Secure • Family-first</div>
+        <h1 data-i18n="landingTitle">A welcoming space for consultation and community</h1>
+        <p data-i18n="landingSubtitle">
+          Switch languages instantly, sign up securely, and navigate every experience with ease.
+        </p>
+        <div class="hero-actions">
+          <a class="button-primary" href="index.html" data-i18n="landingCta">View the consultation index</a>
+          <a class="button-secondary" href="explore_home.html">Explore now</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <h2>Why Vision Week?</h2>
+        <p>
+          The consultation web app connects families to curated explorations, wellness programs, and community
+          support. Secure sign-in ensures every member gets personalized guidance.
+        </p>
+        <ul>
+          <li>Instant EN/FR toggle with persistent preference.</li>
+          <li>Guided registration flow for community access.</li>
+          <li>Future-ready integration for serverless databases.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Vision Week Virtual Exploration • Landing page
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
