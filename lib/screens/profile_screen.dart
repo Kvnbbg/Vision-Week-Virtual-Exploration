@@ -21,6 +21,7 @@ class ProfilePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final user = authService.user;
+    final dailyNotification = _dailyNotificationMessage(DateTime.now(), l10n);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 120),
@@ -108,6 +109,12 @@ class ProfilePanel extends StatelessWidget {
                 ),
                 const Divider(height: 0),
                 ListTile(
+                  leading: const Icon(Icons.campaign_outlined),
+                  title: Text(l10n.profileDailyNotificationTitle),
+                  subtitle: Text(dailyNotification),
+                ),
+                const Divider(height: 0),
+                ListTile(
                   leading: const Icon(Icons.lock_outline),
                   title: Text(l10n.profileSecurity),
                   subtitle: Text(l10n.profileSecuritySubtitle),
@@ -144,6 +151,20 @@ class ProfilePanel extends StatelessWidget {
         return l10n.roleCourier;
       case UserRole.admin:
         return l10n.roleAdmin;
+    }
+  }
+
+  String _dailyNotificationMessage(DateTime now, AppLocalizations l10n) {
+    switch (now.weekday) {
+      case DateTime.monday:
+        return l10n.notificationStartOfWeek;
+      case DateTime.friday:
+        return l10n.notificationAlmostWeekend;
+      case DateTime.saturday:
+      case DateTime.sunday:
+        return l10n.notificationWeekend;
+      default:
+        return l10n.notificationRegularDay;
     }
   }
 }
