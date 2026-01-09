@@ -487,6 +487,26 @@
   "@profileNotificationsSubtitle": {
     "description": "Subtitle describing notifications"
   },
+  "profileDailyNotificationTitle": "Today",
+  "@profileDailyNotificationTitle": {
+    "description": "Title for the daily notification preview"
+  },
+  "notificationStartOfWeek": "Start of the week.",
+  "@notificationStartOfWeek": {
+    "description": "Notification shown on Mondays"
+  },
+  "notificationAlmostWeekend": "Almost weekend.",
+  "@notificationAlmostWeekend": {
+    "description": "Notification shown on Fridays"
+  },
+  "notificationWeekend": "Weekend!",
+  "@notificationWeekend": {
+    "description": "Notification shown on Saturdays and Sundays"
+  },
+  "notificationRegularDay": "Regular day.",
+  "@notificationRegularDay": {
+    "description": "Notification shown on other weekdays"
+  },
   "profileSecurity": "Security",
   "@profileSecurity": {
     "description": "List tile title for security"

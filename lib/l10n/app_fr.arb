@@ -487,6 +487,26 @@
   "@profileNotificationsSubtitle": {
     "description": "Sous-titre de la ligne notifications"
   },
+  "profileDailyNotificationTitle": "Aujourd'hui",
+  "@profileDailyNotificationTitle": {
+    "description": "Titre pour l'aperçu des notifications quotidiennes"
+  },
+  "notificationStartOfWeek": "Début de semaine.",
+  "@notificationStartOfWeek": {
+    "description": "Notification affichée le lundi"
+  },
+  "notificationAlmostWeekend": "Presque le week-end.",
+  "@notificationAlmostWeekend": {
+    "description": "Notification affichée le vendredi"
+  },
+  "notificationWeekend": "Week-end !",
+  "@notificationWeekend": {
+    "description": "Notification affichée le samedi et le dimanche"
+  },
+  "notificationRegularDay": "Journée normale.",
+  "@notificationRegularDay": {
+    "description": "Notification affichée les autres jours"
+  },
   "profileSecurity": "Sécurité",
   "@profileSecurity": {
     "description": "Titre de la ligne sécurité"
