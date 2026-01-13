@@ -31,7 +31,7 @@
 
   <main>
     <section class="hero">
-      <div class="hero-card">
+      <div class="hero-card" data-animate>
         <div class="badge">Family-first access</div>
         <h1 data-i18n="heroTitle">Consultation hub for the Vision Week family</h1>
         <p data-i18n="heroSubtitle">
@@ -44,28 +44,28 @@
         </div>
       </div>
       <div>
-        <div class="hero-card">
+        <div class="hero-card" data-animate>
           <h2 data-i18n="indexTitle">Quick access</h2>
           <p data-i18n="indexSubtitle">
             Choose an experience or learn more about what the family is building together.
           </p>
           <div class="index-grid">
-            <div class="index-card">
+            <div class="index-card" data-animate>
               <h3 data-i18n="exploreTitle">Virtual exploration</h3>
               <p data-i18n="exploreDesc">Explore curated virtual journeys and vision week highlights.</p>
               <a class="button-secondary" href="explore_home.html">Explore</a>
             </div>
-            <div class="index-card">
+            <div class="index-card" data-animate>
               <h3 data-i18n="mobilityTitle">Mobility stories</h3>
               <p data-i18n="mobilityDesc">Discover adaptive cars and mobility showcases.</p>
               <a class="button-secondary" href="cars.html">Visit</a>
             </div>
-            <div class="index-card">
+            <div class="index-card" data-animate>
               <h3 data-i18n="wellnessTitle">Wellness studio</h3>
               <p data-i18n="wellnessDesc">Join wellness and gym sessions tailored to the community.</p>
               <a class="button-secondary" href="gym.html">Join</a>
             </div>
-            <div class="index-card">
+            <div class="index-card" data-animate>
               <h3 data-i18n="nbaTitle">Athlete spotlight</h3>
               <p data-i18n="nbaDesc">Follow inspiring athlete collaborations and events.</p>
               <a class="button-secondary" href="nba.html">See more</a>
@@ -76,7 +76,90 @@
     </section>
 
     <section class="section">
-      <div class="auth-panel">
+      <div class="whiteout-panel" data-animate>
+        <div class="whiteout-header">
+          <div>
+            <div class="badge" data-i18n="whiteoutBadge">Whiteout braking display</div>
+            <h2 data-i18n="whiteoutTitle">Adaptive braking for every journey</h2>
+            <p data-i18n="whiteoutSubtitle">
+              Simulate braking readiness, calibrate the system, and preview safer stopping distances for
+              families on the move.
+            </p>
+          </div>
+          <div class="whiteout-status" data-whiteout-status data-i18n="whiteoutCalibrate">
+            Calibrate now
+          </div>
+        </div>
+        <div class="whiteout-grid">
+          <div class="whiteout-card" data-animate>
+            <h3 data-i18n="whiteoutModeLabel">Braking mode</h3>
+            <p data-i18n="whiteoutModeDesc">
+              Switch between presets to understand how the braking system behaves in changing conditions.
+            </p>
+            <div class="mode-toggle" role="group" aria-label="Braking modes">
+              <button type="button" data-whiteout-mode="urban" aria-pressed="false" data-i18n="whiteoutModeUrban">
+                Urban
+              </button>
+              <button
+                type="button"
+                data-whiteout-mode="highway"
+                aria-pressed="false"
+                data-i18n="whiteoutModeHighway"
+              >
+                Highway
+              </button>
+              <button type="button" data-whiteout-mode="night" aria-pressed="false" data-i18n="whiteoutModeNight">
+                Night
+              </button>
+            </div>
+            <div class="mode-details" data-whiteout-details>
+              <h4 data-whiteout-mode-name>Urban calm</h4>
+              <p data-whiteout-mode-detail>
+                Slow speed optimization with extra pedestrian awareness and smooth deceleration.
+              </p>
+            </div>
+          </div>
+          <div class="whiteout-card" data-animate>
+            <h3 data-i18n="whiteoutRangeLabel">Estimated travel speed</h3>
+            <p data-i18n="whiteoutRangeHint">Adjust the slider to estimate the braking distance.</p>
+            <input
+              class="braking-slider"
+              type="range"
+              min="10"
+              max="120"
+              value="45"
+              data-braking-range
+              aria-label="Braking speed"
+            />
+            <div class="braking-readout">
+              <div>
+                <span class="label" data-i18n="whiteoutSpeedLabel">Speed</span>
+                <strong data-braking-speed>45 km/h</strong>
+              </div>
+              <div>
+                <span class="label" data-i18n="whiteoutDistanceLabel">Estimated stopping distance</span>
+                <strong data-braking-distance>34 m</strong>
+              </div>
+            </div>
+          </div>
+          <div class="whiteout-card whiteout-control" data-animate>
+            <h3 data-i18n="whiteoutReadyTitle">Daily readiness check</h3>
+            <p data-i18n="whiteoutReadyDesc">
+              Keep the consultation fleet prepared with a live check-in and a gentle safety pulse.
+            </p>
+            <button class="button-primary" type="button" data-whiteout-calibrate data-i18n="whiteoutCalibrate">
+              Calibrate now
+            </button>
+            <div class="pulse-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-panel" data-animate>
         <div class="auth-status">
           <div>
             <div class="badge" data-i18n="authTitle">Join the family</div>

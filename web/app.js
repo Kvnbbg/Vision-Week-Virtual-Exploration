@@ -34,7 +34,41 @@ const translations = {
     landingSubtitle:
       "Switch languages instantly, sign up securely, and navigate every experience with ease.",
     landingCta: "View the consultation index",
-    landingHighlight: "Bilingual • Secure • Family-first"
+    landingHighlight: "Bilingual • Secure • Family-first",
+    whiteoutBadge: "Whiteout braking display",
+    whiteoutTitle: "Adaptive braking for every journey",
+    whiteoutSubtitle:
+      "Simulate braking readiness, calibrate the system, and preview safer stopping distances for families on the move.",
+    whiteoutModeLabel: "Braking mode",
+    whiteoutModeDesc:
+      "Switch between presets to understand how the braking system behaves in changing conditions.",
+    whiteoutModes: {
+      urban: {
+        name: "Urban calm",
+        detail: "Slow speed optimization with extra pedestrian awareness and smooth deceleration."
+      },
+      highway: {
+        name: "Highway control",
+        detail: "Long-range scanning with dynamic pressure to keep confidence at higher speeds."
+      },
+      night: {
+        name: "Night clarity",
+        detail: "Enhanced light sensing with added stopping buffer for low-visibility routes."
+      }
+    },
+    whiteoutRangeLabel: "Estimated travel speed",
+    whiteoutRangeHint: "Adjust the slider to estimate the braking distance.",
+    whiteoutDistanceLabel: "Estimated stopping distance",
+    whiteoutSpeedLabel: "Speed",
+    whiteoutReadyTitle: "Daily readiness check",
+    whiteoutReadyDesc:
+      "Keep the consultation fleet prepared with a live check-in and a gentle safety pulse.",
+    whiteoutModeUrban: "Urban",
+    whiteoutModeHighway: "Highway",
+    whiteoutModeNight: "Night",
+    whiteoutCalibrate: "Calibrate now",
+    whiteoutCalibrated: "Calibration in progress…",
+    whiteoutCalibratedDone: "Calibration complete"
   },
   fr: {
     brand: "Semaine de la Vision",
@@ -71,17 +105,64 @@ const translations = {
     landingSubtitle:
       "Changez de langue instantanément, inscrivez-vous en toute sécurité et naviguez facilement.",
     landingCta: "Voir l'index des consultations",
-    landingHighlight: "Bilingue • Sécurisé • Famille d'abord"
+    landingHighlight: "Bilingue • Sécurisé • Famille d'abord",
+    whiteoutBadge: "Affichage du freinage Whiteout",
+    whiteoutTitle: "Freinage adaptatif pour chaque trajet",
+    whiteoutSubtitle:
+      "Simulez la préparation du freinage, calibrez le système et anticipez des distances d'arrêt plus sûres.",
+    whiteoutModeLabel: "Mode de freinage",
+    whiteoutModeDesc:
+      "Basculez entre les préréglages pour comprendre le comportement du freinage selon les conditions.",
+    whiteoutModes: {
+      urban: {
+        name: "Calme urbain",
+        detail: "Optimisation à basse vitesse avec attention piétonne et décélération douce."
+      },
+      highway: {
+        name: "Contrôle autoroute",
+        detail: "Analyse longue portée et pression dynamique pour les vitesses élevées."
+      },
+      night: {
+        name: "Clarté nocturne",
+        detail: "Capteurs renforcés et marge d'arrêt pour faible visibilité."
+      }
+    },
+    whiteoutRangeLabel: "Vitesse estimée",
+    whiteoutRangeHint: "Ajustez le curseur pour estimer la distance d'arrêt.",
+    whiteoutDistanceLabel: "Distance d'arrêt estimée",
+    whiteoutSpeedLabel: "Vitesse",
+    whiteoutReadyTitle: "Vérification quotidienne",
+    whiteoutReadyDesc:
+      "Gardez la flotte prête avec un check-in en direct et une impulsion de sécurité.",
+    whiteoutModeUrban: "Urbain",
+    whiteoutModeHighway: "Autoroute",
+    whiteoutModeNight: "Nuit",
+    whiteoutCalibrate: "Calibrer maintenant",
+    whiteoutCalibrated: "Calibration en cours…",
+    whiteoutCalibratedDone: "Calibration terminée"
   }
 };
 
-const languageButtons = document.querySelectorAll('[data-language]');
-const themeToggle = document.querySelector('[data-theme-toggle]');
+const $ = (selector, scope = document) => scope.querySelector(selector);
+const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
+
+const languageButtons = $$('[data-language]');
+const themeToggle = $('[data-theme-toggle]');
+const animatedItems = $$('[data-animate]');
+const whiteoutModeButtons = $$('[data-whiteout-mode]');
+const whiteoutModeDetails = $('[data-whiteout-details]');
+const brakingRange = $('[data-braking-range]');
+const brakingSpeed = $('[data-braking-speed]');
+const brakingDistance = $('[data-braking-distance]');
+const calibrateButton = $('[data-whiteout-calibrate]');
+const calibrateStatus = $('[data-whiteout-status]');
+let currentLanguage = 'en';
 
 function applyLanguage(lang) {
   const dictionary = translations[lang] || translations.en;
+  currentLanguage = lang;
   document.documentElement.lang = lang;
-  document.querySelectorAll('[data-i18n]').forEach((el) => {
+  $$('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
     if (dictionary[key]) {
       el.textContent = dictionary[key];
@@ -123,3 +204,72 @@ const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
 const savedTheme = localStorage.getItem('preferredTheme') || 'light';
 applyLanguage(savedLanguage);
 applyTheme(savedTheme);
+
+const intersectionObserver =
+  animatedItems.length > 0
+    ? new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              intersectionObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2 }
+      )
+    : null;
+
+animatedItems.forEach((item) => intersectionObserver?.observe(item));
+
+const updateWhiteoutMode = (mode) => {
+  const dictionary = translations[currentLanguage] || translations.en;
+  const modeData = dictionary.whiteoutModes?.[mode];
+  if (!modeData || !whiteoutModeDetails) return;
+  whiteoutModeDetails.querySelector('[data-whiteout-mode-name]').textContent = modeData.name;
+  whiteoutModeDetails.querySelector('[data-whiteout-mode-detail]').textContent = modeData.detail;
+  whiteoutModeButtons.forEach((button) => {
+    button.setAttribute('aria-pressed', button.dataset.whiteoutMode === mode ? 'true' : 'false');
+  });
+};
+
+const updateBrakingDistance = () => {
+  if (!brakingRange || !brakingSpeed || !brakingDistance) return;
+  const speed = Number(brakingRange.value);
+  const distance = Math.round(speed * 0.75);
+  brakingSpeed.textContent = `${speed} km/h`;
+  brakingDistance.textContent = `${distance} m`;
+};
+
+whiteoutModeButtons.forEach((button) => {
+  button.addEventListener('click', () => updateWhiteoutMode(button.dataset.whiteoutMode));
+});
+
+if (brakingRange) {
+  brakingRange.addEventListener('input', updateBrakingDistance);
+  updateBrakingDistance();
+}
+
+if (calibrateButton && calibrateStatus) {
+  calibrateButton.addEventListener('click', () => {
+    const dictionary = translations[currentLanguage] || translations.en;
+    calibrateStatus.textContent = dictionary.whiteoutCalibrated;
+    calibrateStatus.classList.add('is-active');
+    calibrateButton.disabled = true;
+    setTimeout(() => {
+      calibrateStatus.textContent = dictionary.whiteoutCalibratedDone;
+      calibrateButton.disabled = false;
+    }, 1800);
+  });
+}
+
+document.addEventListener('languagechange', () => {
+  updateWhiteoutMode(whiteoutModeButtons[0]?.dataset.whiteoutMode || 'urban');
+  updateBrakingDistance();
+  if (calibrateStatus) {
+    const dictionary = translations[currentLanguage] || translations.en;
+    calibrateStatus.textContent = dictionary.whiteoutCalibrate;
+  }
+});
+
+updateWhiteoutMode(whiteoutModeButtons[0]?.dataset.whiteoutMode || 'urban');

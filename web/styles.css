@@ -19,6 +19,16 @@ body {
   min-height: 100vh;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(79, 70, 229, 0.08), transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.12), transparent 60%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 body.dark-mode {
   --bg: #0f172a;
   --bg-alt: #111827;
@@ -126,6 +136,9 @@ body.dark-mode header {
   border-radius: 28px;
   padding: 2.5rem;
   box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .hero-card h1 {
@@ -164,12 +177,17 @@ body.dark-mode header {
 
 .button-primary:hover {
   background: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .button-secondary {
   background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
+}
+
+.button-secondary:hover {
+  transform: translateY(-1px);
 }
 
 .section {
@@ -193,6 +211,14 @@ body.dark-mode header {
   border-radius: 20px;
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-card:hover,
+.index-card:hover,
+.form-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 45px rgba(15, 23, 42, 0.18);
 }
 
 .index-card h3 {
@@ -209,6 +235,8 @@ body.dark-mode header {
   border: 1px solid var(--border);
   border-radius: 24px;
   padding: 2rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .auth-panel h3 {
@@ -282,6 +310,148 @@ footer {
   margin-top: 1rem;
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+.whiteout-panel {
+  background: var(--bg-alt);
+  border-radius: 28px;
+  border: 1px solid var(--border);
+  padding: 2.5rem;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 2.5rem;
+}
+
+.whiteout-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.whiteout-status {
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.12);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.whiteout-status.is-active {
+  background: rgba(14, 165, 233, 0.2);
+  color: var(--accent);
+}
+
+.whiteout-grid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.whiteout-card {
+  background: var(--bg);
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  min-height: 220px;
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+.mode-toggle {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.mode-toggle button {
+  border: 1px solid var(--border);
+  background: transparent;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+  transition: all 0.2s ease;
+}
+
+.mode-toggle button[aria-pressed="true"] {
+  background: var(--primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+.mode-details h4 {
+  margin: 0;
+}
+
+.braking-slider {
+  width: 100%;
+}
+
+.braking-readout {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.braking-readout .label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: block;
+}
+
+.whiteout-control {
+  position: relative;
+}
+
+.pulse-indicator {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pulse-indicator span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.pulse-indicator span:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.pulse-indicator span:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
 }
 
 @media (max-width: 720px) {
