@@ -2,13 +2,27 @@
   color-scheme: light dark;
   --bg: #f5f7fb;
   --bg-alt: #ffffff;
+  --bg-soft: #eef2ff;
   --text: #1f2937;
   --muted: #6b7280;
   --primary: #4f46e5;
   --primary-dark: #4338ca;
   --accent: #0ea5e9;
   --card-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  --card-shadow-hover: 0 30px 55px rgba(15, 23, 42, 0.2);
   --border: rgba(148, 163, 184, 0.35);
+  --radius-xl: 28px;
+  --radius-lg: 20px;
+  --radius-md: 16px;
+  --radius-pill: 999px;
+  --content-width: min(1200px, 100% - 12vw);
+  --gradient-border: linear-gradient(135deg, rgba(79, 70, 229, 0.5), rgba(14, 165, 233, 0.2));
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
@@ -32,10 +46,12 @@ body::before {
 body.dark-mode {
   --bg: #0f172a;
   --bg-alt: #111827;
+  --bg-soft: #0b1222;
   --text: #f8fafc;
   --muted: #cbd5f5;
   --border: rgba(148, 163, 184, 0.2);
   --card-shadow: 0 20px 40px rgba(15, 23, 42, 0.6);
+  --card-shadow-hover: 0 30px 55px rgba(15, 23, 42, 0.7);
 }
 
 header {
@@ -45,6 +61,7 @@ header {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 body.dark-mode header {
@@ -55,7 +72,9 @@ body.dark-mode header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 6vw;
+  padding: 1.1rem 0;
+  width: var(--content-width);
+  margin: 0 auto;
   gap: 1.5rem;
 }
 
@@ -73,8 +92,9 @@ body.dark-mode header {
   justify-content: center;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   background: linear-gradient(135deg, var(--primary), var(--accent));
+  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.35);
   color: #fff;
   font-weight: 700;
 }
@@ -88,7 +108,7 @@ body.dark-mode header {
 .toggle-group {
   display: inline-flex;
   padding: 0.25rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--bg-alt);
   border: 1px solid var(--border);
   gap: 0.25rem;
@@ -98,7 +118,7 @@ body.dark-mode header {
   background: transparent;
   border: none;
   padding: 0.35rem 0.85rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   cursor: pointer;
   color: var(--muted);
@@ -115,7 +135,7 @@ body.dark-mode header {
   align-items: center;
   gap: 0.5rem;
   padding: 0.45rem 0.85rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   background: var(--bg-alt);
   cursor: pointer;
@@ -123,22 +143,44 @@ body.dark-mode header {
   color: var(--text);
 }
 
+main {
+  display: grid;
+  gap: 2.5rem;
+}
+
 .hero {
-  padding: 5rem 6vw 3rem;
+  padding: 5rem 0 0;
   display: grid;
   gap: 2rem;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   align-items: center;
+  width: var(--content-width);
+  margin: 0 auto;
 }
 
 .hero-card {
   background: var(--bg-alt);
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   padding: 2.5rem;
   box-shadow: var(--card-shadow);
   position: relative;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-card::before,
+.whiteout-panel::before,
+.auth-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-border);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .hero-card h1 {
@@ -161,18 +203,20 @@ body.dark-mode header {
 .button-secondary {
   border: none;
   padding: 0.85rem 1.5rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .button-primary {
   background: var(--primary);
   color: #fff;
+  box-shadow: 0 16px 30px rgba(79, 70, 229, 0.3);
 }
 
 .button-primary:hover {
@@ -184,6 +228,7 @@ body.dark-mode header {
   background: transparent;
   color: var(--text);
   border: 1px solid var(--border);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
 }
 
 .button-secondary:hover {
@@ -191,7 +236,9 @@ body.dark-mode header {
 }
 
 .section {
-  padding: 2rem 6vw 4rem;
+  padding: 0 0 4rem;
+  width: var(--content-width);
+  margin: 0 auto;
 }
 
 .section h2 {
@@ -208,7 +255,7 @@ body.dark-mode header {
 .index-card {
   background: var(--bg-alt);
   padding: 1.5rem;
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   box-shadow: var(--card-shadow);
   border: 1px solid var(--border);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -218,7 +265,7 @@ body.dark-mode header {
 .index-card:hover,
 .form-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 24px 45px rgba(15, 23, 42, 0.18);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .index-card h3 {
@@ -233,7 +280,7 @@ body.dark-mode header {
 .auth-panel {
   background: linear-gradient(135deg, rgba(79, 70, 229, 0.15), rgba(14, 165, 233, 0.15));
   border: 1px solid var(--border);
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   padding: 2rem;
   position: relative;
   overflow: hidden;
@@ -260,7 +307,7 @@ body.dark-mode header {
 
 .form-card {
   background: var(--bg-alt);
-  border-radius: 20px;
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   border: 1px solid var(--border);
 }
@@ -277,7 +324,7 @@ label {
 
 input {
   padding: 0.65rem 0.85rem;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text);
@@ -289,9 +336,11 @@ input:focus {
 }
 
 footer {
-  padding: 2rem 6vw;
+  padding: 2rem 0 3rem;
   color: var(--muted);
   text-align: center;
+  width: var(--content-width);
+  margin: 0 auto;
 }
 
 .badge {
@@ -301,7 +350,7 @@ footer {
   background: rgba(79, 70, 229, 0.12);
   color: var(--primary);
   padding: 0.3rem 0.7rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
   font-size: 0.85rem;
 }
@@ -314,11 +363,13 @@ footer {
 
 .whiteout-panel {
   background: var(--bg-alt);
-  border-radius: 28px;
+  border-radius: var(--radius-xl);
   border: 1px solid var(--border);
   padding: 2.5rem;
   box-shadow: var(--card-shadow);
   margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .whiteout-header {
@@ -332,7 +383,7 @@ footer {
 
 .whiteout-status {
   padding: 0.6rem 1rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: rgba(79, 70, 229, 0.12);
   color: var(--primary);
   font-weight: 600;
@@ -350,14 +401,15 @@ footer {
 }
 
 .whiteout-card {
-  background: var(--bg);
-  border-radius: 20px;
+  background: var(--bg-soft);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
   border: 1px solid var(--border);
   min-height: 220px;
   display: grid;
   gap: 1rem;
   align-content: start;
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
 }
 
 .mode-toggle {
@@ -370,7 +422,7 @@ footer {
   border: 1px solid var(--border);
   background: transparent;
   padding: 0.35rem 0.85rem;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
   font-weight: 600;
   color: var(--muted);
@@ -461,5 +513,10 @@ footer {
   }
   .hero {
     padding-top: 3rem;
+    width: min(100% - 2.5rem, 100%);
+  }
+  .section,
+  footer {
+    width: min(100% - 2.5rem, 100%);
   }
 }
