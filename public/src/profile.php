@@ -12,14 +12,29 @@ $db = getDatabaseConnection(USERS_DB_FILE);
 $errorMessage = '';
 $successMessage = '';
 
-// Fetch user details from the database
-$userId = $_SESSION['user']['id'];
-$stmt = $db->prepare('SELECT * FROM Users WHERE id = :id');
-$stmt->execute([':id' => $userId]);
-$user = $stmt->fetch(PDO::FETCH_ASSOC);
+if (!$db) {
+    $errorMessage = 'Échec de la connexion à la base de données. Veuillez réessayer plus tard.';
+    $user = [
+        'username' => $_SESSION['user']['username'] ?? '',
+        'email' => '',
+    ];
+} else {
+    // Fetch user details from the database
+    $userId = $_SESSION['user']['id'];
+    $stmt = $db->prepare('SELECT * FROM Users WHERE id = :id');
+    $stmt->execute([':id' => $userId]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$user) {
+        $errorMessage = 'Impossible de récupérer votre profil. Veuillez vous reconnecter.';
+        $user = [
+            'username' => $_SESSION['user']['username'] ?? '',
+            'email' => '',
+        ];
+    }
+}
 
 // Handle form submission for updating user details
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $db) {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
     $password = trim($_POST['password']);
