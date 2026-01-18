@@ -5,7 +5,7 @@
 // This script should be reviewed for its current necessity or adapted if
 // intended for a separate administrative web interface.
 
-require_once 'db_config.php'; // This sets up MySQL connection ($conn), but this script uses SQLite below.
+require_once 'config.php';
 session_start();
 
 $errorMessage = '';
@@ -17,22 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($username) || empty($password)) {
         $errorMessage = 'Veuillez remplir tous les champs.';
     } else {
-        $db = new PDO('sqlite:' . './database/users.sql');
-        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $db = getDatabaseConnection(USERS_DB_FILE);
 
-        $stmt = $db->prepare('SELECT * FROM Users WHERE username = :username LIMIT 1');
-        $stmt->execute([':username' => $username]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user'] = [
-                'id' => $user['id'],
-                'username' => $user['username'],
-            ];
-            header('Location: index.php');
-            exit;
+        if (!$db) {
+            $errorMessage = 'Échec de la connexion à la base de données. Veuillez réessayer plus tard.';
         } else {
-            $errorMessage = 'Nom d’utilisateur ou mot de passe incorrect.';
+            $stmt = $db->prepare('SELECT * FROM Users WHERE username = :username LIMIT 1');
+            $stmt->execute([':username' => $username]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user && password_verify($password, $user['password'])) {
+                $_SESSION['user'] = [
+                    'id' => $user['id'],
+                    'username' => $user['username'],
+                ];
+                header('Location: index.php');
+                exit;
+            } else {
+                $errorMessage = 'Nom d’utilisateur ou mot de passe incorrect.';
+            }
         }
     }
 }
