@@ -1,9 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "http-server": "^14.1.1"
-  }
-=======
   "name": "vision_week_virtual_exploration",
   "version": "1.0.0",
   "description": "A virtual exploration application for Vision Week.",
@@ -34,5 +29,4 @@
     "url": "https://github.com/kvnbbg/vision_week_virtual_exploration/issues"
   },
   "homepage": "https://github.com/kvnbbg/vision_week_virtual_exploration#readme"
->>>>>>> a0d79816ca5169944126ca54c388e291c8bc6620
 }
