@@ -225,6 +225,75 @@
         </p>
       </div>
     </section>
+
+    <section class="section">
+      <div class="commerce-panel" data-animate>
+        <div class="section-header">
+          <div>
+            <div class="badge" data-i18n="commerceBadge">Commerce cockpit</div>
+            <h2 data-i18n="commerceTitle">Payment-ready commerce for the Vision Week family</h2>
+            <p data-i18n="commerceSubtitle">
+              Build transparent payment flows with automated totals, smart bundles, and clear checkout steps.
+            </p>
+          </div>
+          <div class="commerce-summary">
+            <div class="summary-line">
+              <span data-i18n="commerceTotalLabel">Estimated total</span>
+              <strong data-commerce-total>$0.00</strong>
+            </div>
+            <div class="summary-note" data-i18n="commerceTotalNote">
+              Taxes and localized fees are calculated at checkout.
+            </div>
+          </div>
+        </div>
+        <div class="commerce-grid">
+          <div class="commerce-card" data-animate>
+            <h3 data-i18n="commercePlansTitle">Experience bundles</h3>
+            <div class="pill-group" data-commerce-cycle></div>
+            <div class="plan-list" data-commerce-plans></div>
+          </div>
+          <div class="commerce-card" data-animate>
+            <h3 data-i18n="commercePaymentTitle">Payment setup</h3>
+            <div class="payment-methods" data-commerce-methods></div>
+            <label class="field-label" for="commerceQuantity" data-i18n="commerceQuantity">Seats</label>
+            <div class="quantity-control">
+              <button type="button" data-quantity-minus aria-label="Decrease quantity">−</button>
+              <input id="commerceQuantity" type="number" min="1" max="20" value="1" />
+              <button type="button" data-quantity-plus aria-label="Increase quantity">+</button>
+            </div>
+            <div class="commerce-actions">
+              <button class="button-primary" type="button" data-i18n="commerceCta">Proceed to secure checkout</button>
+              <button class="button-secondary" type="button" data-i18n="commerceInvoice">Generate invoice</button>
+            </div>
+          </div>
+          <div class="commerce-card" data-animate>
+            <h3 data-i18n="commerceAutomationTitle">Automated operations</h3>
+            <ul class="automation-list" data-commerce-automation></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="systems-panel" data-animate>
+        <div class="section-header">
+          <div>
+            <div class="badge" data-i18n="systemsBadge">System atlas</div>
+            <h2 data-i18n="systemsTitle">Different systems, atmospheres, and ozone profiles</h2>
+            <p data-i18n="systemsSubtitle">
+              Translate planetary data into immersive experiences with climate, ozone strength, and sky color cues.
+            </p>
+          </div>
+          <div class="systems-helper">
+            <p data-i18n="systemsHelper">
+              Each profile is structured for quick API or dataset integration and can map to the repositories
+              provided.
+            </p>
+          </div>
+        </div>
+        <div class="systems-grid" data-system-cards></div>
+      </div>
+    </section>
   </main>
 
   <footer>
