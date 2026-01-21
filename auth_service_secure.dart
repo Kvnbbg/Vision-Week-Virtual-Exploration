@@ -4,7 +4,6 @@
 // Maintainer: Kevin Marville
 
 import 'dart:convert';
-import 'dart:math';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +12,10 @@ import 'input_validator.dart';
 
 /// Service d'authentification sécurisé
 class SecureAuthService {
-  static const String _baseUrl = 'https://api.visionweek.example.com';
+  static const String _baseUrl = String.fromEnvironment(
+    'VISION_WEEK_API_BASE_URL',
+    defaultValue: 'https://api.visionweek.example.com',
+  );
   static const String _tokenKey = 'auth_token';
   static const String _refreshTokenKey = 'refresh_token';
   static const String _userIdKey = 'user_id';
@@ -21,6 +23,13 @@ class SecureAuthService {
   static const String _lastAttemptKey = 'last_attempt';
   static const int _maxLoginAttempts = 5;
   static const int _lockoutDurationMinutes = 15;
+  static const int _requestTimeoutSeconds = 30;
+  static const int _logoutTimeoutSeconds = 10;
+  static const int _verifyTimeoutSeconds = 10;
+  static const int _csrfTimeoutSeconds = 10;
+  static const String _userAgent = 'VisionWeek-Mobile/1.1.0';
+  static const String _devicePlatform = 'flutter';
+  static const String _appVersion = '1.1.0';
   
   // Configuration du stockage sécurisé
   static const _secureStorage = FlutterSecureStorage(
@@ -34,7 +43,8 @@ class SecureAuthService {
     ),
   );
 
-  /// Authentifie un utilisateur avec email et mot de passe
+  /// Authentifie un utilisateur avec email et mot de passe.
+  /// Retourne un [AuthResult] en cas de succès ou d'échec.
   static Future<AuthResult> login(String email, String password) async {
     try {
       // Vérifier le verrouillage du compte
@@ -66,7 +76,7 @@ class SecureAuthService {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken,
           'X-Device-Fingerprint': deviceFingerprint,
-          'User-Agent': 'VisionWeek-Mobile/1.1.0',
+          'User-Agent': _userAgent,
         },
         body: jsonEncode({
           'email': emailValidation.sanitizedValue,
@@ -74,10 +84,13 @@ class SecureAuthService {
           'device_info': await _getDeviceInfo(),
           'timestamp': DateTime.now().millisecondsSinceEpoch,
         }),
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final responsePayload = _decodeJson(response.body);
+        if (responsePayload == null) {
+          return AuthResult.failure('Réponse du serveur invalide');
+        }
         
         // Vérifier la signature de la réponse
         if (!await _verifyResponseSignature(response)) {
@@ -85,21 +98,27 @@ class SecureAuthService {
         }
 
         // Stocker les tokens de manière sécurisée
-        await _secureStorage.write(key: _tokenKey, value: data['access_token']);
-        await _secureStorage.write(key: _refreshTokenKey, value: data['refresh_token']);
-        await _secureStorage.write(key: _userIdKey, value: data['user_id'].toString());
+        final accessToken = responsePayload['access_token'] as String?;
+        final refreshToken = responsePayload['refresh_token'] as String?;
+        final userId = _parseUserId(responsePayload['user_id']);
+        if (accessToken == null || refreshToken == null || userId == null) {
+          return AuthResult.failure('Réponse du serveur incomplète');
+        }
+        await _secureStorage.write(key: _tokenKey, value: accessToken);
+        await _secureStorage.write(key: _refreshTokenKey, value: refreshToken);
+        await _secureStorage.write(key: _userIdKey, value: userId.toString());
         
         // Réinitialiser les tentatives de connexion
         await _resetLoginAttempts();
         
         // Enregistrer la session
-        await _recordSuccessfulLogin(data['user_id']);
+        await _recordSuccessfulLogin(userId);
         
         return AuthResult.success(
-          userId: data['user_id'],
-          accessToken: data['access_token'],
-          refreshToken: data['refresh_token'],
-          expiresIn: data['expires_in'],
+          userId: userId,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          expiresIn: _parseInt(responsePayload['expires_in']),
         );
       } else {
         await _recordFailedAttempt();
@@ -115,13 +134,20 @@ class SecureAuthService {
             return AuthResult.failure('Erreur de connexion');
         }
       }
+    } on FormatException {
+      await _recordFailedAttempt();
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      await _recordFailedAttempt();
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       await _recordFailedAttempt();
       return AuthResult.failure('Erreur de réseau: ${e.toString()}');
     }
   }
 
-  /// Inscription d'un nouvel utilisateur
+  /// Inscription d'un nouvel utilisateur.
+  /// Retourne un [AuthResult] décrivant le résultat.
   static Future<AuthResult> register({
     required String email,
     required String password,
@@ -162,7 +188,7 @@ class SecureAuthService {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken,
           'X-Device-Fingerprint': deviceFingerprint,
-          'User-Agent': 'VisionWeek-Mobile/1.1.0',
+          'User-Agent': _userAgent,
         },
         body: jsonEncode({
           'email': formValidator.sanitizedValues['email'],
@@ -176,24 +202,33 @@ class SecureAuthService {
           'consent_gdpr': true,
           'timestamp': DateTime.now().millisecondsSinceEpoch,
         }),
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 201) {
-        final data = jsonDecode(response.body);
+        final responsePayload = _decodeJson(response.body);
+        if (responsePayload == null) {
+          return AuthResult.failure('Réponse du serveur invalide');
+        }
         return AuthResult.success(
-          userId: data['user_id'],
+          userId: _parseUserId(responsePayload['user_id']),
           message: 'Inscription réussie. Vérifiez votre email.',
         );
       } else {
-        final error = jsonDecode(response.body)['message'] ?? 'Erreur d\'inscription';
-        return AuthResult.failure(error);
+        final responsePayload = _decodeJson(response.body);
+        final errorMessage = responsePayload?['message'] as String? ?? 'Erreur d\'inscription';
+        return AuthResult.failure(errorMessage);
       }
+    } on FormatException {
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       return AuthResult.failure('Erreur de réseau: ${e.toString()}');
     }
   }
 
-  /// Rafraîchit le token d'accès
+  /// Rafraîchit le token d'accès.
+  /// Retourne un [AuthResult] avec le nouveau token si disponible.
   static Future<AuthResult> refreshToken() async {
     try {
       final refreshToken = await _secureStorage.read(key: _refreshTokenKey);
@@ -211,26 +246,34 @@ class SecureAuthService {
           'refresh_token': refreshToken,
           'device_fingerprint': await _generateDeviceFingerprint(),
         }),
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        await _secureStorage.write(key: _tokenKey, value: data['access_token']);
+        final responsePayload = _decodeJson(response.body);
+        final accessToken = responsePayload?['access_token'] as String?;
+        if (accessToken == null) {
+          return AuthResult.failure('Réponse du serveur invalide');
+        }
+        await _secureStorage.write(key: _tokenKey, value: accessToken);
         
         return AuthResult.success(
-          accessToken: data['access_token'],
-          expiresIn: data['expires_in'],
+          accessToken: accessToken,
+          expiresIn: _parseInt(responsePayload?['expires_in']),
         );
       } else {
         await logout(); // Token invalide, déconnecter l'utilisateur
         return AuthResult.failure('Session expirée');
       }
+    } on FormatException {
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       return AuthResult.failure('Erreur de rafraîchissement: ${e.toString()}');
     }
   }
 
-  /// Déconnecte l'utilisateur
+  /// Déconnecte l'utilisateur et nettoie le stockage local.
   static Future<void> logout() async {
     try {
       final token = await _secureStorage.read(key: _tokenKey);
@@ -242,7 +285,7 @@ class SecureAuthService {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
           },
-        ).timeout(const Duration(seconds: 10));
+        ).timeout(const Duration(seconds: _logoutTimeoutSeconds));
       }
     } catch (e) {
       // Ignorer les erreurs de déconnexion côté serveur
@@ -254,7 +297,8 @@ class SecureAuthService {
     }
   }
 
-  /// Vérifie si l'utilisateur est connecté
+  /// Vérifie si l'utilisateur est connecté.
+  /// Retourne `true` si le token est valide, sinon `false`.
   static Future<bool> isLoggedIn() async {
     final token = await _secureStorage.read(key: _tokenKey);
     if (token == null) return false;
@@ -264,7 +308,7 @@ class SecureAuthService {
       final response = await http.get(
         Uri.parse('$_baseUrl/auth/verify'),
         headers: {'Authorization': 'Bearer $token'},
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: _verifyTimeoutSeconds));
       
       return response.statusCode == 200;
     } catch (e) {
@@ -272,17 +316,18 @@ class SecureAuthService {
     }
   }
 
-  /// Récupère le token d'accès actuel
+  /// Récupère le token d'accès actuel.
   static Future<String?> getAccessToken() async {
     return await _secureStorage.read(key: _tokenKey);
   }
 
-  /// Récupère l'ID de l'utilisateur connecté
+  /// Récupère l'ID de l'utilisateur connecté.
   static Future<String?> getCurrentUserId() async {
     return await _secureStorage.read(key: _userIdKey);
   }
 
-  /// Demande de réinitialisation de mot de passe
+  /// Demande de réinitialisation de mot de passe.
+  /// Retourne un [AuthResult] décrivant le résultat.
   static Future<AuthResult> requestPasswordReset(String email) async {
     try {
       final emailValidation = InputValidator.validateEmail(email);
@@ -297,7 +342,7 @@ class SecureAuthService {
           'email': emailValidation.sanitizedValue,
           'timestamp': DateTime.now().millisecondsSinceEpoch,
         }),
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 200) {
         return AuthResult.success(
@@ -306,6 +351,10 @@ class SecureAuthService {
       } else {
         return AuthResult.failure('Erreur lors de la demande');
       }
+    } on FormatException {
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       return AuthResult.failure('Erreur de réseau: ${e.toString()}');
     }
@@ -357,34 +406,39 @@ class SecureAuthService {
     await prefs.setInt('user_id', userId);
   }
 
-  /// Génère une empreinte unique de l'appareil
+  /// Génère une empreinte unique de l'appareil.
   static Future<String> _generateDeviceFingerprint() async {
     final deviceInfo = await _getDeviceInfo();
     final fingerprint = sha256.convert(utf8.encode(deviceInfo.toString()));
     return fingerprint.toString();
   }
 
-  /// Récupère les informations de l'appareil
+  /// Récupère les informations de l'appareil.
   static Future<Map<String, dynamic>> _getDeviceInfo() async {
     // Implémentation simplifiée - à compléter avec device_info_plus
     return {
-      'platform': 'flutter',
-      'version': '1.1.0',
+      'platform': _devicePlatform,
+      'version': _appVersion,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
     };
   }
 
-  /// Récupère un token CSRF du serveur
+  /// Récupère un token CSRF du serveur.
   static Future<String> _getCsrfToken() async {
     try {
       final response = await http.get(
         Uri.parse('$_baseUrl/auth/csrf-token'),
-      ).timeout(const Duration(seconds: 10));
+      ).timeout(const Duration(seconds: _csrfTimeoutSeconds));
       
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        return data['csrf_token'];
+        final responsePayload = _decodeJson(response.body);
+        final csrfToken = responsePayload?['csrf_token'] as String?;
+        if (csrfToken != null && csrfToken.isNotEmpty) {
+          return csrfToken;
+        }
       }
+    } on FormatException {
+      return InputValidator.generateSecureToken();
     } catch (e) {
       // Fallback: générer un token côté client
     }
@@ -392,14 +446,15 @@ class SecureAuthService {
     return InputValidator.generateSecureToken();
   }
 
-  /// Vérifie la signature de la réponse du serveur
+  /// Vérifie la signature de la réponse du serveur.
   static Future<bool> _verifyResponseSignature(http.Response response) async {
     // Implémentation simplifiée - à compléter avec la vérification HMAC
     final signature = response.headers['x-signature'];
     return signature != null && signature.isNotEmpty;
   }
 
-  /// Active l'authentification à deux facteurs
+  /// Active l'authentification à deux facteurs.
+  /// Retourne un [AuthResult] indiquant le succès ou l'échec.
   static Future<AuthResult> enableTwoFactor() async {
     try {
       final token = await getAccessToken();
@@ -413,25 +468,34 @@ class SecureAuthService {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
         },
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final responsePayload = _decodeJson(response.body) ?? {};
         return AuthResult.success(
           message: 'Authentification à deux facteurs activée',
-          data: data,
+          data: responsePayload,
         );
       } else {
         return AuthResult.failure('Erreur lors de l\'activation');
       }
+    } on FormatException {
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       return AuthResult.failure('Erreur de réseau: ${e.toString()}');
     }
   }
 
-  /// Vérifie un code 2FA
+  /// Vérifie un code 2FA.
+  /// Retourne un [AuthResult] indiquant le succès ou l'échec.
   static Future<AuthResult> verifyTwoFactor(String code) async {
     try {
+      if (code.trim().isEmpty) {
+        return AuthResult.failure('Code 2FA manquant');
+      }
+
       final token = await getAccessToken();
       if (token == null) {
         return AuthResult.failure('Non authentifié');
@@ -444,20 +508,46 @@ class SecureAuthService {
           'Content-Type': 'application/json',
         },
         body: jsonEncode({'code': code}),
-      ).timeout(const Duration(seconds: 30));
+      ).timeout(const Duration(seconds: _requestTimeoutSeconds));
 
       if (response.statusCode == 200) {
         return AuthResult.success(message: 'Code vérifié avec succès');
       } else {
         return AuthResult.failure('Code incorrect');
       }
+    } on FormatException {
+      return AuthResult.failure('Réponse du serveur invalide');
+    } on http.ClientException {
+      return AuthResult.failure('Erreur de connexion réseau');
     } catch (e) {
       return AuthResult.failure('Erreur de réseau: ${e.toString()}');
     }
   }
+
+  static Map<String, dynamic>? _decodeJson(String body) {
+    if (body.trim().isEmpty) {
+      return null;
+    }
+    final decoded = jsonDecode(body);
+    return decoded is Map<String, dynamic> ? decoded : null;
+  }
+
+  static int? _parseUserId(dynamic value) {
+    return _parseInt(value);
+  }
+
+  static int? _parseInt(dynamic value) {
+    if (value is int) {
+      return value;
+    }
+    if (value is String) {
+      return int.tryParse(value);
+    }
+    return null;
+  }
 }
 
-/// Classe pour le résultat d'authentification
+/// Classe pour le résultat d'authentification.
 class AuthResult {
   final bool success;
   final String message;
@@ -477,6 +567,7 @@ class AuthResult {
     this.data,
   });
 
+  /// Construit un résultat de succès.
   factory AuthResult.success({
     String? message,
     int? userId,
@@ -496,6 +587,7 @@ class AuthResult {
     );
   }
 
+  /// Construit un résultat d'échec avec un message lisible.
   factory AuthResult.failure(String message) {
     return AuthResult(
       success: false,
@@ -508,4 +600,3 @@ class AuthResult {
     return 'AuthResult(success: $success, message: $message, userId: $userId)';
   }
 }
-
