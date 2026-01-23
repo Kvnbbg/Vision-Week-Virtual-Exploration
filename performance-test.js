@@ -3,66 +3,178 @@ const chromeLauncher = require('chrome-launcher');
 const fs = require('fs').promises;
 const path = require('path');
 
+const DEFAULT_BASE_URL = 'http://localhost:8080';
+const LIGHTHOUSE_CATEGORIES = ['performance', 'accessibility', 'best-practices', 'seo'];
+const DEFAULT_THRESHOLDS = Object.freeze({
+  performance: 90,
+  accessibility: 95,
+  bestPractices: 90,
+  seo: 90,
+  fcp: 1800,
+  lcp: 2500,
+  fid: 100,
+  cls: 0.1,
+  tbt: 200,
+  si: 3000
+});
+const API_ENDPOINTS = Object.freeze([
+  { name: 'Get All Animals', path: '/api/animals' },
+  { name: 'Search Animals', path: '/api/animals/search?q=lion' },
+  { name: 'Get Animal by ID', path: '/api/animals/1' },
+  { name: 'Get Categories', path: '/api/categories' },
+  { name: 'Get Statistics', path: '/api/statistics' }
+]);
+const LOAD_TEST_USERS = Object.freeze([1, 5, 10, 20]);
+const API_RESPONSE_TIME_LIMIT_MS = 500;
+const LOAD_TEST_RESPONSE_TIME_LIMIT_MS = 1000;
+const LOAD_TEST_SUCCESS_RATE_TARGET = 95;
+const RESULTS_DIRNAME = 'results';
+
+const logger = {
+  info: (message, meta) => writeLog('info', message, meta),
+  warn: (message, meta) => writeLog('warn', message, meta),
+  error: (message, meta) => writeLog('error', message, meta)
+};
+
+function writeLog(level, message, meta = {}) {
+  const entry = {
+    timestamp: new Date().toISOString(),
+    level,
+    message,
+    ...meta
+  };
+  const payload = `${JSON.stringify(entry)}\n`;
+  if (level === 'error') {
+    process.stderr.write(payload);
+    return;
+  }
+  process.stdout.write(payload);
+}
+
+function isNonEmptyString(value) {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function safeJsonStringify(value) {
+  try {
+    return JSON.stringify(value);
+  } catch (error) {
+    return JSON.stringify({ error: error instanceof Error ? error.message : 'Unknown error' });
+  }
+}
+
+function safeJsonParse(jsonValue) {
+  try {
+    return { data: JSON.parse(jsonValue), error: null };
+  } catch (error) {
+    return { data: null, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
+function getAuditNumericValue(lhr, auditId, fallback = 0) {
+  const numericValue = lhr?.audits?.[auditId]?.numericValue;
+  return Number.isFinite(numericValue) ? numericValue : fallback;
+}
+
+function getCategoryScore(lhr, categoryId) {
+  const score = lhr?.categories?.[categoryId]?.score;
+  return Number.isFinite(score) ? Math.round(score * 100) : 0;
+}
+
+function buildUrl(baseUrl, pathName) {
+  if (!isNonEmptyString(baseUrl)) {
+    return null;
+  }
+  if (!isNonEmptyString(pathName)) {
+    return baseUrl;
+  }
+  return `${baseUrl.replace(/\/+$/, '')}/${pathName.replace(/^\/+/, '')}`;
+}
+
+function calculatePercentage(passed, total) {
+  if (total === 0) {
+    return 0;
+  }
+  return Math.round((passed / total) * 100);
+}
+
 class PerformanceTestSuite {
-  constructor(baseUrl = 'http://localhost:8080') {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl = DEFAULT_BASE_URL) {
+    this.baseUrl = isNonEmptyString(baseUrl) ? baseUrl : DEFAULT_BASE_URL;
     this.results = {};
-    this.thresholds = {
-      performance: 90,
-      accessibility: 95,
-      bestPractices: 90,
-      seo: 90,
-      fcp: 1800,      // First Contentful Paint (ms)
-      lcp: 2500,      // Largest Contentful Paint (ms)
-      fid: 100,       // First Input Delay (ms)
-      cls: 0.1,       // Cumulative Layout Shift
-      tbt: 200,       // Total Blocking Time (ms)
-      si: 3000        // Speed Index (ms)
-    };
+    this.thresholds = { ...DEFAULT_THRESHOLDS };
   }
 
+  /**
+   * Runs a Lighthouse audit against a URL.
+   * @param {string} url - Absolute URL to audit.
+   * @param {object} options - Lighthouse options overrides.
+   * @returns {Promise<object>} Lighthouse runner result.
+   */
   async runLighthouseAudit(url, options = {}) {
-    const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless'] });
-    
-    const lighthouseOptions = {
-      logLevel: 'info',
-      output: 'json',
-      onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
-      port: chrome.port,
-      ...options
-    };
+    if (!isNonEmptyString(url)) {
+      throw new Error('Invalid URL provided to Lighthouse audit.');
+    }
+    let chrome = null;
+    try {
+      chrome = await chromeLauncher.launch({ chromeFlags: ['--headless'] });
+      const lighthouseOptions = {
+        logLevel: 'info',
+        output: 'json',
+        onlyCategories: LIGHTHOUSE_CATEGORIES,
+        port: chrome.port,
+        ...options
+      };
 
-    const config = require('./lighthouse-config.js');
-    const runnerResult = await lighthouse(url, lighthouseOptions, config);
-
-    await chrome.kill();
-    return runnerResult;
+      const config = require('./lighthouse-config.js');
+      return await lighthouse(url, lighthouseOptions, config);
+    } finally {
+      if (chrome) {
+        await chrome.kill();
+      }
+    }
   }
 
+  /**
+   * Runs a Lighthouse audit for a named page and stores the results.
+   * @param {string} pageName - Human readable page name.
+   * @param {string} url - Absolute URL for the page.
+   * @returns {Promise<object>} Stored result entry.
+   */
   async testPagePerformance(pageName, url) {
-    console.log(`Testing performance for ${pageName}: ${url}`);
-    
+    if (!isNonEmptyString(pageName) || !isNonEmptyString(url)) {
+      const errorMessage = 'Page name and URL are required for performance testing.';
+      logger.error(errorMessage, { pageName, url });
+      this.results[pageName || 'unknown-page'] = {
+        url: url || null,
+        timestamp: new Date().toISOString(),
+        error: errorMessage,
+        passed: false
+      };
+      return this.results[pageName || 'unknown-page'];
+    }
+
+    logger.info('Testing page performance.', { pageName, url });
     try {
       const result = await this.runLighthouseAudit(url);
       const lhr = result.lhr;
 
       const metrics = {
-        performance: Math.round(lhr.categories.performance.score * 100),
-        accessibility: Math.round(lhr.categories.accessibility.score * 100),
-        bestPractices: Math.round(lhr.categories['best-practices'].score * 100),
-        seo: Math.round(lhr.categories.seo.score * 100),
-        fcp: lhr.audits['first-contentful-paint'].numericValue,
-        lcp: lhr.audits['largest-contentful-paint'].numericValue,
-        cls: lhr.audits['cumulative-layout-shift'].numericValue,
-        tbt: lhr.audits['total-blocking-time'].numericValue,
-        si: lhr.audits['speed-index'].numericValue,
-        tti: lhr.audits['interactive'].numericValue,
-        serverResponseTime: lhr.audits['server-response-time'].numericValue,
-        totalByteWeight: lhr.audits['total-byte-weight'].numericValue,
-        domSize: lhr.audits['dom-size'].numericValue
+        performance: getCategoryScore(lhr, 'performance'),
+        accessibility: getCategoryScore(lhr, 'accessibility'),
+        bestPractices: getCategoryScore(lhr, 'best-practices'),
+        seo: getCategoryScore(lhr, 'seo'),
+        fcp: getAuditNumericValue(lhr, 'first-contentful-paint'),
+        lcp: getAuditNumericValue(lhr, 'largest-contentful-paint'),
+        cls: getAuditNumericValue(lhr, 'cumulative-layout-shift'),
+        tbt: getAuditNumericValue(lhr, 'total-blocking-time'),
+        si: getAuditNumericValue(lhr, 'speed-index'),
+        tti: getAuditNumericValue(lhr, 'interactive'),
+        serverResponseTime: getAuditNumericValue(lhr, 'server-response-time'),
+        totalByteWeight: getAuditNumericValue(lhr, 'total-byte-weight'),
+        domSize: getAuditNumericValue(lhr, 'dom-size')
       };
 
-      // Add detailed audit results
       const opportunities = this.extractOpportunities(lhr);
       const diagnostics = this.extractDiagnostics(lhr);
 
@@ -76,21 +188,27 @@ class PerformanceTestSuite {
         rawResult: lhr
       };
 
-      console.log(`✓ ${pageName} performance test completed`);
+      logger.info('Page performance test completed.', { pageName });
       return this.results[pageName];
 
     } catch (error) {
-      console.error(`✗ Error testing ${pageName}:`, error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.error('Error testing page performance.', { pageName, error: errorMessage });
       this.results[pageName] = {
         url,
         timestamp: new Date().toISOString(),
-        error: error.message,
+        error: errorMessage,
         passed: false
       };
       return this.results[pageName];
     }
   }
 
+  /**
+   * Extracts Lighthouse opportunity audits for a result.
+   * @param {object} lhr - Lighthouse result payload.
+   * @returns {Array<object>} Sorted opportunity list.
+   */
   extractOpportunities(lhr) {
     const opportunities = [];
     const auditIds = [
@@ -107,7 +225,7 @@ class PerformanceTestSuite {
     ];
 
     auditIds.forEach(auditId => {
-      const audit = lhr.audits[auditId];
+      const audit = lhr?.audits?.[auditId];
       if (audit && audit.details && audit.details.overallSavingsMs > 0) {
         opportunities.push({
           id: auditId,
@@ -123,6 +241,11 @@ class PerformanceTestSuite {
     return opportunities.sort((a, b) => b.savingsMs - a.savingsMs);
   }
 
+  /**
+   * Extracts Lighthouse diagnostic audits for a result.
+   * @param {object} lhr - Lighthouse result payload.
+   * @returns {Array<object>} Diagnostic list.
+   */
   extractDiagnostics(lhr) {
     const diagnostics = [];
     const auditIds = [
@@ -138,7 +261,7 @@ class PerformanceTestSuite {
     ];
 
     auditIds.forEach(auditId => {
-      const audit = lhr.audits[auditId];
+      const audit = lhr?.audits?.[auditId];
       if (audit) {
         diagnostics.push({
           id: auditId,
@@ -154,6 +277,11 @@ class PerformanceTestSuite {
     return diagnostics;
   }
 
+  /**
+   * Evaluates Lighthouse metrics against configured thresholds.
+   * @param {object} metrics - Metrics payload.
+   * @returns {{passed: boolean, checks: object}} Results with per-metric checks.
+   */
   checkThresholds(metrics) {
     const checks = {
       performance: metrics.performance >= this.thresholds.performance,
@@ -171,45 +299,53 @@ class PerformanceTestSuite {
     return { passed, checks };
   }
 
+  /**
+   * Runs API performance checks for known endpoints.
+   * @returns {Promise<object>} API performance results.
+   */
   async testApiPerformance() {
-    console.log('Testing API performance...');
-    
-    const apiEndpoints = [
-      { name: 'Get All Animals', url: `${this.baseUrl}/api/animals` },
-      { name: 'Search Animals', url: `${this.baseUrl}/api/animals/search?q=lion` },
-      { name: 'Get Animal by ID', url: `${this.baseUrl}/api/animals/1` },
-      { name: 'Get Categories', url: `${this.baseUrl}/api/categories` },
-      { name: 'Get Statistics', url: `${this.baseUrl}/api/statistics` }
-    ];
-
+    logger.info('Testing API performance.');
     const apiResults = {};
 
-    for (const endpoint of apiEndpoints) {
-      try {
-        const startTime = Date.now();
-        const response = await fetch(endpoint.url);
-        const endTime = Date.now();
-        
-        const responseTime = endTime - startTime;
-        const data = await response.json();
-
+    for (const endpoint of API_ENDPOINTS) {
+      const endpointUrl = buildUrl(this.baseUrl, endpoint.path);
+      if (!endpointUrl) {
+        const errorMessage = 'Invalid base URL for API testing.';
+        logger.error(errorMessage, { endpoint: endpoint.name });
         apiResults[endpoint.name] = {
-          url: endpoint.url,
-          responseTime,
-          status: response.status,
-          size: JSON.stringify(data).length,
-          passed: responseTime < 500 && response.status === 200
-        };
-
-        console.log(`✓ ${endpoint.name}: ${responseTime}ms`);
-
-      } catch (error) {
-        apiResults[endpoint.name] = {
-          url: endpoint.url,
-          error: error.message,
+          url: endpointUrl,
+          error: errorMessage,
           passed: false
         };
-        console.log(`✗ ${endpoint.name}: ${error.message}`);
+        continue;
+      }
+      try {
+        const startTime = Date.now();
+        const response = await fetch(endpointUrl);
+        const endTime = Date.now();
+
+        const responseTime = endTime - startTime;
+        const responseBody = await response.text();
+        const { data, error } = safeJsonParse(responseBody);
+        const responseSize = safeJsonStringify(data ?? responseBody).length;
+
+        apiResults[endpoint.name] = {
+          url: endpointUrl,
+          responseTime,
+          status: response.status,
+          size: responseSize,
+          parseError: error,
+          passed: responseTime < API_RESPONSE_TIME_LIMIT_MS && response.status === 200
+        };
+
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        apiResults[endpoint.name] = {
+          url: endpointUrl,
+          error: errorMessage,
+          passed: false
+        };
+        logger.error('API performance test failed.', { endpoint: endpoint.name, error: errorMessage });
       }
     }
 
@@ -217,22 +353,31 @@ class PerformanceTestSuite {
     return apiResults;
   }
 
+  /**
+   * Runs load testing for the API with varying concurrent users.
+   * @returns {Promise<object>} Load testing results.
+   */
   async testLoadTesting() {
-    console.log('Running load testing...');
-    
-    const concurrentUsers = [1, 5, 10, 20];
+    logger.info('Running load testing.');
     const loadResults = {};
 
-    for (const users of concurrentUsers) {
-      console.log(`Testing with ${users} concurrent users...`);
-      
-      const promises = Array(users).fill().map(async (_, index) => {
+    const loadTestUrl = buildUrl(this.baseUrl, '/api/animals');
+    if (!loadTestUrl) {
+      const errorMessage = 'Invalid base URL for load testing.';
+      logger.error(errorMessage);
+      this.results.loadTesting = { error: errorMessage, passed: false };
+      return this.results.loadTesting;
+    }
+
+    for (const users of LOAD_TEST_USERS) {
+      const requests = Array.from({ length: users }, (_, index) => index);
+      const promises = requests.map(async (index) => {
         const startTime = Date.now();
-        
+
         try {
-          const response = await fetch(`${this.baseUrl}/api/animals`);
+          const response = await fetch(loadTestUrl);
           const endTime = Date.now();
-          
+
           return {
             user: index + 1,
             responseTime: endTime - startTime,
@@ -240,9 +385,10 @@ class PerformanceTestSuite {
             success: response.status === 200
           };
         } catch (error) {
+          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           return {
             user: index + 1,
-            error: error.message,
+            error: errorMessage,
             success: false
           };
         }
@@ -250,7 +396,9 @@ class PerformanceTestSuite {
 
       const results = await Promise.all(promises);
       const successfulRequests = results.filter(r => r.success);
-      const avgResponseTime = successfulRequests.reduce((sum, r) => sum + r.responseTime, 0) / successfulRequests.length;
+      const avgResponseTime = successfulRequests.length > 0
+        ? successfulRequests.reduce((sum, r) => sum + r.responseTime, 0) / successfulRequests.length
+        : 0;
       const successRate = (successfulRequests.length / results.length) * 100;
 
       loadResults[`${users}_users`] = {
@@ -259,18 +407,20 @@ class PerformanceTestSuite {
         successfulRequests: successfulRequests.length,
         avgResponseTime: Math.round(avgResponseTime),
         successRate: Math.round(successRate),
-        passed: successRate >= 95 && avgResponseTime < 1000
+        passed: successRate >= LOAD_TEST_SUCCESS_RATE_TARGET && avgResponseTime < LOAD_TEST_RESPONSE_TIME_LIMIT_MS
       };
-
-      console.log(`✓ ${users} users: ${Math.round(avgResponseTime)}ms avg, ${Math.round(successRate)}% success`);
     }
 
     this.results.loadTesting = loadResults;
     return loadResults;
   }
 
+  /**
+   * Runs the full performance testing suite.
+   * @returns {Promise<object>} Full suite results.
+   */
   async runFullTestSuite() {
-    console.log('🚀 Starting comprehensive performance test suite...\n');
+    logger.info('Starting comprehensive performance test suite.');
 
     const pages = [
       { name: 'Home Page', url: this.baseUrl },
@@ -279,28 +429,18 @@ class PerformanceTestSuite {
       { name: 'Category View', url: `${this.baseUrl}/#/category/mammals` }
     ];
 
-    // Test page performance
-    console.log('📊 Testing page performance...');
     for (const page of pages) {
       await this.testPagePerformance(page.name, page.url);
     }
 
-    // Test API performance
-    console.log('\n🔌 Testing API performance...');
     await this.testApiPerformance();
 
-    // Test load performance
-    console.log('\n⚡ Testing load performance...');
     await this.testLoadTesting();
 
-    // Generate summary
     const summary = this.generateSummary();
-    
-    // Save results
     await this.saveResults();
 
-    console.log('\n📋 Performance Test Summary:');
-    console.log(summary);
+    logger.info('Performance test summary generated.', { summary });
 
     return {
       results: this.results,
@@ -309,6 +449,10 @@ class PerformanceTestSuite {
     };
   }
 
+  /**
+   * Generates a summary of the test suite results.
+   * @returns {object} Summary payload.
+   */
   generateSummary() {
     const pageResults = Object.entries(this.results)
       .filter(([key]) => !['api', 'loadTesting'].includes(key))
@@ -325,8 +469,8 @@ class PerformanceTestSuite {
     const passedLoadTests = Object.values(loadResults).filter(test => test.passed).length;
     const totalLoadTests = Object.keys(loadResults).length;
 
-    const overallPassed = passedPages === totalPages && 
-                         passedApiTests === totalApiTests && 
+    const overallPassed = passedPages === totalPages &&
+                         passedApiTests === totalApiTests &&
                          passedLoadTests === totalLoadTests;
 
     return {
@@ -334,29 +478,36 @@ class PerformanceTestSuite {
       pages: {
         passed: passedPages,
         total: totalPages,
-        percentage: Math.round((passedPages / totalPages) * 100)
+        percentage: calculatePercentage(passedPages, totalPages)
       },
       api: {
         passed: passedApiTests,
         total: totalApiTests,
-        percentage: Math.round((passedApiTests / totalApiTests) * 100)
+        percentage: calculatePercentage(passedApiTests, totalApiTests)
       },
       load: {
         passed: passedLoadTests,
         total: totalLoadTests,
-        percentage: Math.round((passedLoadTests / totalLoadTests) * 100)
+        percentage: calculatePercentage(passedLoadTests, totalLoadTests)
       },
       timestamp: new Date().toISOString()
     };
   }
 
+  /**
+   * Saves the results and summary to disk.
+   * @returns {Promise<void>} Resolves when files are written.
+   */
   async saveResults() {
-    const resultsDir = path.join(__dirname, 'results');
-    
+    const resultsDir = path.join(__dirname, RESULTS_DIRNAME);
+
     try {
       await fs.mkdir(resultsDir, { recursive: true });
     } catch (error) {
-      // Directory already exists
+      if (error instanceof Error && error.code !== 'EEXIST') {
+        logger.error('Failed to create results directory.', { error: error.message });
+        throw error;
+      }
     }
 
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -364,33 +515,31 @@ class PerformanceTestSuite {
     const filepath = path.join(resultsDir, filename);
 
     await fs.writeFile(filepath, JSON.stringify(this.results, null, 2));
-    console.log(`\n💾 Results saved to: ${filepath}`);
+    logger.info('Results saved.', { path: filepath });
 
-    // Also save a summary report
     const summaryFilename = `performance-summary-${timestamp}.json`;
     const summaryFilepath = path.join(resultsDir, summaryFilename);
     const summary = this.generateSummary();
 
     await fs.writeFile(summaryFilepath, JSON.stringify(summary, null, 2));
-    console.log(`📊 Summary saved to: ${summaryFilepath}`);
+    logger.info('Summary saved.', { path: summaryFilepath });
   }
 }
 
-// CLI execution
 if (require.main === module) {
-  const baseUrl = process.argv[2] || 'http://localhost:8080';
+  const baseUrl = process.argv[2] || DEFAULT_BASE_URL;
   const testSuite = new PerformanceTestSuite(baseUrl);
 
   testSuite.runFullTestSuite()
     .then(result => {
-      console.log('\n🎉 Performance testing completed!');
+      logger.info('Performance testing completed.', { passed: result.passed });
       process.exit(result.passed ? 0 : 1);
     })
     .catch(error => {
-      console.error('\n❌ Performance testing failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      logger.error('Performance testing failed.', { error: errorMessage });
       process.exit(1);
     });
 }
 
 module.exports = PerformanceTestSuite;
-
