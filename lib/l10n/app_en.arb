@@ -72,19 +72,19 @@
   "@animalGallery": {
     "description": "Title for the section displaying a gallery of animals"
   },
-  "feedbackTitle": "Your Feedback",
+  "feedbackTitle": "Project brief",
   "@feedbackTitle": {
     "description": "Title for the feedback submission section"
   },
-  "feedbackLabel": "Enter your feedback",
+  "feedbackLabel": "Share your goals, timeline, and budget",
   "@feedbackLabel": {
     "description": "Label for the text area where users can provide their feedback"
   },
-  "submitFeedback": "Submit Feedback",
+  "submitFeedback": "Send request",
   "@submitFeedback": {
     "description": "Text displayed on the button to submit feedback"
   },
-  "feedbackListTitle": "Feedback List",
+  "feedbackListTitle": "Client notes",
   "@feedbackListTitle": {
     "description": "Title for the section displaying all submitted feedback"
   },
@@ -108,7 +108,7 @@
   "@registerTitle": {
     "description": "Title for the registration screen"
   },
-  "feedbackEmpty": "No feedback yet",
+  "feedbackEmpty": "No notes yet",
   "@feedbackEmpty": {
     "description": "Label displayed when there is no feedback"
   },
@@ -176,11 +176,11 @@
   "@adminTabLabel": {
     "description": "Navigation label for administrator-only insights"
   },
-  "explorerHeroHeadline": "Design immersive journeys faster",
+  "explorerHeroHeadline": "Build premium digital products faster",
   "@explorerHeroHeadline": {
     "description": "Headline for the explorer hero banner"
   },
-  "explorerHeroSubtitle": "Curate culinary pairings and VR routes that adapt to each guest in real time.",
+  "explorerHeroSubtitle": "I help founders launch high-converting experiences with strategy, design, and automation.",
   "@explorerHeroSubtitle": {
     "description": "Subtitle text under the explorer hero banner"
   },
@@ -188,47 +188,47 @@
   "@quickActionsTitle": {
     "description": "Section title for quick shortcut cards"
   },
-  "quickActionTrack": "View live route",
+  "quickActionTrack": "Book a discovery call",
   "@quickActionTrack": {
     "description": "Button label to open live tracking from the hero banner"
   },
-  "quickActionSchedule": "Schedule drop",
+  "quickActionSchedule": "Request a proposal",
   "@quickActionSchedule": {
     "description": "Button label for scheduling a delivery"
   },
-  "quickActionInvite": "Invite collaborators",
+  "quickActionInvite": "Share your brief",
   "@quickActionInvite": {
     "description": "Button label for inviting collaborators"
   },
-  "quickActionOrder": "Order VR tasting",
+  "quickActionOrder": "UI/UX audit",
   "@quickActionOrder": {
     "description": "Title for the quick action to order a tasting menu"
   },
-  "quickActionOrderDescription": "Pair hero animals with chef-led menus in seconds.",
+  "quickActionOrderDescription": "Identify quick wins to increase conversions.",
   "@quickActionOrderDescription": {
     "description": "Description for the order quick action"
   },
-  "quickActionExperience": "Launch experience",
+  "quickActionExperience": "Build an MVP",
   "@quickActionExperience": {
     "description": "Title for the quick action to start an experience"
   },
-  "quickActionExperienceDescription": "Spin up multi-room VR tours with prebuilt storylines.",
+  "quickActionExperienceDescription": "From prototype to production-ready release.",
   "@quickActionExperienceDescription": {
     "description": "Description for the launch experience quick action"
   },
-  "quickActionShare": "Share link",
+  "quickActionShare": "Share portfolio",
   "@quickActionShare": {
     "description": "Title for the quick action to share a link"
   },
-  "quickActionShareDescription": "Send branded journeys to guests and VIP partners.",
+  "quickActionShareDescription": "Send curated case studies to your team.",
   "@quickActionShareDescription": {
     "description": "Description for the share link quick action"
   },
-  "activeOrderTitle": "Live concierge order",
+  "activeOrderTitle": "Active client project",
   "@activeOrderTitle": {
     "description": "Title for the active order card"
   },
-  "activeOrderSubtitle": "Order {orderNumber}",
+  "activeOrderSubtitle": "Project {orderNumber}",
   "@activeOrderSubtitle": {
     "description": "Subtitle showing the order number for the active order",
     "placeholders": {
@@ -237,11 +237,11 @@
       }
     }
   },
-  "activeOrderView": "Open live map",
+  "activeOrderView": "View timeline",
   "@activeOrderView": {
     "description": "Button label to open the live map"
   },
-  "activeOrderEta": "ETA {eta}",
+  "activeOrderEta": "Next delivery {eta}",
   "@activeOrderEta": {
     "description": "Chip text for estimated arrival time",
     "placeholders": {
@@ -250,7 +250,7 @@
       }
     }
   },
-  "activeOrderCourier": "Guide {courier}",
+  "activeOrderCourier": "Lead {courier}",
   "@activeOrderCourier": {
     "description": "Chip text showing courier name",
     "placeholders": {
@@ -259,7 +259,7 @@
       }
     }
   },
-  "activeOrderRating": "{rating} ⭐ courier rating",
+  "activeOrderRating": "{rating} ⭐ client rating",
   "@activeOrderRating": {
     "description": "Chip text showing courier rating",
     "placeholders": {
@@ -268,15 +268,15 @@
       }
     }
   },
-  "trendingExperiencesTitle": "Trending experiences",
+  "trendingExperiencesTitle": "Featured services",
   "@trendingExperiencesTitle": {
     "description": "Section title for trending experiences"
   },
-  "signatureBundlesTitle": "Signature bundles",
+  "signatureBundlesTitle": "Service bundles",
   "@signatureBundlesTitle": {
     "description": "Section title for signature bundles"
   },
-  "bundlePrice": "{price} credits",
+  "bundlePrice": "USD {price}",
   "@bundlePrice": {
     "description": "Price label for bundles",
     "placeholders": {
@@ -285,19 +285,19 @@
       }
     }
   },
-  "communityHighlightsTitle": "Community highlights",
+  "communityHighlightsTitle": "Client highlights",
   "@communityHighlightsTitle": {
     "description": "Title for community feedback section"
   },
-  "communityHighlightsInsights": "View insights",
+  "communityHighlightsInsights": "View metrics",
   "@communityHighlightsInsights": {
     "description": "Button label to open community insights"
   },
-  "communityHighlightsEmpty": "No highlights yet. Be the first to share what worked!",
+  "communityHighlightsEmpty": "No highlights yet. Be the first to share a win!",
   "@communityHighlightsEmpty": {
     "description": "Message when there is no community feedback"
   },
-  "feedbackSubmitted": "Thanks for sharing — the team will review shortly.",
+  "feedbackSubmitted": "Thanks for reaching out — I’ll reply shortly.",
   "@feedbackSubmitted": {
     "description": "Snack bar message after submitting feedback"
   },
