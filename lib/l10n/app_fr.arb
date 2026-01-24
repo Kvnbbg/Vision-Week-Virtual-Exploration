@@ -72,19 +72,19 @@
   "@animalGallery": {
     "description": "Titre de la section affichant une galerie d'animaux"
   },
-  "feedbackTitle": "Votre avis",
+  "feedbackTitle": "Brief projet",
   "@feedbackTitle": {
     "description": "Titre de la section de soumission de commentaires"
   },
-  "feedbackLabel": "Entrez votre avis",
+  "feedbackLabel": "Partagez vos objectifs, délais et budget",
   "@feedbackLabel": {
     "description": "Étiquette pour la zone de texte où les utilisateurs peuvent fournir leurs commentaires"
   },
-  "submitFeedback": "Envoyer un avis",
+  "submitFeedback": "Envoyer la demande",
   "@submitFeedback": {
     "description": "Texte affiché sur le bouton pour envoyer un avis"
   },
-  "feedbackListTitle": "Liste des avis",
+  "feedbackListTitle": "Notes client",
   "@feedbackListTitle": {
     "description": "Titre de la section affichant tous les avis soumis"
   },
@@ -108,7 +108,7 @@
   "@registerTitle": {
     "description": "Titre pour l'écran d'inscription"
   },
-  "feedbackEmpty": "Aucun avis pour le moment",
+  "feedbackEmpty": "Aucune note pour le moment",
   "@feedbackEmpty": {
     "description": "Texte affiché lorsque la liste d'avis est vide"
   },
@@ -176,11 +176,11 @@
   "@adminTabLabel": {
     "description": "Libellé de navigation pour la console administrateur"
   },
-  "explorerHeroHeadline": "Concevez des parcours immersifs en un clin d'œil",
+  "explorerHeroHeadline": "Construisez des produits digitaux premium plus vite",
   "@explorerHeroHeadline": {
     "description": "Titre principal dans la bannière explorateur"
   },
-  "explorerHeroSubtitle": "Composez des accords culinaires et des visites VR synchronisées pour chaque visiteur.",
+  "explorerHeroSubtitle": "J'aide les fondateurs à lancer des expériences performantes avec stratégie, design et automatisation.",
   "@explorerHeroSubtitle": {
     "description": "Sous-titre de la bannière explorateur"
   },
@@ -188,47 +188,47 @@
   "@quickActionsTitle": {
     "description": "Titre pour les cartes d'actions rapides"
   },
-  "quickActionTrack": "Voir l'itinéraire",
+  "quickActionTrack": "Réserver un appel découverte",
   "@quickActionTrack": {
     "description": "Bouton pour ouvrir le suivi en direct"
   },
-  "quickActionSchedule": "Programmer une livraison",
+  "quickActionSchedule": "Demander une proposition",
   "@quickActionSchedule": {
     "description": "Bouton pour programmer une livraison"
   },
-  "quickActionInvite": "Inviter des partenaires",
+  "quickActionInvite": "Partager votre brief",
   "@quickActionInvite": {
     "description": "Bouton pour inviter des collaborateurs"
   },
-  "quickActionOrder": "Commander une dégustation VR",
+  "quickActionOrder": "Audit UI/UX",
   "@quickActionOrder": {
     "description": "Titre de l'action rapide pour commander"
   },
-  "quickActionOrderDescription": "Associez vos animaux phares à un menu guidé par le chef en quelques secondes.",
+  "quickActionOrderDescription": "Identifiez les gains rapides pour convertir plus.",
   "@quickActionOrderDescription": {
     "description": "Description de l'action rapide de commande"
   },
-  "quickActionExperience": "Lancer une expérience",
+  "quickActionExperience": "Construire un MVP",
   "@quickActionExperience": {
     "description": "Titre de l'action rapide pour lancer une expérience"
   },
-  "quickActionExperienceDescription": "Déployez des visites VR multi-salles avec scénarios préconstruits.",
+  "quickActionExperienceDescription": "Du prototype à une mise en production solide.",
   "@quickActionExperienceDescription": {
     "description": "Description de l'action rapide pour lancer une expérience"
   },
-  "quickActionShare": "Partager un lien",
+  "quickActionShare": "Partager le portfolio",
   "@quickActionShare": {
     "description": "Titre de l'action rapide pour partager un lien"
   },
-  "quickActionShareDescription": "Envoyez des parcours personnalisés aux invités et partenaires VIP.",
+  "quickActionShareDescription": "Envoyez des études de cas à votre équipe.",
   "@quickActionShareDescription": {
     "description": "Description de l'action rapide de partage"
   },
-  "activeOrderTitle": "Commande concierge en direct",
+  "activeOrderTitle": "Projet client en cours",
   "@activeOrderTitle": {
     "description": "Titre de la carte commande active"
   },
-  "activeOrderSubtitle": "Commande {orderNumber}",
+  "activeOrderSubtitle": "Projet {orderNumber}",
   "@activeOrderSubtitle": {
     "description": "Sous-titre indiquant le numéro de commande",
     "placeholders": {
@@ -237,11 +237,11 @@
       }
     }
   },
-  "activeOrderView": "Ouvrir la carte",
+  "activeOrderView": "Voir le planning",
   "@activeOrderView": {
     "description": "Bouton pour ouvrir la carte en direct"
   },
-  "activeOrderEta": "Arrivée prévue {eta}",
+  "activeOrderEta": "Prochaine livraison {eta}",
   "@activeOrderEta": {
     "description": "Puce pour l'heure estimée",
     "placeholders": {
@@ -250,7 +250,7 @@
       }
     }
   },
-  "activeOrderCourier": "Guide {courier}",
+  "activeOrderCourier": "Lead {courier}",
   "@activeOrderCourier": {
     "description": "Puce indiquant le nom du coursier",
     "placeholders": {
@@ -259,7 +259,7 @@
       }
     }
   },
-  "activeOrderRating": "Note coursier {rating} ⭐",
+  "activeOrderRating": "Note client {rating} ⭐",
   "@activeOrderRating": {
     "description": "Puce indiquant la note du coursier",
     "placeholders": {
@@ -268,15 +268,15 @@
       }
     }
   },
-  "trendingExperiencesTitle": "Expériences tendances",
+  "trendingExperiencesTitle": "Services phares",
   "@trendingExperiencesTitle": {
     "description": "Titre pour les expériences populaires"
   },
-  "signatureBundlesTitle": "Formules signatures",
+  "signatureBundlesTitle": "Bundles de services",
   "@signatureBundlesTitle": {
     "description": "Titre pour les formules signatures"
   },
-  "bundlePrice": "{price} crédits",
+  "bundlePrice": "USD {price}",
   "@bundlePrice": {
     "description": "Libellé du prix des formules",
     "placeholders": {
@@ -285,19 +285,19 @@
       }
     }
   },
-  "communityHighlightsTitle": "Moments de la communauté",
+  "communityHighlightsTitle": "Retours clients",
   "@communityHighlightsTitle": {
     "description": "Titre de la section des retours communauté"
   },
-  "communityHighlightsInsights": "Voir les insights",
+  "communityHighlightsInsights": "Voir les métriques",
   "@communityHighlightsInsights": {
     "description": "Bouton pour ouvrir les insights communauté"
   },
-  "communityHighlightsEmpty": "Aucun retour pour le moment. Partagez votre succès !",
+  "communityHighlightsEmpty": "Aucun retour pour le moment. Partagez une réussite !",
   "@communityHighlightsEmpty": {
     "description": "Message lorsque la section communauté est vide"
   },
-  "feedbackSubmitted": "Merci, votre retour a été transmis à l'équipe.",
+  "feedbackSubmitted": "Merci pour votre message, je reviens vite vers vous.",
   "@feedbackSubmitted": {
     "description": "Notification après envoi d'un retour"
   },

@@ -24,8 +24,9 @@ class ExplorerDashboard extends StatefulWidget {
 class _ExplorerDashboardState extends State<ExplorerDashboard> {
   final TextEditingController _feedbackController = TextEditingController();
   final List<String> _communityHighlights = <String>[
-    'Aurora canopy pairing was unforgettable – please keep the chef table slots!',
-    'Can we add a wildlife nutrition workshop next week? Our team loved the pilot.',
+    '“We shipped our new landing page in 12 days — CTR jumped 34%.”',
+    '“The automation sprint saved our ops team ~18 hours per week.”',
+    '“Clear process, fast communication, and the hand-off was flawless.”',
   ];
 
   @override
