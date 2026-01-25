@@ -11,13 +11,25 @@
   />
 </head>
 <body>
-  <header>
-    <div class="navbar">
-      <div class="brand">
-        <span>VW</span>
-        <div data-i18n="brand">Vision Week</div>
+  <header class="app-header">
+    <nav class="navbar">
+      <div class="nav-left">
+        <div class="brand">
+          <span>VW</span>
+          <div data-i18n="brand">Vision Week</div>
+        </div>
       </div>
-      <div class="nav-actions">
+      <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="nav-drawer">
+        <span class="sr-only">Toggle navigation</span>
+        ☰
+      </button>
+      <div class="nav-center">
+        <a href="#dashboard" data-i18n="navDashboard">Dashboard</a>
+        <a href="#operations" data-i18n="navOperations">Operations</a>
+        <a href="#commerce" data-i18n="navCommerce">Commerce</a>
+        <a href="#systems" data-i18n="navSystems">Systems</a>
+      </div>
+      <div class="nav-right">
         <div class="toggle-group" role="radiogroup" aria-label="Language selector">
           <button type="button" data-language="en" aria-pressed="false">EN</button>
           <button type="button" data-language="fr" aria-pressed="false">FR</button>
@@ -25,13 +37,20 @@
         <button type="button" class="theme-toggle" data-theme-toggle aria-pressed="false">
           🌗 Theme
         </button>
+        <button type="button" class="utility-button" data-i18n="navLogout">Logout</button>
       </div>
+    </nav>
+    <div class="nav-drawer" id="nav-drawer" data-nav-drawer>
+      <a href="#dashboard" data-i18n="navDashboard">Dashboard</a>
+      <a href="#operations" data-i18n="navOperations">Operations</a>
+      <a href="#commerce" data-i18n="navCommerce">Commerce</a>
+      <a href="#systems" data-i18n="navSystems">Systems</a>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-card" data-animate>
+  <main class="dashboard" id="dashboard">
+    <section class="dashboard-top" aria-labelledby="dashboard-overview">
+      <article class="hero-card card" data-animate>
         <div class="badge">Family-first access</div>
         <h1 data-i18n="heroTitle">Consultation hub for the Vision Week family</h1>
         <p data-i18n="heroSubtitle">
@@ -42,196 +61,216 @@
           <a class="button-primary" href="explore_home.html" data-i18n="ctaPrimary">Enter the consultation hub</a>
           <a class="button-secondary" href="landing.html" data-i18n="ctaSecondary">See the landing page</a>
         </div>
-      </div>
-      <div>
-        <div class="hero-card" data-animate>
-          <h2 data-i18n="indexTitle">Quick access</h2>
-          <p data-i18n="indexSubtitle">
-            Choose an experience or learn more about what the family is building together.
-          </p>
-          <div class="index-grid">
-            <div class="index-card" data-animate>
-              <h3 data-i18n="exploreTitle">Virtual exploration</h3>
-              <p data-i18n="exploreDesc">Explore curated virtual journeys and vision week highlights.</p>
-              <a class="button-secondary" href="explore_home.html">Explore</a>
-            </div>
-            <div class="index-card" data-animate>
-              <h3 data-i18n="mobilityTitle">Mobility stories</h3>
-              <p data-i18n="mobilityDesc">Discover adaptive cars and mobility showcases.</p>
-              <a class="button-secondary" href="cars.html">Visit</a>
-            </div>
-            <div class="index-card" data-animate>
-              <h3 data-i18n="wellnessTitle">Wellness studio</h3>
-              <p data-i18n="wellnessDesc">Join wellness and gym sessions tailored to the community.</p>
-              <a class="button-secondary" href="gym.html">Join</a>
-            </div>
-            <div class="index-card" data-animate>
-              <h3 data-i18n="nbaTitle">Athlete spotlight</h3>
-              <p data-i18n="nbaDesc">Follow inspiring athlete collaborations and events.</p>
-              <a class="button-secondary" href="nba.html">See more</a>
-            </div>
+      </article>
+      <aside class="card quick-access" data-animate>
+        <div class="section-heading">
+          <div>
+            <h2 id="dashboard-overview" data-i18n="indexTitle">Quick access</h2>
+            <p data-i18n="indexSubtitle">
+              Choose an experience or learn more about what the family is building together.
+            </p>
           </div>
         </div>
-      </div>
+        <div class="index-grid">
+          <div class="index-card" data-animate>
+            <h3 data-i18n="exploreTitle">Virtual exploration</h3>
+            <p data-i18n="exploreDesc">Explore curated virtual journeys and vision week highlights.</p>
+            <a class="button-secondary" href="explore_home.html">Explore</a>
+          </div>
+          <div class="index-card" data-animate>
+            <h3 data-i18n="mobilityTitle">Mobility stories</h3>
+            <p data-i18n="mobilityDesc">Discover adaptive cars and mobility showcases.</p>
+            <a class="button-secondary" href="cars.html">Visit</a>
+          </div>
+          <div class="index-card" data-animate>
+            <h3 data-i18n="wellnessTitle">Wellness studio</h3>
+            <p data-i18n="wellnessDesc">Join wellness and gym sessions tailored to the community.</p>
+            <a class="button-secondary" href="gym.html">Join</a>
+          </div>
+          <div class="index-card" data-animate>
+            <h3 data-i18n="nbaTitle">Athlete spotlight</h3>
+            <p data-i18n="nbaDesc">Follow inspiring athlete collaborations and events.</p>
+            <a class="button-secondary" href="nba.html">See more</a>
+          </div>
+        </div>
+      </aside>
     </section>
 
-    <section class="section">
-      <div class="whiteout-panel" data-animate>
-        <div class="whiteout-header">
-          <div>
-            <div class="badge" data-i18n="whiteoutBadge">Whiteout braking display</div>
-            <h2 data-i18n="whiteoutTitle">Adaptive braking for every journey</h2>
-            <p data-i18n="whiteoutSubtitle">
-              Simulate braking readiness, calibrate the system, and preview safer stopping distances for
-              families on the move.
-            </p>
-          </div>
-          <div class="whiteout-status" data-whiteout-status data-i18n="whiteoutCalibrate">
-            Calibrate now
-          </div>
+    <section class="dashboard-section" id="operations" aria-labelledby="operations-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="operations-title" data-i18n="operationsTitle">Operations overview</h2>
+          <p data-i18n="operationsSubtitle">
+            Monitor readiness, engagement, and secure access in one operational view.
+          </p>
         </div>
-        <div class="whiteout-grid">
-          <div class="whiteout-card" data-animate>
-            <h3 data-i18n="whiteoutModeLabel">Braking mode</h3>
-            <p data-i18n="whiteoutModeDesc">
-              Switch between presets to understand how the braking system behaves in changing conditions.
-            </p>
-            <div class="mode-toggle" role="group" aria-label="Braking modes">
-              <button type="button" data-whiteout-mode="urban" aria-pressed="false" data-i18n="whiteoutModeUrban">
-                Urban
-              </button>
-              <button
-                type="button"
-                data-whiteout-mode="highway"
-                aria-pressed="false"
-                data-i18n="whiteoutModeHighway"
-              >
-                Highway
-              </button>
-              <button type="button" data-whiteout-mode="night" aria-pressed="false" data-i18n="whiteoutModeNight">
-                Night
-              </button>
-            </div>
-            <div class="mode-details" data-whiteout-details>
-              <h4 data-whiteout-mode-name>Urban calm</h4>
-              <p data-whiteout-mode-detail>
-                Slow speed optimization with extra pedestrian awareness and smooth deceleration.
+      </div>
+      <div class="dashboard-grid">
+        <div class="whiteout-panel" data-animate>
+          <div class="whiteout-header">
+            <div>
+              <div class="badge" data-i18n="whiteoutBadge">Whiteout braking display</div>
+              <h3 data-i18n="whiteoutTitle">Adaptive braking for every journey</h3>
+              <p data-i18n="whiteoutSubtitle">
+                Simulate braking readiness, calibrate the system, and preview safer stopping distances for
+                families on the move.
               </p>
             </div>
-          </div>
-          <div class="whiteout-card" data-animate>
-            <h3 data-i18n="whiteoutRangeLabel">Estimated travel speed</h3>
-            <p data-i18n="whiteoutRangeHint">Adjust the slider to estimate the braking distance.</p>
-            <input
-              class="braking-slider"
-              type="range"
-              min="10"
-              max="120"
-              value="45"
-              data-braking-range
-              aria-label="Braking speed"
-            />
-            <div class="braking-readout">
-              <div>
-                <span class="label" data-i18n="whiteoutSpeedLabel">Speed</span>
-                <strong data-braking-speed>45 km/h</strong>
-              </div>
-              <div>
-                <span class="label" data-i18n="whiteoutDistanceLabel">Estimated stopping distance</span>
-                <strong data-braking-distance>34 m</strong>
-              </div>
-            </div>
-          </div>
-          <div class="whiteout-card whiteout-control" data-animate>
-            <h3 data-i18n="whiteoutReadyTitle">Daily readiness check</h3>
-            <p data-i18n="whiteoutReadyDesc">
-              Keep the consultation fleet prepared with a live check-in and a gentle safety pulse.
-            </p>
-            <button class="button-primary" type="button" data-whiteout-calibrate data-i18n="whiteoutCalibrate">
+            <div class="whiteout-status" data-whiteout-status data-i18n="whiteoutCalibrate">
               Calibrate now
-            </button>
-            <div class="pulse-indicator">
-              <span></span>
-              <span></span>
-              <span></span>
+            </div>
+          </div>
+          <div class="whiteout-grid">
+            <div class="whiteout-card" data-animate>
+              <h4 data-i18n="whiteoutModeLabel">Braking mode</h4>
+              <p data-i18n="whiteoutModeDesc">
+                Switch between presets to understand how the braking system behaves in changing conditions.
+              </p>
+              <div class="mode-toggle" role="group" aria-label="Braking modes">
+                <button type="button" data-whiteout-mode="urban" aria-pressed="false" data-i18n="whiteoutModeUrban">
+                  Urban
+                </button>
+                <button
+                  type="button"
+                  data-whiteout-mode="highway"
+                  aria-pressed="false"
+                  data-i18n="whiteoutModeHighway"
+                >
+                  Highway
+                </button>
+                <button type="button" data-whiteout-mode="night" aria-pressed="false" data-i18n="whiteoutModeNight">
+                  Night
+                </button>
+              </div>
+              <div class="mode-details" data-whiteout-details>
+                <h5 data-whiteout-mode-name>Urban calm</h5>
+                <p data-whiteout-mode-detail>
+                  Slow speed optimization with extra pedestrian awareness and smooth deceleration.
+                </p>
+              </div>
+            </div>
+            <div class="whiteout-card" data-animate>
+              <h4 data-i18n="whiteoutRangeLabel">Estimated travel speed</h4>
+              <p data-i18n="whiteoutRangeHint">Adjust the slider to estimate the braking distance.</p>
+              <input
+                class="braking-slider"
+                type="range"
+                min="10"
+                max="120"
+                value="45"
+                data-braking-range
+                aria-label="Braking speed"
+              />
+              <div class="braking-readout">
+                <div>
+                  <span class="label" data-i18n="whiteoutSpeedLabel">Speed</span>
+                  <strong data-braking-speed>45 km/h</strong>
+                </div>
+                <div>
+                  <span class="label" data-i18n="whiteoutDistanceLabel">Estimated stopping distance</span>
+                  <strong data-braking-distance>34 m</strong>
+                </div>
+              </div>
+            </div>
+            <div class="whiteout-card whiteout-control" data-animate>
+              <h4 data-i18n="whiteoutReadyTitle">Daily readiness check</h4>
+              <p data-i18n="whiteoutReadyDesc">
+                Keep the consultation fleet prepared with a live check-in and a gentle safety pulse.
+              </p>
+              <button class="button-primary" type="button" data-whiteout-calibrate data-i18n="whiteoutCalibrate">
+                Calibrate now
+              </button>
+              <div class="pulse-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="auth-panel" data-animate>
-        <div class="auth-status">
-          <div>
-            <div class="badge" data-i18n="authTitle">Join the family</div>
-            <h2 data-i18n="authSubtitle">
-              Create your secure account to participate in consultations and member-only content.
-            </h2>
-            <p class="notice" id="authMessage" data-i18n="statusGuest">Not connected yet</p>
-          </div>
-          <form id="logoutForm" action="auth.php" method="post" hidden>
-            <input type="hidden" name="action" value="logout" />
-            <input type="hidden" name="csrf_token" value="" />
-            <input type="hidden" name="redirect" value="index.html" />
-            <button class="button-secondary" type="submit" data-i18n="logoutButton">Sign out</button>
-          </form>
-        </div>
-        <div class="auth-forms" id="authForms">
-          <div class="form-card">
-            <h3 data-i18n="registerTitle">Register</h3>
-            <form action="auth.php" method="post">
-              <input type="hidden" name="action" value="register" />
+        <aside class="auth-panel" data-animate>
+          <div class="auth-status">
+            <div>
+              <div class="badge" data-i18n="authTitle">Join the family</div>
+              <h3 data-i18n="authSubtitle">
+                Create your secure account to participate in consultations and member-only content.
+              </h3>
+              <p class="notice" id="authMessage" data-i18n="statusGuest">Not connected yet</p>
+            </div>
+            <form id="logoutForm" action="auth.php" method="post" hidden>
+              <input type="hidden" name="action" value="logout" />
               <input type="hidden" name="csrf_token" value="" />
               <input type="hidden" name="redirect" value="index.html" />
-              <label for="registerName" data-i18n="fullName">Full name</label>
-              <input id="registerName" name="full_name" type="text" required autocomplete="name" />
-              <label for="registerEmail" data-i18n="email">Email</label>
-              <input id="registerEmail" name="email" type="email" required autocomplete="email" />
-              <label for="registerPassword" data-i18n="password">Password</label>
-              <input
-                id="registerPassword"
-                name="password"
-                type="password"
-                minlength="8"
-                required
-                autocomplete="new-password"
-              />
-              <button class="button-primary" type="submit" data-i18n="registerButton">Create account</button>
+              <button class="button-secondary" type="submit" data-i18n="logoutButton">Sign out</button>
             </form>
           </div>
-          <div class="form-card">
-            <h3 data-i18n="loginTitle">Sign in</h3>
-            <form action="auth.php" method="post">
-              <input type="hidden" name="action" value="login" />
-              <input type="hidden" name="csrf_token" value="" />
-              <input type="hidden" name="redirect" value="index.html" />
-              <label for="loginEmail" data-i18n="email">Email</label>
-              <input id="loginEmail" name="email" type="email" required autocomplete="email" />
-              <label for="loginPassword" data-i18n="password">Password</label>
-              <input
-                id="loginPassword"
-                name="password"
-                type="password"
-                minlength="8"
-                required
-                autocomplete="current-password"
-              />
-              <button class="button-primary" type="submit" data-i18n="loginButton">Sign in</button>
-            </form>
+          <div class="auth-forms" id="authForms">
+            <div class="form-card">
+              <h4 data-i18n="registerTitle">Register</h4>
+              <form action="auth.php" method="post">
+                <input type="hidden" name="action" value="register" />
+                <input type="hidden" name="csrf_token" value="" />
+                <input type="hidden" name="redirect" value="index.html" />
+                <label for="registerName" data-i18n="fullName">Full name</label>
+                <input id="registerName" name="full_name" type="text" required autocomplete="name" />
+                <label for="registerEmail" data-i18n="email">Email</label>
+                <input id="registerEmail" name="email" type="email" required autocomplete="email" />
+                <label for="registerPassword" data-i18n="password">Password</label>
+                <input
+                  id="registerPassword"
+                  name="password"
+                  type="password"
+                  minlength="8"
+                  required
+                  autocomplete="new-password"
+                />
+                <button class="button-primary" type="submit" data-i18n="registerButton">Create account</button>
+              </form>
+            </div>
+            <div class="form-card">
+              <h4 data-i18n="loginTitle">Sign in</h4>
+              <form action="auth.php" method="post">
+                <input type="hidden" name="action" value="login" />
+                <input type="hidden" name="csrf_token" value="" />
+                <input type="hidden" name="redirect" value="index.html" />
+                <label for="loginEmail" data-i18n="email">Email</label>
+                <input id="loginEmail" name="email" type="email" required autocomplete="email" />
+                <label for="loginPassword" data-i18n="password">Password</label>
+                <input
+                  id="loginPassword"
+                  name="password"
+                  type="password"
+                  minlength="8"
+                  required
+                  autocomplete="current-password"
+                />
+                <button class="button-primary" type="submit" data-i18n="loginButton">Sign in</button>
+              </form>
+            </div>
           </div>
-        </div>
-        <p class="notice">
-          Secure fallback uses SQLite locally. Serverless database bridges can replace this layer later without
-          changing the UX.
-        </p>
+          <p class="notice">
+            Secure fallback uses SQLite locally. Serverless database bridges can replace this layer later without
+            changing the UX.
+          </p>
+        </aside>
       </div>
     </section>
 
-    <section class="section">
+    <section class="dashboard-section" id="commerce" aria-labelledby="commerce-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="commerce-title" data-i18n="commerceSectionTitle">Commerce control</h2>
+          <p data-i18n="commerceSectionSubtitle">
+            Balance bundles, payments, and automation from a single command center.
+          </p>
+        </div>
+      </div>
       <div class="commerce-panel" data-animate>
         <div class="section-header">
           <div>
             <div class="badge" data-i18n="commerceBadge">Commerce cockpit</div>
-            <h2 data-i18n="commerceTitle">Payment-ready commerce for the Vision Week family</h2>
+            <h3 data-i18n="commerceTitle">Payment-ready commerce for the Vision Week family</h3>
             <p data-i18n="commerceSubtitle">
               Build transparent payment flows with automated totals, smart bundles, and clear checkout steps.
             </p>
@@ -248,12 +287,12 @@
         </div>
         <div class="commerce-grid">
           <div class="commerce-card" data-animate>
-            <h3 data-i18n="commercePlansTitle">Experience bundles</h3>
+            <h4 data-i18n="commercePlansTitle">Experience bundles</h4>
             <div class="pill-group" data-commerce-cycle></div>
             <div class="plan-list" data-commerce-plans></div>
           </div>
           <div class="commerce-card" data-animate>
-            <h3 data-i18n="commercePaymentTitle">Payment setup</h3>
+            <h4 data-i18n="commercePaymentTitle">Payment setup</h4>
             <div class="payment-methods" data-commerce-methods></div>
             <label class="field-label" for="commerceQuantity" data-i18n="commerceQuantity">Seats</label>
             <div class="quantity-control">
@@ -267,19 +306,27 @@
             </div>
           </div>
           <div class="commerce-card" data-animate>
-            <h3 data-i18n="commerceAutomationTitle">Automated operations</h3>
+            <h4 data-i18n="commerceAutomationTitle">Automated operations</h4>
             <ul class="automation-list" data-commerce-automation></ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="dashboard-section" id="systems" aria-labelledby="systems-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="systems-title" data-i18n="systemsSectionTitle">Systems dashboard</h2>
+          <p data-i18n="systemsSectionSubtitle">
+            Explore live environment profiles and their simulation readiness.
+          </p>
+        </div>
+      </div>
       <div class="systems-panel" data-animate>
         <div class="section-header">
           <div>
             <div class="badge" data-i18n="systemsBadge">System atlas</div>
-            <h2 data-i18n="systemsTitle">Different systems, atmospheres, and ozone profiles</h2>
+            <h3 data-i18n="systemsTitle">Different systems, atmospheres, and ozone profiles</h3>
             <p data-i18n="systemsSubtitle">
               Translate planetary data into immersive experiences with climate, ozone strength, and sky color cues.
             </p>
