@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Anti-Bias Reader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Gotham", "Arial", "sans-serif"],
+              body: ["Times New Roman", "Times", "serif"],
+              ui: ["Calibri", "Arial", "sans-serif"],
+            },
+            colors: {
+              ink: {
+                900: "#0b0b0f",
+                700: "#2a2a33",
+              },
+              paper: {
+                50: "#f8f7f4",
+                100: "#f2f0eb",
+                0: "#ffffff",
+              },
+            },
+            fontSize: {
+              base: ["16px", { lineHeight: "1.5" }],
+              prose: ["18px", { lineHeight: "1.6" }],
+              hero: ["clamp(1.5rem, 3.2vw, 2rem)", { lineHeight: "1.2" }],
+            },
+            boxShadow: {
+              card: "0 6px 20px -18px rgba(15, 23, 42, 0.35)",
+            },
+            keyframes: {
+              "tab-pop": {
+                "0%": { transform: "scale(1)" },
+                "40%": { transform: "scale(1.12)" },
+                "100%": { transform: "scale(1)" },
+              },
+            },
+            animation: {
+              "tab-pop": "tab-pop 180ms ease-out",
+            },
+          },
+        },
+      };
+    </script>
+    <style type="text/tailwindcss">
+      @layer base {
+        html {
+          font-size: 16px;
+          background-color: theme('colors.paper.50');
+        }
+
+        body {
+          @apply font-ui text-base text-ink-900 bg-paper-50;
+        }
+
+        h1, h2, h3, h4 {
+          @apply font-display text-ink-900;
+        }
+
+        p {
+          @apply font-body text-prose;
+        }
+      }
+
+      @layer components {
+        .card-standard {
+          @apply rounded-xl bg-paper-0 shadow-card p-4 flex flex-col gap-2;
+        }
+
+        .section-spacing {
+          @apply flex flex-col gap-4;
+        }
+
+        .btn-primary {
+          @apply w-full rounded-full bg-ink-900 text-paper-0 font-display text-base py-3 px-4 min-h-[44px] shadow-sm;
+        }
+
+        .btn-secondary {
+          @apply rounded-full border border-ink-900 text-ink-900 font-ui text-base py-2 px-4 min-h-[44px];
+        }
+
+        .fab-primary {
+          @apply h-14 w-14 rounded-full bg-ink-900 text-paper-0 shadow-lg flex items-center justify-center min-h-[44px] min-w-[44px];
+        }
+
+        .nav-item {
+          @apply flex flex-col items-center justify-center gap-1 text-xs font-ui text-ink-700 min-h-[44px] min-w-[44px];
+        }
+
+        .nav-item-active {
+          @apply text-ink-900;
+        }
+      }
+
+      @layer utilities {
+        .prose-body {
+          @apply font-body text-prose leading-relaxed;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="min-h-screen bg-paper-50">
+      <header class="sticky top-0 z-20 bg-paper-0/90 backdrop-blur">
+        <div class="mx-auto flex h-16 max-w-md items-center justify-between px-4">
+          <div class="flex flex-col">
+            <span class="text-xs font-ui text-ink-700">The Anti-Bias Reader</span>
+            <h1 class="text-hero">Daily Briefing</h1>
+          </div>
+          <button type="button" class="btn-secondary text-sm" aria-label="Open menu">
+            More
+          </button>
+        </div>
+      </header>
+
+      <main class="mx-auto max-w-md px-4 pb-24 pt-6">
+        <section class="section-spacing">
+          <div class="card-standard">
+            <div class="flex items-center justify-between">
+              <h2 class="text-xl">Daily Streak</h2>
+              <span class="rounded-full bg-paper-100 px-3 py-1 text-xs font-ui text-ink-700">
+                12-day run
+              </span>
+            </div>
+            <p class="prose-body">
+              Keep your lens calibrated. Review two sources today to maintain balance.
+            </p>
+            <div class="flex gap-2">
+              <button type="button" class="btn-primary">Start Today’s Check</button>
+            </div>
+          </div>
+
+          <div class="section-spacing">
+            <h2 class="text-xl">Today’s Articles</h2>
+
+            <article class="card-standard">
+              <div class="flex flex-col gap-2">
+                <h3 class="text-lg">Audit the Algorithm: Morning Bias Check</h3>
+                <p class="prose-body">
+                  Scan headlines with a calibrated lens and compare framing across sources.
+                </p>
+                <span class="text-xs font-ui text-ink-700">5 min read · 2 sources</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="btn-primary">Verify Source</button>
+                <button type="button" class="btn-secondary">Save for Later</button>
+              </div>
+            </article>
+
+            <article class="card-standard">
+              <div class="flex flex-col gap-2">
+                <h3 class="text-lg">Community Voices: Building Trust in Local News</h3>
+                <p class="prose-body">
+                  A checklist to surface diverse perspectives while staying grounded in facts.
+                </p>
+                <span class="text-xs font-ui text-ink-700">8 min read · 3 sources</span>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" class="btn-primary">Verify Source</button>
+                <button type="button" class="btn-secondary">Save for Later</button>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <button type="button" class="fab-primary fixed bottom-20 right-4" aria-label="Next article">
+        ➜
+      </button>
+
+      <nav class="fixed bottom-0 left-0 right-0 bg-paper-0 shadow-[0_-6px_20px_-18px_rgba(15,23,42,0.35)]">
+        <div class="mx-auto flex max-w-md items-center justify-between px-6 py-3">
+          <button type="button" class="nav-item nav-item-active">
+            <span class="text-xl animate-tab-pop">📰</span>
+            <span>Feed</span>
+          </button>
+          <button type="button" class="nav-item">
+            <span class="text-xl">🔍</span>
+            <span>Search</span>
+          </button>
+          <button type="button" class="nav-item">
+            <span class="text-xl">🔥</span>
+            <span>Streaks</span>
+          </button>
+          <button type="button" class="nav-item">
+            <span class="text-xl">👤</span>
+            <span>Profile</span>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </body>
+</html>

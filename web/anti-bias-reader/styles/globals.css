@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-size: 16px;
+    background-color: theme('colors.paper.50');
+  }
+
+  body {
+    @apply font-ui text-base text-ink-900 bg-paper-50;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-ink-900;
+  }
+
+  p {
+    @apply font-body text-prose;
+  }
+}
+
+@layer components {
+  .card-standard {
+    @apply rounded-xl bg-paper-0 shadow-card p-4 flex flex-col gap-2;
+  }
+
+  .section-spacing {
+    @apply flex flex-col gap-4;
+  }
+
+  .btn-primary {
+    @apply w-full rounded-full bg-ink-900 text-paper-0 font-display text-base py-3 px-4 min-h-[44px] shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply rounded-full border border-ink-900 text-ink-900 font-ui text-base py-2 px-4 min-h-[44px];
+  }
+
+  .fab-primary {
+    @apply h-14 w-14 rounded-full bg-ink-900 text-paper-0 shadow-lg flex items-center justify-center min-h-[44px] min-w-[44px];
+  }
+
+  .nav-item {
+    @apply flex flex-col items-center justify-center gap-1 text-xs font-ui text-ink-700 min-h-[44px] min-w-[44px];
+  }
+
+  .nav-item-active {
+    @apply text-ink-900;
+  }
+}
+
+@layer utilities {
+  .prose-body {
+    @apply font-body text-prose leading-relaxed;
+  }
+}
