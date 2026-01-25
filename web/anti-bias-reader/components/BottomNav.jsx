@@ -15,7 +15,7 @@ export default function BottomNav({ activeTab, onChange }) {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-paper-0 shadow-[0_-6px_20px_-18px_rgba(15,23,42,0.35)]">
-      <div className="mx-auto flex max-w-md items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-md items-center justify-between px-4 py-3">
         {tabs.map((tab, index) => {
           const isActive = tab.id === activeTab;
           return (
@@ -23,7 +23,9 @@ export default function BottomNav({ activeTab, onChange }) {
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`nav-item ${isActive ? "nav-item-active" : ""}`}
+              className={`nav-item min-h-[44px] min-w-[44px] px-2 ${
+                isActive ? "nav-item-active" : ""
+              }`}
               aria-pressed={isActive}
             >
               <span
