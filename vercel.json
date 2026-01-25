@@ -8,12 +8,22 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/",
       "dest": "/web/index.html"
     },
     {
       "src": "/(.*)",
       "dest": "/web/$1"
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/simulation",
+      "schedule": "0 * * * *"
     }
   ]
 }
