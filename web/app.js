@@ -6,6 +6,11 @@ const translations = {
       "A secure, bilingual space to book consultations, explore experiences, and stay connected with the community.",
     ctaPrimary: "Enter the consultation hub",
     ctaSecondary: "See the landing page",
+    navDashboard: "Dashboard",
+    navOperations: "Operations",
+    navCommerce: "Commerce",
+    navSystems: "Systems",
+    navLogout: "Logout",
     indexTitle: "Quick access",
     indexSubtitle:
       "Choose an experience or learn more about what the family is building together.",
@@ -94,7 +99,13 @@ const translations = {
     systemsOzoneLabel: "Ozone characteristics",
     systemsSkyLabel: "Sky tone",
     systemsMoonsLabel: "Moons & satellites",
-    systemsNotesLabel: "Simulation notes"
+    systemsNotesLabel: "Simulation notes",
+    operationsTitle: "Operations overview",
+    operationsSubtitle: "Monitor readiness, engagement, and secure access in one operational view.",
+    commerceSectionTitle: "Commerce control",
+    commerceSectionSubtitle: "Balance bundles, payments, and automation from a single command center.",
+    systemsSectionTitle: "Systems dashboard",
+    systemsSectionSubtitle: "Explore live environment profiles and their simulation readiness."
   },
   fr: {
     brand: "Semaine de la Vision",
@@ -103,6 +114,11 @@ const translations = {
       "Un espace sécurisé et bilingue pour réserver des consultations, explorer des expériences et rester connecté à la communauté.",
     ctaPrimary: "Accéder au hub de consultation",
     ctaSecondary: "Voir la page d'accueil",
+    navDashboard: "Tableau de bord",
+    navOperations: "Opérations",
+    navCommerce: "Commerce",
+    navSystems: "Systèmes",
+    navLogout: "Se déconnecter",
     indexTitle: "Accès rapide",
     indexSubtitle:
       "Choisissez une expérience ou découvrez ce que la famille construit ensemble.",
@@ -191,7 +207,13 @@ const translations = {
     systemsOzoneLabel: "Caractéristiques d'ozone",
     systemsSkyLabel: "Teinte du ciel",
     systemsMoonsLabel: "Lunes et satellites",
-    systemsNotesLabel: "Notes de simulation"
+    systemsNotesLabel: "Notes de simulation",
+    operationsTitle: "Aperçu des opérations",
+    operationsSubtitle: "Suivez la préparation, l'engagement et l'accès sécurisé en un seul écran.",
+    commerceSectionTitle: "Contrôle commerce",
+    commerceSectionSubtitle: "Gérez bundles, paiements et automatisations depuis un centre unique.",
+    systemsSectionTitle: "Tableau de systèmes",
+    systemsSectionSubtitle: "Explorez les profils d'environnement et leur préparation à la simulation."
   }
 };
 
@@ -200,6 +222,8 @@ const $$ = (selector, scope = document) => Array.from(scope.querySelectorAll(sel
 
 const languageButtons = $$('[data-language]');
 const themeToggle = $('[data-theme-toggle]');
+const navToggle = $('[data-nav-toggle]');
+const navDrawer = $('[data-nav-drawer]');
 const animatedItems = $$('[data-animate]');
 const whiteoutModeButtons = $$('[data-whiteout-mode]');
 const whiteoutModeDetails = $('[data-whiteout-details]');
@@ -259,6 +283,20 @@ languageButtons.forEach((button) => {
 
 if (themeToggle) {
   themeToggle.addEventListener('click', toggleTheme);
+}
+
+if (navToggle && navDrawer) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navDrawer.classList.toggle('is-open');
+    navToggle.setAttribute('aria-expanded', isOpen.toString());
+  });
+
+  navDrawer.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      navDrawer.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
 }
 
 const savedLanguage = localStorage.getItem('preferredLanguage') || 'en';
