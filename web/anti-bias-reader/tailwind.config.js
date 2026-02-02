@@ -43,9 +43,14 @@ module.exports = {
           "40%": { transform: "scale(1.12)" },
           "100%": { transform: "scale(1)" },
         },
+        "icon-float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-3px)" },
+        },
       },
       animation: {
         "tab-pop": "tab-pop 180ms ease-out",
+        "icon-float": "icon-float 1.8s ease-in-out infinite",
       },
     },
   },

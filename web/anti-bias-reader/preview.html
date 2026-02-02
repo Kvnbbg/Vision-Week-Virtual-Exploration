@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Anti-Bias Reader</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -39,9 +40,14 @@
                 "40%": { transform: "scale(1.12)" },
                 "100%": { transform: "scale(1)" },
               },
+              "icon-float": {
+                "0%, 100%": { transform: "translateY(0)" },
+                "50%": { transform: "translateY(-3px)" },
+              },
             },
             animation: {
               "tab-pop": "tab-pop 180ms ease-out",
+              "icon-float": "icon-float 1.8s ease-in-out infinite",
             },
           },
         },
@@ -94,6 +100,10 @@
 
         .nav-item-active {
           @apply text-ink-900;
+        }
+
+        .lucide-icon {
+          @apply h-5 w-5;
         }
       }
 
@@ -176,23 +186,34 @@
       <nav class="fixed bottom-0 left-0 right-0 bg-paper-0 shadow-[0_-6px_20px_-18px_rgba(15,23,42,0.35)]">
         <div class="mx-auto flex max-w-md items-center justify-between px-6 py-3">
           <button type="button" class="nav-item nav-item-active">
-            <span class="text-xl animate-tab-pop">📰</span>
+            <span class="flex h-8 w-8 items-center justify-center rounded-full">
+              <i data-lucide="newspaper" class="lucide-icon animate-icon-float animate-tab-pop"></i>
+            </span>
             <span>Feed</span>
           </button>
           <button type="button" class="nav-item">
-            <span class="text-xl">🔍</span>
+            <span class="flex h-8 w-8 items-center justify-center rounded-full">
+              <i data-lucide="search" class="lucide-icon"></i>
+            </span>
             <span>Search</span>
           </button>
           <button type="button" class="nav-item">
-            <span class="text-xl">🔥</span>
+            <span class="flex h-8 w-8 items-center justify-center rounded-full">
+              <i data-lucide="flame" class="lucide-icon"></i>
+            </span>
             <span>Streaks</span>
           </button>
           <button type="button" class="nav-item">
-            <span class="text-xl">👤</span>
+            <span class="flex h-8 w-8 items-center justify-center rounded-full">
+              <i data-lucide="user" class="lucide-icon"></i>
+            </span>
             <span>Profile</span>
           </button>
         </div>
       </nav>
     </div>
+    <script>
+      lucide.createIcons();
+    </script>
   </body>
 </html>
