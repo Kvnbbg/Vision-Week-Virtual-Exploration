@@ -24,8 +24,13 @@ $logger = new Logger('vision_week_app');
 $logger->pushProcessor(new UidProcessor());
 // Log to a file. In a production environment, consider more robust handlers.
 // Ensure the 'logs' directory is writable by the web server.
-$logFile = __DIR__ . '/../logs/app.log';
-$logger->pushHandler(new StreamHandler($logFile, Logger::DEBUG)); // Log all levels from DEBUG upwards
+$logDir = __DIR__ . '/../logs';
+if (!is_dir($logDir)) {
+    mkdir($logDir, 0775, true);
+}
+$logFile = $logDir . '/app.log';
+$logTarget = is_dir($logDir) && is_writable($logDir) ? $logFile : 'php://stderr';
+$logger->pushHandler(new StreamHandler($logTarget, Logger::DEBUG)); // Log all levels from DEBUG upwards
 
 // --- Slim Error Handling ---
 // Add Routing Middleware
