@@ -16,12 +16,17 @@ class AppConfigLoader {
   Future<AppConfig> load() async {
     try {
       final data = await rootBundle.loadString(assetPath);
-      final Map<String, dynamic> jsonMap = json.decode(data) as Map<String, dynamic>;
-      return AppConfig.fromJson(jsonMap);
+      final Object? decoded = json.decode(data);
+      if (decoded is Map<String, dynamic>) {
+        return AppConfig.fromJson(decoded);
+      }
+      debugPrint('AppConfig JSON root should be an object. Falling back to defaults.');
     } on FlutterError catch (error) {
       debugPrint('AppConfig asset not found at $assetPath: ${error.message}');
     } on FormatException catch (error) {
       debugPrint('Failed to decode AppConfig JSON: $error');
+    } on TypeError catch (error) {
+      debugPrint('Unexpected AppConfig JSON shape: $error');
     }
     return AppConfig.fallback;
   }
