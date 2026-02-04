@@ -59,9 +59,10 @@ $customErrorHandler = function (
 };
 
 // Add Error Handling Middleware
-// The last boolean argument determines whether to display error details
-// Set to false in production, true in development
-$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+// The first boolean argument determines whether to display error details
+// Use APP_DEBUG=true in development, false in production
+$displayErrorDetails = filter_var(getenv('APP_DEBUG') ?: 'false', FILTER_VALIDATE_BOOLEAN);
+$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
 $errorMiddleware->setDefaultErrorHandler($customErrorHandler);
 
 
