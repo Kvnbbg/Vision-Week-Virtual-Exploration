@@ -244,8 +244,9 @@ const systemCardsContainer = $('[data-system-cards]');
 let currentLanguage = 'en';
 
 function applyLanguage(lang) {
-  const dictionary = translations[lang] || translations.en;
-  currentLanguage = lang;
+  const hasTranslation = Object.prototype.hasOwnProperty.call(translations, lang);
+  const dictionary = hasTranslation ? translations[lang] : translations.en;
+  currentLanguage = hasTranslation ? lang : 'en';
   document.documentElement.lang = lang;
   $$('[data-i18n]').forEach((el) => {
     const key = el.getAttribute('data-i18n');
@@ -256,7 +257,7 @@ function applyLanguage(lang) {
   languageButtons.forEach((button) => {
     button.setAttribute('aria-pressed', button.dataset.language === lang ? 'true' : 'false');
   });
-  localStorage.setItem('preferredLanguage', lang);
+  localStorage.setItem('preferredLanguage', currentLanguage);
   document.dispatchEvent(new CustomEvent('languagechange', { detail: { lang } }));
 }
 
