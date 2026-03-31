@@ -6,13 +6,18 @@
   <link
     rel="shortcut icon"
     type="image/x-icon"
-    href="favicon.ico"
+    href="../assets/images/favicon.ico"
   />
   <title>Vision Week - Explore the World!</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body> 
-  
+  <header class="app-header">
+    <div class="navbar">
+      <a class="button-secondary" href="index.html">← Back to dashboard</a>
+    </div>
+  </header>
+
     <nav style="display: inline;">
       <section class="categories">
       <section class="search-bar" style="display: inline-flex; position: left">
@@ -33,7 +38,7 @@
       </nav>
   <main>
     <div id="app">
-      <img src="placeholder1.jpg" alt="Placeholder Image 1">
+      <img src="../assets/images/placeholder1.jpg" alt="Placeholder Image 1">
       <h2>What can i do for you ?</h2>
       <p>Status: <span id="status">Online</span></p>
       <input type="text" id="financialGoal" placeholder="Waiting your financial goal (e.g., travel, food, call)">
@@ -46,7 +51,7 @@
 
   <section class="social-sharing">
     <h3>Share the Adventure</h3>
-    <a href="https://www.facebook.com/profile.php?id=61557626589574" target="_blank" class="social-icon facebook""><i class="fab fa-facebook-f"></i> Share on Facebook</a>
+    <a href="https://www.facebook.com/profile.php?id=61557626589574" target="_blank" class="social-icon facebook"><i class="fab fa-facebook-f"></i> Share on Facebook</a>
     <a href="https://twitter.com/techandstream"><i class="fab fa-twitter"></i> Tweet about it</a>
   </section>
   </div>
@@ -55,6 +60,6 @@
 
   <p>&copy; 2024 Vision Week by Kvnbbg. All Rights Reserved.</p>
   </footer>
-  <script src="script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

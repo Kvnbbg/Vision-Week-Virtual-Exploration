@@ -241,6 +241,20 @@ const quantityInput = $('#commerceQuantity');
 const quantityMinus = $('[data-quantity-minus]');
 const quantityPlus = $('[data-quantity-plus]');
 const systemCardsContainer = $('[data-system-cards]');
+const legacySearchInput = $('#search-input');
+const legacySearchButton = $('#search-button');
+const legacyFinancialGoal = $('#financialGoal');
+const legacyAddButton = $('#addButton');
+const legacyAdviceList = $('#adviceList');
+const legacySendButton = $('#send-button');
+const legacyAmountInput = $('#amount');
+const legacyMessage = $('#message');
+const legacyMessage2 = $('#message2');
+const legacyUsersStat = document.querySelector('p#users');
+const legacyCarsStat = document.querySelector('p#cars');
+const legacyThemesStat = document.querySelector('p#themes');
+const nbaScoresTableBody = $('#scores-table tbody');
+const nbaMatchupsList = $('#matchups-list');
 let currentLanguage = 'en';
 
 function applyLanguage(lang) {
@@ -618,6 +632,70 @@ const renderCommerceSection = () => {
   }
 };
 
+const initializeExploreJourney = () => {
+  if (legacySearchButton && legacySearchInput) {
+    legacySearchButton.addEventListener('click', () => {
+      const query = legacySearchInput.value.trim();
+      if (!query) return;
+      const encodedQuery = encodeURIComponent(query);
+      window.open(`https://www.youtube.com/results?search_query=${encodedQuery}`, '_blank', 'noopener');
+    });
+  }
+
+  if (legacyAddButton && legacyFinancialGoal && legacyAdviceList) {
+    legacyAddButton.addEventListener('click', () => {
+      const value = legacyFinancialGoal.value.trim();
+      if (!value) return;
+      const item = document.createElement('li');
+      item.textContent = value;
+      legacyAdviceList.appendChild(item);
+      legacyFinancialGoal.value = '';
+    });
+  }
+};
+
+const initializeCarsJourney = () => {
+  if (legacyUsersStat) legacyUsersStat.textContent = '128';
+  if (legacyCarsStat) legacyCarsStat.textContent = '42';
+  if (legacyThemesStat) legacyThemesStat.textContent = '16';
+
+  if (legacySendButton && legacyAmountInput && legacyMessage && legacyMessage2) {
+    legacySendButton.addEventListener('click', () => {
+      const amount = Number(legacyAmountInput.value);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        legacyMessage.textContent = 'Please enter a valid amount.';
+        legacyMessage2.textContent = '';
+        return;
+      }
+      legacyMessage.textContent = `Request prepared for amount: ${formatCurrency(amount)}.`;
+      legacyMessage2.textContent = 'A support advisor will contact you shortly.';
+    });
+  }
+};
+
+const initializeNbaJourney = () => {
+  if (nbaScoresTableBody && !nbaScoresTableBody.children.length) {
+    const games = [
+      ['7:30 PM', 'NYK vs MIA', '102 - 98', 'Recap'],
+      ['9:00 PM', 'LAL vs GSW', '118 - 121', 'Recap']
+    ];
+    nbaScoresTableBody.innerHTML = games
+      .map(
+        ([time, matchup, score, highlights]) =>
+          `<tr><td>${time}</td><td>${matchup}</td><td>${score}</td><td>${highlights}</td></tr>`
+      )
+      .join('');
+  }
+
+  if (nbaMatchupsList && !nbaMatchupsList.children.length) {
+    ['BOS vs PHI', 'MIL vs CLE', 'DEN vs PHX'].forEach((matchup) => {
+      const item = document.createElement('li');
+      item.textContent = matchup;
+      nbaMatchupsList.appendChild(item);
+    });
+  }
+};
+
 whiteoutModeButtons.forEach((button) => {
   button.addEventListener('click', () => updateWhiteoutMode(button.dataset.whiteoutMode));
 });
@@ -678,3 +756,6 @@ document.addEventListener('languagechange', () => {
 updateWhiteoutMode(whiteoutModeButtons[0]?.dataset.whiteoutMode || 'urban');
 renderCommerceSection();
 renderSystems();
+initializeExploreJourney();
+initializeCarsJourney();
+initializeNbaJourney();
