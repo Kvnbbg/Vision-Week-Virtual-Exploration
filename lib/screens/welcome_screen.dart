@@ -27,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               FilledButton(
-                onPressed: () => context.goNamed('home'),
+                onPressed: () => context.goNamed('login'),
                 child: Text(l10n.welcomeStartButton),
               ),
             ],
