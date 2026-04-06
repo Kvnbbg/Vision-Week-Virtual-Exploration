@@ -19,7 +19,7 @@ class AppRouter {
   final AuthService _authService;
 
   late final GoRouter router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: '/welcome',
     refreshListenable: _authService,
     routes: <RouteBase>[
       GoRoute(
@@ -54,15 +54,19 @@ class AppRouter {
       ),
     ],
     redirect: (context, state) {
+      final status = _authService.status;
       final loggedIn = _authService.isUserLoggedIn();
-      final loggingIn = state.matchedLocation == '/login' ||
-          state.matchedLocation == '/register';
+      final loggingIn = state.matchedLocation == '/login' || state.matchedLocation == '/register';
       final onWelcome = state.matchedLocation == '/welcome';
+
+      if (status == AuthStatus.unknown) {
+        return onWelcome ? null : '/welcome';
+      }
 
       if (!loggedIn && !loggingIn && !onWelcome) {
         return '/login';
       }
-      if (loggedIn && loggingIn) {
+      if (loggedIn && (loggingIn || onWelcome)) {
         return '/home';
       }
       return null;
