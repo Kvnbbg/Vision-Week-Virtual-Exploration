@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Soutenir TechAndStream</title>
+<style>
+  /* ── Reset & Base ─────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Georgia’, serif;
+background: #87CEEB;
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+touch-action: manipulation; /* anti-zoom tactile */
+}
+
+/* ── Sky Background ───────────────────────────── */
+.sky {
+position: fixed;
+inset: 0;
+background: linear-gradient(180deg, #4A90D9 0%, #87CEEB 40%, #B0D9F0 100%);
+z-index: 0;
+}
+
+/* ── Clouds ───────────────────────────────────── */
+.cloud {
+position: fixed;
+background: white;
+border-radius: 50px;
+opacity: 0.82;
+filter: blur(1px);
+animation: cloudDrift linear infinite;
+z-index: 1;
+pointer-events: none;
+}
+.cloud::before, .cloud::after {
+content: ‘’;
+position: absolute;
+background: white;
+border-radius: 50%;
+}
+.cloud-1 { width: 90px; height: 28px; top: 12%; animation-duration: 28s; animation-delay: 0s; left: -120px; }
+.cloud-1::before { width: 45px; height: 40px; top: -18px; left: 10px; }
+.cloud-1::after  { width: 30px; height: 30px; top: -12px; left: 38px; }
+
+.cloud-2 { width: 120px; height: 34px; top: 28%; animation-duration: 36s; animation-delay: -12s; left: -160px; opacity: 0.65; }
+.cloud-2::before { width: 55px; height: 50px; top: -22px; left: 15px; }
+.cloud-2::after  { width: 40px; height: 38px; top: -15px; left: 55px; }
+
+.cloud-3 { width: 70px; height: 22px; top: 55%; animation-duration: 22s; animation-delay: -6s; left: -100px; opacity: 0.7; }
+.cloud-3::before { width: 35px; height: 32px; top: -14px; left: 8px; }
+.cloud-3::after  { width: 25px; height: 24px; top: -10px; left: 30px; }
+
+.cloud-4 { width: 100px; height: 30px; top: 72%; animation-duration: 31s; animation-delay: -20s; left: -140px; opacity: 0.6; }
+.cloud-4::before { width: 50px; height: 44px; top: -20px; left: 12px; }
+.cloud-4::after  { width: 35px; height: 33px; top: -13px; left: 48px; }
+
+@keyframes cloudDrift {
+from { transform: translateX(0); }
+to   { transform: translateX(calc(100vw + 200px)); }
+}
+
+/* ── Chemtrails / Avions ──────────────────────── */
+.plane-wrapper {
+position: fixed;
+z-index: 2;
+pointer-events: none;
+animation: planeFly linear infinite;
+}
+.plane {
+position: relative;
+font-size: 18px;
+filter: drop-shadow(0 1px 2px rgba(0,0,0,.2));
+}
+.trail {
+position: absolute;
+top: 50%;
+right: 100%;
+transform: translateY(-50%);
+height: 2px;
+border-radius: 2px;
+background: linear-gradient(to left, rgba(255,255,255,0.85), rgba(255,255,255,0));
+animation: trailGrow linear forwards;
+}
+
+.plane-wrapper-1 { top: 18%; animation-duration: 22s; animation-delay: 0s; }
+.plane-wrapper-1 .trail { width: 80px; animation-duration: 22s; }
+
+.plane-wrapper-2 { top: 40%; animation-duration: 30s; animation-delay: -10s; }
+.plane-wrapper-2 .plane { font-size: 13px; opacity: 0.8; }
+.plane-wrapper-2 .trail { width: 60px; animation-duration: 30s; }
+
+.plane-wrapper-3 { top: 65%; animation-duration: 18s; animation-delay: -5s; }
+.plane-wrapper-3 .plane { font-size: 15px; opacity: 0.75; }
+.plane-wrapper-3 .trail { width: 70px; animation-duration: 18s; }
+
+@keyframes planeFly {
+from { left: -60px; }
+to   { left: calc(100vw + 60px); }
+}
+
+/* ── Sun Button Container ─────────────────────── */
+.sun-container {
+position: relative;
+z-index: 10;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 10px;
+/* Anti-zoom: désactive double-tap zoom sur iOS/Android */
+touch-action: manipulation;
+-webkit-tap-highlight-color: transparent;
+user-select: none;
+}
+
+/* ── Sun Shape ────────────────────────────────── */
+.sun-btn {
+position: relative;
+width: 120px;
+height: 120px;
+cursor: pointer;
+transition: transform 0.2s ease;
+animation: sunFloat 4s ease-in-out infinite, sunRotate 20s linear infinite;
+-webkit-tap-highlight-color: transparent;
+touch-action: manipulation;
+border: none;
+background: none;
+padding: 0;
+outline: none;
+}
+
+.sun-btn:hover  { animation-play-state: paused; transform: scale(1.08); }
+.sun-btn:active { transform: scale(0.96); }
+
+@keyframes sunFloat {
+0%, 100% { transform: translateY(0px); }
+50%       { transform: translateY(-10px); }
+}
+@keyframes sunRotate {
+from { filter: drop-shadow(0 0 14px #FFD700); }
+50%  { filter: drop-shadow(0 0 22px #FFA500); }
+to   { filter: drop-shadow(0 0 14px #FFD700); }
+}
+
+/* SVG Sun ───── */
+.sun-svg { width: 100%; height: 100%; overflow: visible; }
+
+/* Ray animation */
+.ray { transform-origin: 50% 50%; }
+.sun-svg:hover .sun-circle { fill: #FFE033; }
+
+/* ── Label sous le soleil ─────────────────────── */
+.sun-label {
+font-family: ‘Georgia’, serif;
+font-size: 11px;
+font-weight: 700;
+letter-spacing: 0.06em;
+color: #fff;
+text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+text-align: center;
+max-width: 140px;
+line-height: 1.4;
+pointer-events: none;
+}
+
+/* ── Tooltip hover ────────────────────────────── */
+.sun-tooltip {
+position: absolute;
+bottom: calc(100% + 14px);
+left: 50%;
+transform: translateX(-50%) scale(0.9);
+background: rgba(255,255,255,0.96);
+color: #333;
+font-family: ‘Georgia’, serif;
+font-size: 11px;
+padding: 7px 12px;
+border-radius: 10px;
+white-space: nowrap;
+opacity: 0;
+pointer-events: none;
+transition: opacity 0.25s, transform 0.25s;
+box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+border: 1px solid #FFD700;
+}
+.sun-tooltip::after {
+content: ‘’;
+position: absolute;
+top: 100%; left: 50%;
+transform: translateX(-50%);
+border: 6px solid transparent;
+border-top-color: #FFD700;
+}
+.sun-btn:hover + .sun-label,
+.sun-container:hover .sun-tooltip { opacity: 1; transform: translateX(-50%) scale(1); }
+
+/* ── Modal Protection Enfant ──────────────────── */
+.modal-overlay {
+display: none;
+position: fixed;
+inset: 0;
+background: rgba(30, 80, 160, 0.55);
+backdrop-filter: blur(6px);
+z-index: 100;
+align-items: center;
+justify-content: center;
+}
+.modal-overlay.active { display: flex; }
+
+.modal-box {
+background: linear-gradient(145deg, #fffde7, #fff8cc);
+border: 3px solid #FFD700;
+border-radius: 20px;
+padding: 28px 22px 22px;
+max-width: 320px;
+width: 88%;
+text-align: center;
+box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+animation: modalPop 0.3s ease;
+position: relative;
+font-family: ‘Georgia’, serif;
+}
+@keyframes modalPop {
+from { transform: scale(0.8); opacity: 0; }
+to   { transform: scale(1);   opacity: 1; }
+}
+
+.modal-icon { font-size: 36px; margin-bottom: 8px; }
+.modal-title {
+font-size: 15px;
+font-weight: 700;
+color: #B8860B;
+margin-bottom: 6px;
+}
+.modal-text {
+font-size: 12px;
+color: #555;
+line-height: 1.6;
+margin-bottom: 16px;
+}
+.modal-challenge {
+background: #fff3cd;
+border: 1px solid #ffc107;
+border-radius: 10px;
+padding: 10px;
+margin-bottom: 16px;
+font-size: 13px;
+color: #333;
+font-weight: 600;
+}
+.modal-input {
+width: 80px;
+padding: 6px 10px;
+font-size: 15px;
+text-align: center;
+border: 2px solid #FFD700;
+border-radius: 8px;
+outline: none;
+font-family: ‘Georgia’, serif;
+display: block;
+margin: 0 auto 14px;
+touch-action: manipulation;
+}
+.modal-error { color: #c0392b; font-size: 11px; min-height: 16px; margin-bottom: 8px; }
+
+.modal-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+
+.btn-donate, .btn-site, .btn-cancel {
+padding: 9px 16px;
+border-radius: 10px;
+border: none;
+font-family: ‘Georgia’, serif;
+font-size: 12px;
+font-weight: 700;
+cursor: pointer;
+transition: transform 0.15s, box-shadow 0.15s;
+touch-action: manipulation;
+-webkit-tap-highlight-color: transparent;
+}
+.btn-donate {
+background: linear-gradient(135deg, #FFD700, #FFA500);
+color: #7a4a00;
+box-shadow: 0 3px 10px rgba(255,165,0,0.4);
+}
+.btn-donate:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(255,165,0,0.5); }
+
+.btn-site {
+background: linear-gradient(135deg, #4A90D9, #2563EB);
+color: #fff;
+box-shadow: 0 3px 10px rgba(74,144,217,0.4);
+}
+.btn-site:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(74,144,217,0.5); }
+
+.btn-cancel {
+background: #eee;
+color: #777;
+}
+.btn-cancel:hover { background: #ddd; }
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 480px) {
+.sun-btn { width: 90px; height: 90px; }
+.sun-label { font-size: 10px; }
+.modal-box { padding: 20px 16px 18px; }
+}
+
+@media (min-width: 768px) {
+.sun-btn { width: 110px; height: 110px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ── Sky Background ── -->
+
+<div class="sky"></div>
+
+<!-- ── Clouds ── -->
+
+<div class="cloud cloud-1"></div>
+<div class="cloud cloud-2"></div>
+<div class="cloud cloud-3"></div>
+<div class="cloud cloud-4"></div>
+
+<!-- ── Avions + Chemtrails ── -->
+
+<div class="plane-wrapper plane-wrapper-1">
+  <div class="plane">✈️<div class="trail"></div></div>
+</div>
+<div class="plane-wrapper plane-wrapper-2">
+  <div class="plane">✈️<div class="trail"></div></div>
+</div>
+<div class="plane-wrapper plane-wrapper-3">
+  <div class="plane">✈️<div class="trail"></div></div>
+</div>
+
+<!-- ── Sun Button ── -->
+
+<div class="sun-container">
+  <div class="sun-tooltip">☀️ Soutenir TechAndStream</div>
+
+  <button class="sun-btn" id="sunBtn" aria-label="Soutenir TechAndStream" title="Soutenir le développeur">
+    <svg class="sun-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sunGrad" cx="50%" cy="40%" r="55%">
+          <stop offset="0%"   stop-color="#FFF176"/>
+          <stop offset="60%"  stop-color="#FFD700"/>
+          <stop offset="100%" stop-color="#FFA500"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <!-- Rotating rays animation -->
+        <style>
+          @keyframes rayspin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+          .rays-group { transform-origin:60px 60px; animation:rayspin 12s linear infinite; }
+        </style>
+      </defs>
+
+```
+  <!-- Halo externe -->
+  <circle cx="60" cy="60" r="55" fill="#FFD700" opacity="0.18"/>
+  <circle cx="60" cy="60" r="48" fill="#FFD700" opacity="0.12"/>
+
+  <!-- Rayons -->
+  <g class="rays-group" filter="url(#glow)">
+    <!-- 12 rayons -->
+    <g transform="rotate(0,60,60)">  <rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(30,60,60)"> <rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+    <g transform="rotate(60,60,60)"> <rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(90,60,60)"> <rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+    <g transform="rotate(120,60,60)"><rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(150,60,60)"><rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+    <g transform="rotate(180,60,60)"><rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(210,60,60)"><rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+    <g transform="rotate(240,60,60)"><rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(270,60,60)"><rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+    <g transform="rotate(300,60,60)"><rect x="57.5" y="2"  width="5" height="18" rx="2.5" fill="#FFD700"/></g>
+    <g transform="rotate(330,60,60)"><rect x="57.5" y="2"  width="5" height="14" rx="2.5" fill="#FFC200"/></g>
+  </g>
+
+  <!-- Corps principal du soleil -->
+  <circle class="sun-circle" cx="60" cy="60" r="35" fill="url(#sunGrad)" filter="url(#glow)"/>
+
+  <!-- Visage -->
+  <!-- Yeux -->
+  <ellipse cx="51" cy="55" rx="4" ry="4.5" fill="#7a4a00"/>
+  <ellipse cx="69" cy="55" rx="4" ry="4.5" fill="#7a4a00"/>
+  <!-- Reflets yeux -->
+  <circle cx="53" cy="53" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="71" cy="53" r="1.5" fill="white" opacity="0.8"/>
+  <!-- Sourire -->
+  <path d="M 47 67 Q 60 78 73 67" stroke="#7a4a00" stroke-width="2.8" fill="none" stroke-linecap="round"/>
+  <!-- Joues -->
+  <circle cx="46" cy="65" r="5" fill="#FF8C69" opacity="0.45"/>
+  <circle cx="74" cy="65" r="5" fill="#FF8C69" opacity="0.45"/>
+
+  <!-- Cœur au centre du soleil (€ donation hint) -->
+  <text x="60" y="51" text-anchor="middle" font-size="9" fill="#7a4a00" opacity="0.6" font-family="Georgia">♥</text>
+</svg>
+```
+
+  </button>
+
+  <div class="sun-label">☀️ Soutenir le dev<br><span style="font-size:10px;opacity:.85">TechAndStream</span></div>
+</div>
+
+<!-- ── Modal Protection Enfant ── -->
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-icon">☀️</div>
+    <div class="modal-title" id="modalTitle">Soutenir le développeur</div>
+    <div class="modal-text">
+      Cette app est <strong>gratuite</strong> 🎉<br>
+      Si tu veux quand même soutenir Kevin,<br>une petite contribution est bienvenue !
+    </div>
+
+```
+<!-- Challenge anti-enfant -->
+<div class="modal-challenge" id="challengeText"></div>
+<input class="modal-input" type="number" id="challengeInput" placeholder="?" inputmode="numeric" autocomplete="off" min="0" max="99"/>
+<div class="modal-error" id="modalError"></div>
+
+<div class="modal-btns" id="actionBtns" style="display:none;">
+  <button class="btn-donate" id="btnDonate">💛 Faire un don</button>
+  <button class="btn-site"   id="btnSite">🌐 Visiter le site</button>
+  <button class="btn-cancel" id="btnCancel">Plus tard</button>
+</div>
+<div id="challengeForm">
+  <div class="modal-btns">
+    <button class="btn-donate" id="btnVerify">Vérifier ✓</button>
+    <button class="btn-cancel" id="btnClose">Fermer</button>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<script>
+  // ── Anti-double-tap-zoom global ─────────────────
+  let lastTap = 0;
+  document.addEventListener('touchend', function(e) {
+    const now = Date.now();
+    if (now - lastTap < 320) { e.preventDefault(); }
+    lastTap = now;
+  }, { passive: false });
+
+  // ── Challenge math ──────────────────────────────
+  let correctAnswer = 0;
+
+  function generateChallenge() {
+    const a = Math.floor(Math.random() * 8) + 2;
+    const b = Math.floor(Math.random() * 8) + 2;
+    correctAnswer = a + b;
+    document.getElementById('challengeText').textContent =
+      `🧮 Combien font ${a} + ${b} ?`;
+    document.getElementById('challengeInput').value = '';
+    document.getElementById('modalError').textContent = '';
+    document.getElementById('actionBtns').style.display = 'none';
+    document.getElementById('challengeForm').style.display = 'block';
+  }
+
+  // ── Open / Close modal ──────────────────────────
+  function openModal() {
+    generateChallenge();
+    document.getElementById('modalOverlay').classList.add('active');
+    setTimeout(() => document.getElementById('challengeInput').focus(), 350);
+  }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('active');
+  }
+
+  // ── Verify answer ───────────────────────────────
+  document.getElementById('btnVerify').addEventListener('click', verify);
+  document.getElementById('challengeInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') verify();
+  });
+
+  function verify() {
+    const val = parseInt(document.getElementById('challengeInput').value, 10);
+    if (isNaN(val)) {
+      document.getElementById('modalError').textContent = '⚠️ Entre un nombre.';
+      return;
+    }
+    if (val === correctAnswer) {
+      document.getElementById('modalError').textContent = '✅ Correct !';
+      document.getElementById('challengeForm').style.display = 'none';
+      document.getElementById('actionBtns').style.display = 'flex';
+    } else {
+      document.getElementById('modalError').textContent = '❌ Essaie encore !';
+      document.getElementById('challengeInput').value = '';
+      // Regénère le challenge après 2 erreurs (optionnel: compter)
+    }
+  }
+
+  // ── Buttons ─────────────────────────────────────
+  document.getElementById('sunBtn').addEventListener('click', openModal);
+  document.getElementById('btnClose').addEventListener('click', closeModal);
+  document.getElementById('btnCancel').addEventListener('click', closeModal);
+
+  document.getElementById('btnDonate').addEventListener('click', function() {
+    window.open('https://donate.stripe.com/eVqeVcbfP3be0py7Y163K0g', '_blank', 'noopener,noreferrer');
+    closeModal();
+  });
+
+  document.getElementById('btnSite').addEventListener('click', function() {
+    window.open('https://techandstream.com', '_blank', 'noopener,noreferrer');
+    closeModal();
+  });
+
+  // Fermer en cliquant hors du modal
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+
+</body>
+</html>
